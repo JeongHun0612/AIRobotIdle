@@ -40,6 +40,12 @@ alwaysApply: true
 - **ResourceManager**: Addressables를 래핑하여 리소스를 로드합니다.
 - 리소스 로딩은 비동기(`UniTask`)로 처리해야 합니다.
 
+### 2.5. 큰 수 처리 (Big Number Handling)
+- **라이브러리**: `BreakInfinity.cs`를 사용합니다 (`Assets/Plugins/BreakInfinity`).
+- **타입**: `BigDouble` 구조체를 사용하여 큰 수를 처리합니다.
+- **GC 최적화**: `struct`이므로 이벤트 버스나 연산 시 GC 할당이 발생하지 않습니다.
+- **데이터 저장**: JSON 직렬화 시 정밀도 유지를 위해 반드시 **String** 형태("1.23e45")로 변환하여 저장/로드합니다.
+
 ## 3. 코딩 컨벤션 및 규칙
 ### 3.1. 네이밍 규칙
 - **클래스/메서드/프로퍼티**: `PascalCase` 사용
