@@ -73,6 +73,9 @@ alwaysApply: true
 ### 4.2. 데이터 저장/로드
 1. `GameManager`의 `SaveAllAsync` 패턴을 따름.
 2. 각 서비스(예를들어 `ICurrencyService` 등)는 자신의 데이터를 저장하는 로직을 구현해야 함.
+3. JSON 기반 데이터 저장
+4. 클라우드 저장 지원
+5. 데이터 검증 및 백업
 
 ### 4.3. 리소스 관리
 - 모든 리소스는 Addressables 사용
