@@ -1,6 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
+using SahurRaising;
+using SahurRaising.UI;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -21,6 +24,9 @@ namespace SahurRaising.UI
         [Header("## Pool")]
         [SerializeField] private Transform _poolLayer;
 
+        [Header("## Transition")]
+        [SerializeField] private UIFadeController _fadeController;
+
         private UI_Scene _currentScene;
         private UI_Popup _currentPopup;
 
@@ -33,6 +39,7 @@ namespace SahurRaising.UI
         private bool _isInitialized = false;
         private bool _isInitializing = false;
         private float _initializationProgress = 0f;
+        private bool _isSceneTransitioning = false;
 
         private int _processedItems;
         private int _totalItems;
@@ -40,6 +47,7 @@ namespace SahurRaising.UI
         public bool IsInitialized => _isInitialized;
         public float InitializationProgress => _initializationProgress;
         public int PopupHistoryCount => _popupHistory.Count;
+        public bool IsSceneTransitioning => _isSceneTransitioning;
 
         protected override void Awake()
         {
@@ -120,6 +128,120 @@ namespace SahurRaising.UI
             }
 
             return typedScene;
+        }
+
+        public async UniTask<UI_Scene> ShowSceneWithFadeAsync(ESceneUIType sceneType, float? duration = null, Color? overrideColor = null, CancellationToken token = default)
+        {
+            if (_fadeController == null)
+            {
+                Debug.LogWarning("[UIManager] UIFadeController가 설정되지 않아 즉시 전환합니다.");
+                return ShowScene(sceneType);
+            }
+
+            if (_isSceneTransitioning)
+            {
+                Debug.LogWarning("[UIManager] 다른 씬 전환이 진행 중입니다.");
+                return _currentScene;
+            }
+
+            _isSceneTransitioning = true;
+
+            try
+            {
+                await _fadeController.FadeOutAsync(duration, overrideColor, token);
+                var scene = ShowScene(sceneType);
+                await _fadeController.FadeInAsync(duration, token);
+                return scene;
+            }
+            finally
+            {
+                _isSceneTransitioning = false;
+            }
+        }
+
+        public async UniTask<T> ShowSceneWithFadeAsync<T>(ESceneUIType sceneType, float? duration = null, Color? overrideColor = null, CancellationToken token = default) where T : UI_Scene
+        {
+            var scene = await ShowSceneWithFadeAsync(sceneType, duration, overrideColor, token);
+
+            if (scene == null)
+                return null;
+
+            T typedScene = scene as T;
+            if (typedScene == null)
+            {
+                Debug.LogError($"[UIManager] Scene of type {sceneType} is not of type {typeof(T).Name}");
+                return null;
+            }
+
+            return typedScene;
+        }
+
+        public async UniTask<UI_Popup> ShowPopupWithFadeAsync(EPopupUIType popupType, bool remember = true, float? duration = null, Color? overrideColor = null, CancellationToken token = default, Func<UI_Popup, UniTask> setupBeforeFadeIn = null)
+        {
+            if (_fadeController == null)
+            {
+                Debug.LogWarning("[UIManager] UIFadeController가 설정되지 않아 팝업을 즉시 전환합니다.");
+                return ShowPopup(popupType, remember);
+            }
+
+            await _fadeController.FadeOutAsync(duration, overrideColor, token);
+            var popup = ShowPopup(popupType, remember);
+            if (popup != null && setupBeforeFadeIn != null)
+                await setupBeforeFadeIn(popup);
+            await _fadeController.FadeInAsync(duration, token);
+            return popup;
+        }
+
+        public async UniTask<T> ShowPopupWithFadeAsync<T>(EPopupUIType popupType, bool remember = true, float? duration = null, Color? overrideColor = null, CancellationToken token = default, Func<T, UniTask> setupBeforeFadeIn = null) where T : UI_Popup
+        {
+            var popup = await ShowPopupWithFadeAsync(popupType, remember, duration, overrideColor, token, async p =>
+            {
+                if (setupBeforeFadeIn != null && p is T typed)
+                    await setupBeforeFadeIn(typed);
+            });
+
+            if (popup == null)
+                return null;
+
+            T typedPopup = popup as T;
+            if (typedPopup == null)
+            {
+                Debug.LogError($"[UIManager] Popup of type {popupType} is not of type {typeof(T).Name}");
+                return null;
+            }
+
+            return typedPopup;
+        }
+
+        public UniTask RunWithFadeAsync(Action action, float? duration = null, Color? overrideColor = null, CancellationToken token = default)
+        {
+            return RunWithFadeAsync(() =>
+            {
+                action?.Invoke();
+                return UniTask.CompletedTask;
+            }, duration, overrideColor, token);
+        }
+
+        public async UniTask RunWithFadeAsync(Func<UniTask> action, float? duration = null, Color? overrideColor = null, CancellationToken token = default)
+        {
+            if (action == null)
+                return;
+
+            if (_fadeController == null)
+            {
+                await action();
+                return;
+            }
+
+            await _fadeController.FadeOutAsync(duration, overrideColor, token);
+            try
+            {
+                await action();
+            }
+            finally
+            {
+                await _fadeController.FadeInAsync(duration, token);
+            }
         }
         public void CloseCurrentScene() => CloseCommon(ref _currentScene);
 
@@ -310,6 +432,15 @@ namespace SahurRaising.UI
         public T GetCurrentScene<T>() where T : UI_Scene => _currentScene as T;
         public T GetCurrentPopup<T>() where T : UI_Popup => _currentPopup as T;
 
+        public bool IsPopupActive(EPopupUIType popupType)
+        {
+            if (_popupCache.TryGetValue(popupType, out var popup))
+            {
+                return popup != null && popup.gameObject.activeInHierarchy;
+            }
+            return false;
+        }
+
         /// <summary>
         /// 캐시된 씬 UI를 가져옵니다 (Show 전에 데이터 설정 시 사용)
         /// </summary>
@@ -420,37 +551,37 @@ namespace SahurRaising.UI
             {
                 Debug.LogError($"[UIManager] Error loading UI from Addressables {assetRef.AssetGUID}: {ex.Message}");
 #if UNITY_EDITOR
-				// Addressables 카탈로그 미빌드/키 미등록 등으로 실패 시 에디터 에셋으로 폴백
-				Debug.LogWarning($"[UIManager] Attempting editor fallback for GUID={assetRef.AssetGUID}");
-				try
-				{
-					var editorAsset = assetRef.editorAsset as GameObject;
-					if (editorAsset != null)
-					{
-						Debug.Log($"[UIManager] Editor asset found: {editorAsset.name}");
-						T prefab = editorAsset.GetComponent<T>();
-						if (prefab != null)
-						{
-							T instance = Instantiate(prefab, layer);
-							// 에디터 폴백 시에도 동일하게 표준화 처리
-						//	NormalizeUIHierarchy(instance.transform as RectTransform);
-							Debug.Log($"[UIManager] Successfully instantiated from editor asset: {typeof(T).Name}");
-							return instance;
-						}
-						else
-						{
-							Debug.LogError($"[UIManager] Editor asset has no component {typeof(T).Name}");
-						}
-					}
-					else
-					{
-						Debug.LogError($"[UIManager] Editor asset is null for GUID={assetRef.AssetGUID}");
-					}
-				}
-				catch (Exception editorEx)
-				{
-					Debug.LogError($"[UIManager] Editor fallback failed: {editorEx.Message}");
-				}
+                // Addressables 카탈로그 미빌드/키 미등록 등으로 실패 시 에디터 에셋으로 폴백
+                Debug.LogWarning($"[UIManager] Attempting editor fallback for GUID={assetRef.AssetGUID}");
+                try
+                {
+                    var editorAsset = assetRef.editorAsset as GameObject;
+                    if (editorAsset != null)
+                    {
+                        Debug.Log($"[UIManager] Editor asset found: {editorAsset.name}");
+                        T prefab = editorAsset.GetComponent<T>();
+                        if (prefab != null)
+                        {
+                            T instance = Instantiate(prefab, layer);
+                            // 에디터 폴백 시에도 동일하게 표준화 처리
+                            //	NormalizeUIHierarchy(instance.transform as RectTransform);
+                            Debug.Log($"[UIManager] Successfully instantiated from editor asset: {typeof(T).Name}");
+                            return instance;
+                        }
+                        else
+                        {
+                            Debug.LogError($"[UIManager] Editor asset has no component {typeof(T).Name}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"[UIManager] Editor asset is null for GUID={assetRef.AssetGUID}");
+                    }
+                }
+                catch (Exception editorEx)
+                {
+                    Debug.LogError($"[UIManager] Editor fallback failed: {editorEx.Message}");
+                }
 #endif
             }
             return null;
