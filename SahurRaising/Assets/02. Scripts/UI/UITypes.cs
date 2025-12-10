@@ -10,8 +10,13 @@ namespace SahurRaising.UI
 
     public enum EPopupUIType
     {
-        None,
+        None = 0,
         Setting,
 
+        // TODO 하단 레이어 탭
+        Equipment = 10,
+
+        // TODO 공용
+        Gacha = 20,
     }
 }

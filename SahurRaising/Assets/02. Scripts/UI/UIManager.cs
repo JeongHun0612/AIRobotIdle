@@ -21,9 +21,6 @@ namespace SahurRaising.UI
         [Header("## Popup")]
         [SerializeField] private Transform _popupLayer;
 
-        [Header("## Pool")]
-        [SerializeField] private Transform _poolLayer;
-
         [Header("## Transition")]
         [SerializeField] private UIFadeController _fadeController;
 
@@ -32,7 +29,6 @@ namespace SahurRaising.UI
 
         private readonly Dictionary<ESceneUIType, UI_Scene> _sceneCache = new Dictionary<ESceneUIType, UI_Scene>();
         private readonly Dictionary<EPopupUIType, UI_Popup> _popupCache = new Dictionary<EPopupUIType, UI_Popup>();
-        private readonly Dictionary<Type, Stack<Component>> _uiPool = new Dictionary<Type, Stack<Component>>();
 
         private readonly Stack<UI_Popup> _popupHistory = new Stack<UI_Popup>();
 
@@ -48,12 +44,6 @@ namespace SahurRaising.UI
         public float InitializationProgress => _initializationProgress;
         public int PopupHistoryCount => _popupHistory.Count;
         public bool IsSceneTransitioning => _isSceneTransitioning;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            EnsurePoolLayer();
-        }
 
         public async UniTask InitializeAsync(IProgress<float> progress = null)
         {
@@ -111,7 +101,7 @@ namespace SahurRaising.UI
             }
         }
 
-
+        #region Scene
         public UI_Scene ShowScene(ESceneUIType sceneType) => ShowCommon(_sceneCache, sceneType, ref _currentScene);
         public T ShowScene<T>(ESceneUIType sceneType) where T : UI_Scene
         {
@@ -130,6 +120,146 @@ namespace SahurRaising.UI
             return typedScene;
         }
 
+        public void CloseCurrentScene() => CloseCommon(ref _currentScene);
+
+        public T GetCurrentScene<T>() where T : UI_Scene => _currentScene as T;
+
+        /// <summary>
+        /// 캐시된 씬 UI를 가져옵니다 (Show 전에 데이터 설정 시 사용)
+        /// </summary>
+        public T GetCachedScene<T>(ESceneUIType sceneType) where T : UI_Scene
+        {
+            if (_sceneCache.TryGetValue(sceneType, out var scene))
+            {
+                return scene as T;
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region Popup
+        public UI_Popup ShowPopup(EPopupUIType popupType, bool remember = true)
+        {
+            if (!_popupCache.TryGetValue(popupType, out UI_Popup popup))
+            {
+                Debug.LogError($"Popup of type {popupType} not found!");
+                return null;
+            }
+
+            if (_currentPopup != null && ReferenceEquals(_currentPopup, popup))
+            {
+                if (!_currentPopup.gameObject.activeSelf)
+                {
+                    _currentPopup.Show();
+                    _currentPopup.transform.SetAsLastSibling();
+                }
+                return popup;
+            }
+
+            if (remember && popup.RememberInHistory)
+                _popupHistory.Push(popup);
+
+            _currentPopup = popup;
+            _currentPopup.Show();
+            _currentPopup.transform.SetAsLastSibling();
+            return popup;
+        }
+
+        /// <summary>
+        /// 제네릭을 통해 원하는 타입의 팝업을 반환
+        /// </summary>
+        public T ShowPopup<T>(EPopupUIType popupType, bool remember = true) where T : UI_Popup
+        {
+            UI_Popup popup = ShowPopup(popupType, remember);
+
+            if (popup == null)
+                return null;
+
+            T typedPopup = popup as T;
+            if (typedPopup == null)
+            {
+                Debug.LogError($"[UIManager] Popup of type {popupType} is not of type {typeof(T).Name}");
+                return null;
+            }
+
+            return typedPopup;
+        }
+
+        public void CloseCurrentPopup()
+        {
+            ClosePopup(_currentPopup);
+        }
+
+        public void ClosePopup(UI_Popup popup)
+        {
+            if (popup == null)
+                return;
+
+            bool wasCurrent = ReferenceEquals(_currentPopup, popup);
+
+            popup.Hide();
+
+            if (wasCurrent)
+            {
+                if (_popupHistory.Count > 0 && ReferenceEquals(_popupHistory.Peek(), popup))
+                    _popupHistory.Pop();
+
+                _currentPopup = _popupHistory.Count > 0 ? _popupHistory.Peek() : null;
+                return;
+            }
+
+            RemovePopupFromHistory(popup);
+        }
+
+        private void RemovePopupFromHistory(UI_Popup popup)
+        {
+            if (popup == null || _popupHistory.Count == 0)
+                return;
+
+            var buffer = new Stack<UI_Popup>(_popupHistory.Count);
+            bool removed = false;
+
+            while (_popupHistory.Count > 0)
+            {
+                var top = _popupHistory.Pop();
+                if (!removed && ReferenceEquals(top, popup))
+                {
+                    removed = true;
+                    continue;
+                }
+
+                buffer.Push(top);
+            }
+
+            while (buffer.Count > 0)
+            {
+                _popupHistory.Push(buffer.Pop());
+            }
+        }
+
+        public void ClosePopups(int remain)
+        {
+            while (_popupHistory.Count > remain)
+            {
+                CloseCurrentPopup();
+            }
+        }
+
+        public void CloseAllPopups() => ClosePopups(remain: 0);
+        public T GetCurrentPopup<T>() where T : UI_Popup => _currentPopup as T;
+
+        public bool IsPopupActive(EPopupUIType popupType)
+        {
+            if (_popupCache.TryGetValue(popupType, out var popup))
+            {
+                return popup != null && popup.gameObject.activeInHierarchy;
+            }
+            return false;
+        }
+        #endregion
+
+        #region PadeInOut
         public async UniTask<UI_Scene> ShowSceneWithFadeAsync(ESceneUIType sceneType, float? duration = null, Color? overrideColor = null, CancellationToken token = default)
         {
             if (_fadeController == null)
@@ -243,215 +373,7 @@ namespace SahurRaising.UI
                 await _fadeController.FadeInAsync(duration, token);
             }
         }
-        public void CloseCurrentScene() => CloseCommon(ref _currentScene);
-
-        #region Popup
-        public UI_Popup ShowPopup(EPopupUIType popupType, bool remember = true)
-        {
-            if (!_popupCache.TryGetValue(popupType, out UI_Popup popup))
-            {
-                Debug.LogError($"Popup of type {popupType} not found!");
-                return null;
-            }
-
-            if (_currentPopup != null && ReferenceEquals(_currentPopup, popup))
-            {
-                if (!_currentPopup.gameObject.activeSelf)
-                {
-                    _currentPopup.Show();
-                    _currentPopup.transform.SetAsLastSibling();
-                }
-                return popup;
-            }
-
-            if (remember && popup.RememberInHistory)
-                _popupHistory.Push(popup);
-
-            _currentPopup = popup;
-            _currentPopup.Show();
-            _currentPopup.transform.SetAsLastSibling();
-            return popup;
-        }
-
-        /// <summary>
-        /// 제네릭을 통해 원하는 타입의 팝업을 반환
-        /// </summary>
-        public T ShowPopup<T>(EPopupUIType popupType, bool remember = true) where T : UI_Popup
-        {
-            UI_Popup popup = ShowPopup(popupType, remember);
-
-            if (popup == null)
-                return null;
-
-            T typedPopup = popup as T;
-            if (typedPopup == null)
-            {
-                Debug.LogError($"[UIManager] Popup of type {popupType} is not of type {typeof(T).Name}");
-                return null;
-            }
-
-            return typedPopup;
-        }
-
-        public void CloseCurrentPopup()
-        {
-            ClosePopup(_currentPopup);
-        }
-
-        public void ClosePopup(UI_Popup popup)
-        {
-            if (popup == null)
-                return;
-
-            bool wasCurrent = ReferenceEquals(_currentPopup, popup);
-
-            popup.Hide();
-
-            if (wasCurrent)
-            {
-                if (_popupHistory.Count > 0 && ReferenceEquals(_popupHistory.Peek(), popup))
-                    _popupHistory.Pop();
-
-                _currentPopup = _popupHistory.Count > 0 ? _popupHistory.Peek() : null;
-                return;
-            }
-
-            RemovePopupFromHistory(popup);
-        }
-
-        private void RemovePopupFromHistory(UI_Popup popup)
-        {
-            if (popup == null || _popupHistory.Count == 0)
-                return;
-
-            var buffer = new Stack<UI_Popup>(_popupHistory.Count);
-            bool removed = false;
-
-            while (_popupHistory.Count > 0)
-            {
-                var top = _popupHistory.Pop();
-                if (!removed && ReferenceEquals(top, popup))
-                {
-                    removed = true;
-                    continue;
-                }
-
-                buffer.Push(top);
-            }
-
-            while (buffer.Count > 0)
-            {
-                _popupHistory.Push(buffer.Pop());
-            }
-        }
-
-        public void ClosePopups(int remain)
-        {
-            while (_popupHistory.Count > remain)
-            {
-                CloseCurrentPopup();
-            }
-        }
-
-        public void CloseAllPopups() => ClosePopups(remain: 0);
         #endregion
-
-        #region UI Pool
-        public T RentUI<T>(T prefab, Transform parent) where T : Component
-        {
-            if (prefab == null)
-            {
-                Debug.LogError("[UIManager] RentUI 호출 시 prefab이 null 입니다.");
-                return null;
-            }
-
-            EnsurePoolLayer();
-            var type = typeof(T);
-
-            if (_uiPool.TryGetValue(type, out var stack) && stack.Count > 0)
-            {
-                var instance = (T)stack.Pop();
-                AttachToParent(instance.transform, parent);
-                if (instance is UI_Base reusableFromPool)
-                    reusableFromPool.OnRentFromPool();
-                instance.gameObject.SetActive(true);
-                return instance;
-            }
-
-            var created = Instantiate(prefab, parent);
-            if (created is UI_Base createdBase)
-                createdBase.OnRentFromPool();
-            return created;
-        }
-
-        public void ReturnUI<T>(T instance) where T : Component
-        {
-            if (instance == null)
-                return;
-
-            EnsurePoolLayer();
-
-            if (instance is UI_Base reusable)
-                reusable.OnReturnToPool();
-
-            instance.gameObject.SetActive(false);
-            AttachToParent(instance.transform, _poolLayer);
-
-            var type = typeof(T);
-            if (!_uiPool.TryGetValue(type, out var stack))
-            {
-                stack = new Stack<Component>();
-                _uiPool[type] = stack;
-            }
-            stack.Push(instance);
-        }
-
-        private void EnsurePoolLayer()
-        {
-            if (_poolLayer != null)
-                return;
-
-            var poolObject = new GameObject("[UI Pool]");
-            _poolLayer = poolObject.transform;
-            _poolLayer.SetParent(transform, false);
-            _poolLayer.gameObject.SetActive(false);
-        }
-
-        private static void AttachToParent(Transform target, Transform parent)
-        {
-            if (target == null)
-                return;
-
-            if (parent == null)
-                target.SetParent(null);
-            else
-                target.SetParent(parent, false);
-        }
-        #endregion
-
-        public T GetCurrentScene<T>() where T : UI_Scene => _currentScene as T;
-        public T GetCurrentPopup<T>() where T : UI_Popup => _currentPopup as T;
-
-        public bool IsPopupActive(EPopupUIType popupType)
-        {
-            if (_popupCache.TryGetValue(popupType, out var popup))
-            {
-                return popup != null && popup.gameObject.activeInHierarchy;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 캐시된 씬 UI를 가져옵니다 (Show 전에 데이터 설정 시 사용)
-        /// </summary>
-        public T GetCachedScene<T>(ESceneUIType sceneType) where T : UI_Scene
-        {
-            if (_sceneCache.TryGetValue(sceneType, out var scene))
-            {
-                return scene as T;
-            }
-            return null;
-        }
 
         private TBase ShowCommon<TBase, TEnum>(Dictionary<TEnum, TBase> cache, TEnum type, ref TBase current)
          where TBase : UI_Base
