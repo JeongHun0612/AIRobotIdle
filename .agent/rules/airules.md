@@ -2,6 +2,8 @@
 trigger: always_on
 ---
 
+모든 대답은 한국어로할것
+
 # SahurRaising 프로젝트 AI 개발 가이드라인
 
 이 문서는 **SahurRaising** 프로젝트의 개발을 돕는 AI를 위한 시스템 프롬프트 및 가이드라인입니다. 프로젝트의 구조, 아키텍처, 코딩 컨벤션을 정의합니다.
@@ -27,6 +29,11 @@ trigger: always_on
 
 ### 2.2. 데이터 및 설정 (ScriptableObject)
 - **ScriptableObject**: 정적 데이터, 설정 값, 프리팹 참조(Addressables) 등은 `ScriptableObject`로 관리합니다.
+- **대규모 CSV 처리** (`Assets/10.Data/*.csv`):
+  - CSV는 소스 오브 트루스로 유지하되 **행 단위 SO 금지**. 기능별 테이블(예: Monster/Stage/Upgrade/Equipment)을 **테이블 단위 SO 1~N개**로 묶습니다.
+  - 에디터 전용 변환기로 CSV → 직렬화된 테이블 SO(바이너리/JSON 압축 가능)로 빌드하고, 결과 테이블 SO만 Addressable로 배포합니다. 런타임 CSV 파싱 금지.
+  - 테이블 SO 내부는 `List<RowStruct>`와 주요 키(예: ID) 기준 `Dictionary` 인덱스를 빌드 단계에서 생성해 조회 O(1)을 유지합니다.
+  - BigDouble 필드는 string 형태("1.23e45")로 직렬화/역직렬화합니다.
 - **UIRegistry**: UI 프리팹과 Enum 타입 간의 매핑을 관리하는 중앙 레지스트리입니다.
 - **생성 메뉴**: `[CreateAssetMenu]` 속성을 사용하여 에디터에서 생성 가능하도록 합니다.
 

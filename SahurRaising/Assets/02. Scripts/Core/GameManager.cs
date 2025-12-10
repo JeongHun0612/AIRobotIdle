@@ -1,7 +1,7 @@
-﻿using SahurRaising.UI;
+﻿using Cysharp.Threading.Tasks;
 using SahurRaising.Core;
+using SahurRaising.UI;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 
 namespace SahurRaising.Core
 {
@@ -61,12 +61,12 @@ namespace SahurRaising.Core
             //if (!string.IsNullOrEmpty(settingsService.LocaleCode))
             //    localizationService.SetLocale(settingsService.LocaleCode);
 
-           // TODO 서비스 등록 추가
+            // TODO 서비스 등록 추가
 
             Debug.Log("[GameManager] 서비스 등록 완료");
 
-        
-           
+
+
 
 
         }
