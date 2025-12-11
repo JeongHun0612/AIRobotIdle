@@ -1,0 +1,377 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: UpgradeTable
+  m_EditorClassIdentifier: Assembly-CSharp:SahurRaising.Core:UpgradeTable
+  _rows:
+  - Code: UP001
+    Name: "\uACF5\uACA9\uB825"
+    Description: "\uACF5\uACA9\uB825"
+    Stat: 0
+    Tier: 0
+    MaxLevel: 25000
+    GoldBase: 1
+    GoldPow: 1
+    Segment1:
+      MaxLevel: 3000
+      Growth: 0.015
+    Segment2:
+      MaxLevel: 5000
+      Growth: 0.025
+    Segment3:
+      MaxLevel: 7000
+      Growth: 0.04
+    Segment4:
+      MaxLevel: 10000
+      Growth: 0.05
+  - Code: UP002
+    Name: "\uCCB4\uB825"
+    Description: "\uCCB4\uB825"
+    Stat: 1
+    Tier: 0
+    MaxLevel: 25000
+    GoldBase: 1
+    GoldPow: 1
+    Segment1:
+      MaxLevel: 3000
+      Growth: 0.015
+    Segment2:
+      MaxLevel: 5000
+      Growth: 0.025
+    Segment3:
+      MaxLevel: 7000
+      Growth: 0.04
+    Segment4:
+      MaxLevel: 10000
+      Growth: 0.05
+  - Code: UP003
+    Name: "\uBC29\uC5B4\uB825"
+    Description: "\uBC29\uC5B4\uB825 (%)"
+    Stat: 2
+    Tier: 0
+    MaxLevel: 10000
+    GoldBase: 1
+    GoldPow: 1
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.05
+    Segment2:
+      MaxLevel: 2000
+      Growth: 0.05
+    Segment3:
+      MaxLevel: 3000
+      Growth: 0.07
+    Segment4:
+      MaxLevel: 4000
+      Growth: 0.1
+  - Code: UP004
+    Name: "\uD68C\uBCF5\uB825"
+    Description: "\uCD08\uB2F9 \uD68C\uBCF5\uB7C9"
+    Stat: 3
+    Tier: 0
+    MaxLevel: 4000
+    GoldBase: 5
+    GoldPow: 1
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.075
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.125
+    Segment3:
+      MaxLevel: 1000
+      Growth: 0.17
+    Segment4:
+      MaxLevel: 1000
+      Growth: 0.2
+  - Code: UP005
+    Name: "\uACF5\uACA9 \uC18D\uB3C4"
+    Description: "\uACF5\uACA9 \uC18D\uB3C4 \uBE44\uC728"
+    Stat: 10
+    Tier: 0
+    MaxLevel: 4000
+    GoldBase: 5
+    GoldPow: 1
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.075
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.125
+    Segment3:
+      MaxLevel: 1000
+      Growth: 0.17
+    Segment4:
+      MaxLevel: 1000
+      Growth: 0.2
+  - Code: UP006
+    Name: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960"
+    Description: "\uD06C\uB9AC\uD2F0\uCEEC(200% \uB370\uBBF8\uC9C0)\uC758 \uD655\uB960"
+    Stat: 4
+    Tier: 0
+    MaxLevel: 4000
+    GoldBase: 1
+    GoldPow: 3
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.075
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.125
+    Segment3:
+      MaxLevel: 1000
+      Growth: 0.17
+    Segment4:
+      MaxLevel: 1000
+      Growth: 0.2
+  - Code: UP101
+    Name: "\uD130\uCE58 \uC2DC \uACF5\uACA9\uB825"
+    Description: "\uD130\uCE58 \uC2DC \uBC1C\uC0DD\uD558\uB294 \uACF5\uACA9\uC758
+      \uCD94\uAC00 \uBC30\uC728 \uC608) 100% -> \uC77C\uBC18 \uACF5\uACA9\uC758 2\uBC30"
+    Stat: 5
+    Tier: 1
+    MaxLevel: 2000
+    GoldBase: 3
+    GoldPow: 7
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.1
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.15
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP102
+    Name: "\uCD5C\uB300 \uBBF8\uC811\uC18D \uBCF4\uB108\uC2A4 \uC2DC\uAC04"
+    Description: "\uAE30\uBCF8 6\uC2DC\uAC04"
+    Stat: 6
+    Tier: 1
+    MaxLevel: 2000
+    GoldBase: 3
+    GoldPow: 7
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.12
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.17
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP103
+    Name: "\uACE8\uB4DC \uD68D\uB4DD\uB7C9 \uC99D\uAC00"
+    Description: "\uBE44\uC728 \uB2E8\uC704 %"
+    Stat: 7
+    Tier: 1
+    MaxLevel: 2000
+    GoldBase: 3
+    GoldPow: 7
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.12
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.17
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP201
+    Name: "\uC6B8\uD2B8\uB77C \uACF5\uACA9\uB825"
+    Description: "\uACF5\uACA9\uB825 %"
+    Stat: 8
+    Tier: 2
+    MaxLevel: 6000
+    GoldBase: 1
+    GoldPow: 15
+    Segment1:
+      MaxLevel: 3000
+      Growth: 0.0375
+    Segment2:
+      MaxLevel: 3000
+      Growth: 0.06
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP202
+    Name: "\uBBF8\uC811\uC18D \uBCF4\uB108\uC2A4 \uD68D\uB4DD\uB7C9"
+    Description: "\uB2E8\uC704 %"
+    Stat: 9
+    Tier: 2
+    MaxLevel: 2000
+    GoldBase: 1
+    GoldPow: 18
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.12
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.17
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP203
+    Name: "\uC288\uD37C \uACF5\uACA9 \uC18D\uB3C4"
+    Description: "\uB2E8\uC704 %"
+    Stat: 10
+    Tier: 2
+    MaxLevel: 2000
+    GoldBase: 1
+    GoldPow: 18
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.11
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.15
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP204
+    Name: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"
+    Description: "\uB2E8\uC704 %"
+    Stat: 11
+    Tier: 2
+    MaxLevel: 2000
+    GoldBase: 3
+    GoldPow: 18
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.1
+    Segment2:
+      MaxLevel: 1000
+      Growth: 0.15
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP205
+    Name: "\uC6B8\uD2B8\uB77C \uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960"
+    Description: "\uD06C\uB9AC\uD2F0\uCEEC\uC758 \uBC30\uC728\uC744 \uC81C\uACF1\uC73C\uB85C
+      \uC801\uC6A9\uD568(\uC608) 200% * 200% => 400% / 4000% * 4000% => 160000%)"
+    Stat: 12
+    Tier: 2
+    MaxLevel: 1500
+    GoldBase: 1
+    GoldPow: 19
+    Segment1:
+      MaxLevel: 1000
+      Growth: 0.14
+    Segment2:
+      MaxLevel: 500
+      Growth: 0.2
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP301
+    Name: "\uBC29\uD328 \uB6AB\uAE30"
+    Description: "\uBC29\uBB34 %"
+    Stat: 0
+    Tier: 3
+    MaxLevel: 10000
+    GoldBase: 1
+    GoldPow: 39
+    Segment1:
+      MaxLevel: 10000
+      Growth: 0.055
+    Segment2:
+      MaxLevel: 0
+      Growth: 0
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP302
+    Name: "\uBCF4\uC2A4 \uB370\uBBF8\uC9C0"
+    Description: "\uB2E8\uC704 %"
+    Stat: 16
+    Tier: 3
+    MaxLevel: 10000
+    GoldBase: 1
+    GoldPow: 42
+    Segment1:
+      MaxLevel: 10000
+      Growth: 0.05
+    Segment2:
+      MaxLevel: 0
+      Growth: 0
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP303
+    Name: "\uD06C\uB9AC\uD2F0\uCEEC \uB370\uBBF8\uC9C0"
+    Description: "\uD06C\uB9AC\uD2F0\uCEEC\uC758 \uBC30\uC728 \uC99D\uAC00"
+    Stat: 14
+    Tier: 3
+    MaxLevel: 10000
+    GoldBase: 1
+    GoldPow: 42
+    Segment1:
+      MaxLevel: 10000
+      Growth: 0.05
+    Segment2:
+      MaxLevel: 0
+      Growth: 0
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0
+  - Code: UP304
+    Name: "\uC6B8\uD2B8\uB77C \uBC29\uC5B4\uB825"
+    Description: "\uBC29\uC5B4\uB825 %"
+    Stat: 15
+    Tier: 3
+    MaxLevel: 10000
+    GoldBase: 1
+    GoldPow: 42
+    Segment1:
+      MaxLevel: 10000
+      Growth: 0.05
+    Segment2:
+      MaxLevel: 0
+      Growth: 0
+    Segment3:
+      MaxLevel: 0
+      Growth: 0
+    Segment4:
+      MaxLevel: 0
+      Growth: 0

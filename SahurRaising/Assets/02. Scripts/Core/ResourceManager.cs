@@ -10,6 +10,7 @@ namespace SahurRaising.Core
     {
         void Initialize();
         UniTask<T> LoadAssetAsync<T>(string key = default) where T : Object;
+        UniTask<T> LoadTableAsync<T>(string key = default) where T : ScriptableObject;
         UniTask<List<T>> LoadAssetsByLabelAsync<T>(string label) where T : Object;
         UniTask<GameObject> InstantiateAsync(string key);
         void DestroyInstance(GameObject instance);
@@ -57,6 +58,15 @@ namespace SahurRaising.Core
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// ScriptableObject 테이블 로딩용 헬퍼. 키가 비어있으면 타입명을 기본 키로 사용한다.
+        /// </summary>
+        public UniTask<T> LoadTableAsync<T>(string key = default) where T : ScriptableObject
+        {
+            key ??= typeof(T).Name;
+            return LoadAssetAsync<T>(key);
         }
 
         /// <summary>

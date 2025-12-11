@@ -1,0 +1,395 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: EquipmentTable
+  m_EditorClassIdentifier: Assembly-CSharp:SahurRaising.Core:EquipmentTable
+  _rows:
+  - Code: W1
+    Type: 0
+    Grade: 0
+    EquipOption:
+      Type: ATKR2
+      Base: 10
+      Up: 2
+    HeldOption1:
+      Type: ATKR2
+      Base: 5
+      Up: 2
+    HeldOption2:
+      Type: 
+      Base: 0
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W2
+    Type: 0
+    Grade: 1
+    EquipOption:
+      Type: ATKR2
+      Base: 15
+      Up: 3
+    HeldOption1:
+      Type: ATKR2
+      Base: 8
+      Up: 3
+    HeldOption2:
+      Type: 
+      Base: 0
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W3
+    Type: 0
+    Grade: 2
+    EquipOption:
+      Type: ATKR2
+      Base: 20
+      Up: 4
+    HeldOption1:
+      Type: ATKR2
+      Base: 10
+      Up: 4
+    HeldOption2:
+      Type: 
+      Base: 0
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W4
+    Type: 0
+    Grade: 3
+    EquipOption:
+      Type: ATKR2
+      Base: 25
+      Up: 5
+    HeldOption1:
+      Type: ATKR2
+      Base: 13
+      Up: 5
+    HeldOption2:
+      Type: 
+      Base: 0
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W5
+    Type: 0
+    Grade: 4
+    EquipOption:
+      Type: ATKR2
+      Base: 35
+      Up: 7
+    HeldOption1:
+      Type: ATKR2
+      Base: 18
+      Up: 6
+    HeldOption2:
+      Type: 
+      Base: 0
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W6
+    Type: 0
+    Grade: 5
+    EquipOption:
+      Type: ATKR2
+      Base: 50
+      Up: 10
+    HeldOption1:
+      Type: ATKR2
+      Base: 25
+      Up: 9
+    HeldOption2:
+      Type: 
+      Base: 0
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W7
+    Type: 0
+    Grade: 6
+    EquipOption:
+      Type: ATKR2
+      Base: 75
+      Up: 15
+    HeldOption1:
+      Type: ATKR2
+      Base: 38
+      Up: 15
+    HeldOption2:
+      Type: 
+      Base: 0
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W8
+    Type: 0
+    Grade: 7
+    EquipOption:
+      Type: ATKR2
+      Base: 110
+      Up: 22
+    HeldOption1:
+      Type: ATKR2
+      Base: 55
+      Up: 20
+    HeldOption2:
+      Type: GOLDR2
+      Base: 10
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W9
+    Type: 0
+    Grade: 8
+    EquipOption:
+      Type: ATKR2
+      Base: 160
+      Up: 32
+    HeldOption1:
+      Type: ATKR2
+      Base: 80
+      Up: 30
+    HeldOption2:
+      Type: GOLDR2
+      Base: 20
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W10
+    Type: 0
+    Grade: 9
+    EquipOption:
+      Type: ATKR2
+      Base: 240
+      Up: 48
+    HeldOption1:
+      Type: ATKR2
+      Base: 120
+      Up: 40
+    HeldOption2:
+      Type: GOLDR2
+      Base: 30
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W11
+    Type: 0
+    Grade: 10
+    EquipOption:
+      Type: ATKR2
+      Base: 360
+      Up: 72
+    HeldOption1:
+      Type: ATKR2
+      Base: 150
+      Up: 50
+    HeldOption2:
+      Type: GOLDR2
+      Base: 40
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W12
+    Type: 0
+    Grade: 11
+    EquipOption:
+      Type: ATKR2
+      Base: 480
+      Up: 96
+    HeldOption1:
+      Type: ATKR2
+      Base: 200
+      Up: 67
+    HeldOption2:
+      Type: GOLDR2
+      Base: 50
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W13
+    Type: 0
+    Grade: 12
+    EquipOption:
+      Type: ATKR2
+      Base: 720
+      Up: 144
+    HeldOption1:
+      Type: ATKR2
+      Base: 240
+      Up: 80
+    HeldOption2:
+      Type: GOLDR2
+      Base: 60
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W14
+    Type: 0
+    Grade: 13
+    EquipOption:
+      Type: ATKR2
+      Base: 1440
+      Up: 288
+    HeldOption1:
+      Type: ATKR2
+      Base: 360
+      Up: 120
+    HeldOption2:
+      Type: GOLDR2
+      Base: 70
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W15
+    Type: 0
+    Grade: 14
+    EquipOption:
+      Type: ATKR2
+      Base: 2880
+      Up: 576
+    HeldOption1:
+      Type: ATKR2
+      Base: 720
+      Up: 240
+    HeldOption2:
+      Type: GOLDR2
+      Base: 80
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W16
+    Type: 0
+    Grade: 15
+    EquipOption:
+      Type: ATKR2
+      Base: 6000
+      Up: 1200
+    HeldOption1:
+      Type: ATKR2
+      Base: 1500
+      Up: 500
+    HeldOption2:
+      Type: GOLDR2
+      Base: 90
+      Up: 0
+    HeldOption3:
+      Type: 
+      Base: 0
+      Up: 0
+  - Code: W17
+    Type: 0
+    Grade: 16
+    EquipOption:
+      Type: ATKR2
+      Base: 15000
+      Up: 3000
+    HeldOption1:
+      Type: ATKR2
+      Base: 3750
+      Up: 1250
+    HeldOption2:
+      Type: GOLDR2
+      Base: 100
+      Up: 0
+    HeldOption3:
+      Type: UCR
+      Base: 1
+      Up: 0
+  - Code: W18
+    Type: 0
+    Grade: 17
+    EquipOption:
+      Type: ATKR2
+      Base: 45000
+      Up: 9000
+    HeldOption1:
+      Type: ATKR2
+      Base: 11250
+      Up: 3750
+    HeldOption2:
+      Type: GOLDR2
+      Base: 130
+      Up: 0
+    HeldOption3:
+      Type: UCR
+      Base: 3
+      Up: 0
+  - Code: W19
+    Type: 0
+    Grade: 18
+    EquipOption:
+      Type: ATKR2
+      Base: 135000
+      Up: 27000
+    HeldOption1:
+      Type: ATKR2
+      Base: 33750
+      Up: 11250
+    HeldOption2:
+      Type: GOLDR2
+      Base: 160
+      Up: 0
+    HeldOption3:
+      Type: UCR
+      Base: 5
+      Up: 0
+  - Code: W20
+    Type: 0
+    Grade: 19
+    EquipOption:
+      Type: ATKR2
+      Base: 675000
+      Up: 135000
+    HeldOption1:
+      Type: ATKR2
+      Base: 168750
+      Up: 56250
+    HeldOption2:
+      Type: GOLDR2
+      Base: 200
+      Up: 0
+    HeldOption3:
+      Type: UCR
+      Base: 10
+      Up: 0

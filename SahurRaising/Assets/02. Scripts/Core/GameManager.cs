@@ -61,7 +61,22 @@ namespace SahurRaising.Core
             //if (!string.IsNullOrEmpty(settingsService.LocaleCode))
             //    localizationService.SetLocale(settingsService.LocaleCode);
 
-            // TODO 서비스 등록 추가
+            // 전투/스탯/재화 서비스 등록
+            var statService = new StatService(resourceManager, eventBus);
+            ServiceLocator.Register<IStatService, StatService>(statService);
+            await statService.InitializeAsync();
+
+            var currencyService = new CurrencyService(eventBus, statService);
+            ServiceLocator.Register<ICurrencyService, CurrencyService>(currencyService);
+            await currencyService.InitializeAsync();
+
+            var upgradeService = new UpgradeService(resourceManager, currencyService, statService);
+            ServiceLocator.Register<IUpgradeService, UpgradeService>(upgradeService);
+            await upgradeService.InitializeAsync();
+
+            var combatService = new CombatService(resourceManager, eventBus, statService, currencyService);
+            ServiceLocator.Register<ICombatService, CombatService>(combatService);
+            await combatService.InitializeAsync();
 
             Debug.Log("[GameManager] 서비스 등록 완료");
 
@@ -89,8 +104,13 @@ namespace SahurRaising.Core
             // 등록 여부를 검사하고 저장을 호출
             //if (ServiceLocator.HasService<ISettingsService>())
             //    await ServiceLocator.Get<ISettingsService>().SaveAsync();
-            //if (ServiceLocator.HasService<ICurrencyService>())
-            //    await ServiceLocator.Get<ICurrencyService>().SaveDataAsync();
+            if (ServiceLocator.HasService<ICurrencyService>())
+                await ServiceLocator.Get<ICurrencyService>().SaveAsync();
+            if (ServiceLocator.HasService<IUpgradeService>())
+                await ServiceLocator.Get<IUpgradeService>().SaveAsync();
+            if (ServiceLocator.HasService<ICombatService>())
+                await ServiceLocator.Get<ICombatService>().SaveAsync();
+            Debug.Log("[GameManager] SaveAllAsync 완료");
             //if (ServiceLocator.HasService<IGrowthActionService>())
             //    await ServiceLocator.Get<IGrowthActionService>().SaveDataAsync();
             //if (ServiceLocator.HasService<ICollectionService>())

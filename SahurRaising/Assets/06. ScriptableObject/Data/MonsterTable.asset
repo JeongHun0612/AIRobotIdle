@@ -1,0 +1,1715 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: MonsterTable
+  m_EditorClassIdentifier: Assembly-CSharp:SahurRaising.Core:MonsterTable
+  _rows:
+  - MonsterLevel: 1
+    BenchmarkLevel: 1
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 1
+      exponent: 1
+    MonsterATK:
+      mantissa: 1
+      exponent: 0
+    MonsterDEF:
+      mantissa: 1
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1
+      exponent: 0
+  - MonsterLevel: 2
+    BenchmarkLevel: 5
+    ATKLevel: 4.5
+    DEFLevel: 1.5
+    MonsterHP:
+      mantissa: 1.3
+      exponent: 1
+    MonsterATK:
+      mantissa: 3
+      exponent: 0
+    MonsterDEF:
+      mantissa: 2
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 2
+      exponent: 0
+  - MonsterLevel: 3
+    BenchmarkLevel: 25
+    ATKLevel: 7.5
+    DEFLevel: 2.5
+    MonsterHP:
+      mantissa: 1.8
+      exponent: 1
+    MonsterATK:
+      mantissa: 3
+      exponent: 0
+    MonsterDEF:
+      mantissa: 3
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 3
+      exponent: 0
+  - MonsterLevel: 4
+    BenchmarkLevel: 35
+    ATKLevel: 10.5
+    DEFLevel: 3.5
+    MonsterHP:
+      mantissa: 2.4
+      exponent: 1
+    MonsterATK:
+      mantissa: 4
+      exponent: 0
+    MonsterDEF:
+      mantissa: 5
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 5
+      exponent: 0
+  - MonsterLevel: 5
+    BenchmarkLevel: 50
+    ATKLevel: 15
+    DEFLevel: 5
+    MonsterHP:
+      mantissa: 3.4
+      exponent: 1
+    MonsterATK:
+      mantissa: 4
+      exponent: 0
+    MonsterDEF:
+      mantissa: 1
+      exponent: 1
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1
+      exponent: 1
+  - MonsterLevel: 6
+    BenchmarkLevel: 75
+    ATKLevel: 22.5
+    DEFLevel: 7.5
+    MonsterHP:
+      mantissa: 5.7
+      exponent: 1
+    MonsterATK:
+      mantissa: 5
+      exponent: 0
+    MonsterDEF:
+      mantissa: 1.3
+      exponent: 1
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.3
+      exponent: 1
+  - MonsterLevel: 7
+    BenchmarkLevel: 100
+    ATKLevel: 30
+    DEFLevel: 10
+    MonsterHP:
+      mantissa: 1.01
+      exponent: 2
+    MonsterATK:
+      mantissa: 6
+      exponent: 0
+    MonsterDEF:
+      mantissa: 1.8
+      exponent: 1
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.8
+      exponent: 1
+  - MonsterLevel: 8
+    BenchmarkLevel: 125
+    ATKLevel: 37.5
+    DEFLevel: 12.5
+    MonsterHP:
+      mantissa: 1.67
+      exponent: 2
+    MonsterATK:
+      mantissa: 8
+      exponent: 0
+    MonsterDEF:
+      mantissa: 2.4
+      exponent: 1
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 2.4
+      exponent: 1
+  - MonsterLevel: 9
+    BenchmarkLevel: 150
+    ATKLevel: 45
+    DEFLevel: 15
+    MonsterHP:
+      mantissa: 2.98
+      exponent: 2
+    MonsterATK:
+      mantissa: 9
+      exponent: 0
+    MonsterDEF:
+      mantissa: 3.4
+      exponent: 1
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 3.4
+      exponent: 1
+  - MonsterLevel: 10
+    BenchmarkLevel: 190
+    ATKLevel: 57
+    DEFLevel: 19
+    MonsterHP:
+      mantissa: 7.08
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.3
+      exponent: 1
+    MonsterDEF:
+      mantissa: 5.7
+      exponent: 1
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 5.7
+      exponent: 1
+  - MonsterLevel: 11
+    BenchmarkLevel: 220
+    ATKLevel: 66
+    DEFLevel: 22
+    MonsterHP:
+      mantissa: 1.266
+      exponent: 3
+    MonsterATK:
+      mantissa: 1.6
+      exponent: 1
+    MonsterDEF:
+      mantissa: 1.01
+      exponent: 2
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.01
+      exponent: 2
+  - MonsterLevel: 12
+    BenchmarkLevel: 250
+    ATKLevel: 75
+    DEFLevel: 25
+    MonsterHP:
+      mantissa: 2.139
+      exponent: 3
+    MonsterATK:
+      mantissa: 2
+      exponent: 1
+    MonsterDEF:
+      mantissa: 1.67
+      exponent: 2
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.67
+      exponent: 2
+  - MonsterLevel: 13
+    BenchmarkLevel: 280
+    ATKLevel: 84
+    DEFLevel: 28
+    MonsterHP:
+      mantissa: 3.613
+      exponent: 3
+    MonsterATK:
+      mantissa: 2.5
+      exponent: 1
+    MonsterDEF:
+      mantissa: 2.98
+      exponent: 2
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 2.98
+      exponent: 2
+  - MonsterLevel: 14
+    BenchmarkLevel: 320
+    ATKLevel: 96
+    DEFLevel: 32
+    MonsterHP:
+      mantissa: 7.271
+      exponent: 3
+    MonsterATK:
+      mantissa: 3.4
+      exponent: 1
+    MonsterDEF:
+      mantissa: 7.08
+      exponent: 2
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 7.08
+      exponent: 2
+  - MonsterLevel: 15
+    BenchmarkLevel: 375
+    ATKLevel: 112.5
+    DEFLevel: 37.5
+    MonsterHP:
+      mantissa: 1.6801
+      exponent: 4
+    MonsterATK:
+      mantissa: 5.1
+      exponent: 1
+    MonsterDEF:
+      mantissa: 1.266
+      exponent: 3
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.266
+      exponent: 3
+  - MonsterLevel: 16
+    BenchmarkLevel: 400
+    ATKLevel: 120
+    DEFLevel: 40
+    MonsterHP:
+      mantissa: 2.4822
+      exponent: 4
+    MonsterATK:
+      mantissa: 6.2
+      exponent: 1
+    MonsterDEF:
+      mantissa: 2.139
+      exponent: 3
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 2.139
+      exponent: 3
+  - MonsterLevel: 17
+    BenchmarkLevel: 440
+    ATKLevel: 132
+    DEFLevel: 44
+    MonsterHP:
+      mantissa: 4.4577
+      exponent: 4
+    MonsterATK:
+      mantissa: 8.4
+      exponent: 1
+    MonsterDEF:
+      mantissa: 3.613
+      exponent: 3
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 3.613
+      exponent: 3
+  - MonsterLevel: 18
+    BenchmarkLevel: 480
+    ATKLevel: 144
+    DEFLevel: 48
+    MonsterHP:
+      mantissa: 8.0054
+      exponent: 4
+    MonsterATK:
+      mantissa: 1.13
+      exponent: 2
+    MonsterDEF:
+      mantissa: 7.271
+      exponent: 3
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 7.271
+      exponent: 3
+  - MonsterLevel: 19
+    BenchmarkLevel: 525
+    ATKLevel: 157.5
+    DEFLevel: 52.5
+    MonsterHP:
+      mantissa: 1.38497
+      exponent: 5
+    MonsterATK:
+      mantissa: 1.56
+      exponent: 2
+    MonsterDEF:
+      mantissa: 1.6801
+      exponent: 4
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.6801
+      exponent: 4
+  - MonsterLevel: 20
+    BenchmarkLevel: 600
+    ATKLevel: 180
+    DEFLevel: 60
+    MonsterHP:
+      mantissa: 3.41355
+      exponent: 5
+    MonsterATK:
+      mantissa: 2.75
+      exponent: 2
+    MonsterDEF:
+      mantissa: 2.4822
+      exponent: 4
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 2.4822
+      exponent: 4
+  - MonsterLevel: 21
+    BenchmarkLevel: 675
+    ATKLevel: 202.5
+    DEFLevel: 67.5
+    MonsterHP:
+      mantissa: 8.08984
+      exponent: 5
+    MonsterATK:
+      mantissa: 4.74
+      exponent: 2
+    MonsterDEF:
+      mantissa: 4.4577
+      exponent: 4
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 4.4577
+      exponent: 4
+  - MonsterLevel: 22
+    BenchmarkLevel: 750
+    ATKLevel: 225
+    DEFLevel: 75
+    MonsterHP:
+      mantissa: 1.993914
+      exponent: 6
+    MonsterATK:
+      mantissa: 8.37
+      exponent: 2
+    MonsterDEF:
+      mantissa: 8.0054
+      exponent: 4
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 8.0054
+      exponent: 4
+  - MonsterLevel: 23
+    BenchmarkLevel: 825
+    ATKLevel: 247.5
+    DEFLevel: 82.5
+    MonsterHP:
+      mantissa: 4.725415
+      exponent: 6
+    MonsterATK:
+      mantissa: 1.441
+      exponent: 3
+    MonsterDEF:
+      mantissa: 1.38497
+      exponent: 5
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.38497
+      exponent: 5
+  - MonsterLevel: 24
+    BenchmarkLevel: 900
+    ATKLevel: 270
+    DEFLevel: 90
+    MonsterHP:
+      mantissa: 1.1646804
+      exponent: 7
+    MonsterATK:
+      mantissa: 2.543
+      exponent: 3
+    MonsterDEF:
+      mantissa: 3.41355
+      exponent: 5
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 3.41355
+      exponent: 5
+  - MonsterLevel: 25
+    BenchmarkLevel: 1000
+    ATKLevel: 300
+    DEFLevel: 100
+    MonsterHP:
+      mantissa: 3.7775215
+      exponent: 7
+    MonsterATK:
+      mantissa: 5.335
+      exponent: 3
+    MonsterDEF:
+      mantissa: 8.08984
+      exponent: 5
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 8.08984
+      exponent: 5
+  - MonsterLevel: 26
+    BenchmarkLevel: 1100
+    ATKLevel: 330
+    DEFLevel: 110
+    MonsterHP:
+      mantissa: 1.0373175
+      exponent: 8
+    MonsterATK:
+      mantissa: 1.1192
+      exponent: 4
+    MonsterDEF:
+      mantissa: 1.993914
+      exponent: 6
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.993914
+      exponent: 6
+  - MonsterLevel: 27
+    BenchmarkLevel: 1200
+    ATKLevel: 360
+    DEFLevel: 120
+    MonsterHP:
+      mantissa: 2.70778087
+      exponent: 8
+    MonsterATK:
+      mantissa: 2.3475
+      exponent: 4
+    MonsterDEF:
+      mantissa: 4.725415
+      exponent: 6
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 4.725415
+      exponent: 6
+  - MonsterLevel: 28
+    BenchmarkLevel: 1300
+    ATKLevel: 390
+    DEFLevel: 130
+    MonsterHP:
+      mantissa: 7.06830572
+      exponent: 8
+    MonsterATK:
+      mantissa: 4.9242
+      exponent: 4
+    MonsterDEF:
+      mantissa: 1.1646804
+      exponent: 7
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.1646804
+      exponent: 7
+  - MonsterLevel: 29
+    BenchmarkLevel: 1450
+    ATKLevel: 435
+    DEFLevel: 145
+    MonsterHP:
+      mantissa: 2.981041624
+      exponent: 9
+    MonsterATK:
+      mantissa: 1.49593
+      exponent: 5
+    MonsterDEF:
+      mantissa: 3.7775215
+      exponent: 7
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 3.7775215
+      exponent: 7
+  - MonsterLevel: 30
+    BenchmarkLevel: 1600
+    ATKLevel: 480
+    DEFLevel: 160
+    MonsterHP:
+      mantissa: 1.257247425
+      exponent: 10
+    MonsterATK:
+      mantissa: 4.5445
+      exponent: 5
+    MonsterDEF:
+      mantissa: 1.0373175
+      exponent: 8
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.0373175
+      exponent: 8
+  - MonsterLevel: 31
+    BenchmarkLevel: 1750
+    ATKLevel: 525
+    DEFLevel: 175
+    MonsterHP:
+      mantissa: 5.3024119997
+      exponent: 10
+    MonsterATK:
+      mantissa: 1.380576
+      exponent: 6
+    MonsterDEF:
+      mantissa: 2.70778087
+      exponent: 8
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 2.70778087
+      exponent: 8
+  - MonsterLevel: 32
+    BenchmarkLevel: 1900
+    ATKLevel: 570
+    DEFLevel: 190
+    MonsterHP:
+      mantissa: 2.23628002382
+      exponent: 11
+    MonsterATK:
+      mantissa: 4.194058
+      exponent: 6
+    MonsterDEF:
+      mantissa: 7.06830572
+      exponent: 8
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 7.06830572
+      exponent: 8
+  - MonsterLevel: 33
+    BenchmarkLevel: 2050
+    ATKLevel: 615
+    DEFLevel: 205
+    MonsterHP:
+      mantissa: 9.11635630098
+      exponent: 11
+    MonsterATK:
+      mantissa: 1.2741143
+      exponent: 7
+    MonsterDEF:
+      mantissa: 2.981041624
+      exponent: 9
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 2.981041624
+      exponent: 9
+  - MonsterLevel: 34
+    BenchmarkLevel: 2200
+    ATKLevel: 660
+    DEFLevel: 220
+    MonsterHP:
+      mantissa: 3.090321513982
+      exponent: 12
+    MonsterATK:
+      mantissa: 3.8706361
+      exponent: 7
+    MonsterDEF:
+      mantissa: 1.257247425
+      exponent: 10
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.257247425
+      exponent: 10
+  - MonsterLevel: 35
+    BenchmarkLevel: 2350
+    ATKLevel: 705
+    DEFLevel: 235
+    MonsterHP:
+      mantissa: 1.0475772056823
+      exponent: 13
+    MonsterATK:
+      mantissa: 1.17586181
+      exponent: 8
+    MonsterDEF:
+      mantissa: 5.3024119997
+      exponent: 10
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 5.3024119997
+      exponent: 10
+  - MonsterLevel: 36
+    BenchmarkLevel: 2500
+    ATKLevel: 750
+    DEFLevel: 250
+    MonsterHP:
+      mantissa: 3.5511450730924
+      exponent: 13
+    MonsterATK:
+      mantissa: 3.57215446
+      exponent: 8
+    MonsterDEF:
+      mantissa: 2.23628002382
+      exponent: 11
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 2.23628002382
+      exponent: 11
+  - MonsterLevel: 37
+    BenchmarkLevel: 2650
+    ATKLevel: 795
+    DEFLevel: 265
+    MonsterHP:
+      mantissa: 1.20379016093
+      exponent: 14
+    MonsterATK:
+      mantissa: 1.085185976
+      exponent: 9
+    MonsterDEF:
+      mantissa: 9.11635630098
+      exponent: 11
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 9.11635630098
+      exponent: 11
+  - MonsterLevel: 38
+    BenchmarkLevel: 2800
+    ATKLevel: 840
+    DEFLevel: 280
+    MonsterHP:
+      mantissa: 4.08068586815004
+      exponent: 14
+    MonsterATK:
+      mantissa: 3.296690035
+      exponent: 9
+    MonsterDEF:
+      mantissa: 3.090321513982
+      exponent: 12
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 3.090321513982
+      exponent: 12
+  - MonsterLevel: 39
+    BenchmarkLevel: 2950
+    ATKLevel: 885
+    DEFLevel: 295
+    MonsterHP:
+      mantissa: 1.3833
+      exponent: 15
+    MonsterATK:
+      mantissa: 1.0015025466
+      exponent: 10
+    MonsterDEF:
+      mantissa: 1.0475772056823
+      exponent: 13
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.0475772056823
+      exponent: 13
+  - MonsterLevel: 40
+    BenchmarkLevel: 3100
+    ATKLevel: 930
+    DEFLevel: 310
+    MonsterHP:
+      mantissa: 4.68919
+      exponent: 15
+    MonsterATK:
+      mantissa: 3.0424678703
+      exponent: 10
+    MonsterDEF:
+      mantissa: 3.5511450730924
+      exponent: 13
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 3.5511450730924
+      exponent: 13
+  - MonsterLevel: 41
+    BenchmarkLevel: 3250
+    ATKLevel: 975
+    DEFLevel: 325
+    MonsterHP:
+      mantissa: 1.58957
+      exponent: 16
+    MonsterATK:
+      mantissa: 9.2427231192
+      exponent: 10
+    MonsterDEF:
+      mantissa: 1.20379016093
+      exponent: 14
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 1.20379016093
+      exponent: 14
+  - MonsterLevel: 42
+    BenchmarkLevel: 3400
+    ATKLevel: 1
+    DEFLevel: 20
+    MonsterHP:
+      mantissa: 3.4
+      exponent: 2
+    MonsterATK:
+      mantissa: 5.38844
+      exponent: 16
+    MonsterDEF:
+      mantissa: 2.80784988699
+      exponent: 11
+    MonsterDEFR: 4.080686e+14
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 43
+    BenchmarkLevel: 3550
+    ATKLevel: 1
+    DEFLevel: 65
+    MonsterHP:
+      mantissa: 3.55
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.82661
+      exponent: 17
+    MonsterDEF:
+      mantissa: 8.52997637832
+      exponent: 11
+    MonsterDEFR: 1.3833e+15
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 44
+    BenchmarkLevel: 3700
+    ATKLevel: 1
+    DEFLevel: 110
+    MonsterHP:
+      mantissa: 3.7
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.6531
+      exponent: 17
+    MonsterDEF:
+      mantissa: 2.591324320855
+      exponent: 12
+    MonsterDEFR: 4.68919e+15
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 45
+    BenchmarkLevel: 3850
+    ATKLevel: 1
+    DEFLevel: 155
+    MonsterHP:
+      mantissa: 3.85
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.13436
+      exponent: 18
+    MonsterDEF:
+      mantissa: 7.872192650994
+      exponent: 12
+    MonsterDEFR: 1.58957e+16
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 46
+    BenchmarkLevel: 4000
+    ATKLevel: 1
+    DEFLevel: 200
+    MonsterHP:
+      mantissa: 4
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.7654
+      exponent: 18
+    MonsterDEF:
+      mantissa: 2.3914959866508
+      exponent: 13
+    MonsterDEFR: 5.38844e+16
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 47
+    BenchmarkLevel: 4150
+    ATKLevel: 1
+    DEFLevel: 245
+    MonsterHP:
+      mantissa: 4.15
+      exponent: 2
+    MonsterATK:
+      mantissa: 6.74165
+      exponent: 18
+    MonsterDEF:
+      mantissa: 7.265133499299
+      exponent: 13
+    MonsterDEFR: 1.82661e+17
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 48
+    BenchmarkLevel: 4300
+    ATKLevel: 1
+    DEFLevel: 290
+    MonsterHP:
+      mantissa: 4.3
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.64351
+      exponent: 19
+    MonsterDEF:
+      mantissa: 2.20707728790944
+      exponent: 14
+    MonsterDEFR: 4.6531e+17
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 49
+    BenchmarkLevel: 4450
+    ATKLevel: 1
+    DEFLevel: 335
+    MonsterHP:
+      mantissa: 4.45
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.00665
+      exponent: 19
+    MonsterDEF:
+      mantissa: 6.7048873297038
+      exponent: 14
+    MonsterDEFR: 1.13436e+18
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 50
+    BenchmarkLevel: 4600
+    ATKLevel: 1
+    DEFLevel: 380
+    MonsterHP:
+      mantissa: 4.6
+      exponent: 2
+    MonsterATK:
+      mantissa: 9.76763
+      exponent: 19
+    MonsterDEF:
+      mantissa: 2.03688
+      exponent: 15
+    MonsterDEFR: 2.7654e+18
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 51
+    BenchmarkLevel: 4750
+    ATKLevel: 1
+    DEFLevel: 425
+    MonsterHP:
+      mantissa: 4.75
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.38121
+      exponent: 20
+    MonsterDEF:
+      mantissa: 6.18784
+      exponent: 15
+    MonsterDEFR: 6.74165e+18
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 52
+    BenchmarkLevel: 4900
+    ATKLevel: 1
+    DEFLevel: 470
+    MonsterHP:
+      mantissa: 4.9
+      exponent: 2
+    MonsterATK:
+      mantissa: 5.80503
+      exponent: 20
+    MonsterDEF:
+      mantissa: 1.87981
+      exponent: 16
+    MonsterDEFR: 1.64351e+19
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 53
+    BenchmarkLevel: 5050
+    ATKLevel: 1
+    DEFLevel: 515
+    MonsterHP:
+      mantissa: 5.05
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.41518
+      exponent: 21
+    MonsterDEF:
+      mantissa: 5.71067
+      exponent: 16
+    MonsterDEFR: 4.00665e+19
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 54
+    BenchmarkLevel: 5200
+    ATKLevel: 1
+    DEFLevel: 546.15
+    MonsterHP:
+      mantissa: 5.1538
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.61467
+      exponent: 21
+    MonsterDEF:
+      mantissa: 1.2278
+      exponent: 17
+    MonsterDEFR: 9.76763e+19
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 55
+    BenchmarkLevel: 5325
+    ATKLevel: 1
+    DEFLevel: 575
+    MonsterHP:
+      mantissa: 5.25
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.64326
+      exponent: 21
+    MonsterDEF:
+      mantissa: 2.51258
+      exponent: 17
+    MonsterDEFR: 2.38121e+20
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 56
+    BenchmarkLevel: 5450
+    ATKLevel: 1
+    DEFLevel: 603.85
+    MonsterHP:
+      mantissa: 5.3462
+      exponent: 2
+    MonsterATK:
+      mantissa: 8.08402
+      exponent: 21
+    MonsterDEF:
+      mantissa: 5.01635
+      exponent: 17
+    MonsterDEFR: 5.80503e+20
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 57
+    BenchmarkLevel: 5575
+    ATKLevel: 1
+    DEFLevel: 632.69
+    MonsterHP:
+      mantissa: 5.4423
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.4356
+      exponent: 22
+    MonsterDEF:
+      mantissa: 1.02655
+      exponent: 18
+    MonsterDEFR: 1.41518e+21
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 58
+    BenchmarkLevel: 5700
+    ATKLevel: 1
+    DEFLevel: 661.54
+    MonsterHP:
+      mantissa: 5.5385
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.5494
+      exponent: 22
+    MonsterDEF:
+      mantissa: 2.10074
+      exponent: 18
+    MonsterDEFR: 2.61467e+21
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 59
+    BenchmarkLevel: 5825
+    ATKLevel: 1
+    DEFLevel: 690.38
+    MonsterHP:
+      mantissa: 5.634600000000001
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.52733
+      exponent: 22
+    MonsterDEF:
+      mantissa: 4.29896
+      exponent: 18
+    MonsterDEFR: 4.64326e+21
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 60
+    BenchmarkLevel: 5950
+    ATKLevel: 1
+    DEFLevel: 719.23
+    MonsterHP:
+      mantissa: 5.7308
+      exponent: 2
+    MonsterATK:
+      mantissa: 8.03984
+      exponent: 22
+    MonsterDEF:
+      mantissa: 8.79743
+      exponent: 18
+    MonsterDEFR: 8.08402e+21
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 61
+    BenchmarkLevel: 6075
+    ATKLevel: 1
+    DEFLevel: 748.08
+    MonsterHP:
+      mantissa: 5.8269
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.42775
+      exponent: 23
+    MonsterDEF:
+      mantissa: 1.80031
+      exponent: 19
+    MonsterDEFR: 1.4356e+22
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 62
+    BenchmarkLevel: 6200
+    ATKLevel: 1
+    DEFLevel: 776.92
+    MonsterHP:
+      mantissa: 5.9231
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.48575
+      exponent: 23
+    MonsterDEF:
+      mantissa: 3.59431
+      exponent: 19
+    MonsterDEFR: 2.5494e+22
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 63
+    BenchmarkLevel: 6325
+    ATKLevel: 1
+    DEFLevel: 805.77
+    MonsterHP:
+      mantissa: 6.0192
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.414300000000001
+      exponent: 23
+    MonsterDEF:
+      mantissa: 7.35543
+      exponent: 19
+    MonsterDEFR: 4.52733e+22
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 64
+    BenchmarkLevel: 6400
+    ATKLevel: 1
+    DEFLevel: 823.08
+    MonsterHP:
+      mantissa: 6.0769
+      exponent: 2
+    MonsterATK:
+      mantissa: 6.304710000000001
+      exponent: 23
+    MonsterDEF:
+      mantissa: 1.1472
+      exponent: 20
+    MonsterDEFR: 8.03984e+22
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 65
+    BenchmarkLevel: 6575
+    ATKLevel: 1
+    DEFLevel: 861.54
+    MonsterHP:
+      mantissa: 6.2051
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.33805
+      exponent: 24
+    MonsterDEF:
+      mantissa: 2.93187
+      exponent: 20
+    MonsterDEFR: 1.42775e+23
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 66
+    BenchmarkLevel: 6700
+    ATKLevel: 1
+    DEFLevel: 892.31
+    MonsterHP:
+      mantissa: 6.3077
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.47216
+      exponent: 24
+    MonsterDEF:
+      mantissa: 6.303539999999999
+      exponent: 20
+    MonsterDEFR: 2.48575e+23
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 67
+    BenchmarkLevel: 6825
+    ATKLevel: 1
+    DEFLevel: 921.15
+    MonsterHP:
+      mantissa: 6.4038
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.39018
+      exponent: 24
+    MonsterDEF:
+      mantissa: 1.28996
+      exponent: 21
+    MonsterDEFR: 4.4143e+23
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 68
+    BenchmarkLevel: 6950
+    ATKLevel: 1
+    DEFLevel: 950
+    MonsterHP:
+      mantissa: 6.5
+      exponent: 2
+    MonsterATK:
+      mantissa: 7.796270000000001
+      exponent: 24
+    MonsterDEF:
+      mantissa: 2.6397899999999996
+      exponent: 21
+    MonsterDEFR: 6.30471e+23
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 69
+    BenchmarkLevel: 7075
+    ATKLevel: 1
+    DEFLevel: 978.85
+    MonsterHP:
+      mantissa: 6.5962
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.3573499999999998
+      exponent: 25
+    MonsterDEF:
+      mantissa: 5.270320000000001
+      exponent: 21
+    MonsterDEFR: 1.33805e+24
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 70
+    BenchmarkLevel: 7200
+    ATKLevel: 2
+    DEFLevel: 7.69
+    MonsterHP:
+      mantissa: 6.6923
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.41044
+      exponent: 25
+    MonsterDEF:
+      mantissa: 1.0785200000000001
+      exponent: 22
+    MonsterDEFR: 2.47216e+24
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 71
+    BenchmarkLevel: 7325
+    ATKLevel: 2
+    DEFLevel: 36.54
+    MonsterHP:
+      mantissa: 6.7885
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.28057
+      exponent: 25
+    MonsterDEF:
+      mantissa: 2.2071
+      exponent: 22
+    MonsterDEFR: 4.39018e+24
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 72
+    BenchmarkLevel: 7450
+    ATKLevel: 2
+    DEFLevel: 65.38
+    MonsterHP:
+      mantissa: 6.884600000000001
+      exponent: 2
+    MonsterATK:
+      mantissa: 7.601629999999999
+      exponent: 25
+    MonsterDEF:
+      mantissa: 4.51662
+      exponent: 22
+    MonsterDEFR: 7.79627e+24
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 73
+    BenchmarkLevel: 7575
+    ATKLevel: 2
+    DEFLevel: 94.23
+    MonsterHP:
+      mantissa: 6.9808
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.34993
+      exponent: 26
+    MonsterDEF:
+      mantissa: 9.242840000000001
+      exponent: 22
+    MonsterDEFR: 1.35735e+25
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 74
+    BenchmarkLevel: 7700
+    ATKLevel: 2
+    DEFLevel: 123.08
+    MonsterHP:
+      mantissa: 7.0769
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.3972700000000002
+      exponent: 26
+    MonsterDEF:
+      mantissa: 1.8914600000000004
+      exponent: 23
+    MonsterDEFR: 2.41044e+25
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 75
+    BenchmarkLevel: 7825
+    ATKLevel: 2
+    DEFLevel: 151.92
+    MonsterHP:
+      mantissa: 7.1731
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.1737
+      exponent: 26
+    MonsterDEF:
+      mantissa: 3.776290000000001
+      exponent: 23
+    MonsterDEFR: 4.28057e+25
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 76
+    BenchmarkLevel: 7950
+    ATKLevel: 2
+    DEFLevel: 180.77
+    MonsterHP:
+      mantissa: 7.2692
+      exponent: 2
+    MonsterATK:
+      mantissa: 7.41185
+      exponent: 26
+    MonsterDEF:
+      mantissa: 7.727830000000001
+      exponent: 23
+    MonsterDEFR: 7.60163e+25
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 77
+    BenchmarkLevel: 8075
+    ATKLevel: 2
+    DEFLevel: 209.62
+    MonsterHP:
+      mantissa: 7.365399999999999
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.3162299999999998
+      exponent: 27
+    MonsterDEF:
+      mantissa: 1.5814300000000001
+      exponent: 24
+    MonsterDEFR: 1.34993e+26
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 78
+    BenchmarkLevel: 8200
+    ATKLevel: 2
+    DEFLevel: 238.46
+    MonsterHP:
+      mantissa: 7.4615
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.3374200000000003
+      exponent: 27
+    MonsterDEF:
+      mantissa: 3.23625
+      exponent: 24
+    MonsterDEFR: 2.39727e+26
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 79
+    BenchmarkLevel: 8325
+    ATKLevel: 2
+    DEFLevel: 267.31
+    MonsterHP:
+      mantissa: 7.5577
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.1508899999999995
+      exponent: 27
+    MonsterDEF:
+      mantissa: 6.62268
+      exponent: 24
+    MonsterDEFR: 4.1737e+26
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 80
+    BenchmarkLevel: 8450
+    ATKLevel: 2
+    DEFLevel: 296.15
+    MonsterHP:
+      mantissa: 7.6538
+      exponent: 2
+    MonsterATK:
+      mantissa: 7.37134
+      exponent: 27
+    MonsterDEF:
+      mantissa: 1.35527
+      exponent: 25
+    MonsterDEFR: 7.41185e+26
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 81
+    BenchmarkLevel: 8575
+    ATKLevel: 2
+    DEFLevel: 325
+    MonsterHP:
+      mantissa: 7.75
+      exponent: 2
+    MonsterATK:
+      mantissa: 1.30904
+      exponent: 28
+    MonsterDEF:
+      mantissa: 2.77344
+      exponent: 25
+    MonsterDEFR: 1.31623e+27
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 82
+    BenchmarkLevel: 8700
+    ATKLevel: 2
+    DEFLevel: 353.85
+    MonsterHP:
+      mantissa: 7.8462
+      exponent: 2
+    MonsterATK:
+      mantissa: 2.2790600000000003
+      exponent: 28
+    MonsterDEF:
+      mantissa: 5.53715
+      exponent: 25
+    MonsterDEFR: 2.33742e+27
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 83
+    BenchmarkLevel: 8825
+    ATKLevel: 2
+    DEFLevel: 382.69
+    MonsterHP:
+      mantissa: 7.9423
+      exponent: 2
+    MonsterATK:
+      mantissa: 4.0472600000000005
+      exponent: 28
+    MonsterDEF:
+      mantissa: 1.13313
+      exponent: 26
+    MonsterDEFR: 4.15089e+27
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 84
+    BenchmarkLevel: 8950
+    ATKLevel: 2
+    DEFLevel: 411.54
+    MonsterHP:
+      mantissa: 8.0385
+      exponent: 2
+    MonsterATK:
+      mantissa: 7.18731
+      exponent: 28
+    MonsterDEF:
+      mantissa: 2.31884
+      exponent: 26
+    MonsterDEFR: 7.37134e+27
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 85
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 86
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 87
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 88
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 89
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 90
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 91
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 92
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 93
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 94
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 95
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 96
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 97
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 98
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 99
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
+  - MonsterLevel: 100
+    BenchmarkLevel: 0
+    ATKLevel: 0
+    DEFLevel: 0
+    MonsterHP:
+      mantissa: 0
+      exponent: 0
+    MonsterATK:
+      mantissa: 0
+      exponent: 0
+    MonsterDEF:
+      mantissa: 0
+      exponent: 0
+    MonsterDEFR: 0
+    Gold:
+      mantissa: 0
+      exponent: 0
