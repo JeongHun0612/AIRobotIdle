@@ -5,7 +5,8 @@ namespace SahurRaising.UI
     public enum ESceneUIType
     {
         None,
-        Title
+        Loading,
+        MainBattle
     }
 
     public enum EPopupUIType

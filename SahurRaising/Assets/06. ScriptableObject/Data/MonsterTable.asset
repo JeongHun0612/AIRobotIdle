@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 477634cc30512e346bd3b51e0d6fb6e7, type: 3}
   m_Name: MonsterTable
-  m_EditorClassIdentifier: Assembly-CSharp:SahurRaising.Core:MonsterTable
+  m_EditorClassIdentifier: 
   _rows:
   - MonsterLevel: 1
     BenchmarkLevel: 1

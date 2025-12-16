@@ -18,22 +18,26 @@ MonoBehaviour:
   - m_GUID: 1aafaf8801825d74cb3c9e7cea9cc443
     m_Address: StatsTable
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8eecb5a7bdb7b62409ce4015d9dcdacb
     m_Address: MonsterTable
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 95c908784df49714ba47c8d25c8d3391
     m_Address: EquipmentTable
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ed631a2724e22bb4aa88723ca2d064c1
     m_Address: UpgradeTable
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Data
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: ad0c1b3dcdb50a24da9502035515dbcb, type: 2}

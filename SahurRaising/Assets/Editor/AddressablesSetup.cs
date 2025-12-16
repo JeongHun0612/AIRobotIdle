@@ -8,30 +8,24 @@ namespace SahurRaising.EditorTools
 {
     /// <summary>
     /// Addressables 데이터 키를 자동으로 설정하는 유틸리티
-    /// - GrowthConditionPoolSO, CurrencyTableSO를 Addressable로 등록하고 주소를 지정
+    /// - 프로젝트 내 ScriptableObject 테이블들을 Addressable로 등록하고 주소를 지정
     /// </summary>
     public static class AddressablesSetup
     {
-        // private const string GrowthPath = "Assets/06. ScriptableObject/Data/NurtureData/GrowthConditionPoolSO.asset";
-        // private const string GrowthKey = "GrowthConditionPoolSO";
+        private const string DataLabel = "Data";
 
-        // private const string CurrencyPath = "Assets/06. ScriptableObject/Data/NurtureData/CurrencyTableSO.asset";
-        // private const string CurrencyKey = "CurrencyTableSO";
+        // 실제 프로젝트에서 사용하는 SO 테이블 경로/키
+        private const string MonsterTablePath = "Assets/06. ScriptableObject/Data/MonsterTable.asset";
+        private const string MonsterTableKey = "MonsterTable";
 
-        // private const string EvolutionRulePath = "Assets/06. ScriptableObject/Data/NurtureData/EvolutionRuleTableSO.asset";
-        // private const string EvolutionRuleKey = "EvolutionRuleTableSO";
+        private const string UpgradeTablePath = "Assets/06. ScriptableObject/Data/UpgradeTable.asset";
+        private const string UpgradeTableKey = "UpgradeTable";
 
-        // private const string EvolvedFormPath = "Assets/06. ScriptableObject/Data/NurtureData/EvolvedFormTableSO.asset";
-        // private const string EvolvedFormKey = "EvolvedFormTableSO";
+        private const string StatsTablePath = "Assets/06. ScriptableObject/Data/StatsTable.asset";
+        private const string StatsTableKey = "StatsTable";
 
-        // private const string EggTablePath = "Assets/06. ScriptableObject/Data/NurtureData/EggTableSO.asset";
-        // private const string EggTableKey = "EggTableSO";
-
-        // private const string StatTypePath = "Assets/06. ScriptableObject/Data/NurtureData/StatTypeSO.asset";
-        // private const string StatTypeKey = "StatTypeSO";
-
-        // private const string StageTablePath = "Assets/06. ScriptableObject/Data/NurtureData/StageTableSO.asset";
-        // private const string StageTableKey = "StageTableSO";
+        private const string EquipmentTablePath = "Assets/06. ScriptableObject/Data/EquipmentTable.asset";
+        private const string EquipmentTableKey = "EquipmentTable";
 
         [MenuItem("Tools/SahurRaising/Addressables/Setup Data Keys", priority = 10)]
         public static void SetupDataKeys()
@@ -52,7 +46,7 @@ namespace SahurRaising.EditorTools
             }
 
             // 라벨 보장
-            settings.AddLabel("Data", true);
+            settings.AddLabel(DataLabel, true);
 
             // 등록 함수
             void AddOrUpdate(string assetPath, string address)
@@ -71,16 +65,13 @@ namespace SahurRaising.EditorTools
                 if (entry.address != address)
                     entry.address = address;
 
-                entry.SetLabel("Data", true, true);
+                entry.SetLabel(DataLabel, true, true);
             }
 
-            // AddOrUpdate(GrowthPath, GrowthKey);
-            // AddOrUpdate(CurrencyPath, CurrencyKey);
-            // AddOrUpdate(EvolutionRulePath, EvolutionRuleKey);
-            // AddOrUpdate(EvolvedFormPath, EvolvedFormKey);
-            // AddOrUpdate(EggTablePath, EggTableKey);
-            // AddOrUpdate(StatTypePath, StatTypeKey);
-            // AddOrUpdate(StageTablePath, StageTableKey);
+            AddOrUpdate(MonsterTablePath, MonsterTableKey);
+            AddOrUpdate(UpgradeTablePath, UpgradeTableKey);
+            AddOrUpdate(StatsTablePath, StatsTableKey);
+            AddOrUpdate(EquipmentTablePath, EquipmentTableKey);
 
             EditorUtility.SetDirty(settings);
             AssetDatabase.SaveAssets();

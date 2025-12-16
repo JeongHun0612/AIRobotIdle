@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 9612bf7d2502456428bb19652d31a598, type: 3}
   m_Name: EquipmentTable
-  m_EditorClassIdentifier: Assembly-CSharp:SahurRaising.Core:EquipmentTable
+  m_EditorClassIdentifier: 
   _rows:
   - Code: W1
     Type: 0
