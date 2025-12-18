@@ -18,6 +18,9 @@ namespace SahurRaising
         [SerializeField] private Transform _inventoryContentRoot; // Content
         [SerializeField] private ItemSlot _itemSlotPrefab;        // ItemSlot 프리팹
 
+        [Header("장비 정보")]
+        [SerializeField] private EquipmentInfo _equipmentInfo;
+
         [Header("디버깅")]
         [SerializeField] private string _equimentCode = "W1";
 
@@ -42,7 +45,8 @@ namespace SahurRaising
                         continue;
 
                     slot.Initialize(_equipmentService);
-                    slot.RegisterEquipToggleCallback(OnRequestEquipFromSlot);
+                    slot.RegisterEquipToggleCallback(OnClickEquipToggle);
+                    slot.RegisterSlotCallback(OnClickItemSlot);
 
                     _itemSlots.Add(slot);
                     slot.gameObject.SetActive(false); // 초기에는 비활성화
@@ -58,6 +62,8 @@ namespace SahurRaising
 
             if (_equipmentService == null)
                 _equipmentService = ServiceLocator.Get<IEquipmentService>();
+
+            _equipmentInfo.Hide();
 
             OnClickTabButton(_currentType);
             RefreshEquipmentSlots();
@@ -89,7 +95,8 @@ namespace SahurRaising
             {
                 ItemSlot newSlot = Instantiate(_itemSlotPrefab, _inventoryContentRoot);
                 newSlot.Initialize(_equipmentService);
-                newSlot.RegisterEquipToggleCallback(OnRequestEquipFromSlot);
+                newSlot.RegisterEquipToggleCallback(OnClickEquipToggle);
+                newSlot.RegisterSlotCallback(OnClickItemSlot);
                 newSlot.gameObject.SetActive(false);
                 _itemSlots.Add(newSlot);
             }
@@ -160,7 +167,36 @@ namespace SahurRaising
             return null;
         }
 
-        public void OnRequestEquipFromSlot(ItemSlot slot)
+        public void OnClickTabButton(EquipmentType type)
+        {
+            foreach (var tabButton in _tabButtons)
+            {
+                tabButton.OnShow(tabButton.Type == type);
+            }
+
+            _currentType = type;
+
+            RefreshInventoryByCurrentType();
+        }
+
+        public void OnClickItemSlot(ItemSlot slot)
+        {
+            if (slot == null)
+                return;
+
+            if (_equipmentService == null)
+                _equipmentService = ServiceLocator.Get<IEquipmentService>();
+
+            var data = slot.Data;
+            if (string.IsNullOrEmpty(data.Code))
+                return;
+
+            // 패널 활성화
+            _equipmentInfo.Show();
+            _equipmentInfo.RefreshEquipmentInfo(data);
+        }
+
+        public void OnClickEquipToggle(ItemSlot slot)
         {
             if (slot == null)
                 return;
@@ -202,18 +238,6 @@ namespace SahurRaising
 
             // 장비 슬롯 갱신
             RefreshEquipmentSlots();
-        }
-
-        public void OnClickTabButton(EquipmentType type)
-        {
-            foreach (var tabButton in _tabButtons)
-            {
-                tabButton.OnShow(tabButton.Type == type);
-            }
-
-            _currentType = type;
-
-            RefreshInventoryByCurrentType();
         }
 
         public void OnClickGacha()

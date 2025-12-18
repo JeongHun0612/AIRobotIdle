@@ -9,31 +9,31 @@ namespace SahurRaising
     public class ItemSlot : MonoBehaviour
     {
         [Header("아이콘 및 기본 정보")]
-        [SerializeField] private Image _icon;
-        [SerializeField] private TMP_Text _rankText;
-        [SerializeField] private TMP_Text _levelText;
+        [SerializeField] protected Image _icon;
+        [SerializeField] protected TMP_Text _rankText;
+        [SerializeField] protected TMP_Text _levelText;
 
         [Header("버튼")]
-        [SerializeField] private Button _slotButton;
-        [SerializeField] private Button _equipToggleButton;
+        [SerializeField] protected Button _slotButton;
+        [SerializeField] protected Button _equipToggleButton;
 
         [Header("장착 토글 색상")]
-        [SerializeField] private Color _equippedColor = Color.red;
-        [SerializeField] private Color _unequippedColor = Color.gray;
+        [SerializeField] protected Color _equippedColor = Color.red;
+        [SerializeField] protected Color _unequippedColor = Color.gray;
 
         [Header("상태 표시")]
-        [SerializeField] private GameObject _newText;
-        [SerializeField] private GameObject _close;
+        [SerializeField] protected GameObject _newText;
+        [SerializeField] protected GameObject _close;
 
         [Header("강화 진행도 UI")]
-        [SerializeField] private Slider _progressSlider;   // 슬라이더 바
-        [SerializeField] private TMP_Text _progressText;   // "보유/필요" 텍스트
+        [SerializeField] protected Slider _progressSlider;   // 슬라이더 바
+        [SerializeField] protected TMP_Text _progressText;   // "보유/필요" 텍스트
 
-        private IEquipmentService _equipmentService;
+        protected IEquipmentService _equipmentService;
 
-        private EquipmentRow _data;
-        private EquipmentInventoryInfo _info;
-        private bool _isNew;
+        protected EquipmentRow _data;
+        protected EquipmentInventoryInfo _info;
+        protected bool _isNew;
 
         public EquipmentRow Data => _data;
 
@@ -54,7 +54,19 @@ namespace SahurRaising
             _equipToggleButton.onClick.AddListener(() => callback?.Invoke(this));
         }
 
-        public void SetData(EquipmentRow data)
+        public void RegisterSlotCallback(Action<ItemSlot> callback)
+        {
+            if (_slotButton == null)
+            {
+                Debug.LogError("[ItemSlot] SlotButton is Not found!");
+                return;
+            }
+
+            _slotButton.onClick.RemoveAllListeners();
+            _slotButton.onClick.AddListener(() => callback?.Invoke(this));
+        }
+
+        public virtual void SetData(EquipmentRow data)
         {
             _data = data;
 
@@ -136,11 +148,6 @@ namespace SahurRaising
         }
 
         public void OnEquipped()
-        {
-            HideNewIfActive();
-        }
-
-        public void OnClickSlot()
         {
             HideNewIfActive();
         }
