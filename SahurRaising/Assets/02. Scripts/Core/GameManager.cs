@@ -154,6 +154,11 @@ namespace SahurRaising.Core
             await combatService.InitializeAsync();
             step++; Report();
 
+            var equipmentService = new EquipmentService(resourceManager);
+            ServiceLocator.Register<IEquipmentService, EquipmentService>(equipmentService);
+            await equipmentService.InitializeAsync();
+            step++; Report();
+
             Debug.Log("[GameManager] 서비스 등록 완료");
             progress?.Report(1f);
 
@@ -187,6 +192,8 @@ namespace SahurRaising.Core
                 await ServiceLocator.Get<IUpgradeService>().SaveAsync();
             if (ServiceLocator.HasService<ICombatService>())
                 await ServiceLocator.Get<ICombatService>().SaveAsync();
+            if (ServiceLocator.HasService<IEquipmentService>())
+                await ServiceLocator.Get<IEquipmentService>().SaveAsync();
             Debug.Log("[GameManager] SaveAllAsync 완료");
             //if (ServiceLocator.HasService<IGrowthActionService>())
             //    await ServiceLocator.Get<IGrowthActionService>().SaveDataAsync();

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rows:
   - Code: W1
+    Icon: {fileID: 21300000, guid: 6358c62b484454de39a6c22799c77355, type: 3}
     Type: 0
     Grade: 0
     EquipOption:
@@ -33,6 +34,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W2
+    Icon: {fileID: 21300000, guid: 41a812f0b7e094dde92f3f5fe64429e5, type: 3}
     Type: 0
     Grade: 1
     EquipOption:
@@ -52,6 +54,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W3
+    Icon: {fileID: 21300000, guid: bd0d19263e2a84efeb73d4ce5880c90e, type: 3}
     Type: 0
     Grade: 2
     EquipOption:
@@ -71,6 +74,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W4
+    Icon: {fileID: 0}
     Type: 0
     Grade: 3
     EquipOption:
@@ -90,6 +94,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W5
+    Icon: {fileID: 0}
     Type: 0
     Grade: 4
     EquipOption:
@@ -109,6 +114,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W6
+    Icon: {fileID: 0}
     Type: 0
     Grade: 5
     EquipOption:
@@ -128,6 +134,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W7
+    Icon: {fileID: 0}
     Type: 0
     Grade: 6
     EquipOption:
@@ -147,6 +154,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W8
+    Icon: {fileID: 0}
     Type: 0
     Grade: 7
     EquipOption:
@@ -166,6 +174,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W9
+    Icon: {fileID: 0}
     Type: 0
     Grade: 8
     EquipOption:
@@ -185,6 +194,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W10
+    Icon: {fileID: 0}
     Type: 0
     Grade: 9
     EquipOption:
@@ -204,6 +214,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W11
+    Icon: {fileID: 0}
     Type: 0
     Grade: 10
     EquipOption:
@@ -223,6 +234,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W12
+    Icon: {fileID: 0}
     Type: 0
     Grade: 11
     EquipOption:
@@ -242,6 +254,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W13
+    Icon: {fileID: 0}
     Type: 0
     Grade: 12
     EquipOption:
@@ -261,6 +274,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W14
+    Icon: {fileID: 0}
     Type: 0
     Grade: 13
     EquipOption:
@@ -280,6 +294,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W15
+    Icon: {fileID: 0}
     Type: 0
     Grade: 14
     EquipOption:
@@ -299,6 +314,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W16
+    Icon: {fileID: 0}
     Type: 0
     Grade: 15
     EquipOption:
@@ -318,6 +334,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W17
+    Icon: {fileID: 0}
     Type: 0
     Grade: 16
     EquipOption:
@@ -337,6 +354,7 @@ MonoBehaviour:
       Base: 1
       Up: 0
   - Code: W18
+    Icon: {fileID: 0}
     Type: 0
     Grade: 17
     EquipOption:
@@ -356,6 +374,7 @@ MonoBehaviour:
       Base: 3
       Up: 0
   - Code: W19
+    Icon: {fileID: 0}
     Type: 0
     Grade: 18
     EquipOption:
@@ -375,6 +394,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: W20
+    Icon: {fileID: 0}
     Type: 0
     Grade: 19
     EquipOption:

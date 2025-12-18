@@ -53,9 +53,14 @@ namespace SahurRaising.Core
 
     public enum EquipmentType
     {
-        Weapon, 
-        Armor,
-        Accessory //필요할거같아서 일단추가
+        Weapon,
+
+        // Temp
+        EquipmentType2,
+        EquipmentType3,
+        EquipmentType4,
+        EquipmentType5,
+        EquipmentType6,
     }
 
     public enum EquipmentGrade
@@ -132,6 +137,7 @@ namespace SahurRaising.Core
     public struct EquipmentRow
     {
         public string Code;
+        public Sprite Icon;
         public EquipmentType Type;
         public EquipmentGrade Grade;
         public OptionValue EquipOption;
@@ -211,5 +217,45 @@ namespace SahurRaising.Core
         public int CurrentWave;
         public bool IsStageRunning;
     }
-}
 
+    [Serializable]
+    public struct EquipmentInventoryEntry
+    {
+        public string Code;
+        public int Level;
+        public int Count;
+    }
+
+    [Serializable]
+    public struct EquipmentInventoryInfo
+    {
+        public int Level;
+        public int Count;
+
+        public EquipmentInventoryInfo(int level, int count)
+        {
+            Level = level;
+            Count = count;
+        }
+    }
+
+    [Serializable]
+    public class EquipmentSaveData
+    {
+        // 장착한 장비 (장비 타입별로 1개씩)
+        public string EquippedWeapon;
+
+        // 6종류를 지원하기 위해 추가 슬롯 (필요시 확장)
+        public string EquippedSlot2;
+        public string EquippedSlot3;
+        public string EquippedSlot4;
+        public string EquippedSlot5;
+        public string EquippedSlot6;
+
+        // 모든 장비의 소지 개수
+        public List<EquipmentInventoryEntry> Inventory = new();
+
+        // 이미 본 장비(NEW가 꺼진 장비) 코드 목록
+        public List<string> SeenCodes = new();
+    }
+}
