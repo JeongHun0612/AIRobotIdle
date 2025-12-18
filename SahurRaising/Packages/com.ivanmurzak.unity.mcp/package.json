@@ -1,0 +1,48 @@
+{
+  "name": "com.ivanmurzak.unity.mcp",
+  "displayName": "AI Game Developer (Unity MCP Plugin)",
+  "author": {
+    "name": "IvanMurzak",
+    "url": "https://github.com/IvanMurzak"
+  },
+  "keywords": [
+    "AI",
+    "AI Integration",
+    "MCP",
+    "Unity MCP"
+  ],
+  "version": "0.29.1",
+  "unity": "2022.3",
+  "description": "AI-powered bridge connecting LLMs and advanced AI agents to the Unity Editor via the Model Context Protocol (MCP). Chat with AI to generate code, debug errors, and automate game development tasks directly within your project.",
+  "dependencies": {
+    "com.unity.test-framework": "1.1.33",
+    "com.unity.modules.uielements": "1.0.0",
+    "extensions.unity.playerprefsex": "2.0.2",
+    "org.nuget.microsoft.bcl.memory": "10.0.1",
+    "org.nuget.microsoft.aspnetcore.signalr.client": "10.0.1",
+    "org.nuget.microsoft.aspnetcore.signalr.protocols.json": "10.0.1",
+    "org.nuget.microsoft.codeanalysis.csharp": "4.14.0",
+    "org.nuget.microsoft.extensions.caching.abstractions": "10.0.1",
+    "org.nuget.microsoft.extensions.dependencyinjection.abstractions": "10.0.1",
+    "org.nuget.microsoft.extensions.hosting": "10.0.1",
+    "org.nuget.microsoft.extensions.hosting.abstractions": "10.0.1",
+    "org.nuget.microsoft.extensions.logging": "10.0.1",
+    "org.nuget.microsoft.extensions.logging.abstractions": "10.0.1",
+    "org.nuget.r3": "1.3.0",
+    "org.nuget.system.text.json": "10.0.1"
+  },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "org.nuget",
+        "extensions.unity"
+      ]
+    }
+  ],
+  "publishConfig": {
+    "registry": "https://package.openupm.com"
+  },
+  "_fingerprint": "61efe04236283c70cba51af8668a212394e0b8d9"
+}

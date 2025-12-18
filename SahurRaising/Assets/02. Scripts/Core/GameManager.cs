@@ -21,6 +21,11 @@ namespace SahurRaising.Core
             {
                 Debug.Log("[GameManager] 게임 초기화 시작...");
 
+                // UIManager.InitializeAsync()는 UI 프리팹을 Instantiate 하면서 각 컴포넌트의 Awake/OnEnable이 실행될 수 있다.
+                // 로컬라이즈 컴포넌트(예: LocalizedTMPFont)는 Awake에서 ILocalizationService를 참조하므로,
+                // UI 초기화 전에 최소 서비스(로컬라이제이션)를 먼저 등록해 초기화 순서 의존성을 제거한다.
+                RegisterBootstrapServices();
+
                 await UIManager.Instance.InitializeAsync();
 
                 Debug.Log($"[GameManager] UIManager 초기화 상태: {UIManager.Instance.IsInitialized}");
@@ -57,6 +62,17 @@ namespace SahurRaising.Core
             {
                 Debug.LogError($"[GameManager] 게임 초기화 중 오류 발생: {ex.Message}");
                 Debug.LogError($"[GameManager] 스택 트레이스: {ex.StackTrace}");
+            }
+        }
+
+        private void RegisterBootstrapServices()
+        {
+            // UI 초기화 중 로컬라이즈 컴포넌트가 안전하게 동작하도록 최소 서비스를 먼저 등록한다.
+            if (!ServiceLocator.HasService<ILocalizationService>())
+            {
+                var localizationService = new UnityLocalizationService();
+                ServiceLocator.Register<ILocalizationService, UnityLocalizationService>(localizationService);
+                Debug.Log("[GameManager] 부트스트랩 서비스 등록 완료: ILocalizationService");
             }
         }
 
@@ -106,8 +122,11 @@ namespace SahurRaising.Core
             step++; Report();
 
             // Localization 서비스 등록 (UI에서 공통 사용 - 다국어 대응)
-            var localizationService = new UnityLocalizationService();
-            ServiceLocator.Register<ILocalizationService, UnityLocalizationService>(localizationService);
+            if (!ServiceLocator.HasService<ILocalizationService>())
+            {
+                var localizationService = new UnityLocalizationService();
+                ServiceLocator.Register<ILocalizationService, UnityLocalizationService>(localizationService);
+            }
             step++; Report();
 
             // 설정에 저장된 로캘 적용

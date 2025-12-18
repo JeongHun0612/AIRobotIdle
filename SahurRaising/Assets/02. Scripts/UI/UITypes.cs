@@ -14,10 +14,12 @@ namespace SahurRaising.UI
         None = 0,
         Setting,
 
-        // TODO 하단 레이어 탭
+        // 하단 레이어 탭
         Equipment = 10,
+        Skill = 11,
+        Quiz = 12,
 
-        // TODO 공용
+        // 공용
         Gacha = 20,
     }
 }
