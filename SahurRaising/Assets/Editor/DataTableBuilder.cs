@@ -198,11 +198,28 @@ public static class DataTableBuilder
         var path = Path.Combine(CsvPath, "사후르 키우기 DB - Equipment.csv");
         var rows = new List<EquipmentRow>();
 
+        var assetPath = Path.Combine(OutputPath, "EquipmentTable.asset");
+        var existingTable = AssetDatabase.LoadAssetAtPath<EquipmentTable>(assetPath);
+
+        var iconByCode = new Dictionary<string, Sprite>();
+        if (existingTable != null && existingTable.Rows != null)
+        {
+            foreach (var r in existingTable.Rows)
+            {
+                if (string.IsNullOrEmpty(r.Code) || r.Icon == null)
+                    continue;
+
+                iconByCode[r.Code] = r.Icon;
+            }
+        }
+
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
         {
-            rows.Add(new EquipmentRow
+            var code = row.String(COL_EQ_CODE);
+
+            var newRow = new EquipmentRow
             {
-                Code = row.String(COL_EQ_CODE),
+                Code = code,
                 Type = row.EnumValue<EquipmentType>(COL_EQ_TYPE),
                 Grade = row.EnumValue<EquipmentGrade>(COL_EQ_GRADE),
                 EquipOption = new OptionValue
@@ -229,7 +246,14 @@ public static class DataTableBuilder
                     Base = row.Double(COL_EQ_H3_VAL),
                     Up = 0,
                 }
-            });
+            };
+
+            if (!string.IsNullOrEmpty(code) && iconByCode.TryGetValue(code, out var icon))
+            {
+                newRow.Icon = icon;
+            }
+
+            rows.Add(newRow);
         }
 
         SaveTable<string, EquipmentRow, EquipmentTable>("EquipmentTable.asset", rows);
