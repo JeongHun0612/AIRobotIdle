@@ -1,4 +1,4 @@
-/*
+﻿/*
 ┌──────────────────────────────────────────────────────────────────┐
 │  Author: Ivan Murzak (https://github.com/IvanMurzak)             │
 │  Repository: GitHub (https://github.com/IvanMurzak/Unity-MCP)    │
@@ -55,11 +55,22 @@ namespace com.IvanMurzak.Unity.MCP.Installer
             if (string.IsNullOrEmpty(installerVersion))
                 return false; // No installer version, don't change
 
+            // UPM은 "file:", "git:", "https:" 같은 소스 참조를 버전 칸에 넣을 수 있습니다.
+            // 이런 값은 숫자 버전과 비교 자체가 무의미하고, 오히려 로컬/임베디드 패키지를
+            // 실수로 레지스트리 버전으로 덮어쓰는 위험이 있어 업데이트를 금지합니다.
+            if (IsUpmSourceReference(currentVersion) || IsUpmSourceReference(installerVersion))
+                return false;
+
             try
             {
                 // Try to parse as System.Version (semantic versioning)
-                var current = new System.Version(currentVersion);
-                var installer = new System.Version(installerVersion);
+                if (!TryParseSystemVersion(currentVersion, out var current) ||
+                    !TryParseSystemVersion(installerVersion, out var installer))
+                {
+                    // If version parsing fails, fall back to string comparison
+                    // This ensures we don't break if version format is unexpected
+                    return string.Compare(installerVersion, currentVersion, System.StringComparison.OrdinalIgnoreCase) > 0;
+                }
 
                 // Only update if installer version is higher than current version
                 return installer > current;
@@ -73,6 +84,47 @@ namespace com.IvanMurzak.Unity.MCP.Installer
             }
         }
 
+        static bool IsUpmSourceReference(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return false;
+
+            return value.StartsWith("file:", System.StringComparison.OrdinalIgnoreCase) ||
+                   value.StartsWith("git:", System.StringComparison.OrdinalIgnoreCase) ||
+                   value.StartsWith("http://", System.StringComparison.OrdinalIgnoreCase) ||
+                   value.StartsWith("https://", System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        static bool TryParseSystemVersion(string value, out System.Version version)
+        {
+            version = default!;
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
+
+            // 흔한 패턴: "v0.29.1", "0.29.1-preview.1" 같은 문자열에서 숫자 버전 prefix만 추출합니다.
+            var trimmed = value.Trim();
+            if (trimmed.Length > 1 && (trimmed[0] == 'v' || trimmed[0] == 'V'))
+                trimmed = trimmed.Substring(1);
+
+            var length = 0;
+            while (length < trimmed.Length)
+            {
+                var c = trimmed[length];
+                if ((c >= '0' && c <= '9') || c == '.')
+                {
+                    length++;
+                    continue;
+                }
+                break;
+            }
+
+            if (length <= 0)
+                return false;
+
+            var prefix = trimmed.Substring(0, length);
+            return System.Version.TryParse(prefix, out version);
+        }
+
         public static void AddScopedRegistryIfNeeded(string manifestPath, int indent = 2)
         {
             if (!File.Exists(manifestPath))
@@ -80,11 +132,20 @@ namespace com.IvanMurzak.Unity.MCP.Installer
                 Debug.LogError($"{manifestPath} not found!");
                 return;
             }
-            var jsonText = File.ReadAllText(manifestPath)
-                .Replace("{ }", "{\n}")
-                .Replace("{}", "{\n}")
-                .Replace("[ ]", "[\n]")
-                .Replace("[]", "[\n]");
+            string jsonText;
+            try
+            {
+                jsonText = File.ReadAllText(manifestPath)
+                    .Replace("{ }", "{\n}")
+                    .Replace("{}", "{\n}")
+                    .Replace("[ ]", "[\n]")
+                    .Replace("[]", "[\n]");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Failed to read {manifestPath}. The installer can't update scoped registries automatically. {ex.Message}");
+                return;
+            }
 
             var manifestJson = JSONObject.Parse(jsonText);
             if (manifestJson == null)
@@ -99,7 +160,7 @@ namespace com.IvanMurzak.Unity.MCP.Installer
             var scopedRegistries = manifestJson[ScopedRegistries];
             if (scopedRegistries == null)
             {
-                manifestJson[ScopedRegistries] = new JSONArray();
+                manifestJson[ScopedRegistries] = scopedRegistries = new JSONArray();
                 modified = true;
             }
 
@@ -161,7 +222,16 @@ namespace com.IvanMurzak.Unity.MCP.Installer
 
             // --- Write changes back to manifest
             if (modified)
-                File.WriteAllText(manifestPath, manifestJson.ToString(indent).Replace("\" : ", "\": "));
+            {
+                try
+                {
+                    File.WriteAllText(manifestPath, manifestJson.ToString(indent).Replace("\" : ", "\": "));
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"Failed to write {manifestPath}. Please ensure the file isn't read-only/locked. {ex.Message}");
+                }
+            }
         }
     }
 }

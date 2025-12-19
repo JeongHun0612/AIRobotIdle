@@ -70,11 +70,25 @@ namespace com.IvanMurzak.Unity.MCP
                     loggerProvider: BuildLoggerProvider()
                 );
 
-                ApplyConfigToMcpPlugin(mcpPluginInstance);
-
                 mcpPluginInstance.ConnectionState
                     .Subscribe(state => _connectionState.Value = state)
                     .AddTo(_disposables);
+
+                // 연결 전에 Tool/Prompt/Resource enabled 상태를 서버에 알리면
+                // 연결이 아직 준비되지 않아 경고(EnsureConnection)를 유발할 수 있습니다.
+                // 연결이 실제로 성립된 뒤(Connected) 1회만 설정을 적용합니다.
+                if (mcpPluginInstance.ConnectionState.CurrentValue == Microsoft.AspNetCore.SignalR.Client.HubConnectionState.Connected)
+                {
+                    ApplyConfigToMcpPlugin(mcpPluginInstance);
+                }
+                else
+                {
+                    mcpPluginInstance.ConnectionState
+                        .Where(state => state == Microsoft.AspNetCore.SignalR.Client.HubConnectionState.Connected)
+                        .Take(1)
+                        .Subscribe(_ => ApplyConfigToMcpPlugin(mcpPluginInstance))
+                        .AddTo(_disposables);
+                }
 
                 return this;
             }
