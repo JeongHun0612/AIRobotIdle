@@ -87,11 +87,29 @@ public static class DataTableBuilder
         var path = Path.Combine(CsvPath, "사후르 키우기 DB - Upgrade.csv");
         var rows = new List<UpgradeRow>();
 
+        // CSV 재빌드 시 수동 지정한 아이콘이 유실되지 않도록 기존 SO의 값을 보존한다.
+        var assetPath = Path.Combine(OutputPath, "UpgradeTable.asset");
+        var existingTable = AssetDatabase.LoadAssetAtPath<UpgradeTable>(assetPath);
+
+        var iconByCode = new Dictionary<string, Sprite>();
+        if (existingTable != null && existingTable.Rows != null)
+        {
+            foreach (var r in existingTable.Rows)
+            {
+                if (string.IsNullOrEmpty(r.Code) || r.Icon == null)
+                    continue;
+
+                iconByCode[r.Code] = r.Icon;
+            }
+        }
+
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
         {
-            rows.Add(new UpgradeRow
+            var code = row.String(COL_UP_CODE);
+
+            var newRow = new UpgradeRow
             {
-                Code = row.String(COL_UP_CODE),
+                Code = code,
                 Name = row.String(COL_UP_NAME),
                 Description = row.String(COL_UP_DESC),
                 Stat = row.EnumValue<StatType>(COL_UP_STAT),
@@ -103,7 +121,14 @@ public static class DataTableBuilder
                 Segment2 = new UpgradeCostSegment { MaxLevel = row.Int(COL_UP_MAX2), Growth = row.Double(COL_UP_GROW2) },
                 Segment3 = new UpgradeCostSegment { MaxLevel = row.Int(COL_UP_MAX3), Growth = row.Double(COL_UP_GROW3) },
                 Segment4 = new UpgradeCostSegment { MaxLevel = row.Int(COL_UP_MAX4), Growth = row.Double(COL_UP_GROW4) },
-            });
+            };
+
+            if (!string.IsNullOrEmpty(code) && iconByCode.TryGetValue(code, out var icon))
+            {
+                newRow.Icon = icon;
+            }
+
+            rows.Add(newRow);
         }
 
         SaveTable<string, UpgradeRow, UpgradeTable>("UpgradeTable.asset", rows);

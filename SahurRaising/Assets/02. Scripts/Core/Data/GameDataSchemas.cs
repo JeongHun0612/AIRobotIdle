@@ -114,6 +114,7 @@ namespace SahurRaising.Core
         public string Code;
         public string Name;
         public string Description;
+        public Sprite Icon;
         public StatType Stat;
         public UpgradeTier Tier;
         public int MaxLevel;
