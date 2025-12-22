@@ -113,6 +113,7 @@ namespace SahurRaising.Core
         void ApplyEquipmentModifiers(IEnumerable<StatModifier> modifiers);
         void ApplyEquippedItems(IEnumerable<string> equipmentCodes, int level = 1);
         bool TryMapOptionType(string optionType, out StatType statType);
+        BigDouble GetStatValue(string upgradeCode, int level);
     }
 
     public interface ICombatService

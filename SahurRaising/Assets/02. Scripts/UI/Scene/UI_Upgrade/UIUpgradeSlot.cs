@@ -1,89 +1,87 @@
 ﻿using System;
+using BreakInfinity;
+using SahurRaising.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using SahurRaising.Core;
 
 namespace SahurRaising.UI
 {
     /// <summary>
-    /// 업그레이드 슬롯 1칸(아이콘/레벨/잠금/선택).
-    /// 왜: 장비 슬롯 UI 리소스(프레임/자물쇠 등)는 재사용하되, 데이터 소스/로직은 업그레이드 전용으로 분리한다.
+    /// 업그레이드 슬롯 (아이콘, 이름, 설명, 수치, 강화 버튼 포함)
     /// </summary>
     public sealed class UIUpgradeSlot : MonoBehaviour
     {
-        [Header("UI")]
-        [SerializeField] private Button _button;
-        [SerializeField] private Image _frameImage;
+        [Header("Info")]
         [SerializeField] private Image _iconImage;
+        [SerializeField] private TMP_Text _titleText;
+        [SerializeField] private TMP_Text _descText;
         [SerializeField] private TMP_Text _levelText;
+        [SerializeField] private TMP_Text _valueText; // 예: "17.3B -> 18.4B"
+
+        [Header("Action")]
+        [SerializeField] private Button _upgradeButton;
+        [SerializeField] private TMP_Text _upgradeButtonText; // 예: "강화\n7QZ"
 
         [Header("Lock UI")]
         [SerializeField] private GameObject _lockRoot;
-        [SerializeField] private Image _lockIconImage;
         [SerializeField] private TMP_Text _lockText;
 
-        [Header("Selection (Optional)")]
-        [SerializeField] private GameObject _selectedRoot;
-
         private UpgradeRow _row;
-        private Action<string> _onSelected;
+        private Action<string> _onUpgrade;
 
         public string Code => _row.Code;
         public UpgradeTier Tier => _row.Tier;
 
-        public void Initialize(UpgradeRow row, Action<string> onSelected)
+        public void Initialize(UpgradeRow row, Action<string> onUpgrade)
         {
             _row = row;
-            _onSelected = onSelected;
+            _onUpgrade = onUpgrade;
 
-            if (_button != null)
+            if (_upgradeButton != null)
             {
-                _button.onClick.RemoveListener(HandleClicked);
-                _button.onClick.AddListener(HandleClicked);
+                _upgradeButton.onClick.RemoveAllListeners();
+                _upgradeButton.onClick.AddListener(HandleUpgradeClicked);
             }
         }
 
-        public void SetSelected(bool selected)
+        public void Refresh(int currentLevel, BigDouble currentValue, BigDouble nextValue, BigDouble cost, bool isLocked, string lockReason, Sprite fallbackIcon)
         {
-            if (_selectedRoot != null)
-                _selectedRoot.SetActive(selected);
-        }
-
-        public void Refresh(int currentLevel, bool isLocked, string lockReason, Sprite fallbackIcon)
-        {
+            // 기본 정보
             if (_iconImage != null)
                 _iconImage.sprite = _row.Icon != null ? _row.Icon : fallbackIcon;
 
-            if (_levelText != null)
-                _levelText.text = $"LV {Mathf.Max(0, currentLevel)}";
+            if (_titleText != null) _titleText.text = _row.Name;
+            if (_descText != null) _descText.text = _row.Description;
+            if (_levelText != null) _levelText.text = $"LV {currentLevel}";
 
-            if (_lockRoot != null)
-                _lockRoot.SetActive(isLocked);
+            // 수치 변화 (예: 10 -> 15)
+            if (_valueText != null)
+            {
+                // 포맷은 필요에 따라 조정 (예: G3, F1 등)
+                _valueText.text = $"{currentValue} -> {nextValue}";
+            }
 
-            if (_lockText != null)
-                _lockText.text = isLocked ? lockReason : string.Empty;
+            // 버튼 상태 및 가격
+            if (_upgradeButtonText != null)
+            {
+                _upgradeButtonText.text = cost > 0 ? $"강화\n{cost}" : "MAX";
+            }
 
-            if (_button != null)
-                _button.interactable = !isLocked;
+            if (_upgradeButton != null)
+            {
+                _upgradeButton.interactable = !isLocked;
+            }
 
-            // 프레임/색상 등은 리소스 통일을 위해 프리팹에서 세팅한 값을 그대로 사용한다.
+            // 잠금 상태
+            if (_lockRoot != null) _lockRoot.SetActive(isLocked);
+            if (_lockText != null) _lockText.text = isLocked ? lockReason : "";
         }
 
-        public void SetLockIcon(Sprite lockSprite)
+        private void HandleUpgradeClicked()
         {
-            if (_lockIconImage != null)
-                _lockIconImage.sprite = lockSprite;
-        }
-
-        private void HandleClicked()
-        {
-            if (string.IsNullOrEmpty(_row.Code))
-                return;
-
-            _onSelected?.Invoke(_row.Code);
+            if (string.IsNullOrEmpty(_row.Code)) return;
+            _onUpgrade?.Invoke(_row.Code);
         }
     }
 }
-
-

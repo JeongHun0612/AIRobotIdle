@@ -15,33 +15,20 @@ namespace SahurRaising.UI
     /// </summary>
     public class UIUpgradePanel : UI_Base
     {
-        [Header("Slots (Optional)")]
+        [Header("Slots Roots")]
         [SerializeField] private UIUpgradeSlot _slotPrefab;
         [SerializeField] private Transform _normalSlotsRoot;
         [SerializeField] private Transform _superSlotsRoot;
         [SerializeField] private Transform _ultraSlotsRoot;
         [SerializeField] private Transform _superUltraSlotsRoot;
 
-        [Header("Slot Icons (Fallback/Lock)")]
+        [Header("Assets")]
         [SerializeField] private Sprite _fallbackIcon;
         [SerializeField] private Sprite _lockIcon;
 
-        [Header("Data")]
+        [Header("Settings")]
         [SerializeField] private string _upgradeTableKey = nameof(UpgradeTable);
-        [SerializeField] private bool _autoSelectFirstUnlocked = true;
-
-        [Header("Selected Upgrade (Optional)")]
-        [SerializeField] private string _selectedUpgradeCode = "";
-        [SerializeField, Min(1)] private int _levelsPerClick = 1;
-
-        [Header("Text (Optional)")]
-        [SerializeField] private TMP_Text _titleText;
-        [SerializeField] private TMP_Text _descriptionText;
-        [SerializeField] private TMP_Text _levelText;
-        [SerializeField] private TMP_Text _costText;
-
-        [Header("Actions (Optional)")]
-        [SerializeField] private Button _upgradeButton;
+        [SerializeField] private int _levelsPerClick = 1;
 
         [Header("Category Locks (Optional)")]
         [SerializeField] private GameObject _superLockedRoot;
@@ -67,7 +54,6 @@ namespace SahurRaising.UI
         public override void Initialize()
         {
             base.Initialize();
-            BindUpgradeButtonIfNeeded();
         }
 
         public override async UniTask InitializeAsync()
@@ -79,136 +65,53 @@ namespace SahurRaising.UI
         public override void OnShow()
         {
             base.OnShow();
-
             TryBindServicesIfNeeded();
             EnsureTableLoadedIfNeeded().Forget();
             Refresh();
         }
 
-        public void SetSelectedUpgradeCode(string upgradeCode)
-        {
-            if (string.IsNullOrEmpty(upgradeCode))
-                return;
-
-            _selectedUpgradeCode = upgradeCode;
-            Refresh();
-        }
-
         public void Refresh()
         {
-            if (!isActiveAndEnabled)
-                return;
+            if (!isActiveAndEnabled) return;
 
             int characterLevel = GetCharacterLevelSafe();
             RefreshCategoryLocks(characterLevel);
-            RefreshSelectedUpgrade();
             RefreshSlots(characterLevel);
         }
 
-        private void BindUpgradeButtonIfNeeded()
+        private void HandleSlotUpgrade(string code)
         {
-            if (_upgradeButton == null)
-                return;
+            if (!TryBindServicesIfNeeded()) return;
 
-            _upgradeButton.onClick.RemoveListener(HandleUpgradeButtonClicked);
-            _upgradeButton.onClick.AddListener(HandleUpgradeButtonClicked);
-        }
-
-        private void HandleUpgradeButtonClicked()
-        {
-            if (!TryBindServicesIfNeeded())
-                return;
-
-            if (string.IsNullOrEmpty(_selectedUpgradeCode))
-                return;
-
-            if (!_upgradeService.TryUpgrade(_selectedUpgradeCode, _levelsPerClick, out var appliedLevels, out var totalCost))
-                return;
-
+            if (_upgradeService.TryUpgrade(code, _levelsPerClick, out var applied, out var cost))
+            {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            Debug.Log($"[UIUpgradePanel] Upgrade applied: Code='{_selectedUpgradeCode}', +{appliedLevels}, Cost={totalCost}");
+                Debug.Log($"[UIUpgradePanel] Upgrade applied: Code='{code}', +{applied}, Cost={cost}");
 #endif
-
-            Refresh();
-        }
-
-        private bool TryBindServicesIfNeeded()
-        {
-            if (_upgradeService == null && ServiceLocator.HasService<IUpgradeService>())
-                _upgradeService = ServiceLocator.Get<IUpgradeService>();
-
-            if (_statService == null && ServiceLocator.HasService<IStatService>())
-                _statService = ServiceLocator.Get<IStatService>();
-
-            if (_resourceService == null && ServiceLocator.HasService<IResourceService>())
-                _resourceService = ServiceLocator.Get<IResourceService>();
-
-            return _upgradeService != null;
-        }
-
-        private int GetCharacterLevelSafe()
-        {
-            if (_statService == null)
-                return 0;
-
-            return _statService.GetSnapshot().CharacterLevel;
-        }
-
-        private void RefreshCategoryLocks(int characterLevel)
-        {
-            SetCategoryLocked(_superLockedRoot, _superLockedReasonText, characterLevel, _superUnlockLevel, "슈퍼 강화");
-            SetCategoryLocked(_ultraLockedRoot, _ultraLockedReasonText, characterLevel, _ultraUnlockLevel, "울트라 강화");
-            SetCategoryLocked(_superUltraLockedRoot, _superUltraLockedReasonText, characterLevel, _superUltraUnlockLevel, "슈퍼울트라 강화");
-        }
-
-        private void SetCategoryLocked(GameObject lockedRoot, TMP_Text reasonText, int characterLevel, int requiredLevel, string categoryName)
-        {
-            if (lockedRoot == null && reasonText == null)
-                return;
-
-            bool isLocked = characterLevel < requiredLevel;
-
-            if (lockedRoot != null)
-                lockedRoot.SetActive(isLocked);
-
-            if (reasonText != null && isLocked)
-                reasonText.text = $"[{categoryName}]\n레벨 {requiredLevel}에 개방됩니다.";
-        }
-
-        private void RefreshSelectedUpgrade()
-        {
-            if (_upgradeTable != null && !string.IsNullOrEmpty(_selectedUpgradeCode) && _upgradeTable.Index != null && _upgradeTable.Index.TryGetValue(_selectedUpgradeCode, out var row))
-            {
-                if (_titleText != null)
-                    _titleText.text = string.IsNullOrEmpty(row.Name) ? row.Code : row.Name;
-
-                if (_descriptionText != null)
-                    _descriptionText.text = row.Description ?? string.Empty;
+                Refresh();
             }
-            else
+        }
+
+        private void RefreshSlots(int characterLevel)
+        {
+            if (_upgradeService == null || _slots.Count == 0) return;
+
+            foreach (var slot in _slots)
             {
-                if (_titleText != null)
-                    _titleText.text = string.IsNullOrEmpty(_selectedUpgradeCode) ? "업그레이드" : _selectedUpgradeCode;
+                if (slot == null) continue;
 
-                if (_descriptionText != null)
-                    _descriptionText.text = "";
+                bool isLocked = IsTierLocked(slot.Tier, characterLevel);
+                string reason = GetTierLockReason(slot.Tier, characterLevel);
+
+                int level = _upgradeService.GetLevel(slot.Code);
+                BigDouble cost = _upgradeService.GetNextCost(slot.Code);
+
+                // 현재 값과 다음 레벨 값 계산
+                BigDouble currentVal = _statService != null ? _statService.GetStatValue(slot.Code, level) : 0;
+                BigDouble nextVal = _statService != null ? _statService.GetStatValue(slot.Code, level + _levelsPerClick) : 0;
+
+                slot.Refresh(level, currentVal, nextVal, cost, isLocked, reason, _fallbackIcon);
             }
-
-            if (_upgradeService == null || string.IsNullOrEmpty(_selectedUpgradeCode))
-            {
-                if (_levelText != null) _levelText.text = "";
-                if (_costText != null) _costText.text = "";
-                return;
-            }
-
-            int level = _upgradeService.GetLevel(_selectedUpgradeCode);
-            BigDouble nextCost = _upgradeService.GetNextCost(_selectedUpgradeCode);
-
-            if (_levelText != null)
-                _levelText.text = $"LV {level}";
-
-            if (_costText != null)
-                _costText.text = nextCost > BigDouble.Zero ? nextCost.ToString() : "MAX";
         }
 
         private async UniTaskVoid EnsureTableLoadedIfNeeded()
@@ -227,15 +130,6 @@ namespace SahurRaising.UI
             {
                 _upgradeTable = await _resourceService.LoadTableAsync<UpgradeTable>(_upgradeTableKey);
                 BuildSlotsFromTable();
-
-                if (_autoSelectFirstUnlocked && string.IsNullOrEmpty(_selectedUpgradeCode))
-                {
-                    int characterLevel = GetCharacterLevelSafe();
-                    string first = FindFirstUnlockedUpgradeCode(characterLevel);
-                    if (!string.IsNullOrEmpty(first))
-                        _selectedUpgradeCode = first;
-                }
-
                 Refresh();
             }
             finally
@@ -264,13 +158,14 @@ namespace SahurRaising.UI
             foreach (var row in _upgradeTable.Rows)
             {
                 Transform parent = GetTierRoot(row.Tier);
-                if (parent == null)
-                    continue;
+                if (parent == null) continue;
 
                 var slot = Instantiate(_slotPrefab, parent);
-                slot.Initialize(row, SetSelectedUpgradeCode);
+                slot.Initialize(row, HandleSlotUpgrade);
+
+
                 if (_lockIcon != null)
-                    slot.SetLockIcon(_lockIcon);
+                { }
 
                 _slots.Add(slot);
             }
@@ -286,25 +181,6 @@ namespace SahurRaising.UI
                 UpgradeTier.SuperUltra => _superUltraSlotsRoot,
                 _ => _normalSlotsRoot
             };
-        }
-
-        private void RefreshSlots(int characterLevel)
-        {
-            if (_upgradeService == null || _slots.Count == 0)
-                return;
-
-            foreach (var slot in _slots)
-            {
-                if (slot == null)
-                    continue;
-
-                bool isLocked = IsTierLocked(slot.Tier, characterLevel);
-                string reason = GetTierLockReason(slot.Tier, characterLevel);
-                int level = _upgradeService.GetLevel(slot.Code);
-
-                slot.SetSelected(!string.IsNullOrEmpty(_selectedUpgradeCode) && slot.Code == _selectedUpgradeCode);
-                slot.Refresh(level, isLocked, reason, _fallbackIcon);
-            }
         }
 
         private bool IsTierLocked(UpgradeTier tier, int characterLevel)
@@ -332,18 +208,52 @@ namespace SahurRaising.UI
             };
         }
 
-        private string FindFirstUnlockedUpgradeCode(int characterLevel)
+        private void RefreshCategoryLocks(int characterLevel)
         {
-            if (_upgradeTable == null)
-                return string.Empty;
+            // Normal is always open
+            if (_normalSlotsRoot != null) _normalSlotsRoot.gameObject.SetActive(true);
 
-            foreach (var row in _upgradeTable.Rows)
-            {
-                if (!IsTierLocked(row.Tier, characterLevel))
-                    return row.Code;
-            }
+            UpdateTierVisibility(_superSlotsRoot, _superLockedRoot, _superLockedReasonText, characterLevel, _superUnlockLevel, "슈퍼 강화");
+            UpdateTierVisibility(_ultraSlotsRoot, _ultraLockedRoot, _ultraLockedReasonText, characterLevel, _ultraUnlockLevel, "울트라 강화");
+            UpdateTierVisibility(_superUltraSlotsRoot, _superUltraLockedRoot, _superUltraLockedReasonText, characterLevel, _superUltraUnlockLevel, "슈퍼울트라 강화");
+        }
 
-            return _upgradeTable.Rows.Count > 0 ? _upgradeTable.Rows[0].Code : string.Empty;
+        private void UpdateTierVisibility(Transform slotsRoot, GameObject lockedRoot, TMP_Text reasonText, int characterLevel, int requiredLevel, string categoryName)
+        {
+            bool isLocked = characterLevel < requiredLevel;
+
+            // 슬롯 목록 표시 여부: 잠금 해제되었을 때만 표시
+            if (slotsRoot != null)
+                slotsRoot.gameObject.SetActive(!isLocked);
+
+            // 잠금 패널 표시 여부: 잠겨있을 때만 표시
+            if (lockedRoot != null)
+                lockedRoot.SetActive(isLocked);
+
+            if (reasonText != null && isLocked)
+                reasonText.text = $"[{categoryName}]\n레벨 {requiredLevel}에 개방됩니다.";
+        }
+
+        private bool TryBindServicesIfNeeded()
+        {
+            if (_upgradeService == null && ServiceLocator.HasService<IUpgradeService>())
+                _upgradeService = ServiceLocator.Get<IUpgradeService>();
+
+            if (_statService == null && ServiceLocator.HasService<IStatService>())
+                _statService = ServiceLocator.Get<IStatService>();
+
+            if (_resourceService == null && ServiceLocator.HasService<IResourceService>())
+                _resourceService = ServiceLocator.Get<IResourceService>();
+
+            return _upgradeService != null;
+        }
+
+        private int GetCharacterLevelSafe()
+        {
+            if (_statService == null)
+                return 0;
+
+            return _statService.GetSnapshot().CharacterLevel;
         }
     }
 }
