@@ -32,10 +32,8 @@ namespace SahurRaising
         private EquipmentType _currentType = EquipmentType.Weapon;
 
         // 왜: 장비 화면은 '빈 공간 클릭 닫기'를 원치 않으므로, Backdrop 닫기 정책을 비활성화한다.
-        protected override bool GetCloseOnBackdropClick()
-        {
-            return false;
-        }
+        // 왜: 장비 화면은 '빈 공간 클릭 닫기'를 원치 않으므로, Backdrop 닫기 정책을 비활성화한다.
+        protected override bool CanCloseOnBackdropClick => false;
 
         public async override UniTask InitializeAsync()
         {

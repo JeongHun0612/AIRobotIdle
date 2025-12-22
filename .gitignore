@@ -72,3 +72,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 **/[Aa]ssets/[Ss]treamingAssets/aa.meta
 **/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# -----------------------------------------------------------------------------
+# 예외 처리: Unity-MCP 패키지 내부의 'Logs' 폴더는 소스 코드 폴더이므로 추적해야 합니다.
+# (Unity 기본 .gitignore의 **/[Ll]ogs/ 규칙에 걸려서 런타임 코드가 무시되는 문제 방지)
+!SahurRaising/Packages/com.ivanmurzak.unity.mcp/Runtime/Unity/Logs/
+!SahurRaising/Packages/com.ivanmurzak.unity.mcp/Runtime/Unity/Logs/**
