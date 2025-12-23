@@ -1,4 +1,4 @@
-/*
+﻿/*
 ┌──────────────────────────────────────────────────────────────────┐
 │  Author: Ivan Murzak (https://github.com/IvanMurzak)             │
 │  Repository: GitHub (https://github.com/IvanMurzak/Unity-MCP)    │
@@ -9,29 +9,30 @@
 */
 
 #nullable enable
-using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
-namespace com.IvanMurzak.Unity.MCP.Utils
+namespace com.IvanMurzak.Unity.MCP
 {
-    public static class UnityLoggerFactory
+    public interface ILogStorage : IDisposable
     {
-        private static ILoggerFactory? _loggerFactory;
+        Task AppendAsync(params LogEntry[] entries);
+        void Append(params LogEntry[] entries);
 
-        public static ILoggerFactory LoggerFactory
-        {
-            get
-            {
-                if (_loggerFactory == null)
-                {
-                    _loggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(builder =>
-                    {
-                        builder.ClearProviders();
-                        builder.AddProvider(new UnityLoggerProvider());
-                        builder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    });
-                }
-                return _loggerFactory;
-            }
-        }
+        Task FlushAsync();
+        void Flush();
+
+        Task<LogEntry[]> QueryAsync(
+            int maxEntries = 100,
+            UnityEngine.LogType? logTypeFilter = null,
+            bool includeStackTrace = false,
+            int lastMinutes = 0);
+        LogEntry[] Query(
+            int maxEntries = 100,
+            UnityEngine.LogType? logTypeFilter = null,
+            bool includeStackTrace = false,
+            int lastMinutes = 0);
+
+        void Clear();
     }
 }

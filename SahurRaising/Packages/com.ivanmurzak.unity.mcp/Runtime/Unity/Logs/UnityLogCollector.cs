@@ -34,7 +34,7 @@ namespace com.IvanMurzak.Unity.MCP
         {
             // IMPORTANT: This callback can be invoked from non-main threads.
             // ILogStorage implementations should be thread-safe and avoid Unity API calls.
-            _logStorage.AddLog(condition, stackTrace, type);
+            _logStorage.Append(new LogEntry(condition, stackTrace, type));
         }
 
         public global::com.IvanMurzak.Unity.MCP.LogEntry[] Query(int maxEntries = 100, LogType? logTypeFilter = null, bool includeStackTrace = false, int lastMinutes = 0)
@@ -54,7 +54,7 @@ namespace com.IvanMurzak.Unity.MCP
 
         public void Save()
         {
-            _logStorage.Save();
+            _logStorage.Flush();
         }
 
         public Task SaveAsync()
@@ -62,13 +62,13 @@ namespace com.IvanMurzak.Unity.MCP
             // 테스트/에디터 호환용: 실제 구현이 동기 Save()만 제공하더라도 Task 형태로 감싸 제공합니다.
             try
             {
-                _logStorage.Save();
+                return _logStorage.FlushAsync();
             }
             catch
             {
                 // 로그 저장 실패가 에디터 실행을 막으면 안됨
+                return Task.CompletedTask;
             }
-            return Task.CompletedTask;
         }
 
         public void Dispose()

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace com.IvanMurzak.Unity.MCP
@@ -51,15 +52,37 @@ namespace com.IvanMurzak.Unity.MCP
             Append(new LogEntry(message, stackTrace, type));
         }
 
-        public void Append(LogEntry entry)
+        public void Append(params LogEntry[] entries)
         {
+            if (entries == null || entries.Length == 0) return;
+
             lock (_gate)
             {
                 EnsureFileNotTooLarge_NoLock();
 
-                _entries.Add(entry);
-                AppendLineToFile_NoLock(entry);
+                foreach (var entry in entries)
+                {
+                    _entries.Add(entry);
+                    AppendLineToFile_NoLock(entry);
+                }
             }
+        }
+
+        Task ILogStorage.AppendAsync(params LogEntry[] entries)
+        {
+            Append(entries);
+            return Task.CompletedTask;
+        }
+
+        public void Flush()
+        {
+            // Append 시점에 바로 파일 반영을 하기 때문에 기본 구현은 no-op.
+        }
+
+        Task ILogStorage.FlushAsync()
+        {
+            Flush();
+            return Task.CompletedTask;
         }
 
         public LogEntry[] Query(int maxEntries = 100, LogType? logTypeFilter = null, bool includeStackTrace = false, int lastMinutes = 0)
@@ -97,6 +120,11 @@ namespace com.IvanMurzak.Unity.MCP
             }
         }
 
+        Task<LogEntry[]> ILogStorage.QueryAsync(int maxEntries, LogType? logTypeFilter, bool includeStackTrace, int lastMinutes)
+        {
+            return Task.FromResult(Query(maxEntries, logTypeFilter, includeStackTrace, lastMinutes));
+        }
+
         public void Clear()
         {
             lock (_gate)
@@ -108,8 +136,7 @@ namespace com.IvanMurzak.Unity.MCP
 
         public void Save()
         {
-            // Append 시점에 바로 파일 반영을 하기 때문에 기본 구현은 no-op.
-            // (원래 구현에서 버퍼링을 할 수도 있어서 API는 유지)
+            Flush();
         }
 
         public void Dispose()
