@@ -17,7 +17,7 @@ MonoBehaviour:
     Name: "\uACF5\uACA9\uB825"
     Description: "\uACF5\uACA9\uB825"
     Icon: {fileID: 21300000, guid: 7449258d40fcb4175bfe520402fb5324, type: 3}
-    Stat: 0
+    Stat: 1
     Tier: 0
     MaxLevel: 25000
     GoldBase: 1
@@ -38,7 +38,7 @@ MonoBehaviour:
     Name: "\uCCB4\uB825"
     Description: "\uCCB4\uB825"
     Icon: {fileID: 21300000, guid: a15beef3e99cc42118d9a86018e0767e, type: 3}
-    Stat: 1
+    Stat: 2
     Tier: 0
     MaxLevel: 25000
     GoldBase: 1
@@ -59,7 +59,7 @@ MonoBehaviour:
     Name: "\uBC29\uC5B4\uB825"
     Description: "\uBC29\uC5B4\uB825 (%)"
     Icon: {fileID: 21300000, guid: 863d316d976504fc5a3734b33e10c55e, type: 3}
-    Stat: 2
+    Stat: 3
     Tier: 0
     MaxLevel: 10000
     GoldBase: 1
@@ -80,7 +80,7 @@ MonoBehaviour:
     Name: "\uD68C\uBCF5\uB825"
     Description: "\uCD08\uB2F9 \uD68C\uBCF5\uB7C9"
     Icon: {fileID: 21300000, guid: debda9ac064184b7b992b061dc2697ec, type: 3}
-    Stat: 3
+    Stat: 4
     Tier: 0
     MaxLevel: 4000
     GoldBase: 5
@@ -101,7 +101,7 @@ MonoBehaviour:
     Name: "\uACF5\uACA9 \uC18D\uB3C4"
     Description: "\uACF5\uACA9 \uC18D\uB3C4 \uBE44\uC728"
     Icon: {fileID: 21300000, guid: e724bdf52a75043c0a66a6ede3a90dd7, type: 3}
-    Stat: 10
+    Stat: 11
     Tier: 0
     MaxLevel: 4000
     GoldBase: 5
@@ -122,7 +122,7 @@ MonoBehaviour:
     Name: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960"
     Description: "\uD06C\uB9AC\uD2F0\uCEEC(200% \uB370\uBBF8\uC9C0)\uC758 \uD655\uB960"
     Icon: {fileID: 21300000, guid: 97b49874aed4b43788d90720bf2b2023, type: 3}
-    Stat: 4
+    Stat: 5
     Tier: 0
     MaxLevel: 4000
     GoldBase: 1
@@ -144,7 +144,7 @@ MonoBehaviour:
     Description: "\uD130\uCE58 \uC2DC \uBC1C\uC0DD\uD558\uB294 \uACF5\uACA9\uC758
       \uCD94\uAC00 \uBC30\uC728 \uC608) 100% -> \uC77C\uBC18 \uACF5\uACA9\uC758 2\uBC30"
     Icon: {fileID: 21300000, guid: 7d8b6181ad16b4a708f3c323b2efbe4a, type: 3}
-    Stat: 5
+    Stat: 6
     Tier: 1
     MaxLevel: 2000
     GoldBase: 3
@@ -165,7 +165,7 @@ MonoBehaviour:
     Name: "\uCD5C\uB300 \uBBF8\uC811\uC18D \uBCF4\uB108\uC2A4 \uC2DC\uAC04"
     Description: "\uAE30\uBCF8 6\uC2DC\uAC04"
     Icon: {fileID: 21300000, guid: b550f9f01c172415c9010c4ddbf69e2e, type: 3}
-    Stat: 6
+    Stat: 7
     Tier: 1
     MaxLevel: 2000
     GoldBase: 3
@@ -186,7 +186,7 @@ MonoBehaviour:
     Name: "\uACE8\uB4DC \uD68D\uB4DD\uB7C9 \uC99D\uAC00"
     Description: "\uBE44\uC728 \uB2E8\uC704 %"
     Icon: {fileID: 21300000, guid: 9d911362ef12d4c8a935c7b8e05d7037, type: 3}
-    Stat: 7
+    Stat: 8
     Tier: 1
     MaxLevel: 2000
     GoldBase: 3
@@ -207,7 +207,7 @@ MonoBehaviour:
     Name: "\uC6B8\uD2B8\uB77C \uACF5\uACA9\uB825"
     Description: "\uACF5\uACA9\uB825 %"
     Icon: {fileID: 21300000, guid: 7d8b6181ad16b4a708f3c323b2efbe4a, type: 3}
-    Stat: 8
+    Stat: 9
     Tier: 2
     MaxLevel: 6000
     GoldBase: 1
@@ -228,7 +228,7 @@ MonoBehaviour:
     Name: "\uBBF8\uC811\uC18D \uBCF4\uB108\uC2A4 \uD68D\uB4DD\uB7C9"
     Description: "\uB2E8\uC704 %"
     Icon: {fileID: 21300000, guid: b550f9f01c172415c9010c4ddbf69e2e, type: 3}
-    Stat: 9
+    Stat: 10
     Tier: 2
     MaxLevel: 2000
     GoldBase: 1
@@ -249,7 +249,7 @@ MonoBehaviour:
     Name: "\uC288\uD37C \uACF5\uACA9 \uC18D\uB3C4"
     Description: "\uB2E8\uC704 %"
     Icon: {fileID: 21300000, guid: e724bdf52a75043c0a66a6ede3a90dd7, type: 3}
-    Stat: 10
+    Stat: 11
     Tier: 2
     MaxLevel: 2000
     GoldBase: 1
@@ -270,7 +270,7 @@ MonoBehaviour:
     Name: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"
     Description: "\uB2E8\uC704 %"
     Icon: {fileID: 21300000, guid: e724bdf52a75043c0a66a6ede3a90dd7, type: 3}
-    Stat: 11
+    Stat: 12
     Tier: 2
     MaxLevel: 2000
     GoldBase: 3
@@ -292,7 +292,7 @@ MonoBehaviour:
     Description: "\uD06C\uB9AC\uD2F0\uCEEC\uC758 \uBC30\uC728\uC744 \uC81C\uACF1\uC73C\uB85C
       \uC801\uC6A9\uD568(\uC608) 200% * 200% => 400% / 4000% * 4000% => 160000%)"
     Icon: {fileID: 21300000, guid: 90104b82285f24f129a3d941bd1c4d81, type: 3}
-    Stat: 12
+    Stat: 13
     Tier: 2
     MaxLevel: 1500
     GoldBase: 1
@@ -313,7 +313,7 @@ MonoBehaviour:
     Name: "\uBC29\uD328 \uB6AB\uAE30"
     Description: "\uBC29\uBB34 %"
     Icon: {fileID: 21300000, guid: 110a613c97ae3473ba6a34f0d531ca80, type: 3}
-    Stat: 0
+    Stat: 1
     Tier: 3
     MaxLevel: 10000
     GoldBase: 1
@@ -334,7 +334,7 @@ MonoBehaviour:
     Name: "\uBCF4\uC2A4 \uB370\uBBF8\uC9C0"
     Description: "\uB2E8\uC704 %"
     Icon: {fileID: 21300000, guid: d77571e140f0144daaad2a7e4ba19c7c, type: 3}
-    Stat: 16
+    Stat: 17
     Tier: 3
     MaxLevel: 10000
     GoldBase: 1
@@ -355,7 +355,7 @@ MonoBehaviour:
     Name: "\uD06C\uB9AC\uD2F0\uCEEC \uB370\uBBF8\uC9C0"
     Description: "\uD06C\uB9AC\uD2F0\uCEEC\uC758 \uBC30\uC728 \uC99D\uAC00"
     Icon: {fileID: 21300000, guid: 97b49874aed4b43788d90720bf2b2023, type: 3}
-    Stat: 14
+    Stat: 15
     Tier: 3
     MaxLevel: 10000
     GoldBase: 1
@@ -376,7 +376,7 @@ MonoBehaviour:
     Name: "\uC6B8\uD2B8\uB77C \uBC29\uC5B4\uB825"
     Description: "\uBC29\uC5B4\uB825 %"
     Icon: {fileID: 21300000, guid: 69df03b9d51684abeb15c88e6b2d3313, type: 3}
-    Stat: 15
+    Stat: 16
     Tier: 3
     MaxLevel: 10000
     GoldBase: 1

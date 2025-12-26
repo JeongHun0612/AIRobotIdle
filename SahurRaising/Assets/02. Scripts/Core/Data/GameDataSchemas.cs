@@ -8,6 +8,7 @@ namespace SahurRaising.Core
     // 전역 스탯/재화/몬스터 분류 열거형
     public enum StatType
     {
+        None,
         ATK,
         HP,
         DEF,
@@ -198,6 +199,33 @@ namespace SahurRaising.Core
         public string Concept;
     }
 
+    public enum SkillEffectType
+    {
+        None,
+        Stat,
+        Special
+    }
+
+    public enum SkillSpecialType
+    {
+        None,
+        AutoTouch,
+        Parallel,
+        CritFailDef,
+        Overfitting,
+        FineTuning,
+        Knowledge,
+        SelfImprove,
+        SensorRange,
+        EnemyEvasion,
+        MoveSpeed,
+        UpgradeCost,
+        SkillCost,
+        Execute,
+        CritResist,
+        DroneAtk
+    }
+
     [Serializable]
     public struct SkillRow
     {
@@ -213,6 +241,10 @@ namespace SahurRaising.Core
         public string Prefix;
         public bool IsFirstNode;
         public Sprite Icon;
+        public SkillEffectType EffectType;
+        public StatType TargetStat;
+        public SkillSpecialType TargetSpecial;
+        public double Value;
     }
 
     [Serializable]
@@ -308,5 +340,11 @@ namespace SahurRaising.Core
 
         // 이미 본 장비(NEW가 꺼진 장비) 코드 목록
         public List<string> SeenCodes = new();
+    }
+
+    [Serializable]
+    public class SkillSaveData
+    {
+        public List<string> UnlockedSkillIDs = new();
     }
 }

@@ -21,6 +21,7 @@ namespace SahurRaising.Core
         private readonly Dictionary<string, int> _upgradeLevels = new();
         private readonly Dictionary<StatType, int> _statLevels = new();
         private readonly List<StatModifier> _equipmentModifiers = new();
+        private readonly List<StatModifier> _skillModifiers = new();
         private readonly Dictionary<string, StatType> _optionTypeMap = new(StringComparer.OrdinalIgnoreCase);
 
         private StatsTable _statsTable;
@@ -82,6 +83,16 @@ namespace SahurRaising.Core
 
             if (modifiers != null)
                 _equipmentModifiers.AddRange(modifiers);
+
+            RecalculateSnapshot();
+        }
+
+        public void ApplySkillModifiers(IEnumerable<StatModifier> modifiers)
+        {
+            _skillModifiers.Clear();
+
+            if (modifiers != null)
+                _skillModifiers.AddRange(modifiers);
 
             RecalculateSnapshot();
         }
@@ -163,7 +174,8 @@ namespace SahurRaising.Core
         private void RecalculateSnapshot()
         {
             var stats = BuildBaseStatsFromLevels();
-            ApplyEquipmentEffects(ref stats);
+            ApplyModifiers(ref stats, _equipmentModifiers);
+            ApplyModifiers(ref stats, _skillModifiers);
 
             _snapshot = stats;
         }
@@ -252,12 +264,12 @@ namespace SahurRaising.Core
             };
         }
 
-        private void ApplyEquipmentEffects(ref CharacterStats stats)
+        private void ApplyModifiers(ref CharacterStats stats, List<StatModifier> modifiers)
         {
-            if (_equipmentModifiers.Count == 0)
+            if (modifiers == null || modifiers.Count == 0)
                 return;
 
-            foreach (var modifier in _equipmentModifiers)
+            foreach (var modifier in modifiers)
             {
                 switch (modifier.Stat)
                 {

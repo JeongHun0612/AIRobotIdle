@@ -25,6 +25,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 1
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO02
     Name: "\uC790\uB3D9\uD654 II"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -37,6 +41,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO03
     Name: "\uC790\uB3D9\uD654 III"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -49,6 +57,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO04
     Name: "\uC790\uB3D9\uD654 IV"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -61,6 +73,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO05
     Name: "\uC790\uB3D9\uD654 V"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -73,6 +89,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO06
     Name: "\uC790\uB3D9\uD654 VI"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -85,6 +105,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO07
     Name: "\uC790\uB3D9\uD654 VII"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -97,6 +121,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO08
     Name: "\uC790\uB3D9\uD654 VIII"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -109,6 +137,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO09
     Name: "\uC790\uB3D9\uD654 IX"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -121,6 +153,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: AUTO10
     Name: "\uC790\uB3D9\uD654 X"
     Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
@@ -133,6 +169,10 @@ MonoBehaviour:
     Prefix: AUTO
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
   - ID: PARR01
     Name: "\uBCD1\uB82C\uCC98\uB9AC I"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -40% \uB85C\uBD07\uD314 +1"
@@ -145,6 +185,10 @@ MonoBehaviour:
     Prefix: PARR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 1
   - ID: PARR02
     Name: "\uBCD1\uB82C\uCC98\uB9AC II"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -30% \uB85C\uBD07\uD314 +1"
@@ -157,6 +201,10 @@ MonoBehaviour:
     Prefix: PARR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 1
   - ID: PARR03
     Name: "\uBCD1\uB82C\uCC98\uB9AC III"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -40% \uB85C\uBD07\uD314 +2"
@@ -169,6 +217,10 @@ MonoBehaviour:
     Prefix: PARR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 2
   - ID: PARR04
     Name: "\uBCD1\uB82C\uCC98\uB9AC IV"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -20% \uB85C\uBD07\uD314 +1"
@@ -181,6 +233,10 @@ MonoBehaviour:
     Prefix: PARR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 1
   - ID: PARR05
     Name: "\uBCD1\uB82C\uCC98\uB9AC V"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -30% \uB85C\uBD07\uD314 +2"
@@ -193,6 +249,10 @@ MonoBehaviour:
     Prefix: PARR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 2
   - ID: HERR01
     Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 II"
     Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
@@ -205,6 +265,10 @@ MonoBehaviour:
     Prefix: HERR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
   - ID: HERR02
     Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 II"
     Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
@@ -217,6 +281,10 @@ MonoBehaviour:
     Prefix: HERR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
   - ID: HERR03
     Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 III"
     Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
@@ -229,6 +297,10 @@ MonoBehaviour:
     Prefix: HERR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
   - ID: HERR04
     Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 IV"
     Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
@@ -241,6 +313,10 @@ MonoBehaviour:
     Prefix: HERR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
   - ID: HERR05
     Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 V"
     Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
@@ -253,6 +329,10 @@ MonoBehaviour:
     Prefix: HERR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
   - ID: OFIT01
     Name: "\uC624\uBC84\uD53C\uD305 I"
     Desc: "\uACF5\uACA9\uB825/\uBC29\uC5B4\uB825/\uCCB4\uB825 \uC911 \uAC00\uC7A5
@@ -266,6 +346,10 @@ MonoBehaviour:
     Prefix: OFIT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 4
+    Value: 1.5
   - ID: OFIT02
     Name: "\uC624\uBC84\uD53C\uD305 III"
     Desc: "\uACF5\uACA9\uB825/\uBC29\uC5B4\uB825/\uCCB4\uB825 \uC911 \uAC00\uC7A5
@@ -279,6 +363,10 @@ MonoBehaviour:
     Prefix: OFIT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 4
+    Value: 2
   - ID: OFIT03
     Name: "\uC624\uBC84\uD53C\uD305 III"
     Desc: "\uACF5\uACA9\uB825/\uBC29\uC5B4\uB825/\uCCB4\uB825 \uC911 \uAC00\uC7A5
@@ -292,6 +380,10 @@ MonoBehaviour:
     Prefix: OFIT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 4
+    Value: 2.5
   - ID: FINT01
     Name: "\uD30C\uC778\uD29C\uB2DD I"
     Desc: "\uC774\uBBF8 \uAE6C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758 \uCD5C\uC885
@@ -305,6 +397,10 @@ MonoBehaviour:
     Prefix: FINT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 5
+    Value: 0.25
   - ID: FINT02
     Name: "\uD30C\uC778\uD29C\uB2DD II"
     Desc: "\uC774\uBBF8 \uAE6C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758 \uCD5C\uC885
@@ -318,6 +414,10 @@ MonoBehaviour:
     Prefix: FINT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 5
+    Value: 0.25
   - ID: FINT03
     Name: "\uD30C\uC778\uD29C\uB2DD III"
     Desc: "\uC774\uBBF8 \uAE6C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758 \uCD5C\uC885
@@ -331,6 +431,10 @@ MonoBehaviour:
     Prefix: FINT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 5
+    Value: 0.25
   - ID: KNAG01
     Name: "\uC9C0\uC2DD\uD655\uC7A5 I"
     Desc: "\uC544\uC9C1 \uAE68\uC9C0 \uBABB\uD55C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758
@@ -344,6 +448,10 @@ MonoBehaviour:
     Prefix: KNAG
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 6
+    Value: 0.1
   - ID: KNAG02
     Name: "\uC9C0\uC2DD\uD655\uC7A5 II"
     Desc: "\uC544\uC9C1 \uAE68\uC9C0 \uBABB\uD55C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758
@@ -357,6 +465,10 @@ MonoBehaviour:
     Prefix: KNAG
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 6
+    Value: 0.1
   - ID: KNAG03
     Name: "\uC9C0\uC2DD\uD655\uC7A5 III"
     Desc: "\uC544\uC9C1 \uAE68\uC9C0 \uBABB\uD55C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758
@@ -370,6 +482,10 @@ MonoBehaviour:
     Prefix: KNAG
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 6
+    Value: 0.1
   - ID: SELF01
     Name: "\uC790\uAE30\uAC1C\uC120 I"
     Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uC2DC 10%\uD655\uB960\uB85C 2\uBC88 \uC5C5\uADF8\uB808\uC774\uB4DC
@@ -383,6 +499,10 @@ MonoBehaviour:
     Prefix: SELF
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 7
+    Value: 0.1
   - ID: SELF02
     Name: "\uC790\uAE30\uAC1C\uC120 II"
     Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uC2DC 5%\uD655\uB960\uB85C 2\uBC88 \uC5C5\uADF8\uB808\uC774\uB4DC
@@ -396,6 +516,10 @@ MonoBehaviour:
     Prefix: SELF
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 7
+    Value: 0.05
   - ID: SELF03
     Name: "\uC790\uAE30\uAC1C\uC120 III"
     Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uC2DC 15%\uD655\uB960\uB85C 2\uBC88 \uC5C5\uADF8\uB808\uC774\uB4DC
@@ -409,6 +533,10 @@ MonoBehaviour:
     Prefix: SELF
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 7
+    Value: 0.15
   - ID: SENS01
     Name: "\uC13C\uC11C I"
     Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
@@ -421,6 +549,10 @@ MonoBehaviour:
     Prefix: SENS
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
   - ID: SENS02
     Name: "\uC13C\uC11C II"
     Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
@@ -433,6 +565,10 @@ MonoBehaviour:
     Prefix: SENS
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
   - ID: SENS03
     Name: "\uC13C\uC11C III"
     Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
@@ -445,6 +581,10 @@ MonoBehaviour:
     Prefix: SENS
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
   - ID: SENS04
     Name: "\uC13C\uC11C IV"
     Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
@@ -457,6 +597,10 @@ MonoBehaviour:
     Prefix: SENS
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
   - ID: SENS05
     Name: "\uC13C\uC11C V"
     Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
@@ -469,6 +613,10 @@ MonoBehaviour:
     Prefix: SENS
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
   - ID: VALG01
     Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 I"
     Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
@@ -481,6 +629,10 @@ MonoBehaviour:
     Prefix: VALG
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
   - ID: VALG02
     Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 II"
     Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
@@ -493,6 +645,10 @@ MonoBehaviour:
     Prefix: VALG
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
   - ID: VALG03
     Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 III"
     Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
@@ -505,6 +661,10 @@ MonoBehaviour:
     Prefix: VALG
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
   - ID: VALG04
     Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 IV"
     Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
@@ -517,6 +677,10 @@ MonoBehaviour:
     Prefix: VALG
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
   - ID: VALG05
     Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 V"
     Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
@@ -529,6 +693,10 @@ MonoBehaviour:
     Prefix: VALG
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
   - ID: CALB01
     Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 I"
     Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
@@ -541,6 +709,10 @@ MonoBehaviour:
     Prefix: CALB
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
   - ID: CALB02
     Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 II"
     Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
@@ -553,6 +725,10 @@ MonoBehaviour:
     Prefix: CALB
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
   - ID: CALB03
     Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 III"
     Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
@@ -565,6 +741,10 @@ MonoBehaviour:
     Prefix: CALB
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
   - ID: CALB04
     Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 IV"
     Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
@@ -577,6 +757,10 @@ MonoBehaviour:
     Prefix: CALB
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
   - ID: CALB05
     Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 V"
     Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
@@ -589,6 +773,10 @@ MonoBehaviour:
     Prefix: CALB
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
   - ID: ACTU01
     Name: "\uC561\uCD94\uC5D0\uC774\uD130 I"
     Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
@@ -601,6 +789,10 @@ MonoBehaviour:
     Prefix: ACTU
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
   - ID: ACTU02
     Name: "\uC561\uCD94\uC5D0\uC774\uD130 II"
     Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
@@ -613,6 +805,10 @@ MonoBehaviour:
     Prefix: ACTU
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
   - ID: ACTU03
     Name: "\uC561\uCD94\uC5D0\uC774\uD130 III"
     Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
@@ -625,6 +821,10 @@ MonoBehaviour:
     Prefix: ACTU
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
   - ID: ACTU04
     Name: "\uC561\uCD94\uC5D0\uC774\uD130 IV"
     Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
@@ -637,6 +837,10 @@ MonoBehaviour:
     Prefix: ACTU
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
   - ID: ACTU05
     Name: "\uC561\uCD94\uC5D0\uC774\uD130 V"
     Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
@@ -649,6 +853,10 @@ MonoBehaviour:
     Prefix: ACTU
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
   - ID: RLOP01
     Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 I"
     Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
@@ -661,6 +869,10 @@ MonoBehaviour:
     Prefix: RLOP
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
   - ID: RLOP02
     Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 II"
     Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
@@ -673,6 +885,10 @@ MonoBehaviour:
     Prefix: RLOP
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
   - ID: RLOP03
     Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 III"
     Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
@@ -685,6 +901,10 @@ MonoBehaviour:
     Prefix: RLOP
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
   - ID: RLOP04
     Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 IV"
     Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
@@ -697,6 +917,10 @@ MonoBehaviour:
     Prefix: RLOP
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
   - ID: RLOP05
     Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 V"
     Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
@@ -709,6 +933,10 @@ MonoBehaviour:
     Prefix: RLOP
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
   - ID: WBOX01
     Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 I"
     Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
@@ -721,6 +949,10 @@ MonoBehaviour:
     Prefix: WBOX
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
   - ID: WBOX02
     Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 II"
     Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
@@ -733,6 +965,10 @@ MonoBehaviour:
     Prefix: WBOX
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
   - ID: WBOX03
     Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 III"
     Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
@@ -745,6 +981,10 @@ MonoBehaviour:
     Prefix: WBOX
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
   - ID: WBOX04
     Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 IV"
     Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
@@ -757,6 +997,10 @@ MonoBehaviour:
     Prefix: WBOX
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
   - ID: WBOX05
     Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 V"
     Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
@@ -769,6 +1013,10 @@ MonoBehaviour:
     Prefix: WBOX
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
   - ID: SGRL01
     Name: "\uC2F1\uADE4\uB798\uB9AC\uD2F0"
     Desc: "\uACF5\uACA9 \uC2DC \uC801 5%\uD655\uB960\uB85C \uCC98\uD615(\uBCF4\uC2A4\uC81C\uC678)"
@@ -781,6 +1029,10 @@ MonoBehaviour:
     Prefix: SGRL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 13
+    Value: 0.05
   - ID: CBKD02
     Name: "\uCF54\uC778\uCC44\uAD74 \uBC31\uB3C4\uC5B4 I"
     Desc: "\uCD5C\uC885 \uACE8\uB4DC \uD68D\uB4DD\uB7C9 20% \uC99D\uAC00"
@@ -793,6 +1045,10 @@ MonoBehaviour:
     Prefix: CBKD
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 8
+    TargetSpecial: 0
+    Value: 0.2
   - ID: CBKD01
     Name: "\uCF54\uC778\uCC44\uAD74 \uBC31\uB3C4\uC5B4 II"
     Desc: "\uCD5C\uC885 \uACE8\uB4DC \uD68D\uB4DD\uB7C9 20% \uC99D\uAC00"
@@ -805,6 +1061,10 @@ MonoBehaviour:
     Prefix: CBKD
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 8
+    TargetSpecial: 0
+    Value: 0.2
   - ID: CBKD03
     Name: "\uCF54\uC778\uCC44\uAD74 \uBC31\uB3C4\uC5B4 III"
     Desc: "\uCD5C\uC885 \uACE8\uB4DC \uD68D\uB4DD\uB7C9 20% \uC99D\uAC00"
@@ -817,6 +1077,10 @@ MonoBehaviour:
     Prefix: CBKD
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 8
+    TargetSpecial: 0
+    Value: 0.2
   - ID: DCOL01
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 I"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -830,6 +1094,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL02
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 II"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -843,6 +1111,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL03
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 III"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -856,6 +1128,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL04
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 IV"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -869,6 +1145,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL05
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 V"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -882,6 +1162,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL06
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 VI"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -895,6 +1179,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL07
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 VII"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -908,6 +1196,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL08
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 VIII"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -921,6 +1213,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL09
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 IX"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -934,6 +1230,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DCOL10
     Name: "\uB370\uC774\uD130 \uC218\uC9D1 X"
     Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
@@ -947,6 +1247,10 @@ MonoBehaviour:
     Prefix: DCOL
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
   - ID: DFIR01
     Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v1.0"
     Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
@@ -959,6 +1263,10 @@ MonoBehaviour:
     Prefix: DFIR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
   - ID: DFIR02
     Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v2.0"
     Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
@@ -971,6 +1279,10 @@ MonoBehaviour:
     Prefix: DFIR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
   - ID: DFIR03
     Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v3.0"
     Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
@@ -983,6 +1295,10 @@ MonoBehaviour:
     Prefix: DFIR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
   - ID: DFIR04
     Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v4.0"
     Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
@@ -995,6 +1311,10 @@ MonoBehaviour:
     Prefix: DFIR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
   - ID: DFIR05
     Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v5.0"
     Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
@@ -1007,6 +1327,10 @@ MonoBehaviour:
     Prefix: DFIR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
   - ID: CPUR01
     Name: "CPU \uAC15\uD654 I"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1019,6 +1343,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR02
     Name: "CPU \uAC15\uD654 II"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1031,6 +1359,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR03
     Name: "CPU \uAC15\uD654 III"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1043,6 +1375,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR04
     Name: "CPU \uAC15\uD654 IV"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1055,6 +1391,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR05
     Name: "CPU \uAC15\uD654 V"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1067,6 +1407,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR06
     Name: "CPU \uAC15\uD654 VI"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1079,6 +1423,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR07
     Name: "CPU \uAC15\uD654 VII"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1091,6 +1439,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR08
     Name: "CPU \uAC15\uD654 VIII"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1103,6 +1455,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR09
     Name: "CPU \uAC15\uD654 IX"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1115,6 +1471,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: CPUR10
     Name: "CPU \uAC15\uD654 X"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
@@ -1127,6 +1487,10 @@ MonoBehaviour:
     Prefix: CPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
   - ID: GPUR01
     Name: "GPU \uAC15\uD654 I"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1139,6 +1503,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR02
     Name: "GPU \uAC15\uD654 II"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1151,6 +1519,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR03
     Name: "GPU \uAC15\uD654 III"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1163,6 +1535,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR04
     Name: "GPU \uAC15\uD654 IV"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1175,6 +1551,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR05
     Name: "GPU \uAC15\uD654 V"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1187,6 +1567,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR06
     Name: "GPU \uAC15\uD654 VI"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1199,6 +1583,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR07
     Name: "GPU \uAC15\uD654 VII"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1211,6 +1599,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR08
     Name: "GPU \uAC15\uD654 VIII"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1223,6 +1615,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR09
     Name: "GPU \uAC15\uD654 IX"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1235,6 +1631,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: GPUR10
     Name: "GPU \uAC15\uD654 X"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
@@ -1247,6 +1647,10 @@ MonoBehaviour:
     Prefix: GPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
   - ID: TPUR01
     Name: "TPU \uAC15\uD654 I"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1259,6 +1663,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR02
     Name: "TPU \uAC15\uD654 II"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1271,6 +1679,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR03
     Name: "TPU \uAC15\uD654 III"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1283,6 +1695,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR04
     Name: "TPU \uAC15\uD654 IV"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1295,6 +1711,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR05
     Name: "TPU \uAC15\uD654 V"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1307,6 +1727,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR06
     Name: "TPU \uAC15\uD654 VI"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1319,6 +1743,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR07
     Name: "TPU \uAC15\uD654 VII"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1331,6 +1759,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR08
     Name: "TPU \uAC15\uD654 VIII"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1343,6 +1775,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR09
     Name: "TPU \uAC15\uD654 IX"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1355,6 +1791,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: TPUR10
     Name: "TPU \uAC15\uD654 X"
     Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
@@ -1367,6 +1807,10 @@ MonoBehaviour:
     Prefix: TPUR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
   - ID: MATR01
     Name: "\uC7A5\uAC11\uAC15\uD654 I"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
@@ -1379,6 +1823,10 @@ MonoBehaviour:
     Prefix: MATR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
   - ID: MATR02
     Name: "\uC7A5\uAC11\uAC15\uD654 II"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
@@ -1391,6 +1839,10 @@ MonoBehaviour:
     Prefix: MATR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
   - ID: MATR03
     Name: "\uC7A5\uAC11\uAC15\uD654 III"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
@@ -1403,6 +1855,10 @@ MonoBehaviour:
     Prefix: MATR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
   - ID: MATR04
     Name: "\uC7A5\uAC11\uAC15\uD654 IV"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
@@ -1415,6 +1871,10 @@ MonoBehaviour:
     Prefix: MATR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
   - ID: MATR05
     Name: "\uC7A5\uAC11\uAC15\uD654 V"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
@@ -1427,6 +1887,10 @@ MonoBehaviour:
     Prefix: MATR
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
   - ID: MATT01
     Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 I"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
@@ -1439,6 +1903,10 @@ MonoBehaviour:
     Prefix: MATT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2
   - ID: MATT02
     Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 II"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
@@ -1451,6 +1919,10 @@ MonoBehaviour:
     Prefix: MATT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2
   - ID: MATT03
     Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 III"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
@@ -1463,6 +1935,10 @@ MonoBehaviour:
     Prefix: MATT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2
   - ID: MATT04
     Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 IV"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
@@ -1475,6 +1951,10 @@ MonoBehaviour:
     Prefix: MATT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2
   - ID: MATT05
     Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 V"
     Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
@@ -1487,3 +1967,7 @@ MonoBehaviour:
     Prefix: MATT
     IsFirstNode: 0
     Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2

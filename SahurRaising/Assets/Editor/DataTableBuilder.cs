@@ -403,8 +403,35 @@ public static class DataTableBuilder
                 YCoord = row.Int(COL_SK_Y),
                 Coord = row.String(COL_SK_COORD),
                 Prefix = row.String(COL_SK_PREFIX),
-                IsFirstNode = !string.IsNullOrEmpty(row.String(COL_SK_FIRST))
+                IsFirstNode = !string.IsNullOrEmpty(row.String(COL_SK_FIRST)),
+                EffectType = row.EnumValue<SkillEffectType>("EffectType"),
+                Value = row.Double("Value")
             };
+
+            // TargetStat 파싱 로직 추가
+            var targetStatStr = row.String("TargetStat");
+            if (newRow.EffectType == SkillEffectType.Stat)
+            {
+                if (System.Enum.TryParse<StatType>(targetStatStr, true, out var statType))
+                {
+                    newRow.TargetStat = statType;
+                }
+                else
+                {
+                    Debug.LogWarning($"[DataTableBuilder] Skill {id}: Invalid StatType '{targetStatStr}'");
+                }
+            }
+            else if (newRow.EffectType == SkillEffectType.Special)
+            {
+                if (System.Enum.TryParse<SkillSpecialType>(targetStatStr, true, out var specialType))
+                {
+                    newRow.TargetSpecial = specialType;
+                }
+                else
+                {
+                    Debug.LogWarning($"[DataTableBuilder] Skill {id}: Invalid SkillSpecialType '{targetStatStr}'");
+                }
+            }
 
             if (!string.IsNullOrEmpty(id) && iconById.TryGetValue(id, out var icon))
             {
