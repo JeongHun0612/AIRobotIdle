@@ -34,16 +34,16 @@ namespace SahurRaising.Core
                 {
                     Debug.Log("[GameManager] Loading Scene 표시 시도...");
                     var loadingScene = UIManager.Instance.ShowScene<UILoadingScene>(ESceneUIType.Loading);
-                    
+
                     if (loadingScene == null)
                     {
                         Debug.LogError("[GameManager] 로딩 UI를 표시할 수 없습니다. UIRegistry에 Loading 씬을 등록했는지 확인하세요.");
-                        
+
                         // 추가 디버깅 정보 출력
                         Debug.LogError($"[GameManager] 현재 등록된 씬 타입 확인 필요: {ESceneUIType.Loading}");
                         return;
                     }
-                    
+
                     Debug.Log($"[GameManager] Loading Scene 표시 성공: {loadingScene.name}");
                     loadingScene.SetProgress(0f);
 
@@ -139,7 +139,7 @@ namespace SahurRaising.Core
             await statService.InitializeAsync();
             step++; Report();
 
-            var currencyService = new CurrencyService(eventBus, statService);
+            var currencyService = new CurrencyService(eventBus, statService, resourceManager);
             ServiceLocator.Register<ICurrencyService, CurrencyService>(currencyService);
             await currencyService.InitializeAsync();
             step++; Report();

@@ -15,11 +15,31 @@ MonoBehaviour:
   m_GroupName: Data
   m_GUID: 9459323f54a86ad49b193367d2e67ad1
   m_SerializeEntries:
+  - m_GUID: 014903ff12b5f824e938eff029bb78b1
+    m_Address: SkillTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 138bcbce5058e5342a6b8f9fb1d70de6
+    m_Address: EvolutionTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1aafaf8801825d74cb3c9e7cea9cc443
     m_Address: StatsTable
     m_ReadOnly: 0
     m_SerializedLabels:
     - Data
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49cdfcf9dae44504983610c225ee488e
+    m_Address: DroneTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5777f6a3bad80bb4a809b7da8cbbe582
+    m_Address: GachaEquipmentTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8eecb5a7bdb7b62409ce4015d9dcdacb
     m_Address: MonsterTable
@@ -32,6 +52,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Data
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b08c5fbfdf019164db60079916bba97b
+    m_Address: CurrencyTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c62d3dcd584b6b748b33f7a80957ca77
+    m_Address: GachaDroneTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ed631a2724e22bb4aa88723ca2d064c1
     m_Address: UpgradeTable

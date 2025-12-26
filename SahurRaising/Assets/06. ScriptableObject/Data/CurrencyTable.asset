@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 765d6cc0227ce7441a61ecd5cce433dd, type: 3}
+  m_Name: CurrencyTable
+  m_EditorClassIdentifier: 
+  _rows:
+  - Type: 0
+    Name: "\uACE8\uB4DC"
+    Icon: {fileID: 21300000, guid: 3da655108aa5c412ea0642bfca540775, type: 3}
+    Description: 
+  - Type: 1
+    Name: "\uC5D0\uBA54\uB784\uB4DC"
+    Icon: {fileID: 21300000, guid: d2cee640d6fcf42e99e84d6295b54bfe, type: 3}
+    Description: 
+  - Type: 2
+    Name: "\uB2E4\uC774\uC544\uBAAC\uB4DC"
+    Icon: {fileID: 21300000, guid: 053ae97a0c1584827bac1077388b8b84, type: 3}
+    Description: 
+  - Type: 3
+    Name: "\uD2F0\uCF13"
+    Icon: {fileID: 21300000, guid: 33d24cb8b7365469db57b65d28027394, type: 3}
+    Description: 
+  - Type: 4
+    Name: "\uB8E8\uBE44"
+    Icon: {fileID: 21300000, guid: 5d2d6723adc3f48eaa482b7dafc92ce4, type: 3}
+    Description: 

@@ -180,6 +180,56 @@ namespace SahurRaising.Core
     }
 
     [Serializable]
+    public struct DroneRow
+    {
+        public string ID;
+        public double AtkRate;
+        public OptionValue EquipOption;
+        public OptionValue HeldOption1;
+    }
+
+    [Serializable]
+    public struct EvolutionRow
+    {
+        public int EvolutionLevel;
+        public string CharacterName;
+        public int ReqSumLevel;
+        public double BonusATKR3;
+        public string Concept;
+    }
+
+    [Serializable]
+    public struct SkillRow
+    {
+        public string ID;
+        public string Name;
+        public string Desc;
+        public string Note;
+        public int Cost;
+        public int Time;
+        public int XCoord;
+        public int YCoord;
+        public string Coord;
+        public string Prefix;
+        public bool IsFirstNode;
+        public Sprite Icon;
+    }
+
+    [Serializable]
+    public struct GachaDroneRow
+    {
+        public string ID;
+        public List<float> Probabilities;
+    }
+
+    [Serializable]
+    public struct GachaEquipmentRow
+    {
+        public EquipmentGrade Grade;
+        public List<float> Probabilities;
+    }
+
+    [Serializable]
     public class CurrencySaveData
     {
         public string Gold;

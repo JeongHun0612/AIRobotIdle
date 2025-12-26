@@ -1,9 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
-using SahurRaising;
-using SahurRaising.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Cysharp.Threading.Tasks;
+using SahurRaising;
+using SahurRaising.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -206,19 +206,22 @@ namespace SahurRaising.UI
             bool wasCurrent = ReferenceEquals(_currentPopup, popup);
 
             popup.Hide();
-            if (TryGetPopupType(popup, out var closedType))
-                PopupHidden?.Invoke(closedType);
-
             if (wasCurrent)
             {
                 if (_popupHistory.Count > 0 && ReferenceEquals(_popupHistory.Peek(), popup))
                     _popupHistory.Pop();
 
                 _currentPopup = _popupHistory.Count > 0 ? _popupHistory.Peek() : null;
-                return;
+            }
+            else
+            {
+                RemovePopupFromHistory(popup);
             }
 
-            RemovePopupFromHistory(popup);
+            if (TryGetPopupType(popup, out var closedType))
+                PopupHidden?.Invoke(closedType);
+
+
         }
 
         private void RemovePopupFromHistory(UI_Popup popup)
@@ -542,5 +545,8 @@ namespace SahurRaising.UI
             }
             return null;
         }
+
+
+
     }
 }

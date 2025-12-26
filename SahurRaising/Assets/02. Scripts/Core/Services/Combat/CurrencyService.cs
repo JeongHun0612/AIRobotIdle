@@ -19,19 +19,37 @@ namespace SahurRaising.Core
         private readonly Dictionary<CurrencyType, BigDouble> _balances = new();
         private readonly IEventBus _eventBus;
         private readonly IStatService _statService;
+        private readonly IResourceService _resourceService;
 
         private long _lastSavedUnix;
+        private CurrencyTable _currencyTable;
 
-        public CurrencyService(IEventBus eventBus, IStatService statService)
+        public CurrencyService(IEventBus eventBus, IStatService statService, IResourceService resourceService)
         {
             _eventBus = eventBus;
             _statService = statService;
+            _resourceService = resourceService;
         }
 
         public async UniTask InitializeAsync()
         {
+            _currencyTable = await _resourceService.LoadTableAsync<CurrencyTable>("CurrencyTable");
+            if (_currencyTable == null)
+            {
+                Debug.LogError("[CurrencyService] CurrencyTable load failed.");
+            }
+
             InitializeDefaults();
             await LoadAsync();
+        }
+
+        public CurrencyData GetCurrencyData(CurrencyType type)
+        {
+            if (_currencyTable != null && _currencyTable.Index.TryGetValue(type, out var data))
+            {
+                return data;
+            }
+            return default;
         }
 
         public BigDouble Get(CurrencyType type)
@@ -48,6 +66,14 @@ namespace SahurRaising.Core
                 return false;
 
             _balances[type] = current - amount;
+
+            _eventBus?.Publish(new CurrencyConsumedEvent
+            {
+                CurrencyType = type,
+                Amount = amount,
+                Reason = reason ?? "Unknown"
+            });
+
             return true;
         }
 

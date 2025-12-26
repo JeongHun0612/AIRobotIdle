@@ -1,0 +1,235 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56139d054e567fa4dbe258c0d3c09f7a, type: 3}
+  m_Name: GachaEquipmentTable
+  m_EditorClassIdentifier: 
+  _rows:
+  - Grade: 0
+    Probabilities:
+    - 25
+    - 7
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  - Grade: 1
+    Probabilities:
+    - 25
+    - 10
+    - 5.89
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  - Grade: 2
+    Probabilities:
+    - 25
+    - 20
+    - 15
+    - 13.019
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  - Grade: 3
+    Probabilities:
+    - 25
+    - 20
+    - 20
+    - 15
+    - 11.12
+    - 0
+    - 0
+    - 0
+    - 0
+  - Grade: 4
+    Probabilities:
+    - 0
+    - 20
+    - 25
+    - 20
+    - 15
+    - 0
+    - 0
+    - 0
+    - 0
+  - Grade: 5
+    Probabilities:
+    - 0
+    - 15
+    - 15
+    - 20
+    - 25
+    - 31.195
+    - 0
+    - 0
+    - 0
+  - Grade: 6
+    Probabilities:
+    - 0
+    - 7
+    - 10
+    - 15
+    - 20
+    - 25
+    - 0
+    - 0
+    - 0
+  - Grade: 7
+    Probabilities:
+    - 0
+    - 1
+    - 5
+    - 7
+    - 10
+    - 15
+    - 29.045
+    - 0
+    - 0
+  - Grade: 8
+    Probabilities:
+    - 0
+    - 0
+    - 3
+    - 5
+    - 7
+    - 10
+    - 25
+    - 15
+    - 0
+  - Grade: 9
+    Probabilities:
+    - 0
+    - 0
+    - 1
+    - 3
+    - 5
+    - 7
+    - 20
+    - 18.73
+    - 10
+  - Grade: 10
+    Probabilities:
+    - 0
+    - 0
+    - 0.1
+    - 1
+    - 3
+    - 5
+    - 10
+    - 30
+    - 36.499
+  - Grade: 11
+    Probabilities:
+    - 0
+    - 0
+    - 0.01
+    - 0.5
+    - 2
+    - 3
+    - 7
+    - 20
+    - 25
+  - Grade: 12
+    Probabilities:
+    - 0
+    - 0
+    - 0
+    - 0.3
+    - 1
+    - 2
+    - 5
+    - 10
+    - 15
+  - Grade: 13
+    Probabilities:
+    - 0
+    - 0
+    - 0
+    - 0.1
+    - 0.5
+    - 1
+    - 2
+    - 3
+    - 6
+  - Grade: 14
+    Probabilities:
+    - 0
+    - 0
+    - 0
+    - 0.05
+    - 0.25
+    - 0.5
+    - 1
+    - 2
+    - 4
+  - Grade: 15
+    Probabilities:
+    - 0
+    - 0
+    - 0
+    - 0.03
+    - 0.1
+    - 0.2
+    - 0.5
+    - 1
+    - 2
+  - Grade: 16
+    Probabilities:
+    - 0
+    - 0
+    - 0
+    - 0.001
+    - 0.03
+    - 0.075
+    - 0.3
+    - 0.2
+    - 0.75
+  - Grade: 17
+    Probabilities:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0.03
+    - 0.15
+    - 0.05
+    - 0.5
+  - Grade: 18
+    Probabilities:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0.005
+    - 0.02
+    - 0.25
+  - Grade: 19
+    Probabilities:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0.001
