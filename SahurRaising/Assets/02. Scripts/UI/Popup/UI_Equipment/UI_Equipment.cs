@@ -1,8 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using SahurRaising.Core;
 using SahurRaising.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SahurRaising
 {
@@ -11,19 +13,13 @@ namespace SahurRaising
         [Header("장비 탭 버튼")]
         [SerializeField] private List<EquipmentTabButton> _tabButtons = new();
 
-        [Header("장비 슬롯")]
-        [SerializeField] private List<EquipmentSlot> _equipmentSlots = new();
-
         [Header("인벤토리 슬롯")]
         [SerializeField] private Transform _inventoryContentRoot; // Content
         [SerializeField] private ItemSlot _itemSlotPrefab;        // ItemSlot 프리팹
+        [SerializeField] private ScrollRect _scrollRect;
 
-        [Header("장비 정보")]
+        [Header("장비 정보 영역")]
         [SerializeField] private EquipmentInfo _equipmentInfo;
-
-        [Header("디버깅")]
-        [SerializeField] private string _equimentCode = "W1";
-
 
         private readonly List<ItemSlot> _itemSlots = new();
 
@@ -31,14 +27,14 @@ namespace SahurRaising
 
         private EquipmentType _currentType = EquipmentType.Weapon;
 
-        // 왜: 장비 화면은 '빈 공간 클릭 닫기'를 원치 않으므로, Backdrop 닫기 정책을 비활성화한다.
-        // 왜: 장비 화면은 '빈 공간 클릭 닫기'를 원치 않으므로, Backdrop 닫기 정책을 비활성화한다.
-        protected override bool CanCloseOnBackdropClick => false;
-
         public async override UniTask InitializeAsync()
         {
+            _equipmentService = ServiceLocator.Get<IEquipmentService>();
+
+            // 탭 버튼 이벤트 등록
             RegisterTabButtons();
 
+            // 아이템 슬롯 초기화
             _itemSlots.Clear();
             if (_inventoryContentRoot != null)
             {
@@ -49,13 +45,15 @@ namespace SahurRaising
                         continue;
 
                     slot.Initialize(_equipmentService);
-                    slot.RegisterEquipToggleCallback(OnClickEquipToggle);
-                    slot.RegisterSlotCallback(OnClickItemSlot);
+                    slot.RegisterClickHandler(OnClickItemSlot);
 
                     _itemSlots.Add(slot);
                     slot.gameObject.SetActive(false); // 초기에는 비활성화
                 }
             }
+
+            // 장비 정보 패널 초기화
+            _equipmentInfo.Initialize(_equipmentService, RefreshInventoryByCurrentType);
 
             await UniTask.Yield();
         }
@@ -67,10 +65,7 @@ namespace SahurRaising
             if (_equipmentService == null)
                 _equipmentService = ServiceLocator.Get<IEquipmentService>();
 
-            _equipmentInfo.Hide();
-
             OnClickTabButton(_currentType);
-            RefreshEquipmentSlots();
         }
 
         private void RegisterTabButtons()
@@ -83,11 +78,8 @@ namespace SahurRaising
 
         private void RefreshInventoryByCurrentType()
         {
-            if (_inventoryContentRoot == null || _itemSlotPrefab == null)
+            if (_equipmentService == null || _inventoryContentRoot == null || _itemSlotPrefab == null)
                 return;
-
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
 
             // 현재 탭 타입 기준으로 장비 리스트 가져오기
             IReadOnlyList<EquipmentRow> equipmentList = _equipmentService.GetByType(_currentType);
@@ -99,8 +91,7 @@ namespace SahurRaising
             {
                 ItemSlot newSlot = Instantiate(_itemSlotPrefab, _inventoryContentRoot);
                 newSlot.Initialize(_equipmentService);
-                newSlot.RegisterEquipToggleCallback(OnClickEquipToggle);
-                newSlot.RegisterSlotCallback(OnClickItemSlot);
+                newSlot.RegisterClickHandler(OnClickItemSlot);
                 newSlot.gameObject.SetActive(false);
                 _itemSlots.Add(newSlot);
             }
@@ -124,51 +115,82 @@ namespace SahurRaising
             }
         }
 
-        private void RefreshEquipmentSlots()
+        private void ShowEquippedEquipmentInfo()
         {
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
+            if (_equipmentService == null || _equipmentInfo == null)
+                return;
 
-            foreach (var slot in _equipmentSlots)
+            // 현재 탭 타입에 장착된 장비 코드 가져오기
+            string equippedCode = _equipmentService.GetEquippedCode(_currentType);
+
+            if (string.IsNullOrEmpty(equippedCode))
+                return; // 장착된 장비가 없으면 표시하지 않음
+
+            // 장비 데이터 가져오기
+            if (!_equipmentService.TryGetByCode(equippedCode, out EquipmentRow equippedData))
+                return;
+
+            // EquipmentInfo에 표시
+            _equipmentInfo.RefreshEquipmentInfo(equippedData);
+
+            // 해당 ItemSlot 찾아서 선택 상태로 표시 (선택사항)
+            ItemSlot equippedSlot = FindItemSlotByCode(equippedCode);
+            if (equippedSlot != null)
             {
-                if (slot == null)
-                    continue;
-
-                var type = slot.Type;
-
-                // 이 타입에 현재 장착된 코드
-                string equippedCode = _equipmentService.GetEquippedCode(type);
-
-                // 아무것도 장착 안 되어 있으면 슬롯 비우기
-                if (string.IsNullOrEmpty(equippedCode))
-                {
-                    slot.Clear();
-                    continue;
-                }
-
-                // 코드로 EquipmentRow 조회
-                if (_equipmentService.TryGetByCode(equippedCode, out var row))
-                {
-                    slot.SetEquipped(row);
-                }
-                else
-                {
-                    // 저장 데이터는 있는데 테이블에는 없는 코드일 때 안전하게 Clear
-                    slot.Clear();
-                }
+                ScrollToItemSlot(equippedSlot);
             }
         }
 
-        private EquipmentSlot GetEquipmentSlot(EquipmentType type)
+        private ItemSlot FindItemSlotByCode(string code)
         {
-            foreach (var equipSlot in _equipmentSlots)
+            foreach (var slot in _itemSlots)
             {
-                if (equipSlot == null)
-                    continue;
-                if (equipSlot.Type == type)
-                    return equipSlot;
+                if (slot != null && slot.Data.Code == code)
+                {
+                    return slot;
+                }
             }
             return null;
+        }
+
+        private void ScrollToItemSlot(ItemSlot itemSlot)
+        {
+            if (_scrollRect == null || itemSlot == null || _inventoryContentRoot == null)
+                return;
+
+            RectTransform contentRect = _inventoryContentRoot as RectTransform;
+            RectTransform itemRect = itemSlot.transform as RectTransform;
+            RectTransform viewportRect = _scrollRect.viewport;
+
+            if (contentRect == null || itemRect == null || viewportRect == null)
+                return;
+
+            // Content의 전체 높이
+            float contentHeight = contentRect.rect.height;
+            float viewportHeight = viewportRect.rect.height;
+
+            // 스크롤할 필요가 없으면 리턴
+            if (contentHeight <= viewportHeight)
+                return;
+
+            // ItemSlot의 위치 계산 (Content 기준)
+            float itemPosition = -itemRect.anchoredPosition.y;
+            float itemHeight = itemRect.rect.height;
+
+            // Viewport 중앙에 오도록 계산
+            float targetPosition = itemPosition - (viewportHeight * 0.5f) + (itemHeight * 0.5f);
+
+            // Normalized position 계산 (0~1 범위)
+            float normalizedPosition = 1f - (targetPosition / (contentHeight - viewportHeight));
+            normalizedPosition = Mathf.Clamp01(normalizedPosition);
+
+            // DOTween으로 부드럽게 스크롤
+            DOTween.To(
+                () => _scrollRect.verticalNormalizedPosition,
+                x => _scrollRect.verticalNormalizedPosition = x,
+                normalizedPosition,
+                0.3f
+            ).SetEase(Ease.OutCubic);
         }
 
         public void OnClickTabButton(EquipmentType type)
@@ -181,74 +203,25 @@ namespace SahurRaising
             _currentType = type;
 
             RefreshInventoryByCurrentType();
+
+            // 현재 탭 타입에 장착된 장비 정보 표시
+            ShowEquippedEquipmentInfo();
         }
 
-        public void OnClickItemSlot(ItemSlot slot)
+        public void OnClickItemSlot(ItemSlot itemSlot)
         {
-            if (slot == null)
-                return;
-
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
-
-            var data = slot.Data;
-            if (string.IsNullOrEmpty(data.Code))
-                return;
-
-            // 패널 활성화
-            _equipmentInfo.Show();
-            _equipmentInfo.RefreshEquipmentInfo(data);
-        }
-
-        public void OnClickEquipToggle(ItemSlot slot)
-        {
-            if (slot == null)
-                return;
-
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
-
-            var data = slot.Data;
-            if (string.IsNullOrEmpty(data.Code))
-                return;
-
-            EquipmentSlot targetSlot = GetEquipmentSlot(data.Type);
-            if (targetSlot == null)
-                return;
-
-            // 현재 이 타입에 장착된 코드
-            string currentCode = _equipmentService.GetEquippedCode(data.Type);
-
-            // === 토글 OFF: 같은 아이템을 다시 누른 경우 ===
-            if (!string.IsNullOrEmpty(currentCode) && currentCode == data.Code)
+            if (_equipmentInfo != null && itemSlot.Data.Code != null)
             {
-                if (_equipmentService.Unequip(data.Type))
-                {
-                    targetSlot.Clear();
-                }
+                itemSlot.HideNewIfActive();
+                _equipmentInfo.RefreshEquipmentInfo(itemSlot.Data);
             }
-            // === 토글 ON/교체: 다른 아이템을 누른 경우 ===
-            else
-            {
-                if (_equipmentService.Equip(data.Type, data.Code))
-                {
-                    slot.OnEquipped();
-                    targetSlot.SetEquipped(data);
-                }
-            }
-
-            // 인벤토리 전체 갱신
-            RefreshInventoryByCurrentType();
-
-            // 장비 슬롯 갱신
-            RefreshEquipmentSlots();
         }
 
         public void OnClickGacha()
         {
             //UIManager.Instance.ShowPopup(EPopupUIType.Gacha);
 
-            _equipmentService.AddToInventory(_equimentCode);
+            _equipmentService.AddToInventory("W1");
 
             RefreshInventoryByCurrentType();
         }
@@ -256,11 +229,6 @@ namespace SahurRaising
         public void OnClickUpgrade()
         {
             Debug.Log("[UI_Equipment] OnClickUpgrade");
-        }
-
-        public void OnClickBack()
-        {
-            UIManager.Instance.CloseCurrentPopup();
         }
     }
 }

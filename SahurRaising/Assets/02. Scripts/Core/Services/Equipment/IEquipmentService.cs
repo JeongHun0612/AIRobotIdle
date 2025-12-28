@@ -48,6 +48,7 @@ namespace SahurRaising.Core
 
         /// <summary>
         /// 장비 뽑기/보상 등으로 인벤토리에 장비를 추가합니다.
+        /// </summary>
         bool AddToInventory(string equipmentCode, int count = 1);
 
         /// <summary>

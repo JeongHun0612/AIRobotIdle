@@ -1,5 +1,4 @@
 ﻿using SahurRaising.Core;
-using UnityEngine;
 
 namespace SahurRaising
 {
@@ -10,7 +9,7 @@ namespace SahurRaising
             base.SetData(data);
 
             _slotButton.interactable = false;
-            _equipToggleButton.interactable = false;
+            _equipIcon.SetActive(false);
         }
     }
 }

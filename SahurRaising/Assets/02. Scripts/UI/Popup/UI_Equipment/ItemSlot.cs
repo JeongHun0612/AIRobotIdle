@@ -1,5 +1,5 @@
-﻿using SahurRaising.Core;
-using System;
+﻿using System;
+using SahurRaising.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,15 +15,11 @@ namespace SahurRaising
 
         [Header("버튼")]
         [SerializeField] protected Button _slotButton;
-        [SerializeField] protected Button _equipToggleButton;
-
-        [Header("장착 토글 색상")]
-        [SerializeField] protected Color _equippedColor = Color.red;
-        [SerializeField] protected Color _unequippedColor = Color.gray;
 
         [Header("상태 표시")]
         [SerializeField] protected GameObject _newText;
         [SerializeField] protected GameObject _close;
+        [SerializeField] protected GameObject _equipIcon;
 
         [Header("강화 진행도 UI")]
         [SerializeField] protected Slider _progressSlider;   // 슬라이더 바
@@ -34,6 +30,7 @@ namespace SahurRaising
         protected EquipmentRow _data;
         protected EquipmentInventoryInfo _info;
         protected bool _isNew;
+        protected bool _isEquip;
 
         public EquipmentRow Data => _data;
 
@@ -42,28 +39,10 @@ namespace SahurRaising
             _equipmentService = equipmentService;
         }
 
-        public void RegisterEquipToggleCallback(Action<ItemSlot> callback)
+        public void RegisterClickHandler(Action<ItemSlot> callback)
         {
-            if (_equipToggleButton == null)
-            {
-                Debug.LogError("[ItemSlot] EquipToggleButton is Not found!");
-                return;
-            }
-
-            _equipToggleButton.onClick.RemoveAllListeners();
-            _equipToggleButton.onClick.AddListener(() => callback?.Invoke(this));
-        }
-
-        public void RegisterSlotCallback(Action<ItemSlot> callback)
-        {
-            if (_slotButton == null)
-            {
-                Debug.LogError("[ItemSlot] SlotButton is Not found!");
-                return;
-            }
-
             _slotButton.onClick.RemoveAllListeners();
-            _slotButton.onClick.AddListener(() => callback?.Invoke(this));
+            _slotButton.onClick.AddListener(() => { callback?.Invoke(this); });
         }
 
         public virtual void SetData(EquipmentRow data)
@@ -82,11 +61,22 @@ namespace SahurRaising
             _levelText.text = $"Lv. {_info.Level}";
 
             bool isOwned = _info.Level > 0 && _info.Count > 0;
-
             _slotButton.interactable = isOwned;
-            _equipToggleButton.gameObject.SetActive(isOwned);
-            _close.SetActive(!isOwned);
 
+            // 장착 여부 확인하여 아이콘 활성화/비활성화
+            _isEquip = false;
+            if (isOwned)
+            {
+                string equippedCode = _equipmentService.GetEquippedCode(_data.Type);
+                _isEquip = !string.IsNullOrEmpty(equippedCode) && equippedCode == _data.Code;
+            }
+
+            if (_equipIcon != null)
+            {
+                _equipIcon.SetActive(isOwned && _isEquip);
+            }
+
+            _close.SetActive(!isOwned);
             _newText.SetActive(_isNew);
 
             if (_isNew)
@@ -94,25 +84,7 @@ namespace SahurRaising
                 _equipmentService.MarkAsSeen(_data.Code);
             }
 
-            // EquipToggle Update
-            string equippedCode = _equipmentService.GetEquippedCode(_data.Type);
-            bool isEquipped = isOwned && !string.IsNullOrEmpty(equippedCode) && equippedCode == _data.Code;
-            UpdateEquipToggleColor(isEquipped);
-
-            // Progress Update
             UpdateProgressUI();
-        }
-
-        private void UpdateEquipToggleColor(bool isEquipped)
-        {
-            if (_equipToggleButton == null)
-                return;
-
-            var image = _equipToggleButton.image;
-            if (image == null)
-                return;
-
-            image.color = isEquipped ? _equippedColor : _unequippedColor;
         }
 
         private void UpdateProgressUI()
@@ -137,7 +109,7 @@ namespace SahurRaising
             }
         }
 
-        private void HideNewIfActive()
+        public void HideNewIfActive()
         {
             if (!_isNew)
                 return;
@@ -145,11 +117,6 @@ namespace SahurRaising
             _isNew = false;
             if (_newText != null)
                 _newText.gameObject.SetActive(false);
-        }
-
-        public void OnEquipped()
-        {
-            HideNewIfActive();
         }
     }
 }
