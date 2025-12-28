@@ -23,6 +23,8 @@ namespace SahurRaising
 
         private readonly List<ItemSlot> _itemSlots = new();
 
+        private ItemSlot _selectedSlot;
+
         private IEquipmentService _equipmentService;
 
         private EquipmentType _currentType = EquipmentType.Weapon;
@@ -133,10 +135,11 @@ namespace SahurRaising
             // EquipmentInfo에 표시
             _equipmentInfo.RefreshEquipmentInfo(equippedData);
 
-            // 해당 ItemSlot 찾아서 선택 상태로 표시 (선택사항)
+            // 해당 ItemSlot 찾아서 선택 상태로 표시
             ItemSlot equippedSlot = FindItemSlotByCode(equippedCode);
             if (equippedSlot != null)
             {
+                SetSelectedSlot(equippedSlot);
                 ScrollToItemSlot(equippedSlot);
             }
         }
@@ -193,8 +196,31 @@ namespace SahurRaising
             ).SetEase(Ease.OutCubic);
         }
 
+        private void SetSelectedSlot(ItemSlot itemSlot)
+        {
+            // 이전 선택 해제
+            if (_selectedSlot != null && _selectedSlot != itemSlot)
+            {
+                _selectedSlot.SetFocus(false);
+            }
+
+            // 새 선택 활성화
+            _selectedSlot = itemSlot;
+            if (_selectedSlot != null)
+            {
+                _selectedSlot.SetFocus(true);
+            }
+        }
+
         public void OnClickTabButton(EquipmentType type)
         {
+            // 선택 해제
+            if (_selectedSlot != null)
+            {
+                _selectedSlot.SetFocus(false);
+                _selectedSlot = null;
+            }
+
             foreach (var tabButton in _tabButtons)
             {
                 tabButton.OnShow(tabButton.Type == type);
@@ -210,6 +236,8 @@ namespace SahurRaising
 
         public void OnClickItemSlot(ItemSlot itemSlot)
         {
+            SetSelectedSlot(itemSlot);
+
             if (_equipmentInfo != null && itemSlot.Data.Code != null)
             {
                 itemSlot.HideNewIfActive();

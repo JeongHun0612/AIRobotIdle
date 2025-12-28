@@ -18,8 +18,9 @@ namespace SahurRaising
 
         [Header("상태 표시")]
         [SerializeField] protected GameObject _newText;
-        [SerializeField] protected GameObject _close;
         [SerializeField] protected GameObject _equipIcon;
+        [SerializeField] protected GameObject _close;
+        [SerializeField] protected GameObject _focus;
 
         [Header("강화 진행도 UI")]
         [SerializeField] protected Slider _progressSlider;   // 슬라이더 바
@@ -57,6 +58,7 @@ namespace SahurRaising
             _isNew = _equipmentService.IsNewEquipment(_data.Code);
 
             _icon.sprite = data.Icon;
+            _icon.color = (data.Icon == null) ? Color.clear : Color.white;
             _rankText.text = data.Grade.ToString();
             _levelText.text = $"Lv. {_info.Level}";
 
@@ -84,6 +86,11 @@ namespace SahurRaising
                 _equipmentService.MarkAsSeen(_data.Code);
             }
 
+            if (_focus != null)
+            {
+                _focus.SetActive(false);
+            }
+
             UpdateProgressUI();
         }
 
@@ -106,6 +113,14 @@ namespace SahurRaising
                 _progressSlider.minValue = 0f;
                 _progressSlider.maxValue = requiredCount;
                 _progressSlider.value = Mathf.Clamp(ownedCount, 0, requiredCount);
+            }
+        }
+
+        public void SetFocus(bool isSelected)
+        {
+            if (_focus != null)
+            {
+                _focus.SetActive(isSelected);
             }
         }
 
