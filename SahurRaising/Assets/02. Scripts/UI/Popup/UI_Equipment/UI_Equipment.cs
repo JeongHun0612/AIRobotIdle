@@ -1,8 +1,8 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using SahurRaising.Core;
 using SahurRaising.UI;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,10 +28,12 @@ namespace SahurRaising
         private IEquipmentService _equipmentService;
 
         private EquipmentType _currentType = EquipmentType.Weapon;
+        private bool _isComponentsInitialized = false;
 
         public async override UniTask InitializeAsync()
         {
-            _equipmentService = ServiceLocator.Get<IEquipmentService>();
+            // 서비스 바인딩 시도 (실패 시 무시하고 진행)
+            TryBindService();
 
             // 탭 버튼 이벤트 등록
             RegisterTabButtons();
@@ -46,7 +48,10 @@ namespace SahurRaising
                     if (slot == null)
                         continue;
 
-                    slot.Initialize(_equipmentService);
+                    // 서비스가 있으면 즉시 초기화, 없으면 OnShow 시점으로 지연
+                    if (_equipmentService != null)
+                        slot.Initialize(_equipmentService);
+
                     slot.RegisterClickHandler(OnClickItemSlot);
 
                     _itemSlots.Add(slot);
@@ -55,7 +60,11 @@ namespace SahurRaising
             }
 
             // 장비 정보 패널 초기화
-            _equipmentInfo.Initialize(_equipmentService, RefreshInventoryByCurrentType);
+            if (_equipmentService != null)
+            {
+                _equipmentInfo.Initialize(_equipmentService, RefreshInventoryByCurrentType);
+                _isComponentsInitialized = true;
+            }
 
             await UniTask.Yield();
         }
@@ -64,10 +73,38 @@ namespace SahurRaising
         {
             base.OnShow();
 
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
+            if (!TryBindService())
+                return;
+
+            EnsureComponentsInitialized();
 
             OnClickTabButton(_currentType);
+        }
+
+        private bool TryBindService()
+        {
+            if (_equipmentService == null && ServiceLocator.HasService<IEquipmentService>())
+            {
+                _equipmentService = ServiceLocator.Get<IEquipmentService>();
+            }
+            return _equipmentService != null;
+        }
+
+        private void EnsureComponentsInitialized()
+        {
+            if (_isComponentsInitialized || _equipmentService == null)
+                return;
+
+            // 기존 슬롯들 초기화 (InitializeAsync 시점에 서비스가 없어서 못한 경우)
+            foreach (var slot in _itemSlots)
+            {
+                slot.Initialize(_equipmentService);
+            }
+
+            // 장비 정보 패널 초기화
+            _equipmentInfo.Initialize(_equipmentService, RefreshInventoryByCurrentType);
+
+            _isComponentsInitialized = true;
         }
 
         private void RegisterTabButtons()
