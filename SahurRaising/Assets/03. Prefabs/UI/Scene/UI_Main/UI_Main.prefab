@@ -130,10 +130,15 @@ MonoBehaviour:
     NormalRoot: {fileID: 465228331040807654}
     FocusRoot: {fileID: 2975480114993473480}
     Icon: {fileID: 0}
-  - PopupType: 12
+  - PopupType: 13
     Button: {fileID: 7492955006841290749}
     NormalRoot: {fileID: 8719424131154181215}
     FocusRoot: {fileID: 2069458782017316713}
+    Icon: {fileID: 0}
+  - PopupType: 12
+    Button: {fileID: 1748163700218368848}
+    NormalRoot: {fileID: 2236384785899380543}
+    FocusRoot: {fileID: 6423232336123323095}
     Icon: {fileID: 0}
   _overrideSorting: 1
   _sortingOrder: 10000
@@ -577,7 +582,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2.6, y: 11}
-  m_SizeDelta: {x: 126, y: 98}
+  m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7489849451926365511
 CanvasRenderer:
@@ -607,7 +612,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 09de875f1e2b24b69b12cfb3c6c136e3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b1d4bdc3779248dfa67f00fa337e3f9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -849,7 +854,7 @@ GameObject:
   - component: {fileID: 6518630950968687135}
   - component: {fileID: 7492955006841290749}
   m_Layer: 0
-  m_Name: QuizButton
+  m_Name: GachaButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -952,7 +957,7 @@ GameObject:
   - component: {fileID: 216319833671202200}
   - component: {fileID: 8052938137818949646}
   m_Layer: 0
-  m_Name: Quiz_Focus
+  m_Name: Gacha_Focus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1030,12 +1035,12 @@ GameObject:
   - component: {fileID: 6576313952898812354}
   - component: {fileID: 2778309762611038921}
   m_Layer: 0
-  m_Name: Battle
+  m_Name: Enhance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1708724886085369540
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2788,6 +2793,7 @@ GameObject:
   - component: {fileID: 7571390478986426364}
   - component: {fileID: 850326831837078751}
   - component: {fileID: 7823302063381206271}
+  - component: {fileID: 8284409687501939352}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2842,7 +2848,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BATTLE
+  m_text: ENHANCE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2913,6 +2919,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8284409687501939352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3888221107505270383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263b7763936882c449ba8337f55e3740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  koreanEnglishFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  cjkFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
 --- !u!1 &4013439275448891626
 GameObject:
   m_ObjectHideFlags: 0
@@ -3160,7 +3180,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 34.2}
-  m_SizeDelta: {x: 126, y: 98}
+  m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1365417005816028333
 CanvasRenderer:
@@ -3190,7 +3210,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 09de875f1e2b24b69b12cfb3c6c136e3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b1d4bdc3779248dfa67f00fa337e3f9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3832,12 +3852,12 @@ GameObject:
   - component: {fileID: 927802165287130166}
   - component: {fileID: 7744858016514976367}
   m_Layer: 0
-  m_Name: Battle_focus
+  m_Name: Enhance_focus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5336274367892155512
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4739,12 +4759,12 @@ GameObject:
   - component: {fileID: 3406701546403812626}
   - component: {fileID: 1748163700218368848}
   m_Layer: 0
-  m_Name: Temp
+  m_Name: EnhanceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6467740681094196967
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4761,10 +4781,10 @@ RectTransform:
   - {fileID: 5336274367892155512}
   m_Father: {fileID: 5498383574838454330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 135, y: -94.12499}
-  m_SizeDelta: {x: 270, y: 188.24998}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3406701546403812626
 MonoBehaviour:
@@ -5260,9 +5280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Quiz
-
-'
+  m_text: g
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5359,7 +5377,7 @@ GameObject:
   - component: {fileID: 1569109689189078289}
   - component: {fileID: 2621338788299708642}
   m_Layer: 0
-  m_Name: Quiz
+  m_Name: Gacha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -17,9 +17,11 @@ namespace SahurRaising.UI
         // 하단 레이어 탭
         Equipment = 10,
         Skill = 11,
-        Quiz = 12,
+        Enhance = 12,
+        Gacha = 13,
 
         // 공용
-        Gacha = 20,
+        //Temp = 20,
+
     }
 }
