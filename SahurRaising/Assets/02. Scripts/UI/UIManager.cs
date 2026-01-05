@@ -1,9 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
-using SahurRaising;
-using SahurRaising.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Cysharp.Threading.Tasks;
+using SahurRaising;
+using SahurRaising.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -39,6 +39,11 @@ namespace SahurRaising.UI
 
         private int _processedItems;
         private int _totalItems;
+
+        // 왜: 하단바/상시 UI 등 외부 UI가 '현재 팝업 상태'를 알 수 있어야,
+        //     UIManager의 Show/Close와 시각적 선택 상태를 안정적으로 동기화할 수 있다.
+        public event Action<EPopupUIType> PopupShown;
+        public event Action<EPopupUIType> PopupHidden;
 
         public bool IsInitialized => _isInitialized;
         public float InitializationProgress => _initializationProgress;
@@ -139,6 +144,7 @@ namespace SahurRaising.UI
         #endregion
 
         #region Popup
+        // 왜: 팝업은 UI 레이어 최상단에서 단일 활성 팝업으로 관리하여, 입력/히스토리/토글 UX를 단순화한다.
         public UI_Popup ShowPopup(EPopupUIType popupType, bool remember = true)
         {
             if (!_popupCache.TryGetValue(popupType, out UI_Popup popup))
@@ -163,6 +169,7 @@ namespace SahurRaising.UI
             _currentPopup = popup;
             _currentPopup.Show();
             _currentPopup.transform.SetAsLastSibling();
+            PopupShown?.Invoke(popupType);
             return popup;
         }
 
@@ -199,17 +206,22 @@ namespace SahurRaising.UI
             bool wasCurrent = ReferenceEquals(_currentPopup, popup);
 
             popup.Hide();
-
             if (wasCurrent)
             {
                 if (_popupHistory.Count > 0 && ReferenceEquals(_popupHistory.Peek(), popup))
                     _popupHistory.Pop();
 
                 _currentPopup = _popupHistory.Count > 0 ? _popupHistory.Peek() : null;
-                return;
+            }
+            else
+            {
+                RemovePopupFromHistory(popup);
             }
 
-            RemovePopupFromHistory(popup);
+            if (TryGetPopupType(popup, out var closedType))
+                PopupHidden?.Invoke(closedType);
+
+
         }
 
         private void RemovePopupFromHistory(UI_Popup popup)
@@ -249,12 +261,37 @@ namespace SahurRaising.UI
         public void CloseAllPopups() => ClosePopups(remain: 0);
         public T GetCurrentPopup<T>() where T : UI_Popup => _currentPopup as T;
 
+        // 왜: 하단바 같은 외부 UI가 '현재 열린 팝업 타입'을 알아야 토글/선택 동기화가 가능하다.
+        public EPopupUIType GetCurrentPopupType()
+        {
+            if (_currentPopup == null)
+                return EPopupUIType.None;
+
+            return TryGetPopupType(_currentPopup, out var type) ? type : EPopupUIType.None;
+        }
+
         public bool IsPopupActive(EPopupUIType popupType)
         {
             if (_popupCache.TryGetValue(popupType, out var popup))
             {
                 return popup != null && popup.gameObject.activeInHierarchy;
             }
+            return false;
+        }
+
+        // 왜: 현재 구현은 팝업 인스턴스를 캐시에 1개씩 보관하므로, 역매핑(인스턴스->타입)이 필요할 때 캐시를 탐색한다.
+        private bool TryGetPopupType(UI_Popup popup, out EPopupUIType type)
+        {
+            foreach (var pair in _popupCache)
+            {
+                if (ReferenceEquals(pair.Value, popup))
+                {
+                    type = pair.Key;
+                    return true;
+                }
+            }
+
+            type = EPopupUIType.None;
             return false;
         }
         #endregion
@@ -508,5 +545,8 @@ namespace SahurRaising.UI
             }
             return null;
         }
+
+
+
     }
 }

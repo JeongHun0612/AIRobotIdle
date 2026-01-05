@@ -12,7 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c2288cc2514e14c906da4c0f469dea, type: 3}
   m_Name: UIRegistry
   m_EditorClassIdentifier: 
-  Scenes: []
+  Scenes:
+  - _type: 1
+    _prefabReference:
+      m_AssetGUID: 1b73f732571c6224bb3fc1103ea08ee6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+  - _type: 2
+    _prefabReference:
+      m_AssetGUID: 45012b55604ddcf4096140450e748f58
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
   Popups:
   - _type: 10
     _prefabReference:
@@ -21,10 +35,3 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 0
-  - _type: 20
-    _prefabReference:
-      m_AssetGUID: 378e669c0c17ab24e8f8163df4fd70ad
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1

@@ -1,0 +1,1973 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebdce14cdfad3594886105960a66f6ce, type: 3}
+  m_Name: SkillTable
+  m_EditorClassIdentifier: 
+  _rows:
+  - ID: AUTO01
+    Name: "\uC790\uB3D9\uD654 I"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 0
+    Time: 5
+    XCoord: 0
+    YCoord: 0
+    Coord: 0|0
+    Prefix: AUTO
+    IsFirstNode: 1
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO02
+    Name: "\uC790\uB3D9\uD654 II"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 1
+    Time: 10
+    XCoord: 0
+    YCoord: -1
+    Coord: 0|-1
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO03
+    Name: "\uC790\uB3D9\uD654 III"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 3
+    Time: 20
+    XCoord: -2
+    YCoord: 0
+    Coord: -2|0
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO04
+    Name: "\uC790\uB3D9\uD654 IV"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: -3
+    YCoord: -1
+    Coord: -3|-1
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO05
+    Name: "\uC790\uB3D9\uD654 V"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: -2
+    YCoord: -2
+    Coord: -2|-2
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO06
+    Name: "\uC790\uB3D9\uD654 VI"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: -4
+    YCoord: 1
+    Coord: -4|1
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO07
+    Name: "\uC790\uB3D9\uD654 VII"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: -4
+    YCoord: -2
+    Coord: -4|-2
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO08
+    Name: "\uC790\uB3D9\uD654 VIII"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: -3
+    YCoord: -3
+    Coord: -3|-3
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO09
+    Name: "\uC790\uB3D9\uD654 IX"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 19
+    Time: 300
+    XCoord: -4
+    YCoord: 3
+    Coord: -4|3
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: AUTO10
+    Name: "\uC790\uB3D9\uD654 X"
+    Desc: "\uCD08\uB2F9 \uC790\uB3D9 \uD130\uCE58 +1\uD68C"
+    Note: 
+    Cost: 19
+    Time: 300
+    XCoord: -3
+    YCoord: 4
+    Coord: -3|4
+    Prefix: AUTO
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 1
+    Value: 1
+  - ID: PARR01
+    Name: "\uBCD1\uB82C\uCC98\uB9AC I"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -40% \uB85C\uBD07\uD314 +1"
+    Note: "\uB4DC\uB860\uC5D0\uB294 \uC801\uC6A9 X"
+    Cost: 3
+    Time: 20
+    XCoord: -1
+    YCoord: -1
+    Coord: -1|-1
+    Prefix: PARR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 1
+  - ID: PARR02
+    Name: "\uBCD1\uB82C\uCC98\uB9AC II"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -30% \uB85C\uBD07\uD314 +1"
+    Note: "\uB4DC\uB860\uC5D0\uB294 \uC801\uC6A9 X"
+    Cost: 8
+    Time: 50
+    XCoord: 4
+    YCoord: 0
+    Coord: 4|0
+    Prefix: PARR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 1
+  - ID: PARR03
+    Name: "\uBCD1\uB82C\uCC98\uB9AC III"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -40% \uB85C\uBD07\uD314 +2"
+    Note: "\uB4DC\uB860\uC5D0\uB294 \uC801\uC6A9 X"
+    Cost: 19
+    Time: 300
+    XCoord: 7
+    YCoord: 0
+    Coord: 7|0
+    Prefix: PARR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 2
+  - ID: PARR04
+    Name: "\uBCD1\uB82C\uCC98\uB9AC IV"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -20% \uB85C\uBD07\uD314 +1"
+    Note: "\uB4DC\uB860\uC5D0\uB294 \uC801\uC6A9 X"
+    Cost: 27
+    Time: 1260
+    XCoord: 7
+    YCoord: -2
+    Coord: 7|-2
+    Prefix: PARR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 1
+  - ID: PARR05
+    Name: "\uBCD1\uB82C\uCC98\uB9AC V"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 -30% \uB85C\uBD07\uD314 +2"
+    Note: "\uB4DC\uB860\uC5D0\uB294 \uC801\uC6A9 X"
+    Cost: 40
+    Time: 14400
+    XCoord: 10
+    YCoord: 2
+    Coord: 10|2
+    Prefix: PARR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 2
+    Value: 2
+  - ID: HERR01
+    Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 II"
+    Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
+    Note: 
+    Cost: 5
+    Time: 30
+    XCoord: 1
+    YCoord: -2
+    Coord: 1|-2
+    Prefix: HERR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
+  - ID: HERR02
+    Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 II"
+    Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: 0
+    YCoord: -4
+    Coord: 0|-4
+    Prefix: HERR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
+  - ID: HERR03
+    Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 III"
+    Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: -4
+    YCoord: -1
+    Coord: -4|-1
+    Prefix: HERR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
+  - ID: HERR04
+    Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 IV"
+    Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
+    Note: 
+    Cost: 36
+    Time: 7200
+    XCoord: -2
+    YCoord: -9
+    Coord: -2|-9
+    Prefix: HERR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
+  - ID: HERR05
+    Name: "\uD734\uBA3C \uC5D0\uB7EC \uC81C\uAC70 V"
+    Desc: "\uD06C\uB9AC\uD2F0\uCEEC \uC2E4\uD328 \uBC29\uC5B4 +10%"
+    Note: 
+    Cost: 40
+    Time: 14400
+    XCoord: -1
+    YCoord: -11
+    Coord: -1|-11
+    Prefix: HERR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 3
+    Value: 0.1
+  - ID: OFIT01
+    Name: "\uC624\uBC84\uD53C\uD305 I"
+    Desc: "\uACF5\uACA9\uB825/\uBC29\uC5B4\uB825/\uCCB4\uB825 \uC911 \uAC00\uC7A5
+      \uB192\uC740 \uB2A5\uB825\uCE58\uC5D0 \uB300\uD574 1.5\uBC30 \uC801\uC6A9"
+    Note: 
+    Cost: 15
+    Time: 15
+    XCoord: 3
+    YCoord: -3
+    Coord: 3|-3
+    Prefix: OFIT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 4
+    Value: 1.5
+  - ID: OFIT02
+    Name: "\uC624\uBC84\uD53C\uD305 III"
+    Desc: "\uACF5\uACA9\uB825/\uBC29\uC5B4\uB825/\uCCB4\uB825 \uC911 \uAC00\uC7A5
+      \uB192\uC740 \uB2A5\uB825\uCE58\uC5D0 \uB300\uD574 2\uBC30 \uC801\uC6A9"
+    Note: 
+    Cost: 32
+    Time: 3600
+    XCoord: 7
+    YCoord: -3
+    Coord: 7|-3
+    Prefix: OFIT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 4
+    Value: 2
+  - ID: OFIT03
+    Name: "\uC624\uBC84\uD53C\uD305 III"
+    Desc: "\uACF5\uACA9\uB825/\uBC29\uC5B4\uB825/\uCCB4\uB825 \uC911 \uAC00\uC7A5
+      \uB192\uC740 \uB2A5\uB825\uCE58\uC5D0 \uB300\uD574 2.5\uBC30 \uC801\uC6A9"
+    Note: 
+    Cost: 50
+    Time: 28800
+    XCoord: 10
+    YCoord: 3
+    Coord: 10|3
+    Prefix: OFIT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 4
+    Value: 2.5
+  - ID: FINT01
+    Name: "\uD30C\uC778\uD29C\uB2DD I"
+    Desc: "\uC774\uBBF8 \uAE6C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758 \uCD5C\uC885
+      \uACF5\uACA9\uB825 +25%"
+    Note: 
+    Cost: 3
+    Time: 20
+    XCoord: 0
+    YCoord: -2
+    Coord: 0|-2
+    Prefix: FINT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 5
+    Value: 0.25
+  - ID: FINT02
+    Name: "\uD30C\uC778\uD29C\uB2DD II"
+    Desc: "\uC774\uBBF8 \uAE6C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758 \uCD5C\uC885
+      \uACF5\uACA9\uB825 +25%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: 5
+    YCoord: -1
+    Coord: 5|-1
+    Prefix: FINT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 5
+    Value: 0.25
+  - ID: FINT03
+    Name: "\uD30C\uC778\uD29C\uB2DD III"
+    Desc: "\uC774\uBBF8 \uAE6C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758 \uCD5C\uC885
+      \uACF5\uACA9\uB825 +25%"
+    Note: 
+    Cost: 36
+    Time: 7200
+    XCoord: 8
+    YCoord: -3
+    Coord: 8|-3
+    Prefix: FINT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 5
+    Value: 0.25
+  - ID: KNAG01
+    Name: "\uC9C0\uC2DD\uD655\uC7A5 I"
+    Desc: "\uC544\uC9C1 \uAE68\uC9C0 \uBABB\uD55C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758
+      \uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: -1
+    YCoord: 4
+    Coord: -1|4
+    Prefix: KNAG
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 6
+    Value: 0.1
+  - ID: KNAG02
+    Name: "\uC9C0\uC2DD\uD655\uC7A5 II"
+    Desc: "\uC544\uC9C1 \uAE68\uC9C0 \uBABB\uD55C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758
+      \uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: 0
+    YCoord: 5
+    Coord: 0|5
+    Prefix: KNAG
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 6
+    Value: 0.1
+  - ID: KNAG03
+    Name: "\uC9C0\uC2DD\uD655\uC7A5 III"
+    Desc: "\uC544\uC9C1 \uAE68\uC9C0 \uBABB\uD55C \uC2A4\uD14C\uC774\uC9C0\uC5D0\uC11C\uC758
+      \uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: 2
+    YCoord: 4
+    Coord: 2|4
+    Prefix: KNAG
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 6
+    Value: 0.1
+  - ID: SELF01
+    Name: "\uC790\uAE30\uAC1C\uC120 I"
+    Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uC2DC 10%\uD655\uB960\uB85C 2\uBC88 \uC5C5\uADF8\uB808\uC774\uB4DC
+      \uC801\uC6A9"
+    Note: "Max\uB808\uBCA8\uC744 \uB118\uC9C0 \uBABB\uD568"
+    Cost: 11
+    Time: 80
+    XCoord: 5
+    YCoord: 0
+    Coord: 5|0
+    Prefix: SELF
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 7
+    Value: 0.1
+  - ID: SELF02
+    Name: "\uC790\uAE30\uAC1C\uC120 II"
+    Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uC2DC 5%\uD655\uB960\uB85C 2\uBC88 \uC5C5\uADF8\uB808\uC774\uB4DC
+      \uC801\uC6A9"
+    Note: "Max\uB808\uBCA8\uC744 \uB118\uC9C0 \uBABB\uD568"
+    Cost: 23
+    Time: 600
+    XCoord: 6
+    YCoord: -2
+    Coord: 6|-2
+    Prefix: SELF
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 7
+    Value: 0.05
+  - ID: SELF03
+    Name: "\uC790\uAE30\uAC1C\uC120 III"
+    Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uC2DC 15%\uD655\uB960\uB85C 2\uBC88 \uC5C5\uADF8\uB808\uC774\uB4DC
+      \uC801\uC6A9"
+    Note: "Max\uB808\uBCA8\uC744 \uB118\uC9C0 \uBABB\uD568"
+    Cost: 40
+    Time: 14400
+    XCoord: 9
+    YCoord: -3
+    Coord: 9|-3
+    Prefix: SELF
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 7
+    Value: 0.15
+  - ID: SENS01
+    Name: "\uC13C\uC11C I"
+    Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: -2
+    YCoord: 3
+    Coord: -2|3
+    Prefix: SENS
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
+  - ID: SENS02
+    Name: "\uC13C\uC11C II"
+    Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: -1
+    YCoord: 5
+    Coord: -1|5
+    Prefix: SENS
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
+  - ID: SENS03
+    Name: "\uC13C\uC11C III"
+    Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
+    Note: 
+    Cost: 23
+    Time: 600
+    XCoord: -4
+    YCoord: 4
+    Coord: -4|4
+    Prefix: SENS
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
+  - ID: SENS04
+    Name: "\uC13C\uC11C IV"
+    Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
+    Note: 
+    Cost: 27
+    Time: 1260
+    XCoord: -3
+    YCoord: 6
+    Coord: -3|6
+    Prefix: SENS
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
+  - ID: SENS05
+    Name: "\uC13C\uC11C V"
+    Desc: "\uB85C\uBD07 \uD314 \uACF5\uACA9 \uBC94\uC704 +10%"
+    Note: 
+    Cost: 27
+    Time: 1260
+    XCoord: 4
+    YCoord: 5
+    Coord: 4|5
+    Prefix: SENS
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 8
+    Value: 0.1
+  - ID: VALG01
+    Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 I"
+    Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: -3
+    YCoord: 2
+    Coord: -3|2
+    Prefix: VALG
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: VALG02
+    Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 II"
+    Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 23
+    Time: 600
+    XCoord: -3
+    YCoord: 5
+    Coord: -3|5
+    Prefix: VALG
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: VALG03
+    Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 III"
+    Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 27
+    Time: 1260
+    XCoord: -1
+    YCoord: 8
+    Coord: -1|8
+    Prefix: VALG
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: VALG04
+    Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 IV"
+    Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 32
+    Time: 3600
+    XCoord: -1
+    YCoord: 9
+    Coord: -1|9
+    Prefix: VALG
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: VALG05
+    Name: "\uBE44\uC804 \uC54C\uACE0\uB9AC\uC998 V"
+    Desc: "\uACF5\uACA9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 19
+    Time: 300
+    XCoord: 2
+    YCoord: 5
+    Coord: 2|5
+    Prefix: VALG
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 11
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: CALB01
+    Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 I"
+    Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: 0
+    YCoord: 4
+    Coord: 0|4
+    Prefix: CALB
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
+  - ID: CALB02
+    Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 II"
+    Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: 1
+    YCoord: 3
+    Coord: 1|3
+    Prefix: CALB
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
+  - ID: CALB03
+    Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 III"
+    Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: 1
+    YCoord: 5
+    Coord: 1|5
+    Prefix: CALB
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
+  - ID: CALB04
+    Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 IV"
+    Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: -3
+    YCoord: 3
+    Coord: -3|3
+    Prefix: CALB
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
+  - ID: CALB05
+    Name: "\uCE7C\uB9AC\uBE0C\uB808\uC774\uC158 V"
+    Desc: "\uC801\uC758 \uD68C\uD53C \uD655\uB960 -10%"
+    Note: 
+    Cost: 19
+    Time: 300
+    XCoord: -1
+    YCoord: 6
+    Coord: -1|6
+    Prefix: CALB
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 9
+    Value: -0.1
+  - ID: ACTU01
+    Name: "\uC561\uCD94\uC5D0\uC774\uD130 I"
+    Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: 2
+    YCoord: -2
+    Coord: 2|-2
+    Prefix: ACTU
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
+  - ID: ACTU02
+    Name: "\uC561\uCD94\uC5D0\uC774\uD130 II"
+    Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: -1
+    YCoord: -4
+    Coord: -1|-4
+    Prefix: ACTU
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
+  - ID: ACTU03
+    Name: "\uC561\uCD94\uC5D0\uC774\uD130 III"
+    Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: 1
+    YCoord: -5
+    Coord: 1|-5
+    Prefix: ACTU
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
+  - ID: ACTU04
+    Name: "\uC561\uCD94\uC5D0\uC774\uD130 IV"
+    Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 27
+    Time: 1260
+    XCoord: -1
+    YCoord: -8
+    Coord: -1|-8
+    Prefix: ACTU
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
+  - ID: ACTU05
+    Name: "\uC561\uCD94\uC5D0\uC774\uD130 V"
+    Desc: "\uC774\uB3D9\uC18D\uB3C4 +10%"
+    Note: 
+    Cost: 27
+    Time: 1260
+    XCoord: -2
+    YCoord: -7
+    Coord: -2|-7
+    Prefix: ACTU
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 10
+    Value: 0.1
+  - ID: RLOP01
+    Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 I"
+    Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: -3
+    YCoord: 1
+    Coord: -3|1
+    Prefix: RLOP
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
+  - ID: RLOP02
+    Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 II"
+    Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: -1
+    YCoord: 3
+    Coord: -1|3
+    Prefix: RLOP
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
+  - ID: RLOP03
+    Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 III"
+    Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: -4
+    YCoord: 0
+    Coord: -4|0
+    Prefix: RLOP
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
+  - ID: RLOP04
+    Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 IV"
+    Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: -5
+    YCoord: -1
+    Coord: -5|-1
+    Prefix: RLOP
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
+  - ID: RLOP05
+    Name: "\uAC15\uD654\uD559\uC2B5 \uCD5C\uC801\uD654 V"
+    Desc: "\uC5C5\uADF8\uB808\uC774\uB4DC \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: -5
+    YCoord: 1
+    Coord: -5|1
+    Prefix: RLOP
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 11
+    Value: -0.05
+  - ID: WBOX01
+    Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 I"
+    Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: 2
+    YCoord: -3
+    Coord: 2|-3
+    Prefix: WBOX
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
+  - ID: WBOX02
+    Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 II"
+    Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: -2
+    YCoord: -4
+    Coord: -2|-4
+    Prefix: WBOX
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
+  - ID: WBOX03
+    Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 III"
+    Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 19
+    Time: 300
+    XCoord: 1
+    YCoord: -6
+    Coord: 1|-6
+    Prefix: WBOX
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
+  - ID: WBOX04
+    Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 IV"
+    Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 32
+    Time: 3600
+    XCoord: -2
+    YCoord: -8
+    Coord: -2|-8
+    Prefix: WBOX
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
+  - ID: WBOX05
+    Name: "\uD654\uC774\uD2B8\uBC15\uC2A4 V"
+    Desc: "\uC2A4\uD0AC \uAC15\uD654 \uBE44\uC6A9 -5%"
+    Note: 
+    Cost: 36
+    Time: 7200
+    XCoord: -1
+    YCoord: -10
+    Coord: -1|-10
+    Prefix: WBOX
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 12
+    Value: -0.05
+  - ID: SGRL01
+    Name: "\uC2F1\uADE4\uB798\uB9AC\uD2F0"
+    Desc: "\uACF5\uACA9 \uC2DC \uC801 5%\uD655\uB960\uB85C \uCC98\uD615(\uBCF4\uC2A4\uC81C\uC678)"
+    Note: "\uB85C\uBD07\uD314 \uAE30\uC900"
+    Cost: 100
+    Time: 86400
+    XCoord: 10
+    YCoord: 4
+    Coord: 10|4
+    Prefix: SGRL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 13
+    Value: 0.05
+  - ID: CBKD02
+    Name: "\uCF54\uC778\uCC44\uAD74 \uBC31\uB3C4\uC5B4 I"
+    Desc: "\uCD5C\uC885 \uACE8\uB4DC \uD68D\uB4DD\uB7C9 20% \uC99D\uAC00"
+    Note: 
+    Cost: 8
+    Time: 50
+    XCoord: -2
+    YCoord: 2
+    Coord: -2|2
+    Prefix: CBKD
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 8
+    TargetSpecial: 0
+    Value: 0.2
+  - ID: CBKD01
+    Name: "\uCF54\uC778\uCC44\uAD74 \uBC31\uB3C4\uC5B4 II"
+    Desc: "\uCD5C\uC885 \uACE8\uB4DC \uD68D\uB4DD\uB7C9 20% \uC99D\uAC00"
+    Note: 
+    Cost: 5
+    Time: 30
+    XCoord: -3
+    YCoord: 0
+    Coord: -3|0
+    Prefix: CBKD
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 8
+    TargetSpecial: 0
+    Value: 0.2
+  - ID: CBKD03
+    Name: "\uCF54\uC778\uCC44\uAD74 \uBC31\uB3C4\uC5B4 III"
+    Desc: "\uCD5C\uC885 \uACE8\uB4DC \uD68D\uB4DD\uB7C9 20% \uC99D\uAC00"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: -5
+    YCoord: 0
+    Coord: -5|0
+    Prefix: CBKD
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 8
+    TargetSpecial: 0
+    Value: 0.2
+  - ID: DCOL01
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 I"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 5
+    Time: 30
+    XCoord: 0
+    YCoord: -3
+    Coord: 0|-3
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL02
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 II"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 5
+    Time: 30
+    XCoord: -2
+    YCoord: -1
+    Coord: -2|-1
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL03
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 III"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: 3
+    YCoord: -2
+    Coord: 3|-2
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL04
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 IV"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 11
+    Time: 80
+    XCoord: -2
+    YCoord: -3
+    Coord: -2|-3
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL05
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 V"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: 0
+    YCoord: -6
+    Coord: 0|-6
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL06
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 VI"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 19
+    Time: 300
+    XCoord: 2
+    YCoord: -5
+    Coord: 2|-5
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL07
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 VII"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 19
+    Time: 300
+    XCoord: -1
+    YCoord: -6
+    Coord: -1|-6
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL08
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 VIII"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 23
+    Time: 600
+    XCoord: 1
+    YCoord: -7
+    Coord: 1|-7
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL09
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 IX"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 23
+    Time: 600
+    XCoord: -1
+    YCoord: -7
+    Coord: -1|-7
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DCOL10
+    Name: "\uB370\uC774\uD130 \uC218\uC9D1 X"
+    Desc: "\uC801\uC5D0\uAC8C \uD06C\uB9AC\uD2F0\uCEEC \uACF5\uACA9\uC744 \uBC1B\uC744
+      \uD655\uB960 -10%"
+    Note: 
+    Cost: 23
+    Time: 600
+    XCoord: -2
+    YCoord: -6
+    Coord: -2|-6
+    Prefix: DCOL
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 14
+    Value: 0.1
+  - ID: DFIR01
+    Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v1.0"
+    Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: -1
+    YCoord: -5
+    Coord: -1|-5
+    Prefix: DFIR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
+  - ID: DFIR02
+    Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v2.0"
+    Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
+    Note: 
+    Cost: 15
+    Time: 150
+    XCoord: 6
+    YCoord: 0
+    Coord: 6|0
+    Prefix: DFIR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
+  - ID: DFIR03
+    Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v3.0"
+    Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
+    Note: 
+    Cost: 19
+    Time: 300
+    XCoord: 5
+    YCoord: -2
+    Coord: 5|-2
+    Prefix: DFIR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
+  - ID: DFIR04
+    Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v4.0"
+    Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
+    Note: 
+    Cost: 23
+    Time: 600
+    XCoord: 8
+    YCoord: 0
+    Coord: 8|0
+    Prefix: DFIR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
+  - ID: DFIR05
+    Name: "\uB4DC\uB860 \uD38C\uC6E8\uC5B4 v5.0"
+    Desc: "\uB4DC\uB860 \uACF5\uACA9\uB825 +20%"
+    Note: 
+    Cost: 23
+    Time: 600
+    XCoord: 7
+    YCoord: 1
+    Coord: 7|1
+    Prefix: DFIR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 2
+    TargetStat: 0
+    TargetSpecial: 15
+    Value: 0.2
+  - ID: CPUR01
+    Name: "CPU \uAC15\uD654 I"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 1
+    Time: 12
+    XCoord: 0
+    YCoord: 1
+    Coord: 0|1
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR02
+    Name: "CPU \uAC15\uD654 II"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 1
+    Time: 12
+    XCoord: 1
+    YCoord: 0
+    Coord: 1|0
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR03
+    Name: "CPU \uAC15\uD654 III"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 1
+    Time: 12
+    XCoord: -1
+    YCoord: 0
+    Coord: -1|0
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR04
+    Name: "CPU \uAC15\uD654 IV"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 5
+    Time: 30
+    XCoord: -1
+    YCoord: 2
+    Coord: -1|2
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR05
+    Name: "CPU \uAC15\uD654 V"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 5
+    Time: 30
+    XCoord: 0
+    YCoord: 3
+    Coord: 0|3
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR06
+    Name: "CPU \uAC15\uD654 VI"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 5
+    Time: 30
+    XCoord: 3
+    YCoord: 0
+    Coord: 3|0
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR07
+    Name: "CPU \uAC15\uD654 VII"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 5
+    Time: 30
+    XCoord: 2
+    YCoord: 1
+    Coord: 2|1
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR08
+    Name: "CPU \uAC15\uD654 VIII"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 5
+    Time: 30
+    XCoord: -2
+    YCoord: 1
+    Coord: -2|1
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR09
+    Name: "CPU \uAC15\uD654 IX"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 5
+    Time: 30
+    XCoord: 1
+    YCoord: 2
+    Coord: 1|2
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: CPUR10
+    Name: "CPU \uAC15\uD654 X"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +5%"
+    Note: "\uC911\uC559\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 5
+    Time: 30
+    XCoord: 2
+    YCoord: -1
+    Coord: 2|-1
+    Prefix: CPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.05
+  - ID: GPUR01
+    Name: "GPU \uAC15\uD654 I"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 15
+    Time: 150
+    XCoord: -6
+    YCoord: 0
+    Coord: -6|0
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR02
+    Name: "GPU \uAC15\uD654 II"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 23
+    Time: 600
+    XCoord: -1
+    YCoord: 7
+    Coord: -1|7
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR03
+    Name: "GPU \uAC15\uD654 III"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 23
+    Time: 600
+    XCoord: 3
+    YCoord: 5
+    Coord: 3|5
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR04
+    Name: "GPU \uAC15\uD654 IV"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 27
+    Time: 1260
+    XCoord: 9
+    YCoord: 0
+    Coord: 9|0
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR05
+    Name: "GPU \uAC15\uD654 V"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 32
+    Time: 3600
+    XCoord: -1
+    YCoord: -9
+    Coord: -1|-9
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR06
+    Name: "GPU \uAC15\uD654 VI"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 36
+    Time: 7200
+    XCoord: 11
+    YCoord: 0
+    Coord: 11|0
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR07
+    Name: "GPU \uAC15\uD654 VII"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 36
+    Time: 7200
+    XCoord: 10
+    YCoord: 1
+    Coord: 10|1
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR08
+    Name: "GPU \uAC15\uD654 VIII"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 36
+    Time: 7200
+    XCoord: 10
+    YCoord: -1
+    Coord: 10|-1
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR09
+    Name: "GPU \uAC15\uD654 IX"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 36
+    Time: 7200
+    XCoord: 9
+    YCoord: -2
+    Coord: 9|-2
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: GPUR10
+    Name: "GPU \uAC15\uD654 X"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +10%"
+    Note: "\uB2E4\uC18C \uC678\uACFD\uC5D0 \uB450\uAE30"
+    Cost: 40
+    Time: 14400
+    XCoord: 10
+    YCoord: -2
+    Coord: 10|-2
+    Prefix: GPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: TPUR01
+    Name: "TPU \uAC15\uD654 I"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 45
+    Time: 21600
+    XCoord: 13
+    YCoord: 0
+    Coord: 13|0
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR02
+    Name: "TPU \uAC15\uD654 II"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 45
+    Time: 25200
+    XCoord: 12
+    YCoord: 1
+    Coord: 12|1
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR03
+    Name: "TPU \uAC15\uD654 III"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 50
+    Time: 28800
+    XCoord: 12
+    YCoord: -1
+    Coord: 12|-1
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR04
+    Name: "TPU \uAC15\uD654 IV"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 50
+    Time: 32400
+    XCoord: 11
+    YCoord: -2
+    Coord: 11|-2
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR05
+    Name: "TPU \uAC15\uD654 V"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 50
+    Time: 36000
+    XCoord: 11
+    YCoord: 2
+    Coord: 11|2
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR06
+    Name: "TPU \uAC15\uD654 VI"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 55
+    Time: 50400
+    XCoord: 13
+    YCoord: 1
+    Coord: 13|1
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR07
+    Name: "TPU \uAC15\uD654 VII"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 60
+    Time: 54000
+    XCoord: 13
+    YCoord: -1
+    Coord: 13|-1
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR08
+    Name: "TPU \uAC15\uD654 VIII"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 65
+    Time: 57500
+    XCoord: 12
+    YCoord: 2
+    Coord: 12|2
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR09
+    Name: "TPU \uAC15\uD654 IX"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 70
+    Time: 60000
+    XCoord: 12
+    YCoord: -2
+    Coord: 12|-2
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: TPUR10
+    Name: "TPU \uAC15\uD654 X"
+    Desc: "\uCD5C\uC885 \uACF5\uACA9\uB825 +15%"
+    Note: "\uCD5C\uC678\uACFD\uC5D0 \uBC30\uCE58\uD558\uAE30"
+    Cost: 75
+    Time: 70000
+    XCoord: 11
+    YCoord: -3
+    Coord: 11|-3
+    Prefix: TPUR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 1
+    TargetSpecial: 0
+    Value: 0.15
+  - ID: MATR01
+    Name: "\uC7A5\uAC11\uAC15\uD654 I"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
+    Note: "\uC911\uC559\uC5D0 \uB113\uAC8C \uBC30\uCE58\uD558\uAE30"
+    Cost: 3
+    Time: 20
+    XCoord: 0
+    YCoord: 2
+    Coord: 0|2
+    Prefix: MATR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: MATR02
+    Name: "\uC7A5\uAC11\uAC15\uD654 II"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
+    Note: "\uC911\uC559\uC5D0 \uB113\uAC8C \uBC30\uCE58\uD558\uAE30"
+    Cost: 3
+    Time: 20
+    XCoord: 1
+    YCoord: 1
+    Coord: 1|1
+    Prefix: MATR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: MATR03
+    Name: "\uC7A5\uAC11\uAC15\uD654 III"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
+    Note: "\uC911\uC559\uC5D0 \uB113\uAC8C \uBC30\uCE58\uD558\uAE30"
+    Cost: 3
+    Time: 20
+    XCoord: -1
+    YCoord: 1
+    Coord: -1|1
+    Prefix: MATR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: MATR04
+    Name: "\uC7A5\uAC11\uAC15\uD654 IV"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
+    Note: "\uC911\uC559\uC5D0 \uB113\uAC8C \uBC30\uCE58\uD558\uAE30"
+    Cost: 3
+    Time: 20
+    XCoord: 2
+    YCoord: 0
+    Coord: 2|0
+    Prefix: MATR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: MATR05
+    Name: "\uC7A5\uAC11\uAC15\uD654 V"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +10%"
+    Note: "\uC911\uC559\uC5D0 \uB113\uAC8C \uBC30\uCE58\uD558\uAE30"
+    Cost: 3
+    Time: 20
+    XCoord: 1
+    YCoord: -1
+    Coord: 1|-1
+    Prefix: MATR
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.1
+  - ID: MATT01
+    Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 I"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
+    Note: "\uC678\uACFD\uC5D0 \uBC30\uCE58"
+    Cost: 27
+    Time: 1260
+    XCoord: 8
+    YCoord: 1
+    Coord: 8|1
+    Prefix: MATT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2
+  - ID: MATT02
+    Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 II"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
+    Note: "\uC678\uACFD\uC5D0 \uBC30\uCE58"
+    Cost: 32
+    Time: 3600
+    XCoord: 9
+    YCoord: -1
+    Coord: 9|-1
+    Prefix: MATT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2
+  - ID: MATT03
+    Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 III"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
+    Note: "\uC678\uACFD\uC5D0 \uBC30\uCE58"
+    Cost: 40
+    Time: 14400
+    XCoord: 12
+    YCoord: 0
+    Coord: 12|0
+    Prefix: MATT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2
+  - ID: MATT04
+    Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 IV"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
+    Note: "\uC678\uACFD\uC5D0 \uBC30\uCE58"
+    Cost: 40
+    Time: 14400
+    XCoord: 11
+    YCoord: 1
+    Coord: 11|1
+    Prefix: MATT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2
+  - ID: MATT05
+    Name: "\uD2F0\uD0C0\uB284 \uC258 \uAC15\uD654 V"
+    Desc: "\uCD5C\uC885 \uBC29\uC5B4\uB825 +20%"
+    Note: "\uC678\uACFD\uC5D0 \uBC30\uCE58"
+    Cost: 40
+    Time: 14400
+    XCoord: 11
+    YCoord: -1
+    Coord: 11|-1
+    Prefix: MATT
+    IsFirstNode: 0
+    Icon: {fileID: 0}
+    EffectType: 1
+    TargetStat: 3
+    TargetSpecial: 0
+    Value: 0.2

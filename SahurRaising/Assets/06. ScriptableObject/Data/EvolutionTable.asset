@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ed87c37893c624ea8e8515514770e3, type: 3}
+  m_Name: EvolutionTable
+  m_EditorClassIdentifier: 
+  _rows:
+  - EvolutionLevel: 1
+    CharacterName: "\uACE0\uBB3C\uBD07"
+    ReqSumLevel: 0
+    BonusATKR3: 0
+    Concept: 
+  - EvolutionLevel: 2
+    CharacterName: "\uC591\uC740\uB0C4\uBE44\uBD07"
+    ReqSumLevel: 500
+    BonusATKR3: 100
+    Concept: 
+  - EvolutionLevel: 3
+    CharacterName: "\uB355\uD14C\uC774\uD504 \uBD07"
+    ReqSumLevel: 1500
+    BonusATKR3: 200
+    Concept: 
+  - EvolutionLevel: 4
+    CharacterName: "\uD50C\uB77C\uC2A4\uD2F1 \uBD07"
+    ReqSumLevel: 3000
+    BonusATKR3: 300
+    Concept: 
+  - EvolutionLevel: 5
+    CharacterName: "\uB85C\uBD07 \uCCAD\uC18C\uAE30"
+    ReqSumLevel: 6000
+    BonusATKR3: 500
+    Concept: 
+  - EvolutionLevel: 6
+    CharacterName: "\uC2A4\uC704\uD37C"
+    ReqSumLevel: 10000
+    BonusATKR3: 800
+    Concept: "\uC778\uAC04\uC4F0\uB808\uAE30\uB97C \uCCAD\uC18C\uD560 \uC218 \uC788\uB294
+      \uD070 \uB85C\uBD07\uCCAD\uC18C\uAE30"
+  - EvolutionLevel: 7
+    CharacterName: "\uC0AC\uC774\uBC84 \uC2A4\uCE74\uC6B0\uD2B8"
+    ReqSumLevel: 14000
+    BonusATKR3: 1200
+    Concept: "\uBCF4\uC548\uAE30\uB2A5\uB3C4 \uAC16\uCD98 \uB611\uB611\uD55C AI \uB85C\uBD07"
+  - EvolutionLevel: 8
+    CharacterName: ZPT-5
+    ReqSumLevel: 19000
+    BonusATKR3: 2000
+    Concept: 
+  - EvolutionLevel: 9
+    CharacterName: AGI
+    ReqSumLevel: 27000
+    BonusATKR3: 3000
+    Concept: "\uBB54\uAC00 \uB611\uB611\uD568"
+  - EvolutionLevel: 10
+    CharacterName: "\uC2F1\uADE4\uB798\uB9AC\uD2F0(\uD640\uB85C\uADF8\uB7A8)"
+    ReqSumLevel: 40000
+    BonusATKR3: 5000
+    Concept: "\uBE5B\uB9CC \uB0A8"

@@ -23,6 +23,11 @@ public static class DataTableBuilder
         BuildUpgrade();
         BuildStats();
         BuildEquipment();
+        BuildDrone();
+        BuildEvolution();
+        BuildSkill();
+        BuildGachaDrone();
+        BuildGachaEquipment();
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -42,7 +47,7 @@ public static class DataTableBuilder
 
     private static void BuildMonster()
     {
-        var path = Path.Combine(CsvPath, "사후르 키우기 DB - Monster.csv");
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Monster.csv");
         var rows = new List<MonsterRow>();
 
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
@@ -84,14 +89,32 @@ public static class DataTableBuilder
 
     private static void BuildUpgrade()
     {
-        var path = Path.Combine(CsvPath, "사후르 키우기 DB - Upgrade.csv");
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Upgrade.csv");
         var rows = new List<UpgradeRow>();
+
+        // CSV 재빌드 시 수동 지정한 아이콘이 유실되지 않도록 기존 SO의 값을 보존한다.
+        var assetPath = Path.Combine(OutputPath, "UpgradeTable.asset");
+        var existingTable = AssetDatabase.LoadAssetAtPath<UpgradeTable>(assetPath);
+
+        var iconByCode = new Dictionary<string, Sprite>();
+        if (existingTable != null && existingTable.Rows != null)
+        {
+            foreach (var r in existingTable.Rows)
+            {
+                if (string.IsNullOrEmpty(r.Code) || r.Icon == null)
+                    continue;
+
+                iconByCode[r.Code] = r.Icon;
+            }
+        }
 
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
         {
-            rows.Add(new UpgradeRow
+            var code = row.String(COL_UP_CODE);
+
+            var newRow = new UpgradeRow
             {
-                Code = row.String(COL_UP_CODE),
+                Code = code,
                 Name = row.String(COL_UP_NAME),
                 Description = row.String(COL_UP_DESC),
                 Stat = row.EnumValue<StatType>(COL_UP_STAT),
@@ -103,7 +126,14 @@ public static class DataTableBuilder
                 Segment2 = new UpgradeCostSegment { MaxLevel = row.Int(COL_UP_MAX2), Growth = row.Double(COL_UP_GROW2) },
                 Segment3 = new UpgradeCostSegment { MaxLevel = row.Int(COL_UP_MAX3), Growth = row.Double(COL_UP_GROW3) },
                 Segment4 = new UpgradeCostSegment { MaxLevel = row.Int(COL_UP_MAX4), Growth = row.Double(COL_UP_GROW4) },
-            });
+            };
+
+            if (!string.IsNullOrEmpty(code) && iconByCode.TryGetValue(code, out var icon))
+            {
+                newRow.Icon = icon;
+            }
+
+            rows.Add(newRow);
         }
 
         SaveTable<string, UpgradeRow, UpgradeTable>("UpgradeTable.asset", rows);
@@ -154,7 +184,7 @@ public static class DataTableBuilder
 
     private static void BuildStats()
     {
-        var path = Path.Combine(CsvPath, "사후르 키우기 DB - Stats.csv");
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Stats.csv");
         var rows = new List<StatsRow>();
 
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
@@ -195,14 +225,31 @@ public static class DataTableBuilder
 
     private static void BuildEquipment()
     {
-        var path = Path.Combine(CsvPath, "사후르 키우기 DB - Equipment.csv");
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Equipment.csv");
         var rows = new List<EquipmentRow>();
+
+        var assetPath = Path.Combine(OutputPath, "EquipmentTable.asset");
+        var existingTable = AssetDatabase.LoadAssetAtPath<EquipmentTable>(assetPath);
+
+        var iconByCode = new Dictionary<string, Sprite>();
+        if (existingTable != null && existingTable.Rows != null)
+        {
+            foreach (var r in existingTable.Rows)
+            {
+                if (string.IsNullOrEmpty(r.Code) || r.Icon == null)
+                    continue;
+
+                iconByCode[r.Code] = r.Icon;
+            }
+        }
 
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
         {
-            rows.Add(new EquipmentRow
+            var code = row.String(COL_EQ_CODE);
+
+            var newRow = new EquipmentRow
             {
-                Code = row.String(COL_EQ_CODE),
+                Code = code,
                 Type = row.EnumValue<EquipmentType>(COL_EQ_TYPE),
                 Grade = row.EnumValue<EquipmentGrade>(COL_EQ_GRADE),
                 EquipOption = new OptionValue
@@ -229,10 +276,236 @@ public static class DataTableBuilder
                     Base = row.Double(COL_EQ_H3_VAL),
                     Up = 0,
                 }
-            });
+            };
+
+            if (!string.IsNullOrEmpty(code) && iconByCode.TryGetValue(code, out var icon))
+            {
+                newRow.Icon = icon;
+            }
+
+            rows.Add(newRow);
         }
 
         SaveTable<string, EquipmentRow, EquipmentTable>("EquipmentTable.asset", rows);
+    }
+
+    // Drone 테이블 컬럼명
+    private const string COL_DR_ID = "ID";
+    private const string COL_DR_ATK_RATE = "AtkRate";
+    private const string COL_DR_EQ_OPT_BASE = "EquipOption_Base";
+    private const string COL_DR_EQ_OPT_UP = "EquipOption_Up";
+    private const string COL_DR_HELD1_TYPE = "HeldOption1_Type";
+    private const string COL_DR_HELD1_BASE = "HeldOption1_Base";
+    private const string COL_DR_HELD1_UP = "HeldOption1_Up";
+
+    private static void BuildDrone()
+    {
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Drone.csv");
+        var rows = new List<DroneRow>();
+
+        foreach (var row in CsvUtil.Read(path, skipHeader: true))
+        {
+            rows.Add(new DroneRow
+            {
+                ID = row.String(COL_DR_ID),
+                AtkRate = row.Double(COL_DR_ATK_RATE),
+                EquipOption = new OptionValue
+                {
+                    Base = row.Double(COL_DR_EQ_OPT_BASE),
+                    Up = row.Double(COL_DR_EQ_OPT_UP)
+                },
+                HeldOption1 = new OptionValue
+                {
+                    Type = row.String(COL_DR_HELD1_TYPE),
+                    Base = row.Double(COL_DR_HELD1_BASE),
+                    Up = row.Double(COL_DR_HELD1_UP)
+                }
+            });
+        }
+
+        SaveTable<string, DroneRow, DroneTable>("DroneTable.asset", rows);
+    }
+
+    // Evolution 테이블 컬럼명
+    private const string COL_EVO_LV = "EvolutionLevel";
+    private const string COL_EVO_NAME = "CharacterName";
+    private const string COL_EVO_REQ = "ReqSumLevel";
+    private const string COL_EVO_BONUS = "BonusATKR3";
+    private const string COL_EVO_CONCEPT = "컨셉";
+
+    private static void BuildEvolution()
+    {
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Evolution.csv");
+        var rows = new List<EvolutionRow>();
+
+        foreach (var row in CsvUtil.Read(path, skipHeader: true))
+        {
+            rows.Add(new EvolutionRow
+            {
+                EvolutionLevel = row.Int(COL_EVO_LV),
+                CharacterName = row.String(COL_EVO_NAME),
+                ReqSumLevel = row.Int(COL_EVO_REQ),
+                BonusATKR3 = row.Double(COL_EVO_BONUS),
+                Concept = row.String(COL_EVO_CONCEPT)
+            });
+        }
+
+        SaveTable<int, EvolutionRow, EvolutionTable>("EvolutionTable.asset", rows);
+    }
+
+    // Skill 테이블 컬럼명
+    private const string COL_SK_ID = "ID";
+    private const string COL_SK_NAME = "Name";
+    private const string COL_SK_DESC = "Desc";
+    private const string COL_SK_NOTE = "Note";
+    private const string COL_SK_COST = "Cost";
+    private const string COL_SK_TIME = "Time";
+    private const string COL_SK_X = "XCoord";
+    private const string COL_SK_Y = "YCoord";
+    private const string COL_SK_COORD = "Coord";
+    private const string COL_SK_PREFIX = "Prefix";
+    private const string COL_SK_FIRST = "isFirstNode";
+
+    private static void BuildSkill()
+    {
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Skill.csv");
+        var rows = new List<SkillRow>();
+
+        // CSV 재빌드 시 수동 지정한 아이콘이 유실되지 않도록 기존 SO의 값을 보존한다.
+        var assetPath = Path.Combine(OutputPath, "SkillTable.asset");
+        var existingTable = AssetDatabase.LoadAssetAtPath<SkillTable>(assetPath);
+
+        var iconById = new Dictionary<string, Sprite>();
+        if (existingTable != null && existingTable.Rows != null)
+        {
+            foreach (var r in existingTable.Rows)
+            {
+                if (string.IsNullOrEmpty(r.ID) || r.Icon == null)
+                    continue;
+
+                iconById[r.ID] = r.Icon;
+            }
+        }
+
+        foreach (var row in CsvUtil.Read(path, skipHeader: true))
+        {
+            var id = row.String(COL_SK_ID);
+
+            var newRow = new SkillRow
+            {
+                ID = id,
+                Name = row.String(COL_SK_NAME),
+                Desc = row.String(COL_SK_DESC),
+                Note = row.String(COL_SK_NOTE),
+                Cost = row.Int(COL_SK_COST),
+                Time = row.Int(COL_SK_TIME),
+                XCoord = row.Int(COL_SK_X),
+                YCoord = row.Int(COL_SK_Y),
+                Coord = row.String(COL_SK_COORD),
+                Prefix = row.String(COL_SK_PREFIX),
+                IsFirstNode = !string.IsNullOrEmpty(row.String(COL_SK_FIRST)),
+                EffectType = row.EnumValue<SkillEffectType>("EffectType"),
+                Value = row.Double("Value")
+            };
+
+            // TargetStat 파싱 로직 추가
+            var targetStatStr = row.String("TargetStat");
+            if (newRow.EffectType == SkillEffectType.Stat)
+            {
+                if (System.Enum.TryParse<StatType>(targetStatStr, true, out var statType))
+                {
+                    newRow.TargetStat = statType;
+                }
+                else
+                {
+                    Debug.LogWarning($"[DataTableBuilder] Skill {id}: Invalid StatType '{targetStatStr}'");
+                }
+            }
+            else if (newRow.EffectType == SkillEffectType.Special)
+            {
+                if (System.Enum.TryParse<SkillSpecialType>(targetStatStr, true, out var specialType))
+                {
+                    newRow.TargetSpecial = specialType;
+                }
+                else
+                {
+                    Debug.LogWarning($"[DataTableBuilder] Skill {id}: Invalid SkillSpecialType '{targetStatStr}'");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(id) && iconById.TryGetValue(id, out var icon))
+            {
+                newRow.Icon = icon;
+            }
+
+            rows.Add(newRow);
+        }
+
+        SaveTable<string, SkillRow, SkillTable>("SkillTable.asset", rows);
+    }
+
+    private static void BuildGachaDrone()
+    {
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Gacha_Drone.csv");
+        var rows = new List<GachaDroneRow>();
+
+        foreach (var row in CsvUtil.Read(path, skipHeader: true))
+        {
+            var id = row.String("Level");
+            var probs = new List<float>();
+
+            for (int i = 1; i <= 50; i++) // Max 50 levels safety break
+            {
+                try
+                {
+                    probs.Add(row.Float(i.ToString()));
+                }
+                catch (KeyNotFoundException)
+                {
+                    break;
+                }
+            }
+
+            rows.Add(new GachaDroneRow
+            {
+                ID = id,
+                Probabilities = probs
+            });
+        }
+
+        SaveTable<string, GachaDroneRow, GachaDroneTable>("GachaDroneTable.asset", rows);
+    }
+
+    private static void BuildGachaEquipment()
+    {
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Gacha_Equipment.csv");
+        var rows = new List<GachaEquipmentRow>();
+
+        foreach (var row in CsvUtil.Read(path, skipHeader: true))
+        {
+            var grade = row.EnumValue<EquipmentGrade>("Level");
+            var probs = new List<float>();
+
+            for (int i = 1; i <= 50; i++) // Max 50 levels safety break
+            {
+                try
+                {
+                    probs.Add(row.Float(i.ToString()));
+                }
+                catch (KeyNotFoundException)
+                {
+                    break;
+                }
+            }
+
+            rows.Add(new GachaEquipmentRow
+            {
+                Grade = grade,
+                Probabilities = probs
+            });
+        }
+
+        SaveTable<EquipmentGrade, GachaEquipmentRow, GachaEquipmentTable>("GachaEquipmentTable.asset", rows);
     }
 
     private static void SaveTable<TKey, TValue, TTable>(string fileName, List<TValue> rows)
@@ -263,6 +536,6 @@ public static class DataTableBuilder
         };
     }
 
-   
+
 }
 

@@ -8,6 +8,7 @@ namespace SahurRaising.Core
     // 전역 스탯/재화/몬스터 분류 열거형
     public enum StatType
     {
+        None,
         ATK,
         HP,
         DEF,
@@ -53,9 +54,14 @@ namespace SahurRaising.Core
 
     public enum EquipmentType
     {
-        Weapon, 
-        Armor,
-        Accessory //필요할거같아서 일단추가
+        Weapon,
+
+        // Temp
+        EquipmentType2,
+        EquipmentType3,
+        EquipmentType4,
+        EquipmentType5,
+        EquipmentType6,
     }
 
     public enum EquipmentGrade
@@ -109,6 +115,7 @@ namespace SahurRaising.Core
         public string Code;
         public string Name;
         public string Description;
+        public Sprite Icon;
         public StatType Stat;
         public UpgradeTier Tier;
         public int MaxLevel;
@@ -132,6 +139,7 @@ namespace SahurRaising.Core
     public struct EquipmentRow
     {
         public string Code;
+        public Sprite Icon;
         public EquipmentType Type;
         public EquipmentGrade Grade;
         public OptionValue EquipOption;
@@ -172,71 +180,85 @@ namespace SahurRaising.Core
         public double IGNDEF_Pow;
     }
 
-    /// <summary>
-    /// 공통 테이블 베이스: List 직렬화 + 런타임 인덱스(Dictionary) 구성
-    /// </summary>
-    public abstract class TableBase<TKey, TValue> : ScriptableObject
+    [Serializable]
+    public struct DroneRow
     {
-        [SerializeField] private List<TValue> _rows = new();
-
-        [NonSerialized] private readonly Dictionary<TKey, TValue> _index = new();
-
-        public IReadOnlyList<TValue> Rows => _rows;
-        public IReadOnlyDictionary<TKey, TValue> Index => _index;
-
-        protected abstract TKey GetKey(TValue value);
-
-        protected virtual void OnEnable()
-        {
-            BuildIndex();
-        }
-
-        [ContextMenu("Rebuild Index")]
-        protected void BuildIndex()
-        {
-            _index.Clear();
-            foreach (var row in _rows)
-            {
-                var key = GetKey(row);
-                if (_index.ContainsKey(key))
-                    continue;
-
-                _index.Add(key, row);
-            }
-        }
-
-        /// <summary>
-        /// 에디터 변환기에서 일괄 세팅 후 인덱스를 재구성하기 위한 진입점
-        /// </summary>
-        public void SetRows(List<TValue> rows)
-        {
-            _rows = rows ?? new List<TValue>();
-            BuildIndex();
-        }
+        public string ID;
+        public double AtkRate;
+        public OptionValue EquipOption;
+        public OptionValue HeldOption1;
     }
 
-    [CreateAssetMenu(fileName = "MonsterTable", menuName = "SahurRaising/Data/MonsterTable")]
-    public class MonsterTable : TableBase<int, MonsterRow>
+    [Serializable]
+    public struct EvolutionRow
     {
-        protected override int GetKey(MonsterRow value) => value.MonsterLevel;
+        public int EvolutionLevel;
+        public string CharacterName;
+        public int ReqSumLevel;
+        public double BonusATKR3;
+        public string Concept;
     }
 
-    [CreateAssetMenu(fileName = "UpgradeTable", menuName = "SahurRaising/Data/UpgradeTable")]
-    public class UpgradeTable : TableBase<string, UpgradeRow>
+    public enum SkillEffectType
     {
-        protected override string GetKey(UpgradeRow value) => value.Code;
+        None,
+        Stat,
+        Special
     }
 
-    [CreateAssetMenu(fileName = "StatsTable", menuName = "SahurRaising/Data/StatsTable")]
-    public class StatsTable : TableBase<int, StatsRow>
+    public enum SkillSpecialType
     {
-        protected override int GetKey(StatsRow value) => value.Level;
+        None,
+        AutoTouch,
+        Parallel,
+        CritFailDef,
+        Overfitting,
+        FineTuning,
+        Knowledge,
+        SelfImprove,
+        SensorRange,
+        EnemyEvasion,
+        MoveSpeed,
+        UpgradeCost,
+        SkillCost,
+        Execute,
+        CritResist,
+        DroneAtk
     }
 
-    [CreateAssetMenu(fileName = "EquipmentTable", menuName = "SahurRaising/Data/EquipmentTable")]
-    public class EquipmentTable : TableBase<string, EquipmentRow>
+    [Serializable]
+    public struct SkillRow
     {
-        protected override string GetKey(EquipmentRow value) => value.Code;
+        public string ID;
+        public string Name;
+        public string Desc;
+        public string Note;
+        public int Cost;
+        public int Time;
+        public int XCoord;
+        public int YCoord;
+        public string Coord;
+        public string Prefix;
+        public bool IsFirstNode;
+        public Sprite Icon;
+        public SkillEffectType EffectType;
+        public StatType TargetStat;
+        public SkillSpecialType TargetSpecial;
+        public double Value;
+    }
+
+    [Serializable]
+    public struct GachaDroneRow
+    {
+        public string ID;
+        public List<float> Probabilities;
+    }
+
+    [Serializable]
+    public struct GachaEquipmentRow
+    {
+        public EquipmentGrade Grade;
+        public List<float> Probabilities;
     }
 
     [Serializable]
@@ -278,5 +300,51 @@ namespace SahurRaising.Core
         public int CurrentWave;
         public bool IsStageRunning;
     }
-}
 
+    [Serializable]
+    public struct EquipmentInventoryEntry
+    {
+        public string Code;
+        public int Level;
+        public int Count;
+    }
+
+    [Serializable]
+    public struct EquipmentInventoryInfo
+    {
+        public int Level;
+        public int Count;
+
+        public EquipmentInventoryInfo(int level, int count)
+        {
+            Level = level;
+            Count = count;
+        }
+    }
+
+    [Serializable]
+    public class EquipmentSaveData
+    {
+        // 장착한 장비 (장비 타입별로 1개씩)
+        public string EquippedWeapon;
+
+        // 6종류를 지원하기 위해 추가 슬롯 (필요시 확장)
+        public string EquippedSlot2;
+        public string EquippedSlot3;
+        public string EquippedSlot4;
+        public string EquippedSlot5;
+        public string EquippedSlot6;
+
+        // 모든 장비의 소지 개수
+        public List<EquipmentInventoryEntry> Inventory = new();
+
+        // 이미 본 장비(NEW가 꺼진 장비) 코드 목록
+        public List<string> SeenCodes = new();
+    }
+
+    [Serializable]
+    public class SkillSaveData
+    {
+        public List<string> UnlockedSkillIDs = new();
+    }
+}

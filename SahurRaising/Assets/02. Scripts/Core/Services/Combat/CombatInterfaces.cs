@@ -83,6 +83,16 @@ namespace SahurRaising.Core
         public string Source;
     }
 
+    /// <summary>
+    /// 재화 소모 시 발행하는 이벤트 payload
+    /// </summary>
+    public struct CurrencyConsumedEvent
+    {
+        public CurrencyType CurrencyType;
+        public BigDouble Amount;
+        public string Reason;
+    }
+
     // 서비스 인터페이스
     public interface ICurrencyService
     {
@@ -92,6 +102,7 @@ namespace SahurRaising.Core
         void Add(CurrencyType type, BigDouble amount, string reason = null);
         UniTask SaveAsync();
         UniTask LoadAsync();
+        CurrencyData GetCurrencyData(CurrencyType type);
     }
 
     public interface IUpgradeService
@@ -111,8 +122,10 @@ namespace SahurRaising.Core
         CharacterStats GetSnapshot();
         void ApplyUpgrades(IReadOnlyDictionary<string, int> upgrades);
         void ApplyEquipmentModifiers(IEnumerable<StatModifier> modifiers);
+        void ApplySkillModifiers(IEnumerable<StatModifier> modifiers);
         void ApplyEquippedItems(IEnumerable<string> equipmentCodes, int level = 1);
         bool TryMapOptionType(string optionType, out StatType statType);
+        BigDouble GetStatValue(string upgradeCode, int level);
     }
 
     public interface ICombatService

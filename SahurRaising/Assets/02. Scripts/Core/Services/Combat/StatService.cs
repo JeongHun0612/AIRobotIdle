@@ -21,6 +21,7 @@ namespace SahurRaising.Core
         private readonly Dictionary<string, int> _upgradeLevels = new();
         private readonly Dictionary<StatType, int> _statLevels = new();
         private readonly List<StatModifier> _equipmentModifiers = new();
+        private readonly List<StatModifier> _skillModifiers = new();
         private readonly Dictionary<string, StatType> _optionTypeMap = new(StringComparer.OrdinalIgnoreCase);
 
         private StatsTable _statsTable;
@@ -86,6 +87,16 @@ namespace SahurRaising.Core
             RecalculateSnapshot();
         }
 
+        public void ApplySkillModifiers(IEnumerable<StatModifier> modifiers)
+        {
+            _skillModifiers.Clear();
+
+            if (modifiers != null)
+                _skillModifiers.AddRange(modifiers);
+
+            RecalculateSnapshot();
+        }
+
         public void ApplyEquippedItems(IEnumerable<string> equipmentCodes, int level = 1)
         {
             if (_equipmentTable == null)
@@ -126,10 +137,45 @@ namespace SahurRaising.Core
             return _optionTypeMap.TryGetValue(optionType ?? string.Empty, out statType);
         }
 
+        public BigDouble GetStatValue(string upgradeCode, int level)
+        {
+            if (_upgradeTable == null || !_upgradeTable.Index.TryGetValue(upgradeCode, out var upgradeRow))
+                return BigDouble.Zero;
+
+            var statsRow = GetStatsRow(Mathf.Max(0, level));
+            return GetValueFromStatsRow(statsRow, upgradeRow.Stat);
+        }
+
+        private BigDouble GetValueFromStatsRow(StatsRow row, StatType statType)
+        {
+            switch (statType)
+            {
+                case StatType.ATK: return ToBigDouble(row.ATK_Base, row.ATK_Pow);
+                case StatType.HP: return ToBigDouble(row.HP_Base, row.HP_Pow);
+                case StatType.DEF: return ToBigDouble(row.DEF_Base, row.DEF_Pow);
+                case StatType.HPREC: return ToBigDouble(row.HPREC_Base, row.HPREC_Pow);
+                case StatType.CR: return ToBigDouble(row.CR_Base, row.CR_Pow); // Usually percentage, but stored as double in struct. ToBigDouble handles it if it's base/pow. Wait, CR is double in CharacterStats.
+                case StatType.ATKT: return ToBigDouble(row.ATKT_Base, row.ATKT_Pow);
+                case StatType.OFFT: return row.OFFT;
+                case StatType.GOLDR: return row.GOLDR;
+                case StatType.ATKR: return row.ATKR;
+                case StatType.OFFA: return row.OFFA;
+                case StatType.ATKSP: return row.ATKSP;
+                case StatType.RCD: return row.RCD;
+                case StatType.UCR: return ToBigDouble(row.UCR_Base, row.UCR_Pow);
+                case StatType.ATKB: return row.ATKB;
+                case StatType.CD: return row.CD;
+                case StatType.DEFR: return row.DEFR;
+                case StatType.IGNDEF: return ToBigDouble(row.IGNDEF_Base, row.IGNDEF_Pow);
+                default: return BigDouble.Zero;
+            }
+        }
+
         private void RecalculateSnapshot()
         {
             var stats = BuildBaseStatsFromLevels();
-            ApplyEquipmentEffects(ref stats);
+            ApplyModifiers(ref stats, _equipmentModifiers);
+            ApplyModifiers(ref stats, _skillModifiers);
 
             _snapshot = stats;
         }
@@ -218,12 +264,12 @@ namespace SahurRaising.Core
             };
         }
 
-        private void ApplyEquipmentEffects(ref CharacterStats stats)
+        private void ApplyModifiers(ref CharacterStats stats, List<StatModifier> modifiers)
         {
-            if (_equipmentModifiers.Count == 0)
+            if (modifiers == null || modifiers.Count == 0)
                 return;
 
-            foreach (var modifier in _equipmentModifiers)
+            foreach (var modifier in modifiers)
             {
                 switch (modifier.Stat)
                 {

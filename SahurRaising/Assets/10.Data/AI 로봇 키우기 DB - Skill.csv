@@ -1,0 +1,122 @@
+ID,Name,Desc,Note,Cost,Time,XCoord,YCoord,Coord,Prefix,isFirstNode,EffectType,TargetStat,Value
+AUTO01,자동화 I,초당 자동 터치 +1회,,0,5,0,0,0|0,AUTO,1,Special,AutoTouch,1
+AUTO02,자동화 II,초당 자동 터치 +1회,,1,10,0,-1,0|-1,AUTO,,Special,AutoTouch,1
+AUTO03,자동화 III,초당 자동 터치 +1회,,3,20,-2,0,-2|0,AUTO,,Special,AutoTouch,1
+AUTO04,자동화 IV,초당 자동 터치 +1회,,8,50,-3,-1,-3|-1,AUTO,,Special,AutoTouch,1
+AUTO05,자동화 V,초당 자동 터치 +1회,,8,50,-2,-2,-2|-2,AUTO,,Special,AutoTouch,1
+AUTO06,자동화 VI,초당 자동 터치 +1회,,11,80,-4,1,-4|1,AUTO,,Special,AutoTouch,1
+AUTO07,자동화 VII,초당 자동 터치 +1회,,15,150,-4,-2,-4|-2,AUTO,,Special,AutoTouch,1
+AUTO08,자동화 VIII,초당 자동 터치 +1회,,15,150,-3,-3,-3|-3,AUTO,,Special,AutoTouch,1
+AUTO09,자동화 IX,초당 자동 터치 +1회,,19,300,-4,3,-4|3,AUTO,,Special,AutoTouch,1
+AUTO10,자동화 X,초당 자동 터치 +1회,,19,300,-3,4,-3|4,AUTO,,Special,AutoTouch,1
+PARR01,병렬처리 I,최종 공격력 -40% 로봇팔 +1,드론에는 적용 X,3,20,-1,-1,-1|-1,PARR,,Special,Parallel,1
+PARR02,병렬처리 II,최종 공격력 -30% 로봇팔 +1,드론에는 적용 X,8,50,4,0,4|0,PARR,,Special,Parallel,1
+PARR03,병렬처리 III,최종 공격력 -40% 로봇팔 +2,드론에는 적용 X,19,300,7,0,7|0,PARR,,Special,Parallel,2
+PARR04,병렬처리 IV,최종 공격력 -20% 로봇팔 +1,드론에는 적용 X,27,1260,7,-2,7|-2,PARR,,Special,Parallel,1
+PARR05,병렬처리 V,최종 공격력 -30% 로봇팔 +2,드론에는 적용 X,40,14400,10,2,10|2,PARR,,Special,Parallel,2
+HERR01,휴먼 에러 제거 II,크리티컬 실패 방어 +10%,,5,30,1,-2,1|-2,HERR,,Special,CritFailDef,0.1
+HERR02,휴먼 에러 제거 II,크리티컬 실패 방어 +10%,,8,50,0,-4,0|-4,HERR,,Special,CritFailDef,0.1
+HERR03,휴먼 에러 제거 III,크리티컬 실패 방어 +10%,,11,80,-4,-1,-4|-1,HERR,,Special,CritFailDef,0.1
+HERR04,휴먼 에러 제거 IV,크리티컬 실패 방어 +10%,,36,7200,-2,-9,-2|-9,HERR,,Special,CritFailDef,0.1
+HERR05,휴먼 에러 제거 V,크리티컬 실패 방어 +10%,,40,14400,-1,-11,-1|-11,HERR,,Special,CritFailDef,0.1
+OFIT01,오버피팅 I,공격력/방어력/체력 중 가장 높은 능력치에 대해 1.5배 적용,,15,15,3,-3,3|-3,OFIT,,Special,Overfitting,1.5
+OFIT02,오버피팅 III,공격력/방어력/체력 중 가장 높은 능력치에 대해 2배 적용,,32,3600,7,-3,7|-3,OFIT,,Special,Overfitting,2
+OFIT03,오버피팅 III,공격력/방어력/체력 중 가장 높은 능력치에 대해 2.5배 적용,,50,28800,10,3,10|3,OFIT,,Special,Overfitting,2.5
+FINT01,파인튜닝 I,이미 깬 스테이지에서의 최종 공격력 +25%,,3,20,0,-2,0|-2,FINT,,Special,FineTuning,0.25
+FINT02,파인튜닝 II,이미 깬 스테이지에서의 최종 공격력 +25%,,15,150,5,-1,5|-1,FINT,,Special,FineTuning,0.25
+FINT03,파인튜닝 III,이미 깬 스테이지에서의 최종 공격력 +25%,,36,7200,8,-3,8|-3,FINT,,Special,FineTuning,0.25
+KNAG01,지식확장 I,아직 깨지 못한 스테이지에서의 최종 공격력 +10%,,11,80,-1,4,-1|4,KNAG,,Special,Knowledge,0.1
+KNAG02,지식확장 II,아직 깨지 못한 스테이지에서의 최종 공격력 +10%,,11,80,0,5,0|5,KNAG,,Special,Knowledge,0.1
+KNAG03,지식확장 III,아직 깨지 못한 스테이지에서의 최종 공격력 +10%,,15,150,2,4,2|4,KNAG,,Special,Knowledge,0.1
+SELF01,자기개선 I,업그레이드 시 10%확률로 2번 업그레이드 적용,Max레벨을 넘지 못함,11,80,5,0,5|0,SELF,,Special,SelfImprove,0.1
+SELF02,자기개선 II,업그레이드 시 5%확률로 2번 업그레이드 적용,Max레벨을 넘지 못함,23,600,6,-2,6|-2,SELF,,Special,SelfImprove,0.05
+SELF03,자기개선 III,업그레이드 시 15%확률로 2번 업그레이드 적용,Max레벨을 넘지 못함,40,14400,9,-3,9|-3,SELF,,Special,SelfImprove,0.15
+SENS01,센서 I,로봇 팔 공격 범위 +10%,,11,80,-2,3,-2|3,SENS,,Special,SensorRange,0.1
+SENS02,센서 II,로봇 팔 공격 범위 +10%,,15,150,-1,5,-1|5,SENS,,Special,SensorRange,0.1
+SENS03,센서 III,로봇 팔 공격 범위 +10%,,23,600,-4,4,-4|4,SENS,,Special,SensorRange,0.1
+SENS04,센서 IV,로봇 팔 공격 범위 +10%,,27,1260,-3,6,-3|6,SENS,,Special,SensorRange,0.1
+SENS05,센서 V,로봇 팔 공격 범위 +10%,,27,1260,4,5,4|5,SENS,,Special,SensorRange,0.1
+VALG01,비전 알고리즘 I,공격속도 +10%,,11,80,-3,2,-3|2,VALG,,Stat,ATKSP,0.1
+VALG02,비전 알고리즘 II,공격속도 +10%,,23,600,-3,5,-3|5,VALG,,Stat,ATKSP,0.1
+VALG03,비전 알고리즘 III,공격속도 +10%,,27,1260,-1,8,-1|8,VALG,,Stat,ATKSP,0.1
+VALG04,비전 알고리즘 IV,공격속도 +10%,,32,3600,-1,9,-1|9,VALG,,Stat,ATKSP,0.1
+VALG05,비전 알고리즘 V,공격속도 +10%,,19,300,2,5,2|5,VALG,,Stat,ATKSP,0.1
+CALB01,칼리브레이션 I,적의 회피 확률 -10%,,8,50,0,4,0|4,CALB,,Special,EnemyEvasion,-0.1
+CALB02,칼리브레이션 II,적의 회피 확률 -10%,,8,50,1,3,1|3,CALB,,Special,EnemyEvasion,-0.1
+CALB03,칼리브레이션 III,적의 회피 확률 -10%,,15,150,1,5,1|5,CALB,,Special,EnemyEvasion,-0.1
+CALB04,칼리브레이션 IV,적의 회피 확률 -10%,,15,150,-3,3,-3|3,CALB,,Special,EnemyEvasion,-0.1
+CALB05,칼리브레이션 V,적의 회피 확률 -10%,,19,300,-1,6,-1|6,CALB,,Special,EnemyEvasion,-0.1
+ACTU01,액추에이터 I,이동속도 +10%,,8,50,2,-2,2|-2,ACTU,,Special,MoveSpeed,0.1
+ACTU02,액추에이터 II,이동속도 +10%,,11,80,-1,-4,-1|-4,ACTU,,Special,MoveSpeed,0.1
+ACTU03,액추에이터 III,이동속도 +10%,,15,150,1,-5,1|-5,ACTU,,Special,MoveSpeed,0.1
+ACTU04,액추에이터 IV,이동속도 +10%,,27,1260,-1,-8,-1|-8,ACTU,,Special,MoveSpeed,0.1
+ACTU05,액추에이터 V,이동속도 +10%,,27,1260,-2,-7,-2|-7,ACTU,,Special,MoveSpeed,0.1
+RLOP01,강화학습 최적화 I,업그레이드 비용 -5%,,8,50,-3,1,-3|1,RLOP,,Special,UpgradeCost,-0.05
+RLOP02,강화학습 최적화 II,업그레이드 비용 -5%,,8,50,-1,3,-1|3,RLOP,,Special,UpgradeCost,-0.05
+RLOP03,강화학습 최적화 III,업그레이드 비용 -5%,,8,50,-4,0,-4|0,RLOP,,Special,UpgradeCost,-0.05
+RLOP04,강화학습 최적화 IV,업그레이드 비용 -5%,,15,150,-5,-1,-5|-1,RLOP,,Special,UpgradeCost,-0.05
+RLOP05,강화학습 최적화 V,업그레이드 비용 -5%,,15,150,-5,1,-5|1,RLOP,,Special,UpgradeCost,-0.05
+WBOX01,화이트박스 I,스킬 강화 비용 -5%,,11,80,2,-3,2|-3,WBOX,,Special,SkillCost,-0.05
+WBOX02,화이트박스 II,스킬 강화 비용 -5%,,15,150,-2,-4,-2|-4,WBOX,,Special,SkillCost,-0.05
+WBOX03,화이트박스 III,스킬 강화 비용 -5%,,19,300,1,-6,1|-6,WBOX,,Special,SkillCost,-0.05
+WBOX04,화이트박스 IV,스킬 강화 비용 -5%,,32,3600,-2,-8,-2|-8,WBOX,,Special,SkillCost,-0.05
+WBOX05,화이트박스 V,스킬 강화 비용 -5%,,36,7200,-1,-10,-1|-10,WBOX,,Special,SkillCost,-0.05
+SGRL01,싱귤래리티,공격 시 적 5%확률로 처형(보스제외),로봇팔 기준,100,86400,10,4,10|4,SGRL,,Special,Execute,0.05
+CBKD02,코인채굴 백도어 I,최종 골드 획득량 20% 증가,,8,50,-2,2,-2|2,CBKD,,Stat,GOLDR,0.2
+CBKD01,코인채굴 백도어 II,최종 골드 획득량 20% 증가,,5,30,-3,0,-3|0,CBKD,,Stat,GOLDR,0.2
+CBKD03,코인채굴 백도어 III,최종 골드 획득량 20% 증가,,11,80,-5,0,-5|0,CBKD,,Stat,GOLDR,0.2
+DCOL01,데이터 수집 I,적에게 크리티컬 공격을 받을 확률 -10%,,5,30,0,-3,0|-3,DCOL,,Special,CritResist,0.1
+DCOL02,데이터 수집 II,적에게 크리티컬 공격을 받을 확률 -10%,,5,30,-2,-1,-2|-1,DCOL,,Special,CritResist,0.1
+DCOL03,데이터 수집 III,적에게 크리티컬 공격을 받을 확률 -10%,,11,80,3,-2,3|-2,DCOL,,Special,CritResist,0.1
+DCOL04,데이터 수집 IV,적에게 크리티컬 공격을 받을 확률 -10%,,11,80,-2,-3,-2|-3,DCOL,,Special,CritResist,0.1
+DCOL05,데이터 수집 V,적에게 크리티컬 공격을 받을 확률 -10%,,15,150,0,-6,0|-6,DCOL,,Special,CritResist,0.1
+DCOL06,데이터 수집 VI,적에게 크리티컬 공격을 받을 확률 -10%,,19,300,2,-5,2|-5,DCOL,,Special,CritResist,0.1
+DCOL07,데이터 수집 VII,적에게 크리티컬 공격을 받을 확률 -10%,,19,300,-1,-6,-1|-6,DCOL,,Special,CritResist,0.1
+DCOL08,데이터 수집 VIII,적에게 크리티컬 공격을 받을 확률 -10%,,23,600,1,-7,1|-7,DCOL,,Special,CritResist,0.1
+DCOL09,데이터 수집 IX,적에게 크리티컬 공격을 받을 확률 -10%,,23,600,-1,-7,-1|-7,DCOL,,Special,CritResist,0.1
+DCOL10,데이터 수집 X,적에게 크리티컬 공격을 받을 확률 -10%,,23,600,-2,-6,-2|-6,DCOL,,Special,CritResist,0.1
+DFIR01,드론 펌웨어 v1.0,드론 공격력 +20%,,15,150,-1,-5,-1|-5,DFIR,,Special,DroneAtk,0.2
+DFIR02,드론 펌웨어 v2.0,드론 공격력 +20%,,15,150,6,0,6|0,DFIR,,Special,DroneAtk,0.2
+DFIR03,드론 펌웨어 v3.0,드론 공격력 +20%,,19,300,5,-2,5|-2,DFIR,,Special,DroneAtk,0.2
+DFIR04,드론 펌웨어 v4.0,드론 공격력 +20%,,23,600,8,0,8|0,DFIR,,Special,DroneAtk,0.2
+DFIR05,드론 펌웨어 v5.0,드론 공격력 +20%,,23,600,7,1,7|1,DFIR,,Special,DroneAtk,0.2
+CPUR01,CPU 강화 I,최종 공격력 +5%,중앙에 배치하기,1,12,0,1,0|1,CPUR,,Stat,ATK,0.05
+CPUR02,CPU 강화 II,최종 공격력 +5%,중앙에 배치하기,1,12,1,0,1|0,CPUR,,Stat,ATK,0.05
+CPUR03,CPU 강화 III,최종 공격력 +5%,중앙에 배치하기,1,12,-1,0,-1|0,CPUR,,Stat,ATK,0.05
+CPUR04,CPU 강화 IV,최종 공격력 +5%,중앙에 배치하기,5,30,-1,2,-1|2,CPUR,,Stat,ATK,0.05
+CPUR05,CPU 강화 V,최종 공격력 +5%,중앙에 배치하기,5,30,0,3,0|3,CPUR,,Stat,ATK,0.05
+CPUR06,CPU 강화 VI,최종 공격력 +5%,중앙에 배치하기,5,30,3,0,3|0,CPUR,,Stat,ATK,0.05
+CPUR07,CPU 강화 VII,최종 공격력 +5%,중앙에 배치하기,5,30,2,1,2|1,CPUR,,Stat,ATK,0.05
+CPUR08,CPU 강화 VIII,최종 공격력 +5%,중앙에 배치하기,5,30,-2,1,-2|1,CPUR,,Stat,ATK,0.05
+CPUR09,CPU 강화 IX,최종 공격력 +5%,중앙에 배치하기,5,30,1,2,1|2,CPUR,,Stat,ATK,0.05
+CPUR10,CPU 강화 X,최종 공격력 +5%,중앙에 배치하기,5,30,2,-1,2|-1,CPUR,,Stat,ATK,0.05
+GPUR01,GPU 강화 I,최종 공격력 +10%,다소 외곽에 두기,15,150,-6,0,-6|0,GPUR,,Stat,ATK,0.1
+GPUR02,GPU 강화 II,최종 공격력 +10%,다소 외곽에 두기,23,600,-1,7,-1|7,GPUR,,Stat,ATK,0.1
+GPUR03,GPU 강화 III,최종 공격력 +10%,다소 외곽에 두기,23,600,3,5,3|5,GPUR,,Stat,ATK,0.1
+GPUR04,GPU 강화 IV,최종 공격력 +10%,다소 외곽에 두기,27,1260,9,0,9|0,GPUR,,Stat,ATK,0.1
+GPUR05,GPU 강화 V,최종 공격력 +10%,다소 외곽에 두기,32,3600,-1,-9,-1|-9,GPUR,,Stat,ATK,0.1
+GPUR06,GPU 강화 VI,최종 공격력 +10%,다소 외곽에 두기,36,7200,11,0,11|0,GPUR,,Stat,ATK,0.1
+GPUR07,GPU 강화 VII,최종 공격력 +10%,다소 외곽에 두기,36,7200,10,1,10|1,GPUR,,Stat,ATK,0.1
+GPUR08,GPU 강화 VIII,최종 공격력 +10%,다소 외곽에 두기,36,7200,10,-1,10|-1,GPUR,,Stat,ATK,0.1
+GPUR09,GPU 강화 IX,최종 공격력 +10%,다소 외곽에 두기,36,7200,9,-2,9|-2,GPUR,,Stat,ATK,0.1
+GPUR10,GPU 강화 X,최종 공격력 +10%,다소 외곽에 두기,40,14400,10,-2,10|-2,GPUR,,Stat,ATK,0.1
+TPUR01,TPU 강화 I,최종 공격력 +15%,최외곽에 배치하기,45,21600,13,0,13|0,TPUR,,Stat,ATK,0.15
+TPUR02,TPU 강화 II,최종 공격력 +15%,최외곽에 배치하기,45,25200,12,1,12|1,TPUR,,Stat,ATK,0.15
+TPUR03,TPU 강화 III,최종 공격력 +15%,최외곽에 배치하기,50,28800,12,-1,12|-1,TPUR,,Stat,ATK,0.15
+TPUR04,TPU 강화 IV,최종 공격력 +15%,최외곽에 배치하기,50,32400,11,-2,11|-2,TPUR,,Stat,ATK,0.15
+TPUR05,TPU 강화 V,최종 공격력 +15%,최외곽에 배치하기,50,36000,11,2,11|2,TPUR,,Stat,ATK,0.15
+TPUR06,TPU 강화 VI,최종 공격력 +15%,최외곽에 배치하기,55,50400,13,1,13|1,TPUR,,Stat,ATK,0.15
+TPUR07,TPU 강화 VII,최종 공격력 +15%,최외곽에 배치하기,60,54000,13,-1,13|-1,TPUR,,Stat,ATK,0.15
+TPUR08,TPU 강화 VIII,최종 공격력 +15%,최외곽에 배치하기,65,57500,12,2,12|2,TPUR,,Stat,ATK,0.15
+TPUR09,TPU 강화 IX,최종 공격력 +15%,최외곽에 배치하기,70,60000,12,-2,12|-2,TPUR,,Stat,ATK,0.15
+TPUR10,TPU 강화 X,최종 공격력 +15%,최외곽에 배치하기,75,70000,11,-3,11|-3,TPUR,,Stat,ATK,0.15
+MATR01,장갑강화 I,최종 방어력 +10%,중앙에 넓게 배치하기,3,20,0,2,0|2,MATR,,Stat,DEF,0.1
+MATR02,장갑강화 II,최종 방어력 +10%,중앙에 넓게 배치하기,3,20,1,1,1|1,MATR,,Stat,DEF,0.1
+MATR03,장갑강화 III,최종 방어력 +10%,중앙에 넓게 배치하기,3,20,-1,1,-1|1,MATR,,Stat,DEF,0.1
+MATR04,장갑강화 IV,최종 방어력 +10%,중앙에 넓게 배치하기,3,20,2,0,2|0,MATR,,Stat,DEF,0.1
+MATR05,장갑강화 V,최종 방어력 +10%,중앙에 넓게 배치하기,3,20,1,-1,1|-1,MATR,,Stat,DEF,0.1
+MATT01,티타늄 쉘 강화 I,최종 방어력 +20%,외곽에 배치,27,1260,8,1,8|1,MATT,,Stat,DEF,0.2
+MATT02,티타늄 쉘 강화 II,최종 방어력 +20%,외곽에 배치,32,3600,9,-1,9|-1,MATT,,Stat,DEF,0.2
+MATT03,티타늄 쉘 강화 III,최종 방어력 +20%,외곽에 배치,40,14400,12,0,12|0,MATT,,Stat,DEF,0.2
+MATT04,티타늄 쉘 강화 IV,최종 방어력 +20%,외곽에 배치,40,14400,11,1,11|1,MATT,,Stat,DEF,0.2
+MATT05,티타늄 쉘 강화 V,최종 방어력 +20%,외곽에 배치,40,14400,11,-1,11|-1,MATT,,Stat,DEF,0.2
