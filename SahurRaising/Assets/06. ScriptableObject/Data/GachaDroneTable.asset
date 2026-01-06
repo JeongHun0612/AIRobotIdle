@@ -13,113 +13,201 @@ MonoBehaviour:
   m_Name: GachaDroneTable
   m_EditorClassIdentifier: 
   _rows:
-  - ID: 1
+  - Level: 1
     Probabilities:
-    - 99
-    - 66
-    - 9
-    - 1
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-  - ID: 2
+    - ID: 1
+      Probability: 99
+    - ID: 2
+      Probability: 1
+    - ID: 3
+      Probability: 0
+    - ID: 4
+      Probability: 0
+    - ID: 5
+      Probability: 0
+    - ID: 6
+      Probability: 0
+    - ID: 7
+      Probability: 0
+    - ID: 8
+      Probability: 0
+    - ID: 9
+      Probability: 0
+    - ID: 10
+      Probability: 0
+  - Level: 2
     Probabilities:
-    - 1
-    - 29
-    - 40
-    - 15
-    - 1
-    - 0
-    - 0
-    - 0
-    - 0
-  - ID: 3
+    - ID: 1
+      Probability: 66
+    - ID: 2
+      Probability: 29
+    - ID: 3
+      Probability: 4.9
+    - ID: 4
+      Probability: 0.1
+    - ID: 5
+      Probability: 0
+    - ID: 6
+      Probability: 0
+    - ID: 7
+      Probability: 0
+    - ID: 8
+      Probability: 0
+    - ID: 9
+      Probability: 0
+    - ID: 10
+      Probability: 0
+  - Level: 3
     Probabilities:
-    - 0
-    - 4.9
-    - 35
-    - 54
-    - 38
-    - 24
-    - 10
-    - 2
-    - 0
-  - ID: 4
+    - ID: 1
+      Probability: 9
+    - ID: 2
+      Probability: 40
+    - ID: 3
+      Probability: 35
+    - ID: 4
+      Probability: 14.89
+    - ID: 5
+      Probability: 1
+    - ID: 6
+      Probability: 0.1
+    - ID: 7
+      Probability: 0.01
+    - ID: 8
+      Probability: 0
+    - ID: 9
+      Probability: 0
+    - ID: 10
+      Probability: 0
+  - Level: 4
     Probabilities:
-    - 0
-    - 0.1
-    - 14.89
-    - 15
-    - 27
-    - 22
-    - 18
-    - 14
-    - 10
-  - ID: 5
+    - ID: 1
+      Probability: 1
+    - ID: 2
+      Probability: 15
+    - ID: 3
+      Probability: 54
+    - ID: 4
+      Probability: 15
+    - ID: 5
+      Probability: 10
+    - ID: 6
+      Probability: 4.75
+    - ID: 7
+      Probability: 0.2475
+    - ID: 8
+      Probability: 0.0025
+    - ID: 9
+      Probability: 0
+    - ID: 10
+      Probability: 0
+  - Level: 5
     Probabilities:
-    - 0
-    - 0
-    - 1
-    - 10
-    - 25
-    - 35
-    - 29
-    - 23
-    - 44.24
-  - ID: 6
+    - ID: 1
+      Probability: 0
+    - ID: 2
+      Probability: 1
+    - ID: 3
+      Probability: 38
+    - ID: 4
+      Probability: 27
+    - ID: 5
+      Probability: 25
+    - ID: 6
+      Probability: 7
+    - ID: 7
+      Probability: 1.9925
+    - ID: 8
+      Probability: 0.0075
+    - ID: 9
+      Probability: 0
+    - ID: 10
+      Probability: 0
+  - Level: 6
     Probabilities:
-    - 0
-    - 0
-    - 0.1
-    - 4.75
-    - 7
-    - 14
-    - 28
-    - 35.8999
-    - 44
-  - ID: 7
+    - ID: 1
+      Probability: 0
+    - ID: 2
+      Probability: 0
+    - ID: 3
+      Probability: 24
+    - ID: 4
+      Probability: 22
+    - ID: 5
+      Probability: 35
+    - ID: 6
+      Probability: 14
+    - ID: 7
+      Probability: 4.985
+    - ID: 8
+      Probability: 0.015
+    - ID: 9
+      Probability: 0
+    - ID: 10
+      Probability: 0
+  - Level: 7
     Probabilities:
-    - 0
-    - 0
-    - 0.01
-    - 0.2475
-    - 1.9925
-    - 4.985
-    - 14.95999
-    - 25
-    - 1.5
-  - ID: 8
+    - ID: 1
+      Probability: 0
+    - ID: 2
+      Probability: 0
+    - ID: 3
+      Probability: 10
+    - ID: 4
+      Probability: 18
+    - ID: 5
+      Probability: 29
+    - ID: 6
+      Probability: 28
+    - ID: 7
+      Probability: 14.95999
+    - ID: 8
+      Probability: 0.04
+    - ID: 9
+      Probability: 0.00001
+    - ID: 10
+      Probability: 0
+  - Level: 8
     Probabilities:
-    - 0
-    - 0
-    - 0
-    - 0.0025
-    - 0.0075
-    - 0.015
-    - 0.04
-    - 0.1
-    - 0.25
-  - ID: 9
+    - ID: 1
+      Probability: 0
+    - ID: 2
+      Probability: 0
+    - ID: 3
+      Probability: 2
+    - ID: 4
+      Probability: 14
+    - ID: 5
+      Probability: 23
+    - ID: 6
+      Probability: 35.8999
+    - ID: 7
+      Probability: 25
+    - ID: 8
+      Probability: 0.1
+    - ID: 9
+      Probability: 0.0001
+    - ID: 10
+      Probability: 0
+  - Level: 9
     Probabilities:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0.00001
-    - 0.0001
-    - 0.01
-  - ID: 10
-    Probabilities:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
+    - ID: 1
+      Probability: 0
+    - ID: 2
+      Probability: 0
+    - ID: 3
+      Probability: 0
+    - ID: 4
+      Probability: 10
+    - ID: 5
+      Probability: 44.24
+    - ID: 6
+      Probability: 44
+    - ID: 7
+      Probability: 1.5
+    - ID: 8
+      Probability: 0.25
+    - ID: 9
+      Probability: 0.01
+    - ID: 10
+      Probability: 0

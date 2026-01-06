@@ -103,7 +103,15 @@ public static class CsvUtil
             return value;
         }
 
-        public T EnumValue<T>(string name) where T : struct => (T)global::System.Enum.Parse(typeof(T), Normalize(SafeCellByName(name)), true);
+        public T EnumValue<T>(string name) where T : struct
+        {
+            var cellValue = Normalize(SafeCellByName(name));
+
+            // 띄어쓰기 제거
+            cellValue = cellValue.Replace(" ", "");
+            return (T)global::System.Enum.Parse(typeof(T), cellValue, true);
+        }
+
 
         public BigDouble BigDoubleValue(string name)
         {

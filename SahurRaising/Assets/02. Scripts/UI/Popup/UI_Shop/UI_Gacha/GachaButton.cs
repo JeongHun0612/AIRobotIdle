@@ -10,14 +10,14 @@ namespace SahurRaising
     {
         [Header("뽑기 설정")]
         [SerializeField] private GachaType _gachaType;
-        [SerializeField] private int _drawCount;
+        [SerializeField] private int _pullCount;
         [SerializeField] private double _costValue;
         [SerializeField] private CurrencyType _currencyType;
 
         [Header("UI 요소")]
         [SerializeField] private Button _button;
         [SerializeField] private TMP_Text _costText;
-        [SerializeField] private TMP_Text _drawCountText;
+        [SerializeField] private TMP_Text _pullCountText;
         [SerializeField] private GameObject _disabledPanel;
 
         private BigDouble _cost;
@@ -26,7 +26,7 @@ namespace SahurRaising
         private ICurrencyService _currencyService;
 
         public GachaType GachaType => _gachaType;
-        public int DrawCount => _drawCount;
+        public int PullCount => _pullCount;
         public BigDouble Cost => _cost;
         public CurrencyType CurrencyType => _currencyType;
 
@@ -46,9 +46,9 @@ namespace SahurRaising
                 _costText.text = _costValue.ToString("F0");
             }
 
-            if (_drawCountText != null)
+            if (_pullCountText != null)
             {
-                _drawCountText.text = $"{_drawCount} Count";
+                _pullCountText.text = $"{_pullCount} Count";
             }
 
             if (_disabledPanel != null)
@@ -105,7 +105,7 @@ namespace SahurRaising
             }
         }
 
-        public async void OnClick()
+        public void OnClick()
         {
             if (_gachaService == null)
                 _gachaService = ServiceLocator.Get<IGachaService>();
@@ -116,10 +116,8 @@ namespace SahurRaising
                 return;
             }
 
-            Debug.Log($"[GachaButton] 가챠 시작 - Type: {_gachaType}, Count: {_drawCount}, Cost: {_costValue}");
-
             // 가챠 실행
-            await _gachaService.DrawAsync(_gachaType, _drawCount, _cost, _currencyType);
+            _gachaService.Pull(_gachaType, _pullCount, _cost, _currencyType);
 
             // UI 갱신
             Refresh();

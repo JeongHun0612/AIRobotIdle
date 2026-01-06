@@ -27,7 +27,7 @@ namespace SahurRaising
 
         private IEquipmentService _equipmentService;
 
-        private EquipmentType _currentType = EquipmentType.Weapon;
+        private EquipmentType _currentType = EquipmentType.Processor;
         private bool _isComponentsInitialized = false;
 
         public async override UniTask InitializeAsync()

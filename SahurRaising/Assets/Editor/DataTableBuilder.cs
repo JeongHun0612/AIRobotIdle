@@ -444,68 +444,102 @@ public static class DataTableBuilder
         SaveTable<string, SkillRow, SkillTable>("SkillTable.asset", rows);
     }
 
-    private static void BuildGachaDrone()
-    {
-        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Gacha_Drone.csv");
-        var rows = new List<GachaDroneRow>();
-
-        foreach (var row in CsvUtil.Read(path, skipHeader: true))
-        {
-            var id = row.String("Level");
-            var probs = new List<float>();
-
-            for (int i = 1; i <= 50; i++) // Max 50 levels safety break
-            {
-                try
-                {
-                    probs.Add(row.Float(i.ToString()));
-                }
-                catch (KeyNotFoundException)
-                {
-                    break;
-                }
-            }
-
-            rows.Add(new GachaDroneRow
-            {
-                ID = id,
-                Probabilities = probs
-            });
-        }
-
-        SaveTable<string, GachaDroneRow, GachaDroneTable>("GachaDroneTable.asset", rows);
-    }
-
     private static void BuildGachaEquipment()
     {
         var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Gacha_Equipment.csv");
-        var rows = new List<GachaEquipmentRow>();
+
+        // CSV를 읽어서 레벨별로 그룹화
+        var levelData = new Dictionary<int, List<GradeProbability>>();
 
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
         {
-            var grade = row.EnumValue<EquipmentGrade>("Level");
-            var probs = new List<float>();
+            var grade = row.EnumValue<EquipmentGrade>("Level"); // CSV의 "Level" 컬럼은 실제로 등급
 
-            for (int i = 1; i <= 50; i++) // Max 50 levels safety break
+            for (int level = 1; level <= 50; level++)  // Max 50 levels safety break
             {
                 try
                 {
-                    probs.Add(row.Float(i.ToString()));
+                    var prob = row.Float(level.ToString());
+                    if (prob >= 0)
+                    {
+                        if (!levelData.ContainsKey(level))
+                            levelData[level] = new List<GradeProbability>();
+
+                        levelData[level].Add(new GradeProbability
+                        {
+                            Grade = grade,
+                            Probability = prob
+                        });
+                    }
                 }
                 catch (KeyNotFoundException)
                 {
                     break;
                 }
             }
+        }
 
+        // 레벨별 Row 생성
+        var rows = new List<GachaEquipmentRow>();
+        foreach (var kvp in levelData)
+        {
             rows.Add(new GachaEquipmentRow
             {
-                Grade = grade,
-                Probabilities = probs
+                Level = kvp.Key,
+                Probabilities = kvp.Value
             });
         }
 
-        SaveTable<EquipmentGrade, GachaEquipmentRow, GachaEquipmentTable>("GachaEquipmentTable.asset", rows);
+        SaveTable<int, GachaEquipmentRow, GachaEquipmentTable>("GachaEquipmentTable.asset", rows);
+    }
+
+    private static void BuildGachaDrone()
+    {
+        var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Gacha_Drone.csv");
+
+        // CSV를 읽어서 레벨별로 그룹화
+        var levelData = new Dictionary<int, List<DroneProbability>>();
+
+        foreach (var row in CsvUtil.Read(path, skipHeader: true))
+        {
+            var droneID = row.String("Level"); // CSV의 "Level" 컬럼은 실제로 드론 ID
+
+            for (int level = 1; level <= 50; level++) // Max 50 levels safety break
+            {
+                try
+                {
+                    var prob = row.Float(level.ToString());
+                    if (prob >= 0)
+                    {
+                        if (!levelData.ContainsKey(level))
+                            levelData[level] = new List<DroneProbability>();
+
+                        levelData[level].Add(new DroneProbability
+                        {
+                            ID = droneID,
+                            Probability = prob
+                        });
+                    }
+                }
+                catch (KeyNotFoundException)
+                {
+                    break;
+                }
+            }
+        }
+
+        // 레벨별 Row 생성
+        var rows = new List<GachaDroneRow>();
+        foreach (var kvp in levelData)
+        {
+            rows.Add(new GachaDroneRow
+            {
+                Level = kvp.Key,
+                Probabilities = kvp.Value
+            });
+        }
+
+        SaveTable<int, GachaDroneRow, GachaDroneTable>("GachaDroneTable.asset", rows);
     }
 
     private static void SaveTable<TKey, TValue, TTable>(string fileName, List<TValue> rows)

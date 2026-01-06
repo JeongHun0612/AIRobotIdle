@@ -35,19 +35,14 @@ namespace SahurRaising.Core
         int GetRequiredCountForLevel(GachaType type, int level);
 
         /// <summary>
-        /// 뽑기를 실행합니다 (1회, 10회, 35회)
+        /// 가챠를 뽑습니다
         /// </summary>
-        /// <param name="type">가챠 타입 (Equipment 또는 Drone)</param>
-        /// <param name="count">뽑기 횟수 (1, 10, 35)</param>
+        /// <param name="type">가챠 타입</param>
+        /// <param name="count">뽑기 횟수</param>
         /// <param name="cost">소비할 비용</param>
         /// <param name="currencyType">사용할 재화 타입</param>
         /// <returns>뽑기 결과 리스트</returns>
-        UniTask<List<GachaResult>> DrawAsync(GachaType type, int count, BigDouble cost, CurrencyType currencyType);
-
-        /// <summary>
-        /// 뽑기 비용을 가져옵니다
-        /// </summary>
-        BigDouble GetCost(GachaType type, int count);
+        List<GachaResult> Pull(GachaType type, int count, BigDouble cost, CurrencyType currencyType);
 
         UniTask SaveAsync();
         UniTask LoadAsync();
@@ -59,7 +54,6 @@ namespace SahurRaising.Core
     public struct GachaResult
     {
         public GachaType Type;
-        public string ItemCode;  // EquipmentCode 또는 DroneID
-        public EquipmentGrade? Grade;  // 장비인 경우 등급
+        public string ItemCode;
     }
 }

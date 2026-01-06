@@ -284,12 +284,12 @@ namespace SahurRaising.Core
                 var data = new EquipmentSaveData();
 
                 // 장착 정보 저장
-                data.EquippedWeapon = GetEquippedCode(EquipmentType.Weapon);
-                data.EquippedSlot2 = GetEquippedCode(EquipmentType.EquipmentType2);
-                data.EquippedSlot3 = GetEquippedCode(EquipmentType.EquipmentType3);
-                data.EquippedSlot4 = GetEquippedCode(EquipmentType.EquipmentType4);
-                data.EquippedSlot5 = GetEquippedCode(EquipmentType.EquipmentType5);
-                data.EquippedSlot6 = GetEquippedCode(EquipmentType.EquipmentType6);
+                data.EquippedProcessor = GetEquippedCode(EquipmentType.Processor);
+                data.EquippedWheel = GetEquippedCode(EquipmentType.Wheel);
+                data.EquippedBattery = GetEquippedCode(EquipmentType.Battery);
+                data.EquippedAntenna = GetEquippedCode(EquipmentType.Antenna);
+                data.EquippedMemory = GetEquippedCode(EquipmentType.Memory);
+                data.EquippedRobotArm = GetEquippedCode(EquipmentType.RobotArm);
 
                 // 인벤토리 정보 저장
                 foreach (var pair in _inventory)
@@ -344,18 +344,18 @@ namespace SahurRaising.Core
 
                 // 장착 정보 로드
                 _equipped.Clear();
-                if (!string.IsNullOrEmpty(data.EquippedWeapon))
-                    _equipped[EquipmentType.Weapon] = data.EquippedWeapon;
-                if (!string.IsNullOrEmpty(data.EquippedSlot2))
-                    _equipped[EquipmentType.EquipmentType2] = data.EquippedSlot2;
-                if (!string.IsNullOrEmpty(data.EquippedSlot3))
-                    _equipped[EquipmentType.EquipmentType3] = data.EquippedSlot3;
-                if (!string.IsNullOrEmpty(data.EquippedSlot4))
-                    _equipped[EquipmentType.EquipmentType4] = data.EquippedSlot4;
-                if (!string.IsNullOrEmpty(data.EquippedSlot5))
-                    _equipped[EquipmentType.EquipmentType5] = data.EquippedSlot5;
-                if (!string.IsNullOrEmpty(data.EquippedSlot6))
-                    _equipped[EquipmentType.EquipmentType6] = data.EquippedSlot6;
+                if (!string.IsNullOrEmpty(data.EquippedProcessor))
+                    _equipped[EquipmentType.Processor] = data.EquippedProcessor;
+                if (!string.IsNullOrEmpty(data.EquippedWheel))
+                    _equipped[EquipmentType.Wheel] = data.EquippedWheel;
+                if (!string.IsNullOrEmpty(data.EquippedBattery))
+                    _equipped[EquipmentType.Battery] = data.EquippedBattery;
+                if (!string.IsNullOrEmpty(data.EquippedAntenna))
+                    _equipped[EquipmentType.Antenna] = data.EquippedAntenna;
+                if (!string.IsNullOrEmpty(data.EquippedMemory))
+                    _equipped[EquipmentType.Memory] = data.EquippedMemory;
+                if (!string.IsNullOrEmpty(data.EquippedRobotArm))
+                    _equipped[EquipmentType.RobotArm] = data.EquippedRobotArm;
 
                 // 인벤토리 정보 로드
                 _inventory.Clear();

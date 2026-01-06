@@ -54,14 +54,12 @@ namespace SahurRaising.Core
 
     public enum EquipmentType
     {
-        Weapon,
-
-        // Temp
-        EquipmentType2,
-        EquipmentType3,
-        EquipmentType4,
-        EquipmentType5,
-        EquipmentType6,
+        Processor,
+        Wheel,
+        Battery,
+        Antenna,
+        Memory,
+        RobotArm,
     }
 
     public enum EquipmentGrade
@@ -265,18 +263,33 @@ namespace SahurRaising.Core
     }
 
     [Serializable]
-    public struct GachaDroneRow
+    public struct GachaEquipmentRow
     {
-        public string ID;
-        public List<float> Probabilities;
+        public int Level;
+        public List<GradeProbability> Probabilities;
     }
 
     [Serializable]
-    public struct GachaEquipmentRow
+    public struct GradeProbability
     {
         public EquipmentGrade Grade;
-        public List<float> Probabilities;
+        public float Probability;
     }
+
+    [Serializable]
+    public struct GachaDroneRow
+    {
+        public int Level;
+        public List<DroneProbability> Probabilities;
+    }
+
+    [Serializable]
+    public struct DroneProbability
+    {
+        public string ID;
+        public float Probability;
+    }
+
 
     [Serializable]
     public class CurrencySaveData
@@ -343,14 +356,12 @@ namespace SahurRaising.Core
     public class EquipmentSaveData
     {
         // 장착한 장비 (장비 타입별로 1개씩)
-        public string EquippedWeapon;
-
-        // 6종류를 지원하기 위해 추가 슬롯 (필요시 확장)
-        public string EquippedSlot2;
-        public string EquippedSlot3;
-        public string EquippedSlot4;
-        public string EquippedSlot5;
-        public string EquippedSlot6;
+        public string EquippedProcessor;
+        public string EquippedWheel;
+        public string EquippedBattery;
+        public string EquippedAntenna;
+        public string EquippedMemory;
+        public string EquippedRobotArm;
 
         // 모든 장비의 소지 개수
         public List<EquipmentInventoryEntry> Inventory = new();

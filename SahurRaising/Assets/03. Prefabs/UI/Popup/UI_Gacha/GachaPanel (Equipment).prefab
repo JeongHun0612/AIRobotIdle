@@ -1654,6 +1654,10 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
+      propertyPath: _pullCount
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
       propertyPath: _currencyType
       value: 2
       objectReference: {fileID: 0}
@@ -1811,6 +1815,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
+      propertyPath: _pullCount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
       propertyPath: _currencyType
       value: 2
       objectReference: {fileID: 0}
@@ -1965,6 +1973,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
       propertyPath: _drawCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
+      propertyPath: _pullCount
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}

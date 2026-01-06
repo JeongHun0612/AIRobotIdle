@@ -47,7 +47,7 @@ namespace SahurRaising
 
             if (_eventBus != null)
             {
-                _eventBus.Subscribe<GachaDrawEvent>(OnGachaDraw);
+                _eventBus.Subscribe<GachaPullEvent>(OnGachaDraw);
             }
 
             // 각 가챠 패널 업데이트
@@ -66,23 +66,51 @@ namespace SahurRaising
 
             if (_eventBus != null)
             {
-                _eventBus.Unsubscribe<GachaDrawEvent>(OnGachaDraw);
+                _eventBus.Unsubscribe<GachaPullEvent>(OnGachaDraw);
             }
         }
 
         /// <summary>
         /// 가챠 뽑기 이벤트 처리
         /// </summary>
-        private void OnGachaDraw(GachaDrawEvent evt)
+        private void OnGachaDraw(GachaPullEvent evt)
         {
             // 디버그 로그 출력
-            Debug.Log($"[UI_Gacha] ========== 가챠 결과 ({evt.Results.Count}개) ==========");
+            Debug.Log($"[UI_Gacha] ========== 가챠 결과 ({evt.Type}, {evt.Results.Count}개) ==========");
+
+            var equipmentService = ServiceLocator.Get<IEquipmentService>();
+
             for (int i = 0; i < evt.Results.Count; i++)
             {
                 var result = evt.Results[i];
-                string gradeInfo = result.Grade.HasValue ? $"Grade: {result.Grade.Value}" : "Grade: N/A";
-                Debug.Log($"[UI_Gacha] [{i + 1}] Type: {result.Type}, ItemCode: {result.ItemCode}, {gradeInfo}");
+                string itemInfo = "";
+
+                if (result.Type == GachaType.Equipment)
+                {
+                    // 장비인 경우 등급 정보 조회
+                    if (equipmentService != null && equipmentService.TryGetByCode(result.ItemCode, out var equipment))
+                    {
+                        itemInfo = $"Code: {result.ItemCode}, Grade: {equipment.Grade}, Type: {equipment.Type}";
+                    }
+                    else
+                    {
+                        itemInfo = $"Code: {result.ItemCode} (등급 정보 조회 실패)";
+                    }
+                }
+                else if (result.Type == GachaType.Drone)
+                {
+                    // 드론인 경우 ID만 표시
+                    itemInfo = $"ID: {result.ItemCode}";
+                }
+                else
+                {
+                    // 기타 타입
+                    itemInfo = $"ItemCode: {result.ItemCode}";
+                }
+
+                Debug.Log($"[UI_Gacha] [{i + 1}/{evt.Results.Count}] {result.Type} - {itemInfo}");
             }
+
             Debug.Log("[UI_Gacha] ==========================================");
 
 
