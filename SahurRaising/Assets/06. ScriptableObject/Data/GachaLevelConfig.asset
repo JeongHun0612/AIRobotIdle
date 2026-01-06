@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa239363e4ca81488664cbd0ca3fc62, type: 3}
+  m_Name: GachaLevelConfig
+  m_EditorClassIdentifier: 
+  _gachaLevelDataList:
+  - Type: 0
+    Levels:
+    - Level: 1
+      RequiredCount: 0
+    - Level: 2
+      RequiredCount: 30
+    - Level: 3
+      RequiredCount: 100
+    - Level: 4
+      RequiredCount: 250
+    - Level: 5
+      RequiredCount: 450
+    - Level: 6
+      RequiredCount: 800
+    - Level: 7
+      RequiredCount: 1500
+    - Level: 8
+      RequiredCount: 3500
+    - Level: 9
+      RequiredCount: 10000
+  - Type: 1
+    Levels:
+    - Level: 1
+      RequiredCount: 0
+    - Level: 2
+      RequiredCount: 30
+    - Level: 3
+      RequiredCount: 100
+    - Level: 4
+      RequiredCount: 200
+    - Level: 5
+      RequiredCount: 350
+    - Level: 6
+      RequiredCount: 600
+    - Level: 7
+      RequiredCount: 1000
+    - Level: 8
+      RequiredCount: 2000
+    - Level: 9
+      RequiredCount: 5000

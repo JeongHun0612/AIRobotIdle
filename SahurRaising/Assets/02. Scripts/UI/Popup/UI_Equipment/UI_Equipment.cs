@@ -87,6 +87,7 @@ namespace SahurRaising
             {
                 _equipmentService = ServiceLocator.Get<IEquipmentService>();
             }
+
             return _equipmentService != null;
         }
 

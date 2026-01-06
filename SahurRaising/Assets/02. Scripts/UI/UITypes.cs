@@ -18,7 +18,7 @@ namespace SahurRaising.UI
         Equipment = 10,
         Skill = 11,
         Enhance = 12,
-        Gacha = 13,
+        Shop = 13,
 
         // 공용
         //Temp = 20,

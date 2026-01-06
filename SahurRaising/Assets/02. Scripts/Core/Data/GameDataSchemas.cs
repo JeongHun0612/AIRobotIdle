@@ -88,6 +88,23 @@ namespace SahurRaising.Core
         SSS3
     }
 
+    public enum ShopType
+    { 
+        Gacha,
+
+        // Temp
+        ShopType2,
+        ShopType3,
+        ShopType4,
+        ShopType5,
+    }
+
+    public enum GachaType
+    {
+        Equipment,  // 장비 뽑기 (다이아몬드 사용)
+        Drone       // 드론 뽑기 (에메랄드 사용)
+    }
+
     [Serializable]
     public struct MonsterRow
     {
@@ -346,5 +363,15 @@ namespace SahurRaising.Core
     public class SkillSaveData
     {
         public List<string> UnlockedSkillIDs = new();
+    }
+
+    [Serializable]
+    public class GachaSaveData
+    {
+        // 장비 뽑기 누적 개수
+        public int EquipmentTotalCount;
+
+        // 드론 뽑기 누적 개수
+        public int DroneTotalCount;
     }
 }

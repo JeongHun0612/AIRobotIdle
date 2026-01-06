@@ -164,13 +164,13 @@ namespace SahurRaising.Core
             await skillService.InitializeAsync();
             step++; Report();
 
+            var gachaService = new GachaService(resourceManager, currencyService, equipmentService, eventBus);
+            ServiceLocator.Register<IGachaService, GachaService>(gachaService);
+            await gachaService.InitializeAsync();
+            step++; Report();
+
             Debug.Log("[GameManager] 서비스 등록 완료");
             progress?.Report(1f);
-
-
-
-
-
         }
 
         private async void OnApplicationPause(bool pause)
@@ -201,6 +201,8 @@ namespace SahurRaising.Core
                 await ServiceLocator.Get<IEquipmentService>().SaveAsync();
             if (ServiceLocator.HasService<ISkillService>())
                 await ServiceLocator.Get<ISkillService>().SaveAsync();
+            if (ServiceLocator.HasService<IGachaService>())
+                await ServiceLocator.Get<IGachaService>().SaveAsync();
             Debug.Log("[GameManager] SaveAllAsync 완료");
             //if (ServiceLocator.HasService<IGrowthActionService>())
             //    await ServiceLocator.Get<IGrowthActionService>().SaveDataAsync();
