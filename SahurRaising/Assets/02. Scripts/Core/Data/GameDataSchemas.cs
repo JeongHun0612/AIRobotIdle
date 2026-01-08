@@ -241,6 +241,14 @@ namespace SahurRaising.Core
         DroneAtk
     }
 
+    public enum SkillState
+    {
+        Locked,
+        Unlockable,
+        Researching,
+        Unlocked
+    }
+
     [Serializable]
     public struct SkillRow
     {
@@ -365,15 +373,22 @@ namespace SahurRaising.Core
 
         // 모든 장비의 소지 개수
         public List<EquipmentInventoryEntry> Inventory = new();
-
-        // 이미 본 장비(NEW가 꺼진 장비) 코드 목록
         public List<string> SeenCodes = new();
+    }
+
+    [Serializable]
+    public struct ResearchInfo
+    {
+        public string SkillID;
+        public long EndTimeTicks;
     }
 
     [Serializable]
     public class SkillSaveData
     {
         public List<string> UnlockedSkillIDs = new();
+        public List<ResearchInfo> ResearchingSkills = new();
+        public List<string> NewSkillIDs = new();
     }
 
     [Serializable]

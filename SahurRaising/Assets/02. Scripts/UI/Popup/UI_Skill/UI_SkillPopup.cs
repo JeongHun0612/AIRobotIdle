@@ -3,6 +3,8 @@ using SahurRaising.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Cysharp.Threading.Tasks;
+
 namespace SahurRaising.UI
 {
     public class UI_SkillPopup : UI_Popup
@@ -20,19 +22,50 @@ namespace SahurRaising.UI
         [SerializeField] private Vector2 _spacing = new Vector2(150, 150);
         [SerializeField] private float _lineThickness = 5f;
 
+        [Header("Background Settings")]
+        [SerializeField] private List<SkillBackgroundMapping> _backgroundMappings;
+        [SerializeField] private Sprite _defaultBackground;
+        [SerializeField] private Sprite _currencyIcon; // 재화 아이콘 (에메랄드)
+
+        [System.Serializable]
+        public struct SkillBackgroundMapping
+        {
+            public string Prefix;
+            public Sprite Background;
+        }
+
         private ISkillService _skillService;
         private readonly List<UI_SkillSlot> _slots = new();
         private bool _isInitialized = false;
 
-        public override void Initialize()
+        public override async UniTask InitializeAsync()
         {
-            base.Initialize();
-            _skillService = ServiceLocator.Get<ISkillService>();
+            await base.InitializeAsync();
+            // _skillService 초기화는 OnShow에서 수행합니다.
+            // UIManager 초기화 시점에는 아직 Service가 등록되지 않았을 수 있기 때문입니다.
         }
 
         public override void OnShow()
         {
             base.OnShow();
+            
+            if (_skillService == null)
+            {
+                if (ServiceLocator.HasService<ISkillService>())
+                {
+                    _skillService = ServiceLocator.Get<ISkillService>();
+                }
+                else
+                {
+                    Debug.LogError("[UI_SkillPopup] SkillService not found!");
+                    return;
+                }
+            }
+
+            if (_skillService != null)
+            {
+                _skillService.CheckResearchCompletion();
+            }
 
             if (!_isInitialized)
             {
@@ -52,6 +85,17 @@ namespace SahurRaising.UI
             }
             _slots.Clear();
 
+            if (_skillService == null)
+            {
+                _skillService = ServiceLocator.Get<ISkillService>();
+            }
+
+            if (_skillService == null)
+            {
+                Debug.LogError("[UI_SkillPopup] SkillService is not initialized.");
+                return;
+            }
+
             var table = _skillService.GetTable();
             if (table == null) return;
 
@@ -66,7 +110,18 @@ namespace SahurRaising.UI
                 RectTransform rt = slot.GetComponent<RectTransform>();
                 rt.anchoredPosition = new Vector2(row.XCoord * _spacing.x, row.YCoord * _spacing.y);
 
-                slot.Initialize(row, _skillService, RefreshAllSlots);
+                // 배경 이미지 찾기
+                Sprite bgSprite = _defaultBackground;
+                if (_backgroundMappings != null)
+                {
+                    var mapping = _backgroundMappings.Find(m => m.Prefix == row.Prefix);
+                    if (mapping.Background != null)
+                    {
+                        bgSprite = mapping.Background;
+                    }
+                }
+
+                slot.Initialize(row, _skillService, RefreshAllSlots, bgSprite, _currencyIcon);
                 _slots.Add(slot);
             }
 

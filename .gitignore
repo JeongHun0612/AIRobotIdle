@@ -78,3 +78,5 @@ crashlytics-build.properties
 # (Unity 기본 .gitignore의 **/[Ll]ogs/ 규칙에 걸려서 런타임 코드가 무시되는 문제 방지)
 !SahurRaising/Packages/com.ivanmurzak.unity.mcp/Runtime/Unity/Logs/
 !SahurRaising/Packages/com.ivanmurzak.unity.mcp/Runtime/Unity/Logs/**
+Docs/Skill_New_Tag_Implementation_Plan.md
+Docs/Skill_System_UI_Guide.md
