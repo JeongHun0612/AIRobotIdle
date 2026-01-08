@@ -68,26 +68,6 @@ namespace SahurRaising.Core
         }
 
         /// <summary>
-        /// 현재 누적 개수에 따른 가챠 레벨을 반환합니다
-        /// </summary>
-        public int GetLevel(GachaType type, int totalCount)
-        {
-            if (!_levelDataIndex.TryGetValue(type, out var thresholds) || thresholds == null || thresholds.Count == 0)
-                return 1;
-
-            // 역순으로 검사하여 현재 개수보다 큰 최소 레벨을 찾음
-            for (int i = thresholds.Count - 1; i >= 0; i--)
-            {
-                if (totalCount >= thresholds[i].RequiredCount)
-                {
-                    return thresholds[i].Level;
-                }
-            }
-
-            return 1; // 기본값
-        }
-
-        /// <summary>
         /// 특정 레벨에 필요한 누적 뽑기 개수를 반환합니다
         /// </summary>
         public int GetRequiredCountForLevel(GachaType type, int level)
@@ -107,32 +87,6 @@ namespace SahurRaising.Core
             if (thresholds.Count > 0)
             {
                 return thresholds[thresholds.Count - 1].RequiredCount;
-            }
-
-            return 0;
-        }
-
-        /// <summary>
-        /// 다음 레벨업까지 필요한 뽑기 개수를 반환합니다
-        /// </summary>
-        public int GetRemainingCountToNextLevel(GachaType type, int totalCount)
-        {
-            var currentLevel = GetLevel(type, totalCount);
-            var maxLevel = GetMaxLevel(type);
-
-            if (currentLevel >= maxLevel)
-                return 0; // 이미 최대 레벨
-
-            if (!_levelDataIndex.TryGetValue(type, out var thresholds) || thresholds == null)
-                return 0;
-
-            // 다음 레벨의 필요 개수 찾기
-            foreach (var threshold in thresholds)
-            {
-                if (threshold.Level == currentLevel + 1)
-                {
-                    return Mathf.Max(0, threshold.RequiredCount - totalCount);
-                }
             }
 
             return 0;

@@ -17,15 +17,17 @@ namespace SahurRaising.Core
         private readonly IEventBus _eventBus;
 
         private GachaLevelConfig _levelConfig;
+        private GachaGradeColorConfig _gradeColorConfig;
 
         // 타입별 핸들러 관리
         private readonly Dictionary<GachaType, IGachaHandler> _handlers = new();
 
-        // 타입별 누적 뽑기 개수 관리
-        private readonly Dictionary<GachaType, int> _totalCounts = new();
+        // 타입별 가챠 데이터 관리
+        private readonly Dictionary<GachaType, GachaTypeSaveData> _gachaData = new();
 
         public bool IsInitialized { get; private set; }
         public GachaLevelConfig LevelConfig => _levelConfig;
+        public GachaGradeColorConfig GradeColorConfig => _gradeColorConfig;
 
         public GachaService(
             IResourceService resourceService,
@@ -46,6 +48,7 @@ namespace SahurRaising.Core
             var equipmentTable = await _resourceService.LoadTableAsync<EquipmentTable>("EquipmentTable");
             var droneTable = await _resourceService.LoadTableAsync<DroneTable>("DroneTable");
             _levelConfig = await _resourceService.LoadAssetAsync<GachaLevelConfig>("GachaLevelConfig");
+            _gradeColorConfig = await _resourceService.LoadAssetAsync<GachaGradeColorConfig>("GachaGradeColorConfig");
 
             if (gachaEquipmentTable == null || gachaDroneTable == null)
             {
@@ -59,6 +62,11 @@ namespace SahurRaising.Core
                 return;
             }
 
+            if (_gradeColorConfig == null)
+            {
+                Debug.LogWarning("[GachaService] GachaGradeColorConfig 로드 실패.");
+            }
+
             // 핸들러 등록
             _handlers[GachaType.Equipment] = new EquipmentGachaHandler(gachaEquipmentTable, equipmentTable, _levelConfig, _equipmentService);
             _handlers[GachaType.Drone] = new DroneGachaHandler(gachaDroneTable, droneTable);
@@ -69,13 +77,12 @@ namespace SahurRaising.Core
 
         public int GetGachaLevel(GachaType type)
         {
-            var totalCount = GetTotalCount(type);
-            return _levelConfig.GetLevel(type, totalCount);
+            return _gachaData.TryGetValue(type, out var data) ? data.Level : 0;
         }
 
-        public int GetTotalCount(GachaType type)
+        public int GetGachaCount(GachaType type)
         {
-            return _totalCounts.TryGetValue(type, out var count) ? count : 0;
+            return _gachaData.TryGetValue(type, out var data) ? data.Count : 0;
         }
 
         public int GetRequiredCountForNextLevel(GachaType type)
@@ -100,7 +107,21 @@ namespace SahurRaising.Core
             return _levelConfig.GetRequiredCountForLevel(type, level);
         }
 
-        public List<GachaResult> Pull(GachaType type, int count, BigDouble cost, CurrencyType currencyType)
+        public CurrencyType GetCurrencyType(GachaType type)
+        {
+            switch (type)
+            {
+                case GachaType.Equipment:
+                    return CurrencyType.Diamond;
+                case GachaType.Drone:
+                    return CurrencyType.Emerald;
+                default:
+                    Debug.LogWarning($"[GachaService] 알 수 없는 가챠 타입: {type}. 기본값 Diamond를 반환합니다.");
+                    return CurrencyType.Diamond;
+            }
+        }
+
+        public List<GachaResult> Pull(GachaType type, int count, BigDouble cost)
         {
             if (!IsInitialized)
             {
@@ -116,13 +137,16 @@ namespace SahurRaising.Core
             }
 
             // 비용 차감
+            var currencyType = GetCurrencyType(type);
             if (!_currencyService.TryConsume(currencyType, cost, $"Gacha_{type}_{count}"))
             {
                 Debug.LogWarning($"[GachaService] 재화 부족: {currencyType} {cost} 필요");
                 return new List<GachaResult>();
             }
 
-            var currentLevel = GetGachaLevel(type);
+            int currentLevel = GetGachaLevel(type);
+            int currentCount = GetGachaCount(type);
+
             var results = handler.Pull(currentLevel, count);
 
             // 결과를 인벤토리에 추가
@@ -132,7 +156,24 @@ namespace SahurRaising.Core
             }
 
             // 가챠 횟수 증가
-            _totalCounts[type] = GetTotalCount(type) + count;
+            int newCount = currentCount + count;
+
+            // 현재 레벨에서 다음 레벨로 가기 위해 필요한 개수
+            int nextLevelRequiredCount = _levelConfig.GetRequiredCountForLevel(type, currentLevel + 1);
+            if (newCount >= nextLevelRequiredCount)
+            {
+                newCount = newCount - nextLevelRequiredCount;
+                currentLevel++;
+            }
+
+            int maxLevel = _levelConfig.GetMaxLevel(type);
+            if (currentLevel >= maxLevel)
+            {
+                newCount = 0;
+            }
+
+            // 데이터 업데이트
+            _gachaData[type] = new GachaTypeSaveData(type, newCount, currentLevel);
 
             // 이벤트 발행
             _eventBus?.Publish(new GachaPullEvent
@@ -150,8 +191,23 @@ namespace SahurRaising.Core
             try
             {
                 var data = new GachaSaveData();
-                data.EquipmentTotalCount = GetTotalCount(GachaType.Equipment);
-                data.DroneTotalCount = GetTotalCount(GachaType.Drone);
+                data.GachaDataList.Clear();
+
+                // 모든 GachaType에 대해 데이터 저장
+                foreach (GachaType type in System.Enum.GetValues(typeof(GachaType)))
+                {
+                    if (_gachaData.TryGetValue(type, out var gachaData))
+                    {
+                        data.GachaDataList.Add(gachaData);
+                    }
+                    else
+                    {
+                        // 데이터가 없는 경우 기본값으로 저장
+                        int totalCount = 0;
+                        int level = 1;
+                        data.GachaDataList.Add(new GachaTypeSaveData(type, totalCount, level));
+                    }
+                }
 
                 var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
@@ -172,7 +228,7 @@ namespace SahurRaising.Core
                 if (!File.Exists(path))
                 {
                     Debug.Log("[GachaService] 저장 파일이 없어 기본값으로 초기화합니다.");
-                    _totalCounts.Clear();
+                    _gachaData.Clear();
                     await SaveAsync();
                     return;
                 }
@@ -182,21 +238,38 @@ namespace SahurRaising.Core
 
                 if (data != null)
                 {
-                    _totalCounts[GachaType.Equipment] = data.EquipmentTotalCount;
-                    _totalCounts[GachaType.Drone] = data.DroneTotalCount;
+                    _gachaData.Clear();
+
+                    // List에서 데이터 로드
+                    if (data.GachaDataList != null && data.GachaDataList.Count > 0)
+                    {
+                        foreach (var gachaData in data.GachaDataList)
+                        {
+                            // 레벨이 없거나 0이면 계산
+                            int level = gachaData.Level > 0 ? gachaData.Level : 1;
+                            _gachaData[gachaData.Type] = new GachaTypeSaveData(gachaData.Type, gachaData.Count, level);
+                        }
+                    }
+                    else
+                    {
+                        // JsonUtility는 없는 필드를 무시하므로, 이 경우는 빈 리스트로 처리
+                        Debug.LogWarning("[GachaService] GachaDataList가 비어있습니다. 기본값으로 초기화합니다.");
+                        _gachaData.Clear();
+                        await SaveAsync();
+                    }
                 }
                 else
                 {
                     // JSON 파싱은 성공했지만 data가 null인 경우 기본값으로 초기화
                     Debug.LogWarning("[GachaService] 저장 데이터가 null입니다. 기본값으로 초기화합니다.");
-                    _totalCounts.Clear();
+                    _gachaData.Clear();
                     await SaveAsync();
                 }
             }
             catch (Exception ex)
             {
                 Debug.LogError($"[GachaService] 로드 실패: {ex.Message}");
-                _totalCounts.Clear();
+                _gachaData.Clear();
             }
         }
 

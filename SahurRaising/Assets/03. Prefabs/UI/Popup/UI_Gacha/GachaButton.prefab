@@ -482,12 +482,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gachaType: 0
-  _drawCount: 0
+  _pullCount: 0
   _costValue: 0
   _currencyType: 0
   _button: {fileID: 2868164409520959348}
   _costText: {fileID: 698096677417637473}
-  _drawCountText: {fileID: 7507646209645069090}
+  _pullCountText: {fileID: 7507646209645069090}
   _disabledPanel: {fileID: 7452181202103352000}
 --- !u!1 &7252895876825147447
 GameObject:

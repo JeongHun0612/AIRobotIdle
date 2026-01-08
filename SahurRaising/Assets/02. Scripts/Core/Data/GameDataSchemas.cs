@@ -377,12 +377,23 @@ namespace SahurRaising.Core
     }
 
     [Serializable]
+    public struct GachaTypeSaveData
+    {
+        public GachaType Type;
+        public int Count;
+        public int Level;
+
+        public GachaTypeSaveData(GachaType type, int count, int level)
+        {
+            Type = type;
+            Count = count;
+            Level = level;
+        }
+    }
+
+    [Serializable]
     public class GachaSaveData
     {
-        // 장비 뽑기 누적 개수
-        public int EquipmentTotalCount;
-
-        // 드론 뽑기 누적 개수
-        public int DroneTotalCount;
+        public List<GachaTypeSaveData> GachaDataList = new();
     }
 }

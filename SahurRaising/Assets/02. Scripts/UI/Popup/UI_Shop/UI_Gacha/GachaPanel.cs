@@ -42,7 +42,7 @@ namespace SahurRaising
 
             // 레벨 정보 가져오기
             int currentLevel = _gachaService.GetGachaLevel(_gachaType);
-            int totalCount = _gachaService.GetTotalCount(_gachaType);
+            int totalCount = _gachaService.GetGachaCount(_gachaType);
 
             // 레벨 텍스트 업데이트
             if (_levelText != null)

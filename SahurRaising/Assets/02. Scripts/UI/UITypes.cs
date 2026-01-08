@@ -20,6 +20,8 @@ namespace SahurRaising.UI
         Enhance = 12,
         Shop = 13,
 
+        GachaResult = 30,
+
         // 공용
         //Temp = 20,
 

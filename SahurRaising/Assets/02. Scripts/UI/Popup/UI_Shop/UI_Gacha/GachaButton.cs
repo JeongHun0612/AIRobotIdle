@@ -1,5 +1,6 @@
 ﻿using BreakInfinity;
 using SahurRaising.Core;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,6 @@ namespace SahurRaising
         [SerializeField] private GachaType _gachaType;
         [SerializeField] private int _pullCount;
         [SerializeField] private double _costValue;
-        [SerializeField] private CurrencyType _currencyType;
 
         [Header("UI 요소")]
         [SerializeField] private Button _button;
@@ -28,7 +28,6 @@ namespace SahurRaising
         public GachaType GachaType => _gachaType;
         public int PullCount => _pullCount;
         public BigDouble Cost => _cost;
-        public CurrencyType CurrencyType => _currencyType;
 
         public void Initialize()
         {
@@ -70,6 +69,11 @@ namespace SahurRaising
             UpdateButtonState();
         }
 
+        public void SetGachaType(GachaType type)
+        {
+            _gachaType = type;
+        }
+
         private bool TryBindService()
         {
             if (_gachaService == null && ServiceLocator.HasService<IGachaService>())
@@ -90,10 +94,8 @@ namespace SahurRaising
             if (_button == null)
                 return;
 
-            if (_currencyService == null)
-                _currencyService = ServiceLocator.Get<ICurrencyService>();
-
-            var balance = _currencyService.Get(_currencyType);
+            var currencyType = _gachaService.GetCurrencyType(_gachaType);
+            var balance = _currencyService.Get(currencyType);
             bool isInteractable = balance >= _cost;
 
             _button.interactable = isInteractable;
@@ -117,7 +119,7 @@ namespace SahurRaising
             }
 
             // 가챠 실행
-            _gachaService.Pull(_gachaType, _pullCount, _cost, _currencyType);
+            _gachaService.Pull(_gachaType, _pullCount, _cost);
 
             // UI 갱신
             Refresh();

@@ -46,6 +46,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85873d56fdfdff446a9838699b96e2d7
+    m_Address: GachaGradeColorConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8eecb5a7bdb7b62409ce4015d9dcdacb
     m_Address: MonsterTable
     m_ReadOnly: 0

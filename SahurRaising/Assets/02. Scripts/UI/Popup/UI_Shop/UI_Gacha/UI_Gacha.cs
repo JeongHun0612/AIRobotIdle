@@ -75,44 +75,16 @@ namespace SahurRaising
         /// </summary>
         private void OnGachaDraw(GachaPullEvent evt)
         {
-            // 디버그 로그 출력
-            Debug.Log($"[UI_Gacha] ========== 가챠 결과 ({evt.Type}, {evt.Results.Count}개) ==========");
-
-            var equipmentService = ServiceLocator.Get<IEquipmentService>();
-
-            for (int i = 0; i < evt.Results.Count; i++)
+            // UI_GachaResult 팝업 열기
+            var gachaResultPopup = UIManager.Instance.ShowPopup<UI_GachaResult>(EPopupUIType.GachaResult);
+            if (gachaResultPopup != null)
             {
-                var result = evt.Results[i];
-                string itemInfo = "";
-
-                if (result.Type == GachaType.Equipment)
-                {
-                    // 장비인 경우 등급 정보 조회
-                    if (equipmentService != null && equipmentService.TryGetByCode(result.ItemCode, out var equipment))
-                    {
-                        itemInfo = $"Code: {result.ItemCode}, Grade: {equipment.Grade}, Type: {equipment.Type}";
-                    }
-                    else
-                    {
-                        itemInfo = $"Code: {result.ItemCode} (등급 정보 조회 실패)";
-                    }
-                }
-                else if (result.Type == GachaType.Drone)
-                {
-                    // 드론인 경우 ID만 표시
-                    itemInfo = $"ID: {result.ItemCode}";
-                }
-                else
-                {
-                    // 기타 타입
-                    itemInfo = $"ItemCode: {result.ItemCode}";
-                }
-
-                Debug.Log($"[UI_Gacha] [{i + 1}/{evt.Results.Count}] {result.Type} - {itemInfo}");
+                gachaResultPopup.SetGachaResult(evt);
             }
-
-            Debug.Log("[UI_Gacha] ==========================================");
-
+            else
+            {
+                Debug.LogWarning("[UI_Gacha] UI_GachaResult 팝업을 찾을 수 없습니다.");
+            }
 
             // 해당 타입의 GachaPanel 찾기
             var panel = _gachaPanels?.FirstOrDefault(p => p.GachaType == evt.Type);
