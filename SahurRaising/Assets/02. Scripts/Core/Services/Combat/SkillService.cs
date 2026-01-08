@@ -18,6 +18,8 @@ namespace SahurRaising.Core
 
         private SkillTable _skillTable;
         private HashSet<string> _unlockedSkillIds = new();
+        private HashSet<string> _newSkillIds = new();
+        private List<ResearchInfo> _researchingSkills = new();
 
         public SkillService(
             IResourceService resourceService,
@@ -57,6 +59,10 @@ namespace SahurRaising.Core
             if (IsUnlocked(skillId))
                 return false;
 
+            // 연구 중인 경우 불가
+            if (_researchingSkills.Exists(r => r.SkillID == skillId))
+                return false;
+
             if (!_skillTable.Index.TryGetValue(skillId, out var row))
             {
                 Debug.LogWarning($"[SkillService] 존재하지 않는 스킬 ID: {skillId}");
@@ -88,11 +94,21 @@ namespace SahurRaising.Core
             if (!_currencyService.TryConsume(CurrencyType.Emerald, row.Cost, $"UnlockSkill_{skillId}"))
                 return false;
 
-            // 해금 처리
-            _unlockedSkillIds.Add(skillId);
-
-            // 효과 적용
-            ApplyPassiveStats();
+            // 해금 처리 또는 연구 시작
+            if (row.Time > 0)
+            {
+                // 연구 시작
+                long endTime = DateTime.Now.AddSeconds(row.Time).Ticks;
+                _researchingSkills.Add(new ResearchInfo { SkillID = skillId, EndTimeTicks = endTime });
+            }
+            else
+            {
+                // 즉시 해금
+                _unlockedSkillIds.Add(skillId);
+                _newSkillIds.Add(skillId);
+                // 효과 적용
+                ApplyPassiveStats();
+            }
 
             // 저장
             SaveAsync().Forget();
@@ -168,12 +184,57 @@ namespace SahurRaising.Core
             return total;
         }
 
+        public SkillState GetSkillState(string skillId)
+        {
+            if (IsUnlocked(skillId)) return SkillState.Unlocked;
+            if (_researchingSkills.Exists(r => r.SkillID == skillId)) return SkillState.Researching;
+            if (CanUnlock(skillId)) return SkillState.Unlockable;
+            return SkillState.Locked;
+        }
+
+        public double GetRemainingTime(string skillId)
+        {
+            var research = _researchingSkills.Find(r => r.SkillID == skillId);
+            if (string.IsNullOrEmpty(research.SkillID)) return 0;
+
+            long ticksRemaining = research.EndTimeTicks - DateTime.Now.Ticks;
+            if (ticksRemaining <= 0) return 0;
+
+            return TimeSpan.FromTicks(ticksRemaining).TotalSeconds;
+        }
+
+        public void CheckResearchCompletion()
+        {
+            bool changed = false;
+            long now = DateTime.Now.Ticks;
+
+            for (int i = _researchingSkills.Count - 1; i >= 0; i--)
+            {
+                if (now >= _researchingSkills[i].EndTimeTicks)
+                {
+                    var info = _researchingSkills[i];
+                    _researchingSkills.RemoveAt(i);
+                    _unlockedSkillIds.Add(info.SkillID);
+                    _newSkillIds.Add(info.SkillID);
+                    changed = true;
+                }
+            }
+
+            if (changed)
+            {
+                ApplyPassiveStats();
+                SaveAsync().Forget();
+            }
+        }
+
         public async UniTask SaveAsync()
         {
             try
             {
                 var data = new SkillSaveData();
                 data.UnlockedSkillIDs.AddRange(_unlockedSkillIds);
+                data.ResearchingSkills.AddRange(_researchingSkills);
+                data.NewSkillIDs.AddRange(_newSkillIds);
 
                 var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
@@ -201,11 +262,27 @@ namespace SahurRaising.Core
                 var json = await File.ReadAllTextAsync(path);
                 var data = JsonUtility.FromJson<SkillSaveData>(json);
 
-                if (data != null && data.UnlockedSkillIDs != null)
+                if (data != null)
                 {
-                    foreach (var id in data.UnlockedSkillIDs)
+                    if (data.UnlockedSkillIDs != null)
                     {
-                        _unlockedSkillIds.Add(id);
+                        foreach (var id in data.UnlockedSkillIDs)
+                        {
+                            _unlockedSkillIds.Add(id);
+                        }
+                    }
+
+                    if (data.ResearchingSkills != null)
+                    {
+                        _researchingSkills = data.ResearchingSkills;
+                    }
+
+                    if (data.NewSkillIDs != null)
+                    {
+                        foreach (var id in data.NewSkillIDs)
+                        {
+                            _newSkillIds.Add(id);
+                        }
                     }
                 }
             }
@@ -218,6 +295,19 @@ namespace SahurRaising.Core
         private string GetSavePath()
         {
             return Path.Combine(Application.persistentDataPath, SaveFileName);
+        }
+
+        public bool IsNewSkill(string skillId)
+        {
+            return _newSkillIds.Contains(skillId);
+        }
+
+        public void AcknowledgeSkill(string skillId)
+        {
+            if (_newSkillIds.Remove(skillId))
+            {
+                SaveAsync().Forget();
+            }
         }
     }
 }
