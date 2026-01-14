@@ -87,7 +87,7 @@ namespace SahurRaising.Core
     }
 
     public enum ShopType
-    { 
+    {
         Gacha,
 
         // Temp
@@ -100,7 +100,10 @@ namespace SahurRaising.Core
     public enum GachaType
     {
         Equipment,  // 장비 뽑기 (다이아몬드 사용)
-        Drone       // 드론 뽑기 (에메랄드 사용)
+        Drone,      // 드론 뽑기 (에메랄드 사용)
+
+
+        None = 10000,
     }
 
     [Serializable]
@@ -340,23 +343,19 @@ namespace SahurRaising.Core
     }
 
     [Serializable]
-    public struct EquipmentInventoryEntry
+    public struct EquipmentInventoryInfo
     {
         public string Code;
         public int Level;
         public int Count;
-    }
+        public bool IsOwned;
 
-    [Serializable]
-    public struct EquipmentInventoryInfo
-    {
-        public int Level;
-        public int Count;
-
-        public EquipmentInventoryInfo(int level, int count)
+        public EquipmentInventoryInfo(string code, int level, int count, bool isOwned = false)
         {
+            Code = code;
             Level = level;
             Count = count;
+            IsOwned = isOwned;
         }
     }
 
@@ -372,7 +371,7 @@ namespace SahurRaising.Core
         public string EquippedRobotArm;
 
         // 모든 장비의 소지 개수
-        public List<EquipmentInventoryEntry> Inventory = new();
+        public List<EquipmentInventoryInfo> Inventory = new();
         public List<string> SeenCodes = new();
     }
 
@@ -410,5 +409,15 @@ namespace SahurRaising.Core
     public class GachaSaveData
     {
         public List<GachaTypeSaveData> GachaDataList = new();
+    }
+
+    [Serializable]
+    public struct AdvanceResult
+    {
+        public GachaType Type;
+        public string ItemCode;
+        public string GradeKey;
+        public Sprite Icon;
+        public int Count;
     }
 }
