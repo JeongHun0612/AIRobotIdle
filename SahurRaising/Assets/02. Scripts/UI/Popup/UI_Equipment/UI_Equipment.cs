@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using SahurRaising.Core;
 using SahurRaising.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ namespace SahurRaising
         [SerializeField] private ScrollRect _scrollRect;
 
         [Header("장비 정보 영역")]
+        [SerializeField] private TMP_Text _equipmentTypeText;
         [SerializeField] private EquipmentInfo _equipmentInfo;
 
         private readonly List<ItemSlot> _itemSlots = new();
@@ -153,6 +155,11 @@ namespace SahurRaising
                     _itemSlots[i].gameObject.SetActive(false);
                 }
             }
+
+            if (_selectedSlot != null)
+            {
+                _selectedSlot.SetFocus(true);
+            }
         }
 
         private void ShowEquippedEquipmentInfo()
@@ -164,7 +171,11 @@ namespace SahurRaising
             string equippedCode = _equipmentService.GetEquippedCode(_currentType);
 
             if (string.IsNullOrEmpty(equippedCode))
-                return; // 장착된 장비가 없으면 표시하지 않음
+            {
+                // 장착된 장비가 없으면 장비 정보 숨기기
+                _equipmentInfo.HideEquipmentInfo();
+                return;
+            }
 
             // 장비 데이터 가져오기
             if (!_equipmentService.TryGetByCode(equippedCode, out EquipmentRow equippedData))
@@ -266,6 +277,13 @@ namespace SahurRaising
 
             _currentType = type;
 
+            // 탭 텍스트 업데이트
+            if (_equipmentTypeText != null)
+            {
+                _equipmentTypeText.text = type.ToString();
+            }
+
+            // 인벤토리 현재 타입에 맞춰 갱신
             RefreshInventoryByCurrentType();
 
             // 현재 탭 타입에 장착된 장비 정보 표시
@@ -274,6 +292,10 @@ namespace SahurRaising
 
         public void OnClickItemSlot(ItemSlot itemSlot)
         {
+            // 이미 선택된 슬롯을 다시 클릭한 경우 return
+            if (_selectedSlot != null && ReferenceEquals(_selectedSlot, itemSlot))
+                return;
+
             SetSelectedSlot(itemSlot);
 
             if (_equipmentInfo != null && itemSlot.Data.Code != null)
@@ -285,16 +307,42 @@ namespace SahurRaising
 
         public void OnClickGacha()
         {
-            //UIManager.Instance.ShowPopup(EPopupUIType.Gacha);
+            var mainScene = UIManager.Instance.GetCurrentScene<UIMainRootScene>();
+            if (mainScene == null || mainScene.BottomBarMenu == null)
+                return;
 
-            _equipmentService.AddToInventory("W1");
+            // Shop 팝업 열기
+            mainScene.BottomBarMenu.SetCurrent(EPopupUIType.Shop);
 
-            RefreshInventoryByCurrentType();
+            UIManager.Instance.CloseAllPopups();
+            var shopPopup = UIManager.Instance.ShowPopup<UI_ShopPopup>(EPopupUIType.Shop);
+            if (shopPopup != null)
+            {
+                shopPopup.OnClickTabButton(ShopType.Gacha);
+            }
         }
 
-        public void OnClickUpgrade()
+        public void OnClickAdvanceAll()
         {
-            Debug.Log("[UI_Equipment] OnClickUpgrade");
+            // 현재 선택된 탭 타입의 장비만 일괄 강화
+            var advanceResult = _equipmentService.AdvanceAllAvailable(_currentType);
+
+            if (advanceResult == null)
+            {
+                // TODO 이후 팝업 창 출력
+                Debug.Log($"[UI_Equipment] {_currentType} 타입의 승급 가능한 장비가 없습니다.");
+                return;
+            }
+
+            // 승급 결과 팝업 표시
+            var advanceResultPopup = UIManager.Instance.ShowPopup<UI_AdvanceResult>(EPopupUIType.AdvanceResult);
+            if (advanceResultPopup != null)
+            {
+                advanceResultPopup.SetAdvanceResult(advanceResult);
+            }
+
+            // 인벤토리 갱신
+            RefreshInventoryByCurrentType();
         }
     }
 }

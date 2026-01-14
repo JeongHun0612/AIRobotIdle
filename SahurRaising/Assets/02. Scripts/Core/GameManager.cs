@@ -107,7 +107,7 @@ namespace SahurRaising.Core
             Debug.Log("[GameManager] 서비스 등록 시작...");
 
             int step = 0;
-            const int totalSteps = 7;
+            const int totalSteps = 11;
             void Report() => progress?.Report((float)step / totalSteps);
 
             // 1. 기본 서비스들 등록
@@ -119,6 +119,13 @@ namespace SahurRaising.Core
             var eventBus = new EventBus();
             eventBus.Initialize();
             ServiceLocator.Register<IEventBus, EventBus>(eventBus);
+            step++; Report();
+
+            // Config 서비스 등록 (UI에서 공통 사용)
+            // - 현재는 ItemVisualConfig만 관리
+            var configService = new ConfigService(resourceManager);
+            ServiceLocator.Register<IConfigService, ConfigService>(configService);
+            await configService.InitializeAsync();
             step++; Report();
 
             // Localization 서비스 등록 (UI에서 공통 사용 - 다국어 대응)

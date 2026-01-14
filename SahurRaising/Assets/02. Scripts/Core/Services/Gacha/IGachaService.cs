@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using BreakInfinity;
+using UnityEngine;
 
 namespace SahurRaising.Core
 {
@@ -15,9 +16,9 @@ namespace SahurRaising.Core
         GachaLevelConfig LevelConfig { get; }
 
         /// <summary>
-        /// GachaGradeColorConfig 직접 접근 (읽기 전용)
+        /// GachaButtonConfig 직접 접근 (읽기 전용)
         /// </summary>
-        GachaGradeColorConfig GradeColorConfig { get; }
+        GachaButtonConfig GachaButtonConfig { get; }
 
         /// <summary>
         /// 현재 가챠 레벨을 가져옵니다
@@ -66,5 +67,8 @@ namespace SahurRaising.Core
     {
         public GachaType Type;
         public string ItemCode;
+        public string GradeKey;
+        public string TypeKey;
+        public Sprite Icon;
     }
 }

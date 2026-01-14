@@ -17,16 +17,16 @@ namespace SahurRaising
                 _equipTypeText.text = optionValue.Type;
             }
 
+            double currentValue = optionValue.Base + (Mathf.Max(0, level - 1) * optionValue.Up);
+            double nextValue = currentValue + optionValue.Up;
+
             if (_currentStatText != null)
             {
-                double currentValue = optionValue.Base * level;
                 _currentStatText.text = currentValue.ToString("F2");
             }
 
             if (_nextStatText != null)
             {
-                double currentValue = optionValue.Base * level;
-                double nextValue = currentValue + optionValue.Up;
                 _nextStatText.text = nextValue.ToString("F2");
             }
         }

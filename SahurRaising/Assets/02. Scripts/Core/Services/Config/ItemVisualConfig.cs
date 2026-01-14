@@ -1,16 +1,19 @@
-﻿using SahurRaising.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace SahurRaising
+namespace SahurRaising.Core
 {
-    [CreateAssetMenu(fileName = "GachaGradeColorConfig", menuName = "SahurRaising/Data/GachaGradeColorConfig")]
-    public class GachaGradeColorConfig : ScriptableObject
+    /// <summary>
+    /// 아이템 타입/등급에 따른 UI 시각 요소(색상/아이콘) 매핑 설정
+    /// </summary>
+    [CreateAssetMenu(fileName = "ItemVisualConfig", menuName = "SahurRaising/Config/ItemVisualConfig")]
+    public class ItemVisualConfig : ScriptableObject
     {
-        [Header("가챠 타입별 등급 색상 및 타입 아이콘")]
-        [SerializeField] private List<GachaTypeColorConfig> _gachaTypeConfigs = new List<GachaTypeColorConfig>();
+        [Header("아이템 타입별 등급 색상 및 타입 아이콘")]
+        // 기존 에셋(YAML) 호환을 위해 필드명은 유지합니다.
+        [SerializeField] private List<ItemTypeVisualConfig> _gachaTypeConfigs = new List<ItemTypeVisualConfig>();
 
-        private Dictionary<GachaType, GachaTypeColorConfig> _gachaTypeConfigDict;
+        private Dictionary<GachaType, ItemTypeVisualConfig> _gachaTypeConfigDict;
 
         private void OnEnable()
         {
@@ -20,7 +23,7 @@ namespace SahurRaising
         private void BuildDictionaries()
         {
             // 가챠 타입별 설정 딕셔너리 빌드
-            _gachaTypeConfigDict = new Dictionary<GachaType, GachaTypeColorConfig>();
+            _gachaTypeConfigDict = new Dictionary<GachaType, ItemTypeVisualConfig>();
             foreach (var config in _gachaTypeConfigs)
             {
                 if (!_gachaTypeConfigDict.ContainsKey(config.Type))
@@ -32,7 +35,7 @@ namespace SahurRaising
         }
 
         /// <summary>
-        /// 가챠 타입과 등급 키에 따른 색상을 반환합니다.
+        /// 아이템 타입과 등급 키에 따른 색상을 반환합니다.
         /// </summary>
         public Color GetColorForGrade(GachaType gachaType, string gradeKey)
         {
@@ -50,7 +53,7 @@ namespace SahurRaising
         }
 
         /// <summary>
-        /// 가챠 타입과 타입 키에 따른 아이콘을 반환합니다.
+        /// 아이템 타입과 타입 키에 따른 아이콘을 반환합니다.
         /// </summary>
         public Sprite GetTypeIcon(GachaType gachaType, string typeKey)
         {
@@ -66,13 +69,13 @@ namespace SahurRaising
         }
 
         // 에디터에서 초기화용 (Context Menu)
-        [ContextMenu("Initialize All Gacha Grade Colors")]
-        private void InitializeAllGachaGradeColors()
+        [ContextMenu("Initialize All Item Visual Configs")]
+        private void InitializeAllItemVisualConfigs()
         {
-            _gachaTypeConfigs = new List<GachaTypeColorConfig>
+            _gachaTypeConfigs = new List<ItemTypeVisualConfig>
             {
                 // Equipment 가챠 설정
-                new GachaTypeColorConfig
+                new ItemTypeVisualConfig
                 {
                     Type = GachaType.Equipment,
                     GradeColors = new List<GradeColorEntry>
@@ -110,7 +113,7 @@ namespace SahurRaising
                     }
                 },
                 // Drone 가챠 설정
-                new GachaTypeColorConfig
+                new ItemTypeVisualConfig
                 {
                     Type = GachaType.Drone,
                     GradeColors = new List<GradeColorEntry>
@@ -159,7 +162,7 @@ namespace SahurRaising
         }
 
         [System.Serializable]
-        public class GachaTypeColorConfig
+        public class ItemTypeVisualConfig
         {
             public GachaType Type;
             [SerializeField] private List<GradeColorEntry> _gradeColors = new List<GradeColorEntry>();

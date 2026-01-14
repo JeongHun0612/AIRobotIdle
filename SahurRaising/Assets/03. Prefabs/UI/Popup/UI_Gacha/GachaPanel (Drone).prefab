@@ -983,7 +983,6 @@ MonoBehaviour:
   - {fileID: 7259624409637644409}
   - {fileID: 6393363124565505931}
   - {fileID: 1609709981716424168}
-  - {fileID: 2000826582284402709}
 --- !u!1 &5557181055872729683
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,6 +1649,10 @@ PrefabInstance:
       value: GachaButton_35
       objectReference: {fileID: 0}
     - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
+      propertyPath: _buttonId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
       propertyPath: _costValue
       value: 1500
       objectReference: {fileID: 0}
@@ -1819,6 +1822,10 @@ PrefabInstance:
       value: GachaButton_10
       objectReference: {fileID: 0}
     - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
+      propertyPath: _buttonId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
       propertyPath: _costValue
       value: 500
       objectReference: {fileID: 0}
@@ -1986,6 +1993,10 @@ PrefabInstance:
     - target: {fileID: 6617371599475657789, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
       propertyPath: m_Name
       value: GachaButton_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
+      propertyPath: _buttonId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
       propertyPath: _costValue
@@ -2181,17 +2192,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
---- !u!114 &2000826582284402709 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8336095104819322099, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}
-  m_PrefabInstance: {fileID: 7524282940979174630}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7edf5601c6c81a046843ad6de920825d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &5809614037649098513 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4104039678459173879, guid: f58a0d21bee2f7c4e83eae6b941a2e08, type: 3}

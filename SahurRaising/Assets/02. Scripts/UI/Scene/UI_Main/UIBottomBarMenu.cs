@@ -166,7 +166,7 @@ namespace SahurRaising.UI
         }
 
         // 왜: UX 규칙(같은 탭 재클릭=닫기, 다른 탭=현재 닫고 대상 열기)을 하단바에서 단일 책임으로 처리한다.
-        private void OnTabClicked(EPopupUIType tab)
+        public void OnTabClicked(EPopupUIType tab)
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             Debug.Log($"[UIBottomBarMenu] Clicked: {tab}, Current: {_currentTab}");

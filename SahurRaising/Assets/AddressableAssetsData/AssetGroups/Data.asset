@@ -47,7 +47,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 85873d56fdfdff446a9838699b96e2d7
-    m_Address: GachaGradeColorConfig
+    m_Address: ItemVisualConfig
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -56,6 +56,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Data
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f434c55009313a4783f48c249f342d7
+    m_Address: GachaButtonConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 95c908784df49714ba47c8d25c8d3391
     m_Address: EquipmentTable

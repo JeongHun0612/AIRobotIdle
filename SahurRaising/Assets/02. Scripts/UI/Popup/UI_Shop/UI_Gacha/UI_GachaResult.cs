@@ -12,8 +12,6 @@ namespace SahurRaising
 {
     public class UI_GachaResult : UI_Popup
     {
-        private const int MAX_SLOT_COUNT = 35; // 최대 슬롯 개수
-
         [Header("가챠 슬롯")]
         [SerializeField] private Transform _slotContainer;
         [SerializeField] private GachaSlot _gachaSlotPrefab;
@@ -73,7 +71,11 @@ namespace SahurRaising
                 return;
 
             _isAnimating = false;
-            _skipButton.gameObject.SetActive(false);
+
+            if (_skipButton != null)
+            {
+                _skipButton.gameObject.SetActive(false);
+            }
         }
 
         public override void OnHide()
@@ -113,26 +115,11 @@ namespace SahurRaising
 
             // 이미 하위에 있는 GachaSlot들을 먼저 할당
             var existingSlots = _slotContainer.GetComponentsInChildren<GachaSlot>(true).ToList();
-
             foreach (var slot in existingSlots)
             {
                 slot.OnReset();
                 slot.gameObject.SetActive(false);
                 _slotPool.Add(slot);
-            }
-
-            // 부족한 경우에만 추가 생성
-            int currentCount = _slotPool.Count;
-            if (currentCount < MAX_SLOT_COUNT && _gachaSlotPrefab != null)
-            {
-                int needCount = MAX_SLOT_COUNT - currentCount;
-                for (int i = 0; i < needCount; i++)
-                {
-                    var slot = Instantiate(_gachaSlotPrefab, _slotContainer);
-                    slot.OnReset();
-                    slot.gameObject.SetActive(false);
-                    _slotPool.Add(slot);
-                }
             }
         }
 
@@ -143,8 +130,7 @@ namespace SahurRaising
             // 각 GachaButton 업데이트
             foreach (var button in _gachaButtons)
             {
-                button?.SetGachaType(evt.Type);
-                button?.Refresh();
+                button?.Refresh(evt.Type);
             }
 
             ShowGachaResults();
@@ -192,7 +178,10 @@ namespace SahurRaising
             // 기존 트윈 정리
             ClearActiveTweens();
             _isAnimating = true;
-            _skipButton.gameObject.SetActive(true);
+            if (_skipButton != null)
+            {
+                _skipButton.gameObject.SetActive(true);
+            }
 
             // 슬라이더 초기 상태 설정
             InitializeProgressBar(gachaType);
@@ -223,7 +212,10 @@ namespace SahurRaising
                         tween.OnComplete(() =>
                         {
                             _isAnimating = false;
-                            _skipButton.gameObject.SetActive(false);
+                            if (_skipButton != null)
+                            {
+                                _skipButton.gameObject.SetActive(false);
+                            }
                         });
                     }
                 }
@@ -398,7 +390,10 @@ namespace SahurRaising
             }
 
             _isAnimating = false;
-            _skipButton.gameObject.SetActive(false);
+            if (_skipButton != null)
+            {
+                _skipButton.gameObject.SetActive(false);
+            }
         }
 
         private void ClearActiveTweens()

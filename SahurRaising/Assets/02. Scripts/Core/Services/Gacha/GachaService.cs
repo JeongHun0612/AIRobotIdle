@@ -17,7 +17,7 @@ namespace SahurRaising.Core
         private readonly IEventBus _eventBus;
 
         private GachaLevelConfig _levelConfig;
-        private GachaGradeColorConfig _gradeColorConfig;
+        private GachaButtonConfig _gachaButtonConfig;
 
         // 타입별 핸들러 관리
         private readonly Dictionary<GachaType, IGachaHandler> _handlers = new();
@@ -27,7 +27,7 @@ namespace SahurRaising.Core
 
         public bool IsInitialized { get; private set; }
         public GachaLevelConfig LevelConfig => _levelConfig;
-        public GachaGradeColorConfig GradeColorConfig => _gradeColorConfig;
+        public GachaButtonConfig GachaButtonConfig => _gachaButtonConfig;
 
         public GachaService(
             IResourceService resourceService,
@@ -48,7 +48,7 @@ namespace SahurRaising.Core
             var equipmentTable = await _resourceService.LoadTableAsync<EquipmentTable>("EquipmentTable");
             var droneTable = await _resourceService.LoadTableAsync<DroneTable>("DroneTable");
             _levelConfig = await _resourceService.LoadAssetAsync<GachaLevelConfig>("GachaLevelConfig");
-            _gradeColorConfig = await _resourceService.LoadAssetAsync<GachaGradeColorConfig>("GachaGradeColorConfig");
+            _gachaButtonConfig = await _resourceService.LoadAssetAsync<GachaButtonConfig>("GachaButtonConfig");
 
             if (gachaEquipmentTable == null || gachaDroneTable == null)
             {
@@ -60,11 +60,6 @@ namespace SahurRaising.Core
             {
                 Debug.LogError("[GachaService] GachaLevelConfig 로드 실패");
                 return;
-            }
-
-            if (_gradeColorConfig == null)
-            {
-                Debug.LogWarning("[GachaService] GachaGradeColorConfig 로드 실패.");
             }
 
             // 핸들러 등록
@@ -157,6 +152,31 @@ namespace SahurRaising.Core
 
             // 가챠 횟수 증가
             int newCount = currentCount + count;
+            //int maxLevel = _levelConfig.GetMaxLevel(type);
+
+            //// 여러 레벨을 한 번에 넘어갈 수 있도록 반복 처리
+            //while (currentLevel < maxLevel)
+            //{
+            //    // 다음 레벨에 도달하기 위한 누적 개수
+            //    int nextLevelRequiredCount = _levelConfig.GetRequiredCountForLevel(type, currentLevel + 1);
+
+            //    // 현재 레벨에서의 누적 개수 계산
+            //    int currentLevelRequiredCount = _levelConfig.GetRequiredCountForLevel(type, currentLevel);
+            //    int totalCount = currentLevelRequiredCount + newCount;
+
+            //    // 다음 레벨에 도달했는지 확인
+            //    if (totalCount >= nextLevelRequiredCount)
+            //    {
+            //        // 다음 레벨로 넘어가고, 남은 개수 계산
+            //        currentLevel++;
+            //        newCount = totalCount - nextLevelRequiredCount;
+            //    }
+            //    else
+            //    {
+            //        // 아직 다음 레벨에 도달하지 못함
+            //        break;
+            //    }
+            //}
 
             // 현재 레벨에서 다음 레벨로 가기 위해 필요한 개수
             int nextLevelRequiredCount = _levelConfig.GetRequiredCountForLevel(type, currentLevel + 1);
@@ -171,6 +191,8 @@ namespace SahurRaising.Core
             {
                 newCount = 0;
             }
+
+            Debug.Log($"Lv.{currentLevel} | Count : {newCount}");
 
             // 데이터 업데이트
             _gachaData[type] = new GachaTypeSaveData(type, newCount, currentLevel);
@@ -203,9 +225,11 @@ namespace SahurRaising.Core
                     else
                     {
                         // 데이터가 없는 경우 기본값으로 저장
-                        int totalCount = 0;
+                        int count = 0;
                         int level = 1;
-                        data.GachaDataList.Add(new GachaTypeSaveData(type, totalCount, level));
+                        var defaultData = new GachaTypeSaveData(type, count, level);
+                        _gachaData[type] = defaultData;
+                        data.GachaDataList.Add(defaultData);
                     }
                 }
 

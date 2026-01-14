@@ -56,7 +56,7 @@ namespace SahurRaising
             // 각 GachaButton 업데이트
             foreach (var button in _gachaButtons)
             {
-                button?.Refresh();
+                button?.Refresh(_gachaType);
             }
         }
 

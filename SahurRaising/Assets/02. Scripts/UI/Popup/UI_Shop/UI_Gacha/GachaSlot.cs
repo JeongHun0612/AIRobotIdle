@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using DG.Tweening;
+﻿using DG.Tweening;
 using SahurRaising.Core;
 using TMPro;
 using UnityEngine;
@@ -18,18 +17,7 @@ namespace SahurRaising
 
         private GachaResult _result;
 
-        private IGachaService _gachaService;
-        private IEquipmentService _equipmentService;
-
-        /// <summary>
-        /// 아이템 정보를 담는 구조체
-        /// </summary>
-        private struct ItemInfo
-        {
-            public Sprite Icon;
-            public string GradeKey;  // 색상 조회용 키
-            public string TypeKey;   // 타입 아이콘 조회용 키
-        }
+        private IConfigService _configService;
 
         public void SetData(GachaResult result)
         {
@@ -89,100 +77,43 @@ namespace SahurRaising
             if (string.IsNullOrEmpty(_result.ItemCode))
                 return;
 
-            if (_gachaService == null)
-                _gachaService = ServiceLocator.Get<IGachaService>();
+            if (_configService == null)
+                _configService = ServiceLocator.Get<IConfigService>();
 
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
-
-
-            // 타입별로 정보 추출 (각 타입의 특성에 맞게)
-            ItemInfo? itemInfo = GetItemInfo(_result);
-            if (itemInfo == null)
+            if (_configService == null || _configService.ItemVisualConfig == null)
+            {
+                Debug.LogWarning("[GachaSlot] ItemVisualConfig를 찾을 수 없습니다.");
                 return;
-
-            // 공통 UI 업데이트 로직
-            UpdateUIElements(itemInfo.Value);
-        }
-
-        private void UpdateUIElements(ItemInfo itemInfo)
-        {
-            var gradeColorConfig = _gachaService.GradeColorConfig;
-
-            if (gradeColorConfig == null)
-                return;
+            }
 
             // 배경 색깔 설정
             if (_bgImage != null)
             {
-                _bgImage.color = gradeColorConfig.GetColorForGrade(_result.Type, itemInfo.GradeKey);
+                _bgImage.color = _configService.GetColorForGrade(_result.Type, _result.GradeKey);
             }
 
             // 아이콘 설정
             if (_iconImage != null)
             {
-                _iconImage.sprite = itemInfo.Icon;
-                _iconImage.color = (itemInfo.Icon == null) ? Color.clear : Color.white;
+                var icon = _result.Icon;
+                _iconImage.sprite = icon;
+                _iconImage.color = (icon == null) ? Color.clear : Color.white;
             }
 
             // 등급 텍스트 설정
             if (_gradeText != null)
             {
-                _gradeText.text = itemInfo.GradeKey;
+                _gradeText.text = _result.GradeKey;
             }
 
             // 타입 아이콘 설정
             if (_typeIcon != null)
             {
-                var typeIconSprite = gradeColorConfig.GetTypeIcon(_result.Type, itemInfo.TypeKey);
-       
+                var typeIconSprite = _configService.GetTypeIcon(_result.Type, _result.TypeKey);
+
                 _typeIcon.sprite = typeIconSprite;
                 _typeIcon.gameObject.SetActive(typeIconSprite != null);
             }
-        }
-
-        private ItemInfo? GetItemInfo(GachaResult result)
-        {
-            switch (result.Type)
-            {
-                case GachaType.Equipment:
-                    return GetEquipmentInfo(result.ItemCode);
-
-                case GachaType.Drone:
-                    return GetDroneInfo(result.ItemCode);
-
-                default:
-                    Debug.LogWarning($"[GachaSlot] 지원하지 않는 가챠 타입: {result.Type}");
-                    return null;
-            }
-        }
-
-        private ItemInfo? GetEquipmentInfo(string itemCode)
-        {
-            if (_equipmentService == null || !_equipmentService.TryGetByCode(itemCode, out EquipmentRow equipment))
-            {
-                Debug.LogWarning($"[GachaSlot] 장비 코드를 찾을 수 없습니다: {itemCode}");
-                return null;
-            }
-
-            return new ItemInfo
-            {
-                Icon = equipment.Icon,
-                GradeKey = equipment.Grade.ToString(),
-                TypeKey = equipment.Type.ToString()
-            };
-        }
-
-        private ItemInfo? GetDroneInfo(string itemCode)
-        {
-            // TODO 추후 드론서비스로 처리
-
-            return new ItemInfo
-            {
-                Icon = null, // TODO: 드론 아이콘 추가 시
-                GradeKey = "",
-                TypeKey = "" // TODO: 드론 타입이 생기면 설정
-            };
         }
     }
 }

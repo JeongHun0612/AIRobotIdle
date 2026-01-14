@@ -25,6 +25,9 @@ namespace SahurRaising
         [SerializeField] private Sprite _equipButtonSprite;
         [SerializeField] private Sprite _unEquipButtonSprite;
 
+        [Header("레벨업 버튼")]
+        [SerializeField] private Button _levelUpButton;
+
         private IEquipmentService _equipmentService;
         private EquipmentRow _currentData;
         private Action _onEquipChanged; // 갱신 콜백
@@ -33,11 +36,15 @@ namespace SahurRaising
         {
             _equipmentService = equipmentService;
             _onEquipChanged = onEquipChanged;
+
+            _itemSlot.Initialize(equipmentService);
         }
 
         public void RefreshEquipmentInfo(EquipmentRow data)
         {
             _currentData = data;
+
+            _itemSlot.gameObject.SetActive(true);
             _itemSlot.SetData(data);
 
             if (_equipmentService == null)
@@ -50,6 +57,7 @@ namespace SahurRaising
             // 장착 스탯 (EquipOption)
             if (_equipOptionStatPanel != null)
             {
+                _equipOptionStatPanel.gameObject.SetActive(true);
                 _equipOptionStatPanel.UpdateEquipmentStatText(data.EquipOption, level);
             }
 
@@ -86,8 +94,26 @@ namespace SahurRaising
                 }
             }
 
+            _equipButton.gameObject.SetActive(true);
+            _levelUpButton.gameObject.SetActive(true);
+
             // 장착 버튼 상태 업데이트
             UpdateEquipButtonState();
+        }
+
+        public void HideEquipmentInfo()
+        {
+            _itemSlot.gameObject.SetActive(false);
+
+            _equipOptionStatPanel.gameObject.SetActive(false);
+
+            foreach (var heldOptionStatPanel in _heldOptionStatPanels)
+            {
+                heldOptionStatPanel.gameObject.SetActive(false);
+            }
+
+            _equipButton.gameObject.SetActive(false);
+            _levelUpButton.gameObject.SetActive(false);
         }
 
         private void UpdateEquipButtonState()
@@ -138,6 +164,24 @@ namespace SahurRaising
 
             // UI_Equipment 갱신 요청
             _onEquipChanged?.Invoke();
+        }
+
+        public void OnClickLevelUp()
+        {
+            if (_equipmentService == null || _currentData.Code == null)
+                return;
+
+            // 레벨업 수행
+            bool success = _equipmentService.LevelUp(_currentData.Code);
+
+            if (success)
+            {
+                // UI 갱신
+                RefreshEquipmentInfo(_currentData);
+
+                // 인벤토리 갱신
+                _onEquipChanged?.Invoke();
+            }
         }
     }
 }

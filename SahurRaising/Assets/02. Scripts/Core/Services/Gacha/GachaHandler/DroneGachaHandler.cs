@@ -31,6 +31,9 @@ namespace SahurRaising
                 {
                     Type = GachaType.Drone,
                     ItemCode = selectedDroneID,
+                    GradeKey = string.Empty,
+                    TypeKey = string.Empty,
+                    Icon = null
                 });
             }
 

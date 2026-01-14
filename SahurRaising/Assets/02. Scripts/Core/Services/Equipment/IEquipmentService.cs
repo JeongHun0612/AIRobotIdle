@@ -17,6 +17,11 @@ namespace SahurRaising.Core
         bool IsInitialized { get; }
 
         /// <summary>
+        /// 모든 장비 목록을 가져옵니다.
+        /// </summary>
+        IReadOnlyList<EquipmentRow> GetAll();
+
+        /// <summary>
         /// 타입별 장비 목록을 가져옵니다.
         /// </summary>
         IReadOnlyList<EquipmentRow> GetByType(EquipmentType type);
@@ -25,11 +30,6 @@ namespace SahurRaising.Core
         /// 코드로 장비를 가져옵니다.
         /// </summary>
         bool TryGetByCode(string code, out EquipmentRow equipment);
-
-        /// <summary>
-        /// 모든 장비 목록을 가져옵니다.
-        /// </summary>
-        IReadOnlyList<EquipmentRow> GetAll();
 
         /// <summary>
         /// 장비 타입별로 장착된 장비 코드를 반환합니다.
@@ -52,19 +52,25 @@ namespace SahurRaising.Core
         bool AddToInventory(string equipmentCode, int count = 1);
 
         /// <summary>
-        /// 장비의 소지 개수를 반환합니다. (0이면 보유하지 않음)
-        /// </summary>
-        int GetInventoryCount(string equipmentCode);
-
-        /// <summary>
-        /// 인벤토리에서 해당 장비의 정보(레벨, 개수)를 가져옵니다. 없으면 (0,0) 반환.
+        /// 인벤토리에서 해당 장비의 정보를 가져옵니다.
         /// </summary>
         EquipmentInventoryInfo GetInventoryInfo(string equipmentCode);
 
         /// <summary>
-        /// 장비 1회 강화를 위해 필요한 동일 장비 개수를 반환합니다.
+        /// 장비의 레벨을 1 증가시킵니다.
         /// </summary>
-        int GetRequiredCountForUpgrade();
+        bool LevelUp(string equipmentCode);
+
+        /// <summary>
+        /// 특정 타입의 보유한 모든 장비를 일괄 승급합니다.
+        /// </summary>
+        /// <returns>승급된 최상위 등급 장비 결과 (승급 불가능하면 null)</returns>
+        AdvanceResult? AdvanceAllAvailable(EquipmentType type);
+
+        /// <summary>
+        /// 장비 1회 승급을 위해 필요한 동일 장비 개수를 반환합니다.
+        /// </summary>
+        int GetRequiredCountForAdvance();
 
         /// <summary>
         /// 해당 장비 코드가 '새로 획득했지만 아직 UI에서 한 번도 본 적 없는 상태'인지 여부를 반환합니다.

@@ -43,6 +43,9 @@ namespace SahurRaising
                     {
                         Type = GachaType.Equipment,
                         ItemCode = string.Empty,
+                        GradeKey = string.Empty,
+                        TypeKey = string.Empty,
+                        Icon = null
                     });
                     continue;
                 }
@@ -54,6 +57,9 @@ namespace SahurRaising
                 {
                     Type = GachaType.Equipment,
                     ItemCode = selectedEquipment.Code,
+                    GradeKey = selectedEquipment.Grade.ToString(),
+                    TypeKey = selectedEquipment.Type.ToString(),
+                    Icon = selectedEquipment.Icon
                 });
             }
 

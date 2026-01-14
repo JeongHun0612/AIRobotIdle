@@ -96,6 +96,17 @@ namespace SahurRaising.Core
             }
         }
 
+        public IReadOnlyList<EquipmentRow> GetAll()
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogWarning("[EquipmentService] 아직 초기화되지 않았습니다.");
+                return new List<EquipmentRow>();
+            }
+
+            return _equipmentTable?.Rows ?? new List<EquipmentRow>();
+        }
+
         public IReadOnlyList<EquipmentRow> GetByType(EquipmentType type)
         {
             if (!IsInitialized)
@@ -126,17 +137,6 @@ namespace SahurRaising.Core
             return _equipmentByCode.TryGetValue(code, out equipment);
         }
 
-        public IReadOnlyList<EquipmentRow> GetAll()
-        {
-            if (!IsInitialized)
-            {
-                Debug.LogWarning("[EquipmentService] 아직 초기화되지 않았습니다.");
-                return new List<EquipmentRow>();
-            }
-
-            return _equipmentTable?.Rows ?? new List<EquipmentRow>();
-        }
-
         public string GetEquippedCode(EquipmentType type)
         {
             return _equipped.TryGetValue(type, out var code) ? code : null;
@@ -157,8 +157,8 @@ namespace SahurRaising.Core
                 return false;
             }
 
-            // 인벤토리에 장비가 있는지 확인 (소지 개수가 1 이상이어야 함)
-            if (!_inventory.TryGetValue(equipmentCode, out var inventoryInfo) || inventoryInfo.Count <= 0)
+            // 인벤토리에 장비가 있는지 확인
+            if (!_inventory.TryGetValue(equipmentCode, out var inventoryInfo) || !inventoryInfo.IsOwned)
             {
                 Debug.LogWarning($"[EquipmentService] Equip: 인벤토리에 없는 장비입니다: {equipmentCode}");
                 return false;
@@ -185,14 +185,6 @@ namespace SahurRaising.Core
 
             Debug.Log($"[EquipmentService] Unequip 완료: {type} (코드: {code})");
             return true;
-        }
-
-        public int GetInventoryCount(string equipmentCode)
-        {
-            if (string.IsNullOrEmpty(equipmentCode))
-                return 0;
-
-            return _inventory.TryGetValue(equipmentCode, out var info) ? info.Count : 0;
         }
 
         public bool AddToInventory(string equipmentCode, int count = 1)
@@ -226,13 +218,13 @@ namespace SahurRaising.Core
             {
                 // 기존 레벨 유지, 개수만 증가
                 var newCount = info.Count + count;
-                _inventory[equipmentCode] = new EquipmentInventoryInfo(info.Level, newCount);
+                _inventory[equipmentCode] = new EquipmentInventoryInfo(equipmentCode, info.Level, newCount, true);
             }
             else
             {
                 // 처음 획득: 레벨은 기본값(예: 1)로 시작, 개수는 count
                 const int defaultLevel = 1;
-                _inventory[equipmentCode] = new EquipmentInventoryInfo(defaultLevel, count);
+                _inventory[equipmentCode] = new EquipmentInventoryInfo(equipmentCode, defaultLevel, count, true);
             }
 
             Debug.Log($"[EquipmentService] AddToInventory: {equipmentCode}, +{count}");
@@ -242,16 +234,130 @@ namespace SahurRaising.Core
         public EquipmentInventoryInfo GetInventoryInfo(string equipmentCode)
         {
             if (string.IsNullOrEmpty(equipmentCode))
-                return new EquipmentInventoryInfo(0, 0);
+                return new EquipmentInventoryInfo(string.Empty, 0, 0, false);
 
             return _inventory.TryGetValue(equipmentCode, out var info)
                 ? info
-                : new EquipmentInventoryInfo(0, 0); // 보유 X -> Level 0, Count 0
+                : new EquipmentInventoryInfo(string.Empty, 0, 0, false); // 보유 X
         }
 
-        public int GetRequiredCountForUpgrade()
+        public bool LevelUp(string equipmentCode)
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogWarning("[EquipmentService] 아직 초기화되지 않았습니다.");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(equipmentCode))
+            {
+                Debug.LogWarning("[EquipmentService] LevelUp: equipmentCode가 비어 있습니다.");
+                return false;
+            }
+
+            // 인벤토리에서 장비 정보 가져오기
+            if (!_inventory.TryGetValue(equipmentCode, out var info))
+            {
+                Debug.LogWarning($"[EquipmentService] LevelUp: 인벤토리에 없는 장비입니다: {equipmentCode}");
+                return false;
+            }
+
+            // 레벨 증가
+            int newLevel = info.Level + 1;
+            _inventory[equipmentCode] = new EquipmentInventoryInfo(equipmentCode, newLevel, info.Count, info.IsOwned);
+
+            Debug.Log($"[EquipmentService] LevelUp 완료: {equipmentCode}, 레벨 {info.Level} -> {newLevel}");
+            return true;
+        }
+
+        public int GetRequiredCountForAdvance()
         {
             return REQUIRED_COUNT_FOR_UPGRADE;
+        }
+        public AdvanceResult? AdvanceAllAvailable(EquipmentType type)
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogWarning("[EquipmentService] 아직 초기화되지 않았습니다.");
+                return null;
+            }
+
+            const int requiredCount = REQUIRED_COUNT_FOR_UPGRADE;
+
+            // 해당 타입의 모든 장비 가져오기
+            var equipmentList = GetByType(type);
+
+            if (equipmentList == null || equipmentList.Count == 0)
+                return null;
+
+            AdvanceResult? lastAdvanceResult = null;
+
+            // 하위 등급부터 상위 등급으로 순회하며 승급 처리
+            for (int i = 0; i < equipmentList.Count - 1; i++)
+            {
+                var equipment = equipmentList[i];
+
+                if (string.IsNullOrEmpty(equipment.Code))
+                    continue;
+
+                if (!_inventory.TryGetValue(equipment.Code, out var info))
+                    continue;
+
+                // requiredCount 보다 보유 갯수가 적으면 스킵
+                if (info.Count < requiredCount)
+                    continue;
+
+                // 다음 등급 장비
+                var nextEquipment = equipmentList[i + 1];
+
+                // 같은 등급이면 스킵
+                if (nextEquipment.Grade <= equipment.Grade)
+                    continue;
+
+                if (string.IsNullOrEmpty(nextEquipment.Code))
+                    continue;
+
+                string nextGradeCode = nextEquipment.Code;
+
+                // 승급 가능한 횟수 계산
+                int advanceCount = info.Count / requiredCount;
+                if (advanceCount <= 0)
+                    continue;
+
+                // 이전 레벨 저장 및 IsOwned 저장
+                int beforeLevel = info.Level;
+                bool isOwned = info.IsOwned;  // IsOwned는 유지
+
+                // 승급 수행: 하위 등급 개수 감소, 상위 등급 개수 증가
+                int remainingCount = info.Count % requiredCount;
+                int newNextGradeCount = advanceCount;
+
+                // 인벤토리 업데이트: 하위 등급 개수 감소
+                _inventory[equipment.Code] = new EquipmentInventoryInfo(equipment.Code, beforeLevel, remainingCount, isOwned);
+
+                // 인벤토리 업데이트: 상위 등급 개수 증가
+                if (_inventory.TryGetValue(nextGradeCode, out var nextInfo))
+                {
+                    _inventory[nextGradeCode] = new EquipmentInventoryInfo(nextGradeCode, nextInfo.Level, nextInfo.Count + newNextGradeCount, true);
+                }
+                else
+                {
+                    const int defaultLevel = 1;
+                    _inventory[nextGradeCode] = new EquipmentInventoryInfo(nextGradeCode, defaultLevel, newNextGradeCount, true);
+                }
+
+                // 상위 등급 장비 정보 저장
+                lastAdvanceResult = new AdvanceResult
+                {
+                    Type = GachaType.Equipment,
+                    ItemCode = nextGradeCode,
+                    GradeKey = nextEquipment.Grade.ToString(),
+                    Icon = nextEquipment.Icon,
+                    Count = newNextGradeCount
+                };
+            }
+
+            return lastAdvanceResult;
         }
 
         public bool IsNewEquipment(string equipmentCode)
@@ -294,14 +400,9 @@ namespace SahurRaising.Core
                 // 인벤토리 정보 저장
                 foreach (var pair in _inventory)
                 {
-                    if (pair.Value.Count > 0)
+                    if (pair.Value.IsOwned)
                     {
-                        data.Inventory.Add(new EquipmentInventoryEntry
-                        {
-                            Code = pair.Key,
-                            Level = pair.Value.Level,
-                            Count = pair.Value.Count
-                        });
+                        data.Inventory.Add(pair.Value);
                     }
                 }
 
@@ -361,18 +462,20 @@ namespace SahurRaising.Core
                 _inventory.Clear();
                 if (data.Inventory != null)
                 {
-                    foreach (var entry in data.Inventory)
+                    foreach (var info in data.Inventory)
                     {
-                        if (!string.IsNullOrEmpty(entry.Code) && entry.Count > 0)
+                        if (!string.IsNullOrEmpty(info.Code))
                         {
                             // 장비 코드 유효성 검사
-                            if (TryGetByCode(entry.Code, out _))
+                            if (TryGetByCode(info.Code, out _))
                             {
-                                _inventory[entry.Code] = new EquipmentInventoryInfo(entry.Level, entry.Count);
+                                // 구버전 데이터 호환성을 위해 IsOwned가 없으면 Count > 0 또는 Level > 1이면 true
+                                bool isOwned = info.IsOwned || info.Count > 0 || info.Level > 1;
+                                _inventory[info.Code] = new EquipmentInventoryInfo(info.Code, info.Level, info.Count, isOwned);
                             }
                             else
                             {
-                                Debug.LogWarning($"[EquipmentService] 존재하지 않는 장비 코드를 건너뜁니다: {entry.Code}");
+                                Debug.LogWarning($"[EquipmentService] 존재하지 않는 장비 코드를 건너뜁니다: {info.Code}");
                             }
                         }
                     }
@@ -388,18 +491,6 @@ namespace SahurRaising.Core
                             _seenCodes.Add(code);
                     }
                 }
-
-                // 장착된 장비도 인벤토리에 포함되어야 하므로, 장착된 장비를 인벤토리에 추가
-                foreach (var equipped in _equipped.Values)
-                {
-                    if (!string.IsNullOrEmpty(equipped) && !_inventory.ContainsKey(equipped))
-                    {
-                        // 장착된 장비는 인벤토리에서 제외되므로 여기서는 추가하지 않음
-                        // 대신 장착 시 인벤토리에서 제거하고, 해제 시 다시 추가하는 로직을 사용
-                    }
-                }
-
-                Debug.Log($"[EquipmentService] 로드 완료: 장착 {_equipped.Count}개, 인벤토리 {_inventory.Count}종류");
             }
             catch (System.Exception ex)
             {

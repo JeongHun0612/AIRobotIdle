@@ -18,6 +18,8 @@ namespace SahurRaising.UI
         [SerializeField] private UIUpgradePanel _upgradePanelPrefab;
         private UIUpgradePanel _upgradePanelInstance;
 
+        public UIBottomBarMenu BottomBarMenu => _bottomBarMenu;
+
         // 왜: UIManager의 씬 캐시에서 꺼내졌을 때, 씬 단위로 필요한 연결/초기화를 한 곳에서 보장한다.
         public override void Initialize()
         {

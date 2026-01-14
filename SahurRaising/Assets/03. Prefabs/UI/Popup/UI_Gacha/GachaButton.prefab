@@ -481,11 +481,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7edf5601c6c81a046843ad6de920825d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gachaType: 0
-  _pullCount: 0
-  _costValue: 0
-  _currencyType: 0
+  _buttonId: 
   _button: {fileID: 2868164409520959348}
+  _iconImage: {fileID: 3596198439069583213}
   _costText: {fileID: 698096677417637473}
   _pullCountText: {fileID: 7507646209645069090}
   _disabledPanel: {fileID: 7452181202103352000}
