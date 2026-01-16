@@ -14,6 +14,7 @@ namespace SahurRaising.Core
         private readonly IResourceService _resourceService;
         private readonly ICurrencyService _currencyService;
         private readonly IEquipmentService _equipmentService;
+        private readonly IDroneService _droneService;
         private readonly IEventBus _eventBus;
 
         private GachaLevelConfig _levelConfig;
@@ -33,11 +34,13 @@ namespace SahurRaising.Core
             IResourceService resourceService,
             ICurrencyService currencyService,
             IEquipmentService equipmentService,
+            IDroneService droneService,
             IEventBus eventBus)
         {
             _resourceService = resourceService;
             _currencyService = currencyService;
             _equipmentService = equipmentService;
+            _droneService = droneService;
             _eventBus = eventBus;
         }
 
@@ -64,7 +67,7 @@ namespace SahurRaising.Core
 
             // 핸들러 등록
             _handlers[GachaType.Equipment] = new EquipmentGachaHandler(gachaEquipmentTable, equipmentTable, _levelConfig, _equipmentService);
-            _handlers[GachaType.Drone] = new DroneGachaHandler(gachaDroneTable, droneTable);
+            _handlers[GachaType.Drone] = new DroneGachaHandler(gachaDroneTable, droneTable, _droneService);
 
             await LoadAsync();
             IsInitialized = true;
@@ -109,7 +112,7 @@ namespace SahurRaising.Core
                 case GachaType.Equipment:
                     return CurrencyType.Diamond;
                 case GachaType.Drone:
-                    return CurrencyType.Emerald;
+                    return CurrencyType.Diamond;
                 default:
                     Debug.LogWarning($"[GachaService] 알 수 없는 가챠 타입: {type}. 기본값 Diamond를 반환합니다.");
                     return CurrencyType.Diamond;
@@ -152,31 +155,6 @@ namespace SahurRaising.Core
 
             // 가챠 횟수 증가
             int newCount = currentCount + count;
-            //int maxLevel = _levelConfig.GetMaxLevel(type);
-
-            //// 여러 레벨을 한 번에 넘어갈 수 있도록 반복 처리
-            //while (currentLevel < maxLevel)
-            //{
-            //    // 다음 레벨에 도달하기 위한 누적 개수
-            //    int nextLevelRequiredCount = _levelConfig.GetRequiredCountForLevel(type, currentLevel + 1);
-
-            //    // 현재 레벨에서의 누적 개수 계산
-            //    int currentLevelRequiredCount = _levelConfig.GetRequiredCountForLevel(type, currentLevel);
-            //    int totalCount = currentLevelRequiredCount + newCount;
-
-            //    // 다음 레벨에 도달했는지 확인
-            //    if (totalCount >= nextLevelRequiredCount)
-            //    {
-            //        // 다음 레벨로 넘어가고, 남은 개수 계산
-            //        currentLevel++;
-            //        newCount = totalCount - nextLevelRequiredCount;
-            //    }
-            //    else
-            //    {
-            //        // 아직 다음 레벨에 도달하지 못함
-            //        break;
-            //    }
-            //}
 
             // 현재 레벨에서 다음 레벨로 가기 위해 필요한 개수
             int nextLevelRequiredCount = _levelConfig.GetRequiredCountForLevel(type, currentLevel + 1);
@@ -191,8 +169,6 @@ namespace SahurRaising.Core
             {
                 newCount = 0;
             }
-
-            Debug.Log($"Lv.{currentLevel} | Count : {newCount}");
 
             // 데이터 업데이트
             _gachaData[type] = new GachaTypeSaveData(type, newCount, currentLevel);

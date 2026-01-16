@@ -107,7 +107,7 @@ namespace SahurRaising.Core
             Debug.Log("[GameManager] 서비스 등록 시작...");
 
             int step = 0;
-            const int totalSteps = 11;
+            const int totalSteps = 12;
             void Report() => progress?.Report((float)step / totalSteps);
 
             // 1. 기본 서비스들 등록
@@ -166,12 +166,17 @@ namespace SahurRaising.Core
             await equipmentService.InitializeAsync();
             step++; Report();
 
+            var droneService = new DroneService(resourceManager);
+            ServiceLocator.Register<IDroneService, DroneService>(droneService);
+            await droneService.InitializeAsync();
+            step++; Report();
+
             var skillService = new SkillService(resourceManager, currencyService, statService);
             ServiceLocator.Register<ISkillService, SkillService>(skillService);
             await skillService.InitializeAsync();
             step++; Report();
 
-            var gachaService = new GachaService(resourceManager, currencyService, equipmentService, eventBus);
+            var gachaService = new GachaService(resourceManager, currencyService, equipmentService, droneService, eventBus);
             ServiceLocator.Register<IGachaService, GachaService>(gachaService);
             await gachaService.InitializeAsync();
             step++; Report();
@@ -206,6 +211,8 @@ namespace SahurRaising.Core
                 await ServiceLocator.Get<ICombatService>().SaveAsync();
             if (ServiceLocator.HasService<IEquipmentService>())
                 await ServiceLocator.Get<IEquipmentService>().SaveAsync();
+            if (ServiceLocator.HasService<IDroneService>())
+                await ServiceLocator.Get<IDroneService>().SaveAsync();
             if (ServiceLocator.HasService<ISkillService>())
                 await ServiceLocator.Get<ISkillService>().SaveAsync();
             if (ServiceLocator.HasService<IGachaService>())

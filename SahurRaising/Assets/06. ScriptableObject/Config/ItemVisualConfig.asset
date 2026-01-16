@@ -87,9 +87,11 @@ MonoBehaviour:
     - GradeKey: 8
       Color: {r: 0.2, g: 0.4, b: 0.8, a: 1}
     - GradeKey: 9
-      Color: {r: 1, g: 0.84, b: 0, a: 1}
+      Color: {r: 0.8, g: 0.2, b: 0.8, a: 1}
     - GradeKey: 10A
       Color: {r: 1, g: 0.84, b: 0, a: 1}
     - GradeKey: 10B
+      Color: {r: 1, g: 0.84, b: 0, a: 1}
+    - GradeKey: 10C
       Color: {r: 1, g: 0.84, b: 0, a: 1}
     _typeIcons: []

@@ -72,6 +72,34 @@ namespace SahurRaising.Core
         [ContextMenu("Initialize All Item Visual Configs")]
         private void InitializeAllItemVisualConfigs()
         {
+            // 기존 아이콘 값들을 보존하기 위한 딕셔너리
+            Dictionary<GachaType, Dictionary<string, Sprite>> existingIcons = new Dictionary<GachaType, Dictionary<string, Sprite>>();
+
+            // 기존 설정에서 아이콘 값들을 추출
+            foreach (var existingConfig in _gachaTypeConfigs)
+            {
+                if (!existingIcons.ContainsKey(existingConfig.Type))
+                {
+                    existingIcons[existingConfig.Type] = new Dictionary<string, Sprite>();
+                }
+
+                foreach (var typeIcon in existingConfig.TypeIcons)
+                {
+                    if (typeIcon.Icon != null && !existingIcons[existingConfig.Type].ContainsKey(typeIcon.TypeKey))
+                    {
+                        existingIcons[existingConfig.Type][typeIcon.TypeKey] = typeIcon.Icon;
+                    }
+                }
+            }
+
+            // 기존 아이콘을 가져오는 헬퍼 함수
+            Sprite GetExistingIcon(GachaType gachaType, string typeKey)
+            {
+                return existingIcons.TryGetValue(gachaType, out var typeIcons) &&
+                       typeIcons.TryGetValue(typeKey, out var icon)
+                       ? icon : null;
+            }
+
             _gachaTypeConfigs = new List<ItemTypeVisualConfig>
             {
                 // Equipment 가챠 설정
@@ -103,13 +131,13 @@ namespace SahurRaising.Core
                     },
                     TypeIcons = new List<TypeIconEntry>
                     {
-                        // EquipmentType enum의 모든 값에 대한 엔트리 생성 (아이콘은 나중에 할당)
-                        new TypeIconEntry { TypeKey = "Processor", Icon = null },
-                        new TypeIconEntry { TypeKey = "Wheel", Icon = null },
-                        new TypeIconEntry { TypeKey = "Battery", Icon = null },
-                        new TypeIconEntry { TypeKey = "Antenna", Icon = null },
-                        new TypeIconEntry { TypeKey = "Memory", Icon = null },
-                        new TypeIconEntry { TypeKey = "RobotArm", Icon = null }
+                        // EquipmentType enum의 모든 값에 대한 엔트리 생성 (기존 아이콘이 있으면 유지, 없으면 null)
+                        new TypeIconEntry { TypeKey = "Processor", Icon = GetExistingIcon(GachaType.Equipment, "Processor") },
+                        new TypeIconEntry { TypeKey = "Wheel", Icon = GetExistingIcon(GachaType.Equipment, "Wheel") },
+                        new TypeIconEntry { TypeKey = "Battery", Icon = GetExistingIcon(GachaType.Equipment, "Battery") },
+                        new TypeIconEntry { TypeKey = "Antenna", Icon = GetExistingIcon(GachaType.Equipment, "Antenna") },
+                        new TypeIconEntry { TypeKey = "Memory", Icon = GetExistingIcon(GachaType.Equipment, "Memory") },
+                        new TypeIconEntry { TypeKey = "RobotArm", Icon = GetExistingIcon(GachaType.Equipment, "RobotArm") }
                     }
                 },
                 // Drone 가챠 설정
@@ -127,9 +155,10 @@ namespace SahurRaising.Core
                         new GradeColorEntry { GradeKey = "6", Color = new Color(0.2f, 0.6f, 0.2f) },
                         new GradeColorEntry { GradeKey = "7", Color = new Color(0.2f, 0.4f, 0.8f) }, // 파란색
                         new GradeColorEntry { GradeKey = "8", Color = new Color(0.2f, 0.4f, 0.8f) },
-                        new GradeColorEntry { GradeKey = "9", Color = new Color(1f, 0.84f, 0f) }, // 금색
-                        new GradeColorEntry { GradeKey = "10A", Color = new Color(1f, 0.84f, 0f) },
-                        new GradeColorEntry { GradeKey = "10B", Color = new Color(1f, 0.84f, 0f) }
+                        new GradeColorEntry { GradeKey = "9", Color = new Color(0.8f, 0.2f, 0.8f) }, // 보라색
+                        new GradeColorEntry { GradeKey = "10A", Color = new Color(1f, 0.84f, 0f) },  // 금색
+                        new GradeColorEntry { GradeKey = "10B", Color = new Color(1f, 0.84f, 0f) },
+                        new GradeColorEntry { GradeKey = "10C", Color = new Color(1f, 0.84f, 0f) }
                     },
                     TypeIcons = new List<TypeIconEntry>
                     {

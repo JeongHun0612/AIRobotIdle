@@ -1,42 +1,33 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using SahurRaising.Core;
 using SahurRaising.UI;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SahurRaising
 {
-    public class UI_Equipment : UI_Popup
+    public class UI_Drone : UI_Popup
     {
-        [Header("장비 탭 버튼")]
-        [SerializeField] private List<EquipmentTabButton> _tabButtons = new();
-
         [Header("인벤토리 슬롯")]
         [SerializeField] private Transform _inventoryContentRoot;          // Content
-        [SerializeField] private EquipmentItemSlot _itemSlotPrefab;        // ItemSlot 프리팹
+        [SerializeField] private DroneItemSlot _itemSlotPrefab;            // ItemSlot 프리팹
         [SerializeField] private ScrollRect _scrollRect;
 
-        [Header("장비 정보 영역")]
-        [SerializeField] private TMP_Text _equipmentTypeText;
-        [SerializeField] private EquipmentInfo _equipmentInfo;
+        [Header("드론 정보 영역")]
+        [SerializeField] private DroneInfo _droneInfo;
 
-        private readonly List<EquipmentItemSlot> _itemSlots = new();
+        private readonly List<DroneItemSlot> _itemSlots = new();
 
-        private EquipmentType _currentType = EquipmentType.Processor;
-        private EquipmentItemSlot _selectedSlot;
+        private DroneItemSlot _selectedSlot;
 
-        private IEquipmentService _equipmentService;
+        private IDroneService _droneService;
 
         public async override UniTask InitializeAsync()
         {
             // 서비스 바인딩 시도 (실패 시 무시하고 진행)
             TryBindService();
-
-            // 탭 버튼 이벤트 등록
-            RegisterTabButtons();
 
             // 아이템 슬롯 초기화
             _itemSlots.Clear();
@@ -44,7 +35,7 @@ namespace SahurRaising
             {
                 foreach (Transform child in _inventoryContentRoot)
                 {
-                    var slot = child.GetComponent<EquipmentItemSlot>();
+                    var slot = child.GetComponent<DroneItemSlot>();
                     if (slot == null)
                         continue;
 
@@ -57,7 +48,7 @@ namespace SahurRaising
             }
 
             // 장비 정보 패널 초기화
-            _equipmentInfo.Initialize(RefreshInventoryByCurrentType);
+            _droneInfo.Initialize(RefreshInventory);
 
             await UniTask.Yield();
         }
@@ -69,48 +60,37 @@ namespace SahurRaising
             if (!TryBindService())
                 return;
 
-            OnClickTabButton(_currentType);
-        }
+            // 인벤토리 갱신
+            RefreshInventory();
 
-        public override void OnHide()
-        {
-            base.OnHide();
-
-            _selectedSlot = null;
+            // 장착된 드론 정보 표시
+            ShowEquippedDroneInfo();
         }
 
         private bool TryBindService()
         {
-            if (_equipmentService == null && ServiceLocator.HasService<IEquipmentService>())
+            if (_droneService == null && ServiceLocator.HasService<IDroneService>())
             {
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
+                _droneService = ServiceLocator.Get<IDroneService>();
             }
 
-            return _equipmentService != null;
+            return _droneService != null;
         }
 
-        private void RegisterTabButtons()
+        private void RefreshInventory()
         {
-            foreach (var tabButton in _tabButtons)
-            {
-                tabButton.Register(OnClickTabButton);
-            }
-        }
-
-        private void RefreshInventoryByCurrentType()
-        {
-            if (_equipmentService == null || _inventoryContentRoot == null || _itemSlotPrefab == null)
+            if (_droneService == null || _inventoryContentRoot == null || _itemSlotPrefab == null)
                 return;
 
-            // 현재 탭 타입 기준으로 장비 리스트 가져오기
-            IReadOnlyList<EquipmentRow> equipmentList = _equipmentService.GetByType(_currentType);
+            // 드론 리스트 가져오기
+            IReadOnlyList<DroneRow> droneList = _droneService.GetAll();
 
-            int needCount = equipmentList.Count;
+            int needCount = droneList.Count;
 
             // 필요한 슬롯 수만큼 보장 (부족하면 새로 생성하여 풀에 추가)
             while (_itemSlots.Count < needCount)
             {
-                EquipmentItemSlot newSlot = Instantiate(_itemSlotPrefab, _inventoryContentRoot);
+                DroneItemSlot newSlot = Instantiate(_itemSlotPrefab, _inventoryContentRoot);
                 newSlot.Initialize();
                 newSlot.RegisterClickHandler(OnClickItemSlot);
                 newSlot.gameObject.SetActive(false);
@@ -122,7 +102,7 @@ namespace SahurRaising
             {
                 if (i < needCount)
                 {
-                    var data = equipmentList[i];
+                    var data = droneList[i];
                     var slot = _itemSlots[i];
 
                     slot.gameObject.SetActive(true);
@@ -141,45 +121,42 @@ namespace SahurRaising
             }
         }
 
-        private void ShowEquippedEquipmentInfo()
+        private void ShowEquippedDroneInfo()
         {
-            if (_equipmentService == null || _equipmentInfo == null)
+            if (_droneService == null || _droneInfo == null)
                 return;
 
-            // 현재 탭 타입에 장착된 장비 코드 가져오기
-            string equippedCode = _equipmentService.GetEquippedCode(_currentType);
+            // 현재 장착된 드론 ID가져오기
+            string equippedID = _droneService.GetEquippedID();
 
-            if (string.IsNullOrEmpty(equippedCode))
+            if (string.IsNullOrEmpty(equippedID))
             {
-                // 장착된 장비가 없으면 장비 정보 숨기기
-                _equipmentInfo.HideEquipmentInfo();
+                // 장착된 드론이 없으면 드론 정보 숨기기
+                _droneInfo.HideEquipmentInfo();
                 return;
             }
 
-            // 장비 데이터 가져오기
-            if (!_equipmentService.TryGetByCode(equippedCode, out EquipmentRow equippedData))
+            // 드론 데이터 가져오기
+            if (!_droneService.TryGetByID(equippedID, out DroneRow equippedData))
                 return;
 
             // EquipmentInfo에 표시
-            _equipmentInfo.RefreshEquipmentInfo(equippedData);
+            _droneInfo.RefreshDroneInfo(equippedData);
 
-            if (_selectedSlot == null)
+            // 해당 ItemSlot 찾아서 선택 상태로 표시
+            DroneItemSlot equippedSlot = FindItemSlotByCode(equippedID);
+            if (equippedSlot != null)
             {
-                // 해당 ItemSlot 찾아서 선택 상태로 표시
-                EquipmentItemSlot equippedSlot = FindItemSlotByCode(equippedCode);
-                if (equippedSlot != null)
-                {
-                    SetSelectedSlot(equippedSlot);
-                    ScrollToItemSlot(equippedSlot);
-                }
+                SetSelectedSlot(equippedSlot);
+                ScrollToItemSlot(equippedSlot);
             }
         }
 
-        private EquipmentItemSlot FindItemSlotByCode(string code)
+        private DroneItemSlot FindItemSlotByCode(string ID)
         {
             foreach (var slot in _itemSlots)
             {
-                if (slot != null && slot.Data.Code == code)
+                if (slot != null && slot.Data.ID == ID)
                 {
                     return slot;
                 }
@@ -187,7 +164,7 @@ namespace SahurRaising
             return null;
         }
 
-        private void ScrollToItemSlot(EquipmentItemSlot itemSlot)
+        private void ScrollToItemSlot(DroneItemSlot itemSlot)
         {
             if (_scrollRect == null || itemSlot == null || _inventoryContentRoot == null)
                 return;
@@ -227,7 +204,7 @@ namespace SahurRaising
             ).SetEase(Ease.OutCubic);
         }
 
-        private void SetSelectedSlot(EquipmentItemSlot itemSlot)
+        private void SetSelectedSlot(DroneItemSlot itemSlot)
         {
             // 이전 선택 해제
             if (_selectedSlot != null && _selectedSlot != itemSlot)
@@ -243,36 +220,7 @@ namespace SahurRaising
             }
         }
 
-        public void OnClickTabButton(EquipmentType type)
-        {
-            // 선택 해제
-            if (_selectedSlot != null)
-            {
-                _selectedSlot.SetFocus(false);
-                _selectedSlot = null;
-            }
-
-            foreach (var tabButton in _tabButtons)
-            {
-                tabButton.OnShow(tabButton.Type == type);
-            }
-
-            _currentType = type;
-
-            // 탭 텍스트 업데이트
-            if (_equipmentTypeText != null)
-            {
-                _equipmentTypeText.text = type.ToString();
-            }
-
-            // 인벤토리 현재 타입에 맞춰 갱신
-            RefreshInventoryByCurrentType();
-
-            // 현재 탭 타입에 장착된 장비 정보 표시
-            ShowEquippedEquipmentInfo();
-        }
-
-        public void OnClickItemSlot(EquipmentItemSlot itemSlot)
+        public void OnClickItemSlot(DroneItemSlot itemSlot)
         {
             // 이미 선택된 슬롯을 다시 클릭한 경우 return
             if (_selectedSlot != null && ReferenceEquals(_selectedSlot, itemSlot))
@@ -280,10 +228,10 @@ namespace SahurRaising
 
             SetSelectedSlot(itemSlot);
 
-            if (_equipmentInfo != null && itemSlot.Data.Code != null)
+            if (_droneInfo != null && itemSlot.Data.ID != null)
             {
                 itemSlot.HideNewIfActive();
-                _equipmentInfo.RefreshEquipmentInfo(itemSlot.Data);
+                _droneInfo.RefreshDroneInfo(itemSlot.Data);
             }
         }
 
@@ -307,12 +255,12 @@ namespace SahurRaising
         public void OnClickAdvanceAll()
         {
             // 현재 선택된 탭 타입의 장비만 일괄 강화
-            var advanceResult = _equipmentService.AdvanceAllAvailable(_currentType);
+            var advanceResult = _droneService.AdvanceAllAvailable();
 
-            if (advanceResult == null)
+            if (advanceResult == null || advanceResult.Count <= 0)
             {
                 // TODO 이후 팝업 창 출력
-                Debug.Log($"[UI_Equipment] {_currentType} 타입의 승급 가능한 장비가 없습니다.");
+                Debug.Log($"[UI_Drone] 승급 가능한 드론이 없습니다.");
                 return;
             }
 
@@ -324,10 +272,10 @@ namespace SahurRaising
             }
 
             // 인벤토리 갱신
-            RefreshInventoryByCurrentType();
+            RefreshInventory();
 
-            // 현재 탭 타입에 장착된 장비 정보 표시
-            ShowEquippedEquipmentInfo();
+            // 장착된 드론 정보 표시
+            ShowEquippedDroneInfo();
         }
     }
 }

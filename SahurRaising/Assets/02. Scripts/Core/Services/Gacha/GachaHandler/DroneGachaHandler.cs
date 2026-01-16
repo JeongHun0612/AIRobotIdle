@@ -10,12 +10,13 @@ namespace SahurRaising
 
         private readonly GachaDroneTable _gachaDroneTable;
         private readonly DroneTable _droneTable;
-        // TODO: 드론 서비스가 생기면 주입
+        private readonly IDroneService _droneService;
 
-        public DroneGachaHandler(GachaDroneTable gachaDroneTable, DroneTable droneTable)
+        public DroneGachaHandler(GachaDroneTable gachaDroneTable, DroneTable droneTable, IDroneService droneService)
         {
             _gachaDroneTable = gachaDroneTable;
             _droneTable = droneTable;
+            _droneService = droneService;
         }
 
         public List<GachaResult> Pull(int level, int count)
@@ -27,14 +28,18 @@ namespace SahurRaising
             {
                 var selectedDroneID = SelectDroneID(probabilities);
 
-                results.Add(new GachaResult
+                // 드론 정보 가져오기
+                if (_droneService.TryGetByID(selectedDroneID, out var drone))
                 {
-                    Type = GachaType.Drone,
-                    ItemCode = selectedDroneID,
-                    GradeKey = string.Empty,
-                    TypeKey = string.Empty,
-                    Icon = null
-                });
+                    results.Add(new GachaResult
+                    {
+                        Type = GachaType.Drone,
+                        ItemCode = selectedDroneID,
+                        GradeKey = selectedDroneID,
+                        TypeKey = string.Empty,
+                        Icon = drone.Icon
+                    });
+                }
             }
 
             return results;
@@ -45,8 +50,14 @@ namespace SahurRaising
             if (result.Type != GachaType.Drone)
                 return;
 
-            // TODO: 드론 인벤토리에 추가하는 로직
-            Debug.Log($"[DroneGachaHandler] 드론 {result.ItemCode} 획득 (인벤토리 추가 로직 필요)");
+            if (string.IsNullOrEmpty(result.ItemCode))
+            {
+                Debug.LogWarning("[DroneGachaHandler] 드론 ItemCode가 비어있습니다.");
+                return;
+            }
+
+            // 드론 인벤토리에 추가
+            _droneService?.AddToInventory(result.ItemCode, 1);
         }
 
         private string SelectDroneID(List<DroneProbability> probabilities)

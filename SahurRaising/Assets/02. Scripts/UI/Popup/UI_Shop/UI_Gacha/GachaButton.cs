@@ -4,14 +4,15 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static SahurRaising.GachaButtonConfig;
 
 namespace SahurRaising
 {
     public class GachaButton : MonoBehaviour
     {
-        [Header("버튼 식별")]
-        [SerializeField] private string _buttonId;
+        [Header("가챠 변수")]
+        [SerializeField] private GachaType _gachaType;
+        [SerializeField] private int _pullCount;
+        [SerializeField] private double _costValue;
 
         [Header("UI 요소")]
         [SerializeField] private Button _button;
@@ -20,32 +21,36 @@ namespace SahurRaising
         [SerializeField] private TMP_Text _pullCountText;
         [SerializeField] private GameObject _disabledPanel;
 
-        private GachaType _gachaType = GachaType.None;
-        private int _pullCount;
-        private double _costValue;
         private BigDouble _cost;
 
         private IGachaService _gachaService;
         private ICurrencyService _currencyService;
 
-        public string ButtonId => _buttonId;
         public GachaType GachaType => _gachaType;
         public int PullCount => _pullCount;
         public BigDouble Cost => _cost;
 
-        public void Initialize()
+        private void Awake()
         {
-            TryBindService();
-
-            // 버튼 클릭 이벤트 등록
-            if (_button != null)
+            if (_button == null)
             {
-                _button.onClick.RemoveAllListeners();
-                _button.onClick.AddListener(OnClick);
+                _button = gameObject.GetComponent<Button>();
             }
 
-            // 초기 UI 갱신
-            Refresh();
+            _button.onClick.RemoveAllListeners();
+            _button.onClick.AddListener(OnClick);
+
+            if (_costText != null)
+            {
+                _costText.text = _costValue.ToString("F0");
+            }
+
+            if (_pullCountText != null)
+            {
+                _pullCountText.text = $"{_pullCount} Count";
+            }
+
+            _cost = new BigDouble(_costValue);
         }
 
         public void Refresh(GachaType type = GachaType.None)
@@ -53,23 +58,10 @@ namespace SahurRaising
             if (!TryBindService())
                 return;
 
-            if (type != GachaType.None && _gachaType != type)
+            if (type != GachaType.None)
             {
-                var data = _gachaService.GachaButtonConfig.GetButtonConfigById(_buttonId, type);
-                if (data == null)
-                {
-                    Debug.LogWarning($"[GachaButton] ButtonId '{_buttonId}'에 해당하는 설정을 찾을 수 없습니다. (GachaType: {type})");
-                    return;
-                }
-
                 _gachaType = type;
-                _pullCount = data.PullCount;
-                _costValue = data.CostValue;
-                _cost = new BigDouble(data.CostValue);
-
-                // UI 업데이트 추가
-                UpdateUI(data.IconSprite);
-            }
+            }    
 
             UpdateButtonState();
         }
@@ -87,24 +79,6 @@ namespace SahurRaising
             }
 
             return _gachaService != null && _currencyService != null;
-        }
-
-        private void UpdateUI(Sprite iconSprite)
-        {
-            if (_costText != null)
-            {
-                _costText.text = _costValue.ToString("F0");
-            }
-
-            if (_pullCountText != null)
-            {
-                _pullCountText.text = $"{_pullCount} Count";
-            }
-
-            if (_iconImage != null)
-            {
-                _iconImage.sprite = iconSprite;
-            }
         }
 
         private void UpdateButtonState()

@@ -19,6 +19,7 @@ namespace SahurRaising.UI
         Skill = 11,
         Enhance = 12,
         Shop = 13,
+        Drone = 14,
 
         GachaResult = 30,
 

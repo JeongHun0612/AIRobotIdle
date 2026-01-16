@@ -1,22 +1,21 @@
 ﻿using SahurRaising.Core;
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SahurRaising
 {
-    public class EquipmentInfo : MonoBehaviour
+    public class DroneInfo : MonoBehaviour
     {
         [Header("아이템 정보")]
-        [SerializeField] private EquipmentInfoItemSlot _itemSlot;
+        [SerializeField] private DroneInfoItemSlot _itemSlot;
 
         [Header("아이템 장착 스탯")]
         [SerializeField] private OptionStatPanel _equipOptionStatPanel;
 
         [Header("아이템 보유 스탯")]
-        [SerializeField] private List<OptionStatPanel> _heldOptionStatPanels;
+        [SerializeField] private OptionStatPanel _heldOptionStatPanel;
 
         [Header("장착 버튼")]
         [SerializeField] private Button _equipButton;
@@ -28,8 +27,8 @@ namespace SahurRaising
         [Header("레벨업 버튼")]
         [SerializeField] private Button _levelUpButton;
 
-        private IEquipmentService _equipmentService;
-        private EquipmentRow _currentData;
+        private IDroneService _droneService;
+        private DroneRow _currentData;
         private Action _onEquipChanged; // 갱신 콜백
 
         public void Initialize(Action onEquipChanged = null)
@@ -38,18 +37,18 @@ namespace SahurRaising
             _itemSlot.Initialize();
         }
 
-        public void RefreshEquipmentInfo(EquipmentRow data)
+        public void RefreshDroneInfo(DroneRow data)
         {
             _currentData = data;
 
             _itemSlot.gameObject.SetActive(true);
             _itemSlot.SetData(data);
 
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
+            if (_droneService == null)
+                _droneService = ServiceLocator.Get<IDroneService>();
 
             // 인벤토리 정보에서 레벨 가져오기
-            var inventoryInfo = _equipmentService.GetInventoryInfo(data.Code);
+            var inventoryInfo = _droneService.GetInventoryInfo(data.ID);
             int level = inventoryInfo.Level;
 
             // 장착 스탯 (EquipOption)
@@ -59,37 +58,11 @@ namespace SahurRaising
                 _equipOptionStatPanel.UpdateEquipmentStatText(data.EquipOption, level);
             }
 
-            // 보유 스탯 (HeldOption1, 2, 3)
-            var heldOptions = new List<OptionValue>
+            // 보유 스탯 (HeldOption)
+            if (_heldOptionStatPanel != null)
             {
-                data.HeldOption1,
-                data.HeldOption2,
-                data.HeldOption3
-            };
-
-            // 모든 보유 옵션 패널을 먼저 비활성화
-            for (int i = 0; i < _heldOptionStatPanels.Count; i++)
-            {
-                if (_heldOptionStatPanels[i] != null)
-                {
-                    _heldOptionStatPanels[i].gameObject.SetActive(false);
-                }
-            }
-
-            // 보유 옵션이 있는 것만 활성화하고 업데이트
-            int activePanelIndex = 0;
-            for (int i = 0; i < heldOptions.Count; i++)
-            {
-                // Type이 비어있지 않으면 유효한 옵션으로 간주
-                if (!string.IsNullOrEmpty(heldOptions[i].Type))
-                {
-                    if (activePanelIndex < _heldOptionStatPanels.Count && _heldOptionStatPanels[activePanelIndex] != null)
-                    {
-                        _heldOptionStatPanels[activePanelIndex].gameObject.SetActive(true);
-                        _heldOptionStatPanels[activePanelIndex].UpdateEquipmentStatText(heldOptions[i], level);
-                        activePanelIndex++;
-                    }
-                }
+                _heldOptionStatPanel.gameObject.SetActive(true);
+                _heldOptionStatPanel.UpdateEquipmentStatText(data.HeldOption1, level);
             }
 
             _equipButton.gameObject.SetActive(true);
@@ -104,11 +77,7 @@ namespace SahurRaising
             _itemSlot.gameObject.SetActive(false);
 
             _equipOptionStatPanel.gameObject.SetActive(false);
-
-            foreach (var heldOptionStatPanel in _heldOptionStatPanels)
-            {
-                heldOptionStatPanel.gameObject.SetActive(false);
-            }
+            _heldOptionStatPanel.gameObject.SetActive(false);
 
             _equipButton.gameObject.SetActive(false);
             _levelUpButton.gameObject.SetActive(false);
@@ -116,7 +85,7 @@ namespace SahurRaising
 
         private void UpdateEquipButtonState()
         {
-            if (_equipButton == null || _currentData.Code == null)
+            if (_equipButton == null || _currentData.ID == null)
                 return;
 
             // 현재 장착 상태 확인
@@ -132,16 +101,16 @@ namespace SahurRaising
 
         private bool GetIsEquipped()
         {
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
+            if (_droneService == null)
+                _droneService = ServiceLocator.Get<IDroneService>();
 
-            string equippedCode = _equipmentService.GetEquippedCode(_currentData.Type);
-            return !string.IsNullOrEmpty(equippedCode) && equippedCode == _currentData.Code;
+            string equippedID = _droneService.GetEquippedID();
+            return !string.IsNullOrEmpty(equippedID) && equippedID == _currentData.ID;
         }
 
         public void OnClickEquip()
         {
-            if (_equipmentService == null || _currentData.Code == null)
+            if (_droneService == null || _currentData.ID == null)
                 return;
 
             // 현재 장착 상태 확인
@@ -150,11 +119,11 @@ namespace SahurRaising
             // 장착/해제 처리
             if (isEquipped)
             {
-                _equipmentService.Unequip(_currentData.Type);
+                _droneService.Unequip();
             }
             else
             {
-                _equipmentService.Equip(_currentData.Type, _currentData.Code);
+                _droneService.Equip(_currentData.ID);
             }
 
             // 버튼 상태 업데이트
@@ -166,16 +135,16 @@ namespace SahurRaising
 
         public void OnClickLevelUp()
         {
-            if (_equipmentService == null || _currentData.Code == null)
+            if (_droneService == null || _currentData.ID == null)
                 return;
 
             // 레벨업 수행
-            bool success = _equipmentService.LevelUp(_currentData.Code);
+            bool success = _droneService.LevelUp(_currentData.ID);
 
             if (success)
             {
                 // UI 갱신
-                RefreshEquipmentInfo(_currentData);
+                RefreshDroneInfo(_currentData);
 
                 // 인벤토리 갱신
                 _onEquipChanged?.Invoke();

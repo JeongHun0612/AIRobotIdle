@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SahurRaising
 {
-    public class EquipmentStatPanel : MonoBehaviour
+    public class OptionStatPanel : MonoBehaviour
     {
         [SerializeField] private TMP_Text _equipTypeText;
         [SerializeField] private TMP_Text _currentStatText;

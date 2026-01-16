@@ -1,11 +1,12 @@
-﻿using SahurRaising.Core;
+﻿using System;
+using SahurRaising.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SahurRaising
 {
-    public class EquipmentInfoItemSlot : MonoBehaviour
+    public class EquipmentItemSlot : MonoBehaviour
     {
         [Header("아이템 정보")]
         [SerializeField] private Image _bgImage;
@@ -13,6 +14,15 @@ namespace SahurRaising
         [SerializeField] private TMP_Text _rankText;
         [SerializeField] private TMP_Text _levelText;
         [SerializeField] private GameObject[] _gemIcons;
+
+        [Header("버튼")]
+        [SerializeField] private Button _slotButton;
+
+        [Header("상태 표시")]
+        [SerializeField] private GameObject _newText;
+        [SerializeField] private GameObject _equipIcon;
+        [SerializeField] private GameObject _close;
+        [SerializeField] private GameObject _focus;
 
         [Header("강화 진행도 UI")]
         [SerializeField] private Slider _progressSlider;   // 슬라이더 바
@@ -22,6 +32,7 @@ namespace SahurRaising
         private IConfigService _configService;
 
         private EquipmentRow _data;
+        private bool _isNew;
 
         public EquipmentRow Data => _data;
 
@@ -29,10 +40,36 @@ namespace SahurRaising
         {
         }
 
+        public void RegisterClickHandler(Action<EquipmentItemSlot> callback)
+        {
+            _slotButton.onClick.RemoveAllListeners();
+            _slotButton.onClick.AddListener(() => { callback?.Invoke(this); });
+        }
+
         public void SetData(EquipmentRow data)
         {
             _data = data;
             UpdateUI();
+        }
+
+        public void SetFocus(bool isSelected)
+        {
+            if (_focus != null)
+            {
+                _focus.SetActive(isSelected);
+            }
+        }
+
+        public void HideNewIfActive()
+        {
+            if (!_isNew)
+                return;
+
+            _isNew = false;
+            if (_newText != null)
+            {
+                _newText.gameObject.SetActive(false);
+            }
         }
 
         private void UpdateUI()
@@ -92,6 +129,42 @@ namespace SahurRaising
 
             // 잼(등급 카운트) 갯수 설정
             UpdateGemIcons(gemCount);
+
+            // 아이템을 보유 하고 있는지
+            bool isOwned = info.IsOwned;
+            if (_slotButton != null)
+            {
+                _slotButton.interactable = isOwned;
+            }
+
+            if (_close != null)
+            {
+                _close.SetActive(!isOwned);
+            }
+
+            // 장착 여부 확인하여 아이콘 활성화/비활성화
+            string equippedCode = _equipmentService.GetEquippedCode(_data.Type);
+            bool isEquip = !string.IsNullOrEmpty(equippedCode) && equippedCode == _data.Code;
+
+            if (_equipIcon != null)
+            {
+                _equipIcon.SetActive(isOwned && isEquip);
+            }
+
+            // 새로 획득한 아이템인지 확인
+            _isNew = _equipmentService.IsNewEquipment(_data.Code);
+            if (_newText != null)
+            {
+                _newText.SetActive(_isNew);
+            }
+
+            if (_isNew)
+            {
+                _equipmentService.MarkAsSeen(_data.Code);
+            }
+
+            // Focus 오브젝트 비활성화
+            SetFocus(false);
 
             // 프로그래스바 UI 업데이트
             int ownedCount = info.Count;

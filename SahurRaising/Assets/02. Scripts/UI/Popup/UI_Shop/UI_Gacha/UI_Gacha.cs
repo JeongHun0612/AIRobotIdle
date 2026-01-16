@@ -24,12 +24,6 @@ namespace SahurRaising
             {
                 _gachaPanels = GetComponentsInChildren<GachaPanel>().ToList();
             }
-
-            // 각 GachaPanel 초기화
-            foreach (var panel in _gachaPanels)
-            {
-                panel?.Initialize();
-            }
         }
 
         public override void OnShow()

@@ -23,14 +23,6 @@ namespace SahurRaising
 
         public GachaType GachaType => _gachaType;
 
-        public void Initialize()
-        {            
-            // 각 GachaButton 초기화
-            foreach (var button in _gachaButtons)
-            {
-                button?.Initialize();
-            }
-        }
 
         public void Refresh()
         {
@@ -56,7 +48,7 @@ namespace SahurRaising
             // 각 GachaButton 업데이트
             foreach (var button in _gachaButtons)
             {
-                button?.Refresh(_gachaType);
+                button?.Refresh();
             }
         }
 

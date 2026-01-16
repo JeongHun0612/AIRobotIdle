@@ -202,6 +202,7 @@ namespace SahurRaising.Core
     public struct DroneRow
     {
         public string ID;
+        public Sprite Icon;
         public double AtkRate;
         public OptionValue EquipOption;
         public OptionValue HeldOption1;
@@ -373,6 +374,34 @@ namespace SahurRaising.Core
         // 모든 장비의 소지 개수
         public List<EquipmentInventoryInfo> Inventory = new();
         public List<string> SeenCodes = new();
+    }
+
+    [Serializable]
+    public struct DroneInventoryInfo
+    {
+        public string ID;
+        public int Level;
+        public int Count;
+        public bool IsOwned;
+
+        public DroneInventoryInfo(string id, int level, int count, bool isOwned = false)
+        {
+            ID = id;
+            Level = level;
+            Count = count;
+            IsOwned = isOwned;
+        }
+    }
+
+    [Serializable]
+    public class DroneSaveData
+    {
+        // 장착한 드론 (단일 드론만 장착 가능)
+        public string EquippedDroneID;
+
+        // 모든 드론의 소지 개수
+        public List<DroneInventoryInfo> Inventory = new();
+        public List<string> SeenIDs = new();
     }
 
     [Serializable]

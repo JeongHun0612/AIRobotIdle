@@ -282,7 +282,7 @@ namespace SahurRaising.Core
                 return null;
             }
 
-            const int requiredCount = REQUIRED_COUNT_FOR_UPGRADE;
+            int requiredCount = GetRequiredCountForAdvance();
 
             // 해당 타입의 모든 장비 가져오기
             var equipmentList = GetByType(type);
@@ -336,15 +336,7 @@ namespace SahurRaising.Core
                 _inventory[equipment.Code] = new EquipmentInventoryInfo(equipment.Code, beforeLevel, remainingCount, isOwned);
 
                 // 인벤토리 업데이트: 상위 등급 개수 증가
-                if (_inventory.TryGetValue(nextGradeCode, out var nextInfo))
-                {
-                    _inventory[nextGradeCode] = new EquipmentInventoryInfo(nextGradeCode, nextInfo.Level, nextInfo.Count + newNextGradeCount, true);
-                }
-                else
-                {
-                    const int defaultLevel = 1;
-                    _inventory[nextGradeCode] = new EquipmentInventoryInfo(nextGradeCode, defaultLevel, newNextGradeCount, true);
-                }
+                AddToInventory(nextGradeCode, newNextGradeCount);
 
                 // 상위 등급 장비 정보 저장
                 lastAdvanceResult = new AdvanceResult

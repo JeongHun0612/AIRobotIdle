@@ -48,12 +48,6 @@ namespace SahurRaising
 
             InitializeSlotPool();
 
-            // 각 GachaButton 초기화
-            foreach (var button in _gachaButtons)
-            {
-                button?.Initialize();
-            }
-
             if (_skipButton != null)
             {
                 _skipButton.onClick.RemoveAllListeners();
