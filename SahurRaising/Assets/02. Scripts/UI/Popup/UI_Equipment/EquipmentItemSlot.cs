@@ -100,6 +100,8 @@ namespace SahurRaising
 
             string gradeString = _data.Grade.ToString();
             var (gradeLetter, gemCount) = StringUtils.ParseLettersAndNumber(gradeString);
+            if (gemCount > 0)
+                gemCount = 4 - gemCount;
 
             // 배경 색깔 설정
             if (_bgImage != null)
