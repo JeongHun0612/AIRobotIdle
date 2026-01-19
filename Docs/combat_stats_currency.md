@@ -8,11 +8,11 @@
 - 샤딩 필요 시 기능별/구간별 테이블 분할(예: MonsterTable_1_5000, MonsterTable_5001_10000).
 
 ## 2. 테이블 스키마 매핑
-- Monster (사후르 키우기 DB - Monster.csv)
+- Monster (AI 로봇 키우기 DB - Monster.csv)
   - `MonsterLevel`, `BenchmarkLevel`, `ATKLevel`, `DEFLevel`, `MonsterHP`, `MonsterATK`, `MonsterDEF`, `MonsterDEFR`, `Gold`
-- Upgrade (사후르 키우기 DB - Upgrade.csv)
+- Upgrade (AI 로봇 키우기 DB - Upgrade.csv)
   - `Code`, `Name`, `Description`, `Stat`, `Tier`, `MaxLevel`, `GoldBase`, `GoldPow`, `Segment1~4(MaxLevel, Growth)`
-- Stats (사후르 키우기 DB - Stats.csv)
+- Stats (AI 로봇 키우기 DB - Stats.csv)
   - `Level`, `ATK_Base/Pow`, `HP_Base/Pow`, `DEF_Base/Pow`, `HPREC_Base/Pow`, `CR_Base/Pow`, `ATKT_Base/Pow`, `OFFT`, `GOLDR`, `ATKR`, `OFFA`, `ATKSP`, `RCD`, `UCR_Base/Pow`, `ATKB`, `CD`, `DEFR`, `IGNDEF_Base/Pow`
 - Equipment/Skill 테이블은 동일 패턴(테이블 단위 SO + 인덱스)으로 확장.
 

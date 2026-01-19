@@ -137,6 +137,8 @@ namespace SahurRaising.Core
         CombatProgress GetProgress();
         UniTask SaveAsync();
         UniTask LoadAsync();
+        
+        event System.Action OnPlayerAttack;
     }
 }
 

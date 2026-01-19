@@ -71,6 +71,8 @@ namespace SahurRaising.Core
             await StartWaveAsync(_waveIndex);
         }
 
+        public event Action OnPlayerAttack;
+
         public void Tick(float deltaTime)
         {
             if (!_isStageRunning)
@@ -96,8 +98,9 @@ namespace SahurRaising.Core
 
             var damage = CalculateDamage(isTouch: true);
             DealDamage(damage);
+            OnPlayerAttack?.Invoke();
         }
-
+        
         public CombatProgress GetProgress()
         {
             return new CombatProgress
