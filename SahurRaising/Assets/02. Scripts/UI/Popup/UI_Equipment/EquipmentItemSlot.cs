@@ -21,12 +21,13 @@ namespace SahurRaising
         [Header("상태 표시")]
         [SerializeField] private GameObject _newText;
         [SerializeField] private GameObject _equipIcon;
-        [SerializeField] private GameObject _close;
+        [SerializeField] private GameObject _itemDisable;
         [SerializeField] private GameObject _focus;
 
         [Header("강화 진행도 UI")]
         [SerializeField] private Slider _progressSlider;   // 슬라이더 바
         [SerializeField] private TMP_Text _progressText;   // "보유/필요" 텍스트
+        [SerializeField] private GameObject _sliderDisable;
 
         private IEquipmentService _equipmentService;
         private IConfigService _configService;
@@ -139,9 +140,9 @@ namespace SahurRaising
                 _slotButton.interactable = isOwned;
             }
 
-            if (_close != null)
+            if (_itemDisable != null)
             {
-                _close.SetActive(!isOwned);
+                _itemDisable.SetActive(!isOwned);
             }
 
             // 장착 여부 확인하여 아이콘 활성화/비활성화
@@ -172,6 +173,11 @@ namespace SahurRaising
             int ownedCount = info.Count;
             int requiredCount = _equipmentService.GetRequiredCountForAdvance();
             UpdateProgressUI(ownedCount, requiredCount);
+
+            if (_sliderDisable != null)
+            {
+                _sliderDisable.SetActive(!isOwned);
+            }
         }
 
         private void UpdateGemIcons(int activeCount)

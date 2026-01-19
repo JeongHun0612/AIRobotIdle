@@ -108,26 +108,26 @@ namespace SahurRaising.Core
                     Type = GachaType.Equipment,
                     GradeColors = new List<GradeColorEntry>
                     {
-                        new GradeColorEntry { GradeKey = "F", Color = new Color(0.5f, 0.5f, 0.5f) }, // 회색
-                        new GradeColorEntry { GradeKey = "D3", Color = new Color(0.4f, 0.4f, 0.6f) }, // 어두운 파란색
-                        new GradeColorEntry { GradeKey = "D2", Color = new Color(0.4f, 0.4f, 0.6f) },
-                        new GradeColorEntry { GradeKey = "D1", Color = new Color(0.4f, 0.4f, 0.6f) },
-                        new GradeColorEntry { GradeKey = "C3", Color = new Color(0.2f, 0.6f, 0.2f) }, // 초록색
-                        new GradeColorEntry { GradeKey = "C2", Color = new Color(0.2f, 0.6f, 0.2f) },
-                        new GradeColorEntry { GradeKey = "C1", Color = new Color(0.2f, 0.6f, 0.2f) },
-                        new GradeColorEntry { GradeKey = "B3", Color = new Color(0.2f, 0.4f, 0.8f) }, // 파란색
-                        new GradeColorEntry { GradeKey = "B2", Color = new Color(0.2f, 0.4f, 0.8f) },
-                        new GradeColorEntry { GradeKey = "B1", Color = new Color(0.2f, 0.4f, 0.8f) },
-                        new GradeColorEntry { GradeKey = "A3", Color = new Color(0.8f, 0.2f, 0.8f) }, // 보라색
-                        new GradeColorEntry { GradeKey = "A2", Color = new Color(0.8f, 0.2f, 0.8f) },
-                        new GradeColorEntry { GradeKey = "A1", Color = new Color(0.8f, 0.2f, 0.8f) },
-                        new GradeColorEntry { GradeKey = "S3", Color = new Color(1f, 0.84f, 0f) }, // 금색
-                        new GradeColorEntry { GradeKey = "S2", Color = new Color(1f, 0.84f, 0f) },
-                        new GradeColorEntry { GradeKey = "S1", Color = new Color(1f, 0.84f, 0f) },
-                        new GradeColorEntry { GradeKey = "SS3", Color = new Color(1f, 0.5f, 0f) }, // 주황색
-                        new GradeColorEntry { GradeKey = "SS2", Color = new Color(1f, 0.5f, 0f) },
-                        new GradeColorEntry { GradeKey = "SS1", Color = new Color(1f, 0.5f, 0f) },
-                        new GradeColorEntry { GradeKey = "SSS3", Color = new Color(1f, 0f, 0f) } // 빨간색
+                        new GradeColorEntry { GradeKey = "F", Color = new Color(0.647f, 0.635f, 0.569f) },      // 회색
+                        new GradeColorEntry { GradeKey = "D3", Color = new Color(0.992f, 0.992f, 0.855f) },     // 연한 노란색
+                        new GradeColorEntry { GradeKey = "D2", Color = new Color(0.992f, 0.992f, 0.855f) },
+                        new GradeColorEntry { GradeKey = "D1", Color = new Color(0.992f, 0.992f, 0.855f) },
+                        new GradeColorEntry { GradeKey = "C3", Color = new Color(0.443f, 0.882f, 0.690f) },     // 초록색
+                        new GradeColorEntry { GradeKey = "C2", Color = new Color(0.443f, 0.882f, 0.690f) },
+                        new GradeColorEntry { GradeKey = "C1", Color = new Color(0.443f, 0.882f, 0.690f) },
+                        new GradeColorEntry { GradeKey = "B3", Color = new Color(0.310f, 0.522f, 0.863f) },     // 파란색
+                        new GradeColorEntry { GradeKey = "B2", Color = new Color(0.310f, 0.522f, 0.863f) },
+                        new GradeColorEntry { GradeKey = "B1", Color = new Color(0.310f, 0.522f, 0.863f) },
+                        new GradeColorEntry { GradeKey = "A3", Color = new Color(0.792f, 0.357f, 1.0f) },       // 보라색
+                        new GradeColorEntry { GradeKey = "A2", Color = new Color(0.792f, 0.357f, 1.0f) },
+                        new GradeColorEntry { GradeKey = "A1", Color = new Color(0.792f, 0.357f, 1.0f) },
+                        new GradeColorEntry { GradeKey = "S3", Color = new Color(0.973f, 0.914f, 0.227f) },     // 노란색
+                        new GradeColorEntry { GradeKey = "S2", Color = new Color(0.973f, 0.914f, 0.227f) },
+                        new GradeColorEntry { GradeKey = "S1", Color = new Color(0.973f, 0.914f, 0.227f) },
+                        new GradeColorEntry { GradeKey = "SS3", Color = new Color(0.980f, 0.561f, 0.133f) },    // 주황색
+                        new GradeColorEntry { GradeKey = "SS2", Color = new Color(0.980f, 0.561f, 0.133f) },
+                        new GradeColorEntry { GradeKey = "SS1", Color = new Color(0.980f, 0.561f, 0.133f) },
+                        new GradeColorEntry { GradeKey = "SSS3", Color = new Color(1f, 0.306f, 0.306f) }        // 빨간색
                     },
                     TypeIcons = new List<TypeIconEntry>
                     {

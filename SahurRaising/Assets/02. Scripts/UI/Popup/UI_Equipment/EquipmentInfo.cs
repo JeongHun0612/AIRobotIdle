@@ -19,11 +19,9 @@ namespace SahurRaising
         [SerializeField] private List<OptionStatPanel> _heldOptionStatPanels;
 
         [Header("장착 버튼")]
-        [SerializeField] private Button _equipButton;
-        [SerializeField] private TMP_Text _equipButtonText;
-
-        [SerializeField] private Sprite _equipButtonSprite;
-        [SerializeField] private Sprite _unEquipButtonSprite;
+        [SerializeField] private Button _equipToggleButton;
+        [SerializeField] private GameObject _equipButtonPanel;
+        [SerializeField] private GameObject _unEquipButtonPanel;
 
         [Header("레벨업 버튼")]
         [SerializeField] private Button _levelUpButton;
@@ -92,7 +90,7 @@ namespace SahurRaising
                 }
             }
 
-            _equipButton.gameObject.SetActive(true);
+            _equipToggleButton.gameObject.SetActive(true);
             _levelUpButton.gameObject.SetActive(true);
 
             // 장착 버튼 상태 업데이트
@@ -110,24 +108,20 @@ namespace SahurRaising
                 heldOptionStatPanel.gameObject.SetActive(false);
             }
 
-            _equipButton.gameObject.SetActive(false);
+            _equipToggleButton.gameObject.SetActive(false);
             _levelUpButton.gameObject.SetActive(false);
         }
 
         private void UpdateEquipButtonState()
         {
-            if (_equipButton == null || _currentData.Code == null)
+            if (_equipToggleButton == null || _currentData.Code == null)
                 return;
 
             // 현재 장착 상태 확인
             bool isEquipped = GetIsEquipped();
 
-            // 버튼 업데이트
-            if (_equipButtonText != null)
-            {
-                _equipButton.image.sprite = isEquipped ? _unEquipButtonSprite : _equipButtonSprite;
-                _equipButtonText.text = isEquipped ? "UnEquip" : "Equip";
-            }
+            _equipButtonPanel.SetActive(!isEquipped);
+            _unEquipButtonPanel.SetActive(isEquipped);
         }
 
         private bool GetIsEquipped()
