@@ -14,6 +14,19 @@ namespace SahurRaising.UI
         [SerializeField] private Slider _progressSlider;
         [SerializeField] private TextMeshProUGUI _progressText;
 
+        [Header("Touch To Start")]
+        [SerializeField] private GameObject _touchToStartObject;
+        [SerializeField] private GameObject _loadingIconObject;
+
+        public void ShowTouchToStart()
+        {
+            if (_loadingIconObject != null)
+                _loadingIconObject.SetActive(false);
+
+            if (_touchToStartObject != null)
+                _touchToStartObject.SetActive(true);
+        }
+
         /// <summary>
         /// 0~1 값으로 진행도를 표시한다.
         /// </summary>
@@ -26,6 +39,13 @@ namespace SahurRaising.UI
 
             if (_progressText != null)
                 _progressText.text = $"{Mathf.RoundToInt(clamped * 100f)}%";
+            
+            // 로딩 중에는 터치 UI 숨김, 로딩 아이콘 표시
+            if (clamped < 1f)
+            {
+                if (_touchToStartObject != null) _touchToStartObject.SetActive(false);
+                if (_loadingIconObject != null) _loadingIconObject.SetActive(true);
+            }
         }
     }
 }

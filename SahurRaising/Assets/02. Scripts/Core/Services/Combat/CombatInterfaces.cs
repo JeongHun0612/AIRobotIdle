@@ -139,6 +139,7 @@ namespace SahurRaising.Core
         UniTask LoadAsync();
         
         event System.Action OnPlayerAttack;
+        event System.Action OnMonsterAttack;
     }
 }
 

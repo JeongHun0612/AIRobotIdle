@@ -33,6 +33,8 @@ namespace SahurRaising.Core
         private BigDouble _currentDef;
         private float _waveTimer;
         private float _attackGauge;
+        private float _monsterAttackGauge;
+        private BigDouble _playerCurrentHp;
 
         private int _stageIndex = 1;
         private int _waveIndex = 1;
@@ -64,19 +66,36 @@ namespace SahurRaising.Core
 
         public async UniTask StartStageAsync(int stageIndex, int waveIndex = 1)
         {
+            //Debug.Log($"[CombatService] StartStageAsync Called. Stage: {stageIndex}, Wave: {waveIndex}");
             _stageIndex = Mathf.Max(1, stageIndex);
             _waveIndex = Mathf.Clamp(waveIndex, 1, WavesPerStage);
             _stats = _statService.GetSnapshot();
+            _playerCurrentHp = _stats.MaxHP;
             _isStageRunning = true;
+           // Debug.Log($"[CombatService] Stage Started. IsStageRunning: {_isStageRunning}, AttackSpeed: {_stats.AttackSpeed}, MaxHP: {_stats.MaxHP}");
             await StartWaveAsync(_waveIndex);
         }
-
         public event Action OnPlayerAttack;
+        public event Action OnMonsterAttack;
 
         public void Tick(float deltaTime)
         {
+            /*
+            // Tick 호출 확인 (1초에 한번)
+            if (UnityEngine.Time.frameCount % 60 == 0) Debug.Log($"[CombatService] Tick Called. DeltaTime: {deltaTime}, IsRunning: {_isStageRunning}");
+
             if (!_isStageRunning)
+            {
+                if (UnityEngine.Time.frameCount % 120 == 0) Debug.LogWarning($"[CombatService] Tick ignored because Stage is NOT running. StageIdx: {_stageIndex}, WaveIdx: {_waveIndex}");
                 return;
+            }
+
+            // 스탯 확인 로그 (5초마다)
+            if (UnityEngine.Time.frameCount % 300 == 0)
+            {
+                Debug.Log($"[CombatService] Stats Check - AtkSpeed: {_stats.AttackSpeed}, Atk: {_stats.Attack}, MonsterHP: {_currentHp}");
+            }
+            */
 
             if (_waveTimer > 0)
             {
@@ -88,7 +107,16 @@ namespace SahurRaising.Core
                 }
             }
 
+            // HP Regen
+            if (_playerCurrentHp < _stats.MaxHP && _stats.HealthRegen > 0)
+            {
+                _playerCurrentHp += _stats.HealthRegen * deltaTime;
+                if (_playerCurrentHp > _stats.MaxHP)
+                    _playerCurrentHp = _stats.MaxHP;
+            }
+
             ProcessAutoAttack(deltaTime);
+            ProcessMonsterAttack(deltaTime);
         }
 
         public void ApplyTouchAttack()
@@ -168,6 +196,7 @@ namespace SahurRaising.Core
             _waveIndex = Mathf.Clamp(waveIndex, 1, WavesPerStage);
             _stats = _statService.GetSnapshot();
             _attackGauge = 0f;
+            _monsterAttackGauge = 0f;
 
             var monsterLevel = GetMonsterLevel(_stageIndex, waveIndex);
             _currentMonster = GetMonsterRow(monsterLevel);
@@ -230,14 +259,61 @@ namespace SahurRaising.Core
             var attacksPerSecond = Math.Max(0.01f, (float)_stats.AttackSpeed);
             _attackGauge += deltaTime * attacksPerSecond;
 
+            // 디버그 (간헐적)
+            // if (UnityEngine.Time.frameCount % 60 == 0) Debug.Log($"[CombatService] AttackGauge: {_attackGauge:F2}, Speed: {attacksPerSecond:F2}");
+
             while (_attackGauge >= 1f)
             {
+               // Debug.Log($"[CombatService] Player Attack Triggered! Gauge: {_attackGauge}");
                 var damage = CalculateDamage(isTouch: false);
                 DealDamage(damage);
+                OnPlayerAttack?.Invoke();
                 _attackGauge -= 1f;
 
                 if (!_isStageRunning)
                     break;
+            }
+        }
+
+        private void ProcessMonsterAttack(float deltaTime)
+        {
+            // 몬스터 공격 속도: 기본 1초에 1회로 가정 (데이터에 없음)
+            float monsterAttackSpeed = 1f;
+            _monsterAttackGauge += deltaTime * monsterAttackSpeed;
+
+            while (_monsterAttackGauge >= 1f)
+            {
+               // Debug.Log($"[CombatService] Monster Attack Triggered! Gauge: {_monsterAttackGauge}");
+                OnMonsterAttack?.Invoke();
+                _monsterAttackGauge -= 1f;
+                
+                var damage = CalculateMonsterDamage();
+                DealPlayerDamage(damage);
+                
+                if (!_isStageRunning)
+                    break;
+            }
+        }
+
+        private BigDouble CalculateMonsterDamage()
+        {
+            var damage = _currentMonster.MonsterATK;
+            // 플레이어 방어력 적용 (단순 차감)
+            var effectiveDamage = BigDouble.Max(1, damage - _stats.Defense);
+            return effectiveDamage;
+        }
+
+        private void DealPlayerDamage(BigDouble damage)
+        {
+            if (_playerCurrentHp <= 0) return;
+
+            _playerCurrentHp -= damage;
+          //  Debug.Log($"[CombatService] Player Took Damage: {damage}, CurrentHP: {_playerCurrentHp}");
+
+            if (_playerCurrentHp <= 0)
+            {
+                _playerCurrentHp = 0;
+                FailStage();
             }
         }
 
@@ -279,6 +355,7 @@ namespace SahurRaising.Core
 
         private async void OnMonsterDefeated()
         {
+            _isStageRunning = false; // 로직 일시 정지 (연출 대기)
             GrantReward();
 
             _eventBus?.Publish(new EnemyDefeatedEvent
@@ -297,7 +374,6 @@ namespace SahurRaising.Core
 
             if (_waveIndex >= WavesPerStage)
             {
-                _isStageRunning = false;
                 _eventBus?.Publish(new StageResultEvent
                 {
                     StageIndex = _stageIndex,
@@ -306,7 +382,9 @@ namespace SahurRaising.Core
                 return;
             }
 
+            await UniTask.Delay(1000); // 몬스터 사망 연출 대기
             await StartWaveAsync(_waveIndex + 1);
+            _isStageRunning = true; // 로직 재개
         }
 
         private void GrantReward()

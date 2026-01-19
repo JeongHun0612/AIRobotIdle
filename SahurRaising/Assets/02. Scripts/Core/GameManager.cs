@@ -10,6 +10,19 @@ namespace SahurRaising.Core
     {
         [Header("Loading")]
         [SerializeField, Min(0f)] private float _minLoadingSeconds = 2f;
+        
+        /// <summary>
+        /// 모든 서비스 초기화가 완료되었는지 여부.
+        /// CombatRunner 등 다른 컴포넌트에서 이 플래그를 대기해야 합니다.
+        /// </summary>
+        public bool IsServicesInitialized { get; private set; } = false;
+
+        /// <summary>
+        /// 로딩 후 사용자가 터치하여 게임이 실제로 시작되었는지 여부.
+        /// CombatRunner 등은 이 플래그가 true가 될 때까지 대기해야 합니다.
+        /// </summary>
+        public bool IsGameStarted { get; private set; } = false;
+        
         private void Start()
         {
             InitializeGameAsync().Forget();
@@ -48,6 +61,15 @@ namespace SahurRaising.Core
                     loadingScene.SetProgress(0f);
 
                     await RunInitializationWithProgressAsync(loadingScene);
+
+                    // 로딩 완료 후 터치 대기
+                    loadingScene.ShowTouchToStart();
+                    Debug.Log("[GameManager] 로딩 완료. 터치 대기 중...");
+
+                    await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
+                    
+                    IsGameStarted = true;
+                    Debug.Log("[GameManager] 게임 시작! (IsGameStarted = true)");
 
                     // 페이드와 함께 메인 전투 씬 전환
                     await UIManager.Instance.ShowSceneWithFadeAsync(ESceneUIType.MainBattle);
@@ -183,6 +205,10 @@ namespace SahurRaising.Core
 
             Debug.Log("[GameManager] 서비스 등록 완료");
             progress?.Report(1f);
+            
+            // 서비스 초기화 완료 플래그 설정
+            IsServicesInitialized = true;
+            Debug.Log("[GameManager] IsServicesInitialized = true");
         }
 
         private async void OnApplicationPause(bool pause)

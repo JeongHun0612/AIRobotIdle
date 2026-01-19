@@ -46,6 +46,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 856dadc2071fd5d4bb3af9052e6228df
+    m_Address: DefaultCombatSettings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 85873d56fdfdff446a9838699b96e2d7
     m_Address: ItemVisualConfig
     m_ReadOnly: 0
