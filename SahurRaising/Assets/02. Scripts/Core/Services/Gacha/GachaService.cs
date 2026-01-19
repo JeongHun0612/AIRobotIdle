@@ -18,7 +18,6 @@ namespace SahurRaising.Core
         private readonly IEventBus _eventBus;
 
         private GachaLevelConfig _levelConfig;
-        private GachaButtonConfig _gachaButtonConfig;
 
         // 타입별 핸들러 관리
         private readonly Dictionary<GachaType, IGachaHandler> _handlers = new();
@@ -28,7 +27,6 @@ namespace SahurRaising.Core
 
         public bool IsInitialized { get; private set; }
         public GachaLevelConfig LevelConfig => _levelConfig;
-        public GachaButtonConfig GachaButtonConfig => _gachaButtonConfig;
 
         public GachaService(
             IResourceService resourceService,
@@ -51,7 +49,6 @@ namespace SahurRaising.Core
             var equipmentTable = await _resourceService.LoadTableAsync<EquipmentTable>("EquipmentTable");
             var droneTable = await _resourceService.LoadTableAsync<DroneTable>("DroneTable");
             _levelConfig = await _resourceService.LoadAssetAsync<GachaLevelConfig>("GachaLevelConfig");
-            _gachaButtonConfig = await _resourceService.LoadAssetAsync<GachaButtonConfig>("GachaButtonConfig");
 
             if (gachaEquipmentTable == null || gachaDroneTable == null)
             {

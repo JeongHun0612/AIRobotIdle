@@ -15,10 +15,6 @@ namespace SahurRaising.Core
         /// </summary>
         GachaLevelConfig LevelConfig { get; }
 
-        /// <summary>
-        /// GachaButtonConfig 직접 접근 (읽기 전용)
-        /// </summary>
-        GachaButtonConfig GachaButtonConfig { get; }
 
         /// <summary>
         /// 현재 가챠 레벨을 가져옵니다

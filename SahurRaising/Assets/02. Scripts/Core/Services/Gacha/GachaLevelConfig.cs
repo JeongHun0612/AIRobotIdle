@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SahurRaising.Core
 {
-    [CreateAssetMenu(fileName = "GachaLevelConfig", menuName = "SahurRaising/Gacha/GachaLevelConfig")]
+    [CreateAssetMenu(fileName = "GachaLevelConfig", menuName = "SahurRaising/Config/GachaLevelConfig")]
     public class GachaLevelConfig : ScriptableObject
     {
         [System.Serializable]
