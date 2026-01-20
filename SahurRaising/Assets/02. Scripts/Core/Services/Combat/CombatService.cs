@@ -18,6 +18,12 @@ namespace SahurRaising.Core
         private const double BossHpMultiplier = 20d;
         private const float EliteTimeLimit = 20f;
         private const float BossTimeLimit = 30f;
+        
+        /// <summary>
+        /// 기본 공격 속도 (초당 공격 횟수)
+        /// 2초당 1회 = 0.5 공격/초
+        /// </summary>
+        private const float BASE_ATTACK_SPEED = 0.5f;
 
         private readonly IResourceService _resourceService;
         private readonly IEventBus _eventBus;
@@ -75,8 +81,8 @@ namespace SahurRaising.Core
            // Debug.Log($"[CombatService] Stage Started. IsStageRunning: {_isStageRunning}, AttackSpeed: {_stats.AttackSpeed}, MaxHP: {_stats.MaxHP}");
             await StartWaveAsync(_waveIndex);
         }
-        public event Action OnPlayerAttack;
-        public event Action OnMonsterAttack;
+        // 공격 이벤트
+        public event Action<AttackEvent> OnAttack;
 
         public void Tick(float deltaTime)
         {
@@ -124,9 +130,20 @@ namespace SahurRaising.Core
             if (!_isStageRunning)
                 return;
 
-            var damage = CalculateDamage(isTouch: true);
+            var damage = CalculateDamage(isTouch: true, out bool isCritical);
             DealDamage(damage);
-            OnPlayerAttack?.Invoke();
+            
+            // 이벤트 발행
+            OnAttack?.Invoke(new AttackEvent
+            {
+                IsPlayerAttack = true,
+                Damage = damage,
+                IsCritical = isCritical,
+                AttackType = AttackType.Touch,
+                TargetIndex = 0,
+                HitIndex = 0,
+                IsLastHit = true
+            });
         }
         
         public CombatProgress GetProgress()
@@ -256,18 +273,30 @@ namespace SahurRaising.Core
 
         private void ProcessAutoAttack(float deltaTime)
         {
-            var attacksPerSecond = Math.Max(0.01f, (float)_stats.AttackSpeed);
+            // 공격 속도 계산: 베이스속도 + (베이스속도 * 업그레이드 비율)
+            // 테이블 수치: 1 = 100%, 0.0005 = 0.05%
+            // 최종 공격속도 = BASE_ATTACK_SPEED * (1 + _stats.AttackSpeed)
+            var attackSpeedMultiplier = 1.0 + _stats.AttackSpeed;
+            var attacksPerSecond = Math.Max(0.01f, (float)(BASE_ATTACK_SPEED * attackSpeedMultiplier));
             _attackGauge += deltaTime * attacksPerSecond;
-
-            // 디버그 (간헐적)
-            // if (UnityEngine.Time.frameCount % 60 == 0) Debug.Log($"[CombatService] AttackGauge: {_attackGauge:F2}, Speed: {attacksPerSecond:F2}");
 
             while (_attackGauge >= 1f)
             {
-               // Debug.Log($"[CombatService] Player Attack Triggered! Gauge: {_attackGauge}");
-                var damage = CalculateDamage(isTouch: false);
+                var damage = CalculateDamage(isTouch: false, out bool isCritical);
                 DealDamage(damage);
-                OnPlayerAttack?.Invoke();
+                
+                // 이벤트 발행
+                OnAttack?.Invoke(new AttackEvent
+                {
+                    IsPlayerAttack = true,
+                    Damage = damage,
+                    IsCritical = isCritical,
+                    AttackType = AttackType.Auto,
+                    TargetIndex = 0,
+                    HitIndex = 0,
+                    IsLastHit = true
+                });
+                
                 _attackGauge -= 1f;
 
                 if (!_isStageRunning)
@@ -277,18 +306,28 @@ namespace SahurRaising.Core
 
         private void ProcessMonsterAttack(float deltaTime)
         {
-            // 몬스터 공격 속도: 기본 1초에 1회로 가정 (데이터에 없음)
+            // 몬스터 공격 속도: 기본 1초에 1회로 가정 (추후 데이터화 가능)
             float monsterAttackSpeed = 1f;
             _monsterAttackGauge += deltaTime * monsterAttackSpeed;
 
             while (_monsterAttackGauge >= 1f)
             {
-               // Debug.Log($"[CombatService] Monster Attack Triggered! Gauge: {_monsterAttackGauge}");
-                OnMonsterAttack?.Invoke();
-                _monsterAttackGauge -= 1f;
-                
                 var damage = CalculateMonsterDamage();
                 DealPlayerDamage(damage);
+                
+                // 이벤트 발행
+                OnAttack?.Invoke(new AttackEvent
+                {
+                    IsPlayerAttack = false,
+                    Damage = damage,
+                    IsCritical = false, // 몬스터는 현재 크리티컬 없음
+                    AttackType = AttackType.Auto,
+                    TargetIndex = 0,
+                    HitIndex = 0,
+                    IsLastHit = true
+                });
+                
+                _monsterAttackGauge -= 1f;
                 
                 if (!_isStageRunning)
                     break;
@@ -317,7 +356,7 @@ namespace SahurRaising.Core
             }
         }
 
-        private BigDouble CalculateDamage(bool isTouch)
+        private BigDouble CalculateDamage(bool isTouch, out bool isCritical)
         {
             var baseDamage = _stats.Attack * (1 + _stats.AttackRate) + _stats.AttackBonus;
             if (isTouch)
@@ -328,7 +367,9 @@ namespace SahurRaising.Core
             var damage = BigDouble.Max(BigDouble.One, baseDamage - effectiveDef);
 
             var critChance = Mathf.Clamp01((float)(_stats.CritChance + _stats.UltraCritChance));
-            if (UnityEngine.Random.value < critChance)
+            isCritical = UnityEngine.Random.value < critChance;
+            
+            if (isCritical)
             {
                 damage *= _stats.CritMultiplier + _stats.CritDamageBonus;
             }

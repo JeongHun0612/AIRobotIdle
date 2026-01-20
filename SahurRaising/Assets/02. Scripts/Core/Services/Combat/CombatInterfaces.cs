@@ -128,6 +128,40 @@ namespace SahurRaising.Core
         BigDouble GetStatValue(string upgradeCode, int level);
     }
 
+    /// <summary>
+    /// 공격 유형 (확장 가능)
+    /// </summary>
+    public enum AttackType
+    {
+        Auto,       // 자동 공격
+        Touch,      // 터치 공격
+        Skill,      // 스킬 공격 (추후 확장)
+        Counter,    // 반격 (추후 확장 예시)
+        DoT,        // 도트 데미지 (추후 확장 예시)
+    }
+
+    /// <summary>
+    /// 공격 발생 시 발행하는 이벤트 payload
+    /// 공격자, 데미지, 크리티컬 여부 등을 포함합니다.
+    /// </summary>
+    public struct AttackEvent
+    {
+        /// <summary>true면 플레이어 공격, false면 몬스터 공격</summary>
+        public bool IsPlayerAttack;
+        /// <summary>실제 적용된 데미지량</summary>
+        public BigDouble Damage;
+        /// <summary>크리티컬 히트 여부</summary>
+        public bool IsCritical;
+        /// <summary>공격 유형</summary>
+        public AttackType AttackType;
+        /// <summary>다중 타겟 공격 시 타겟 인덱스 (0 = 첫 번째/단일 타겟)</summary>
+        public int TargetIndex;
+        /// <summary>다중 공격 시 연속 공격 인덱스 (0 = 첫 번째 공격)</summary>
+        public int HitIndex;
+        /// <summary>이 공격이 다중 공격 중 마지막인지 여부</summary>
+        public bool IsLastHit;
+    }
+
     public interface ICombatService
     {
         UniTask InitializeAsync();
@@ -138,8 +172,9 @@ namespace SahurRaising.Core
         UniTask SaveAsync();
         UniTask LoadAsync();
         
-        event System.Action OnPlayerAttack;
-        event System.Action OnMonsterAttack;
+        /// <summary>공격 발생 시 이벤트 (플레이어/몬스터 모두 포함)</summary>
+        event System.Action<AttackEvent> OnAttack;
     }
 }
+
 

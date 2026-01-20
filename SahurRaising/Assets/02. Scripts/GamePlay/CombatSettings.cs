@@ -45,6 +45,13 @@ namespace SahurRaising.GamePlay
         [Tooltip("몬스터 사망 후 다음 스폰까지 대기 시간")]
         [SerializeField, Range(0f, 1f)] private float _deathToSpawnDelay = 0.3f;
 
+        [Header("=== 플레이어 위치 설정 ===")]
+        [Tooltip("몬스터 스폰 시 Y축 랜덤 오프셋 범위 (±)")]
+        [SerializeField, Range(0f, 1f)] private float _monsterSpawnYOffset = 0.3f;
+        
+        [Tooltip("플레이어 복귀 속도 배율 (전진 속도 대비)")]
+        [SerializeField, Range(1f, 3f)] private float _playerReturnSpeedMultiplier = 1.5f;
+
         // Properties
         public int MonstersPerWave => _monstersPerWave;
         public int MaxMonstersOnScreen => _maxMonstersOnScreen;
@@ -55,6 +62,8 @@ namespace SahurRaising.GamePlay
         public float PlayerMoveSpeed => _playerMoveSpeed;
         public float AttackRange => _attackRange;
         public float DeathToSpawnDelay => _deathToSpawnDelay;
+        public float MonsterSpawnYOffset => _monsterSpawnYOffset;
+        public float PlayerReturnSpeedMultiplier => _playerReturnSpeedMultiplier;
         public IReadOnlyList<MonsterVisualEntry> MonsterVisuals => _monsterVisuals;
 
         /// <summary>
