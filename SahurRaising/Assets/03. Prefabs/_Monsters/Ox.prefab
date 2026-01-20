@@ -28,15 +28,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128826792642103135}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8545638945319248494}
   - {fileID: 128826794042291198}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!95 &128826792642103105
 Animator:
   serializedVersion: 7
@@ -106,8 +106,8 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 759261305
   m_SortingLayer: 1
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
+  m_SortingOrder: 10
+  m_SortAtRoot: 1
 --- !u!1 &128826794042291197
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 128826794042291198}
   - component: {fileID: 128826794042291199}
+  - component: {fileID: 8416264316235540573}
   m_Layer: 0
   m_Name: Mesh_LOD0
   m_TagString: Untagged
@@ -135,7 +136,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 128826792642103104}
@@ -163,7 +164,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 09a07c03deb16174fb9b7281f831198e, type: 2}
+  - {fileID: 2100000, guid: dd213963959b44445b686696897f2d96, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -207,6 +208,23 @@ SkinnedMeshRenderer:
     m_Center: {x: 4.656613e-10, y: 0.0003018044, z: 0.0055776285}
     m_Extent: {x: 0.0040145926, y: 0.008039365, z: 0.0071560163}
   m_DirtyAABB: 0
+--- !u!114 &8416264316235540573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128826794042291197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b572890abc44cc4689e51070c97e4fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _style: 0
+  _outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  _outlineWidth: 2
+  _glowIntensity: 1.5
+  _glowSpread: 3
 --- !u!1 &525499716578793028
 GameObject:
   m_ObjectHideFlags: 0
