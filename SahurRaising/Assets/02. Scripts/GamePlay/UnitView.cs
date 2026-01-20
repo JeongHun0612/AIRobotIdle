@@ -6,7 +6,7 @@ namespace SahurRaising.GamePlay
     /// <summary>
     /// 유닛(플레이어/몬스터)의 공통 비주얼 및 애니메이션 제어 (Base Class)
     /// </summary>
-    public class UnitView : MonoBehaviour
+    public abstract class UnitView : MonoBehaviour
     {
         public enum UnitState
         {
@@ -26,10 +26,10 @@ namespace SahurRaising.GamePlay
         protected UnitState _currentState;
         protected bool _isMovingParams; // 실제 이동 중인지 여부
 
-        // 애니메이터 해시
-        protected static readonly int AnimStateMove = Animator.StringToHash("move");
-        protected static readonly int AnimStateAttack = Animator.StringToHash("attack");
-        protected static readonly int AnimStateDead = Animator.StringToHash("dead");
+        // 애니메이터 해시 프로퍼티 (자식 클래스에서 반드시 구현)
+        protected abstract int MoveAnimHash { get; }
+        protected abstract int AttackAnimHash { get; }
+        protected abstract int DeadAnimHash { get; }
 
         public bool IsDead => _currentState == UnitState.Dead;
         public bool IsAttacking => _currentState == UnitState.Attack;
@@ -77,9 +77,9 @@ namespace SahurRaising.GamePlay
             _currentState = UnitState.Move;
             _isMovingParams = isMoving;
 
-            if (_animator != null)
+            if (_animator != null && gameObject.activeInHierarchy)
             {
-                _animator.Play(AnimStateMove);
+                _animator.Play(MoveAnimHash);
             }
         }
 
@@ -93,9 +93,9 @@ namespace SahurRaising.GamePlay
             _currentState = UnitState.Attack;
             _isMovingParams = false; // 공격 중엔 이동 멈춤
 
-            if (_animator != null)
+            if (_animator != null && gameObject.activeInHierarchy)
             {
-                _animator.Play(AnimStateAttack, -1, 0f);
+                _animator.Play(AttackAnimHash, -1, 0f);
                 WaitForAttackEndAsync().Forget();
             }
         }
@@ -111,7 +111,7 @@ namespace SahurRaising.GamePlay
             {
                 AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
                 
-                if (stateInfo.shortNameHash == AnimStateAttack)
+                if (stateInfo.shortNameHash == AttackAnimHash)
                 {
                     duration = stateInfo.length;
                 }
@@ -135,9 +135,9 @@ namespace SahurRaising.GamePlay
             _currentState = UnitState.Dead;
             _isMovingParams = false;
 
-            if (_animator != null)
+            if (_animator != null && gameObject.activeInHierarchy)
             {
-                _animator.Play(AnimStateDead);
+                _animator.Play(DeadAnimHash);
             }
         }
 

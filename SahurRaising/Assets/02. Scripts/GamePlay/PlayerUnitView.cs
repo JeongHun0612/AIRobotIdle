@@ -22,6 +22,16 @@ namespace SahurRaising.GamePlay
         private Quaternion[] _initialWheelRotations;
         private Vector3[] _initialWheelPositions;
 
+        // 플레이어 전용 애니메이션 해시
+        private static readonly int AnimStateMove = Animator.StringToHash("move");
+        private static readonly int AnimStateAttack = Animator.StringToHash("attack");
+        private static readonly int AnimStateDead = Animator.StringToHash("dead");
+
+        // 부모 클래스의 프로퍼티 오버라이드
+        protected override int MoveAnimHash => AnimStateMove;
+        protected override int AttackAnimHash => AnimStateAttack;
+        protected override int DeadAnimHash => AnimStateDead;
+
         public override void Initialize()
         {
             base.Initialize();
