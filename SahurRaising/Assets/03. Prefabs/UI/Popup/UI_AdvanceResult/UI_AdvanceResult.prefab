@@ -557,10 +557,6 @@ MonoBehaviour:
   - {fileID: 256021563507451792}
   - {fileID: 4116278633502126447}
   - {fileID: 1509533859581986185}
-  _bgImage: {fileID: 0}
-  _iconImage: {fileID: 0}
-  _gradeText: {fileID: 0}
-  _countText: {fileID: 0}
 --- !u!1 &8673373750855706216
 GameObject:
   m_ObjectHideFlags: 0

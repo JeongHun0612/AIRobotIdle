@@ -1,6 +1,6 @@
-# Combat System Architecture
+# Combat System Architecture (v2.1)
 
-전투 시스템의 구조와 주요 컴포넌트를 설명하는 문서입니다.
+다수 몬스터 동시 전투를 지원하는 전투 시스템의 구조와 주요 컴포넌트를 설명하는 문서입니다.
 
 ---
 
@@ -10,25 +10,27 @@
 Assets/02. Scripts/
 ├── Core/
 │   ├── ObjectPool.cs
+│   ├── Data/
+│   │   └── GameDataSchemas.cs    # MonsterKind, CurrencyType 등 Enum 정의
 │   └── Services/Combat/
-│       ├── CombatInterfaces.cs
-│       ├── CombatService.cs
-│       └── StatService.cs
+│       ├── CombatInterfaces.cs   # ICombatService, MonsterSpawnInfo, CharacterStats
+│       ├── CombatService.cs      # 스테이지/웨이브 진행, 공격 이벤트 발행
+│       └── StatService.cs        # 스탯 계산, MaxTargetCount 관리
 │
 └── GamePlay/
-    ├── CombatRunner.cs
-    ├── CombatInputHandler.cs
-    ├── CombatSettings.cs
-    ├── MonsterSpawner.cs
-    ├── BackgroundScroller.cs
-    ├── UnitView.cs
-    ├── PlayerUnitView.cs
-    └── MonsterUnitView.cs
+    ├── CombatRunner.cs           # FSM 오케스트레이터, 다수 타겟 공격
+    ├── CombatInputHandler.cs     # 터치 입력 처리
+    ├── CombatSettings.cs         # SO 설정값 (웨이브별 구성)
+    ├── MonsterSpawner.cs         # 스폰/풀링, 간격 유지 로직
+    ├── BackgroundScroller.cs     # 배경 스크롤
+    ├── UnitView.cs               # 유닛 기본 클래스
+    ├── PlayerUnitView.cs         # 플레이어 전용
+    └── MonsterUnitView.cs        # 몬스터 전용 (개별 HP 관리)
 ```
 
 ---
 
-## 🏗️ 계층 구조
+## 🏗️ 시스템 아키텍처
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -39,23 +41,22 @@ Assets/02. Scripts/
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                     Service Layer (Core)                     │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-│  │  EventBus   │  │ StatService │  │  CurrencyService    │  │
-│  └──────┬──────┘  └──────┬──────┘  └──────────┬──────────┘  │
-│         │                │                     │            │
-│         ▼                ▼                     ▼            │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │               CombatService (ICombatService)          │   │
-│  │  - 스테이지/웨이브 로직                               │   │
-│  │  - 데미지 계산, 보상 처리                             │   │
-│  │  - 자동공격/터치공격 게이지                           │   │
-│  │  - OnAttack 이벤트 발행                               │   │
-│  └──────────────────────────────────────────────────────┘   │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │               ObjectPool<T>                           │   │
-│  │  - MonoObjectPool<MonoBehaviour>                      │   │
-│  │  - GC 할당 최소화를 위한 오브젝트 재사용              │   │
-│  └──────────────────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │               CombatService (ICombatService)         │    │
+│  │  - 스테이지/웨이브 진행 관리                         │    │
+│  │  - 공격 게이지, 자동 공격 처리                       │    │
+│  │  - 데미지 계산, 이벤트 발행                          │    │
+│  │  - 몬스터 스탯 정보 제공 (MonsterSpawnInfo)          │    │
+│  │  - MaxTargetCount 제공                               │    │
+│  │  - SetWavesPerStage() 외부 설정 주입                 │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                              │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │                   StatService                        │    │
+│  │  - CharacterStats 빌드                               │    │
+│  │  - Evolution 레벨 기반 MaxTargetCount 계산           │    │
+│  │  - 기본값: 3, Evolution 레벨당 +1                    │    │
+│  └─────────────────────────────────────────────────────┘    │
 └─────────────────────────────┬───────────────────────────────┘
                               │
                               ▼
@@ -64,313 +65,437 @@ Assets/02. Scripts/
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │                CombatRunner (Orchestrator)            │   │
 │  │  - FSM (Moving / Fighting / Transition)               │   │
-│  │  - 하위 컴포넌트 조율                                  │   │
-│  │  - 배경/플레이어 이동 제어                             │   │
+│  │  - 다수 타겟 공격 처리                                │   │
+│  │  - 몬스터 사망 처리 및 보상 요청                      │   │
+│  │  - CombatSettings.WavesPerStage를 CombatService에 주입│   │
 │  └───────────┬───────────────────────────┬──────────────┘   │
 │              │                           │                   │
 │   ┌──────────▼────────────┐   ┌──────────▼─────────────┐    │
 │   │    MonsterSpawner     │   │   CombatInputHandler   │    │
-│   │  - ObjectPool 통합     │   │  - 터치 입력 처리      │    │
-│   │  - 스폰/해제 관리      │   │  - UI 충돌 방지        │    │
-│   │  - 현재 타겟 관리      │   └────────────────────────┘    │
+│   │  - 오브젝트 풀링       │   │  - 터치 입력 처리      │    │
+│   │  - 간격 유지 로직      │   │  - UI 충돌 방지        │    │
+│   │  - EngagedMonsters    │   └────────────────────────┘    │
+│   │  - WaveConfig 기반     │                                 │
+│   │    몬스터 종류 결정    │                                 │
 │   └───────────────────────┘                                  │
 │                                                              │
-│   ┌───────────────────────┐   ┌────────────────────────┐    │
-│   │  BackgroundScroller   │   │ UnitView (Base)        │    │
-│   │  - 패럴랙스 배경       │   │   ├─ PlayerUnitView    │    │
-│   │  - 부드러운 속도 전환  │   │   └─ MonsterUnitView   │    │
-│   └───────────────────────┘   └────────────────────────┘    │
-│                                                              │
 │   ┌──────────────────────────────────────────────────────┐  │
-│   │               CombatSettings (ScriptableObject)       │  │
-│   │  - 스폰 설정, 이동 속도, 몬스터 프리팹 등             │  │
+│   │               MonsterUnitView                         │  │
+│   │  - 개별 HP/방어력 관리                                │  │
+│   │  - TakeDamage() 메서드                                │  │
+│   │  - 간격 대기 시 Idle-A 애니메이션                     │  │
+│   │  - 사망 후 자동 비활성화                              │  │
 │   └──────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
+## � 웨이브별 세부 설정 시스템
+
+### WaveConfig 구조
+
+```csharp
+[Serializable]
+public class WaveConfig
+{
+    [Header("=== 몬스터 종류별 스폰 개수 ===")]
+    public int NormalCount = 10;   // 일반 몬스터 수
+    public int EliteCount = 0;     // 엘리트 몬스터 수
+    public int BossCount = 0;      // 보스 몬스터 수
+    
+    [Header("=== 스폰 설정 ===")]
+    public int MaxMonstersOnScreen = 5;
+    public float SpawnInterval = 0.5f;
+    
+    public string Description;     // 메모 (에디터용)
+    
+    // 자동 계산 프로퍼티
+    public int TotalMonstersToSpawn => NormalCount + EliteCount + BossCount;
+    public bool HasBoss => BossCount > 0;
+    public bool HasElite => EliteCount > 0;
+}
+```
+
+### 웨이브 인덱스 매핑
+
+```
+Wave Configs 리스트 인덱스  →  웨이브 번호
+
+Element 0  =  1웨이브
+Element 1  =  2웨이브
+Element 2  =  3웨이브
+Element 3  =  4웨이브
+(리스트에 없는 웨이브는 기본값 사용)
+```
+
+### 에디터 설정 예시
+
+```
+=== 웨이브별 세부 설정 ===
+Wave Configs [Size: 4]
+
+├── Element 0 (1웨이브 - 쉬운 시작)
+│   ├── Normal Count: 5           ← 일반 5마리만
+│   ├── Elite Count: 0
+│   ├── Boss Count: 0
+│   ├── Max Monsters On Screen: 3
+│   ├── Spawn Interval: 0.3
+│   └── Description: "튜토리얼 웨이브"
+
+├── Element 1 (2웨이브 - 본격 시작)
+│   ├── Normal Count: 8
+│   ├── Elite Count: 2            ← 일반 8 + 엘리트 2 혼합!
+│   ├── Boss Count: 0
+│   └── ...
+
+├── Element 2 (3웨이브 - 난이도 상승)
+│   ├── Normal Count: 10
+│   ├── Elite Count: 5            ← 일반 10 + 엘리트 5 혼합!
+│   ├── Boss Count: 0
+│   └── ...
+
+└── Element 3 (4웨이브 - 보스전)
+    ├── Normal Count: 0
+    ├── Elite Count: 2            ← 엘리트 2마리 후
+    ├── Boss Count: 1             ← 보스 1마리!
+    ├── Max Monsters On Screen: 1
+    └── Description: "보스 웨이브"
+```
+
+### 몬스터 스폰 순서
+
+몬스터는 **Normal → Elite → Boss** 순서로 스폰됩니다:
+
+```
+예: Normal=8, Elite=2, Boss=0 설정
+
+스폰 순서:
+1~8번째   → Normal 몬스터
+9~10번째  → Elite 몬스터
+```
+
+```csharp
+// MonsterSpawner.DetermineMonsterKind()
+private MonsterKind DetermineMonsterKind()
+{
+    var waveConfig = _settings.GetWaveConfig(_currentWaveIndex);
+    
+    int normalEnd = waveConfig.NormalCount;
+    int eliteEnd = normalEnd + waveConfig.EliteCount;
+    
+    if (_monstersSpawnedThisWave < normalEnd)
+        return MonsterKind.Normal;
+    else if (_monstersSpawnedThisWave < eliteEnd)
+        return MonsterKind.Elite;
+    else
+        return MonsterKind.Boss;
+}
+```
+
+---
+
+## �🎮 다수 몬스터 동시 전투
+
+### MaxTargetCount
+
+플레이어가 동시에 공격할 수 있는 최대 몬스터 수입니다.
+
+```csharp
+// StatService에서 계산
+int evolutionLevel = 0; // Evolution 시스템에서 가져올 예정
+int maxTargetCount = 3 + evolutionLevel;  // 기본값 3
+
+// CharacterStats에 포함
+public struct CharacterStats
+{
+    // ... 기존 스탯들 ...
+    public int MaxTargetCount;  // 동시 공격 대상 수
+}
+```
+
+**확장 계획:**
+- Evolution 레벨 1당 MaxTargetCount +1
+- 기본값: 3마리 동시 공격
+
+---
+
+### 몬스터 간격 유지
+
+```
+[몬스터 A] ─── minXSpacing ─── [몬스터 B] ─── minXSpacing ─── [몬스터 C]
+     │                              │                              │
+     └──── 전투 참여 (Engaged) ─────┴──────── 대기 중 (Idle-A) ────┘
+```
+
+**로직:**
+1. 몬스터들을 플레이어와의 거리 기준으로 정렬
+2. MaxTargetCount까지 전투 참여 허용
+3. 이미 전투 중인 몬스터와 X 간격 체크
+4. 간격이 좁으면 대기 상태로 전환 (Idle-A 애니메이션)
+
+```csharp
+// MonsterSpawner.UpdateMonsterStates()
+for (int i = 0; i < _activeMonsters.Count; i++)
+{
+    bool canEngage = _engagedMonsters.Count < maxTargets && isInRange;
+    
+    if (canEngage && _engagedMonsters.Count > 0)
+    {
+        float xDiff = Mathf.Abs(monster.transform.position.x - lastEngagedX);
+        if (xDiff < _settings.MonsterXSpacing)
+        {
+            canEngage = false;  // 간격이 좁으면 대기
+        }
+    }
+    
+    if (canEngage)
+    {
+        _engagedMonsters.Add(monster);
+        monster.SetWaitingForSpace(false);
+    }
+    else if (isInRange)
+    {
+        monster.SetWaitingForSpace(true);  // Idle-A 애니메이션
+    }
+}
+```
+
+---
+
 ## 📦 주요 컴포넌트
 
-### CombatService (Core)
+### CombatSettings
 
-스테이지 진행, 데미지 계산, 이벤트 발행을 담당하는 서비스 클래스입니다.
+웨이브별 세부 설정을 관리하는 ScriptableObject입니다.
 
 ```csharp
-public interface ICombatService
+[CreateAssetMenu(fileName = "CombatSettings", menuName = "SahurRaising/Combat/CombatSettings")]
+public class CombatSettings : ScriptableObject
 {
-    UniTask InitializeAsync();
-    UniTask StartStageAsync(int stageIndex, int waveIndex = 1);
-    void Tick(float deltaTime);
-    void ApplyTouchAttack();
-    CombatProgress GetProgress();
-    UniTask SaveAsync();
-    UniTask LoadAsync();
+    // 웨이브별 세부 설정
+    List<WaveConfig> _waveConfigs;
     
-    event Action<AttackEvent> OnAttack;
+    // 기본값 (웨이브 설정이 없을 때 사용)
+    int _defaultMonstersPerWave = 10;
+    int _defaultMaxMonstersOnScreen = 5;
+    float _defaultSpawnInterval = 0.5f;
+    
+    // 스테이지 설정
+    int _wavesPerStage = 4;
+    
+    // 주요 API
+    WaveConfig GetWaveConfig(int waveIndex);
+    int GetMonstersPerWave(int waveIndex);
+    int GetMaxMonstersOnScreen(int waveIndex);
+    float GetSpawnInterval(int waveIndex);
 }
 ```
 
-**공격 속도 공식:**
-```
-최종 공격속도 = BASE_ATTACK_SPEED × (1 + stats.AttackSpeed)
+### MonsterUnitView
 
-- BASE_ATTACK_SPEED = 0.5 (2초당 1회)
-- stats.AttackSpeed = 업그레이드 테이블 수치 (1 = 100%, 0.0005 = 0.05%)
-```
-
----
-
-### AttackEvent (Core)
-
-공격 발생 시 발행되는 이벤트 구조체입니다.
+개별 몬스터의 HP와 상태를 관리합니다.
 
 ```csharp
-public enum AttackType
+public class MonsterUnitView : UnitView
 {
-    Auto,       // 자동 공격
-    Touch,      // 터치 공격
-    Skill,      // 스킬 공격
-    Counter,    // 반격
-    DoT,        // 도트 데미지
-}
-
-public struct AttackEvent
-{
-    public bool IsPlayerAttack;      // true = 플레이어, false = 몬스터
-    public BigDouble Damage;         // 데미지량
-    public bool IsCritical;          // 크리티컬 여부
-    public AttackType AttackType;    // 공격 유형
-    public int TargetIndex;          // 다중 타겟 인덱스
-    public int HitIndex;             // 다중 공격 히트 인덱스
-    public bool IsLastHit;           // 마지막 히트 여부
-}
-```
-
-**다중 공격 활용 예시:**
-```csharp
-// 3회 연속 공격
-for (int i = 0; i < 3; i++)
-{
-    OnAttack?.Invoke(new AttackEvent
-    {
-        AttackType = AttackType.Skill,
-        HitIndex = i,
-        IsLastHit = (i == 2)
-    });
+    // 런타임 데이터
+    private BigDouble _maxHp;
+    private BigDouble _currentHp;
+    private BigDouble _defense;
+    private bool _isWaitingForSpace;
+    private int _monsterLevel;
+    private MonsterKind _monsterKind;
+    
+    // 스탯 초기화 (스폰 시 호출)
+    public void SetupStats(BigDouble maxHp, BigDouble defense, int level, MonsterKind kind);
+    
+    // 데미지 적용 (방어력 고려)
+    public BigDouble TakeDamage(BigDouble damage, double defenseIgnoreRate = 0);
+    
+    // 간격 대기 상태 (Idle-A 애니메이션)
+    public void SetWaitingForSpace(bool waiting);
+    
+    // 풀 반환 준비
+    public void ResetForPool();
 }
 ```
+
+**애니메이션 해시:**
+- `Walk`: 이동 중
+- `Idle-A`: 간격 대기 중
+- `Attack`: 공격 중
+- `Death`: 사망
 
 ---
 
-### CombatRunner (GamePlay)
+### MonsterSpawner
 
-전투 흐름을 관리하는 오케스트레이터 컴포넌트입니다.
-
-**전투 페이즈 FSM:**
-```
-┌─────────────┐    몬스터 도달    ┌─────────────┐
-│   Moving    │ ───────────────► │  Fighting   │
-│ (이동 중)   │                   │ (전투 중)   │
-└──────┬──────┘                   └──────┬──────┘
-       ▲                                 │
-       │         몬스터 전멸             │
-       └─────────────────────────────────┘
-               (TransitionToMove)
-```
-
-| 페이즈 | 배경 스크롤 | 플레이어 위치 | 몬스터 스폰 |
-|--------|-----------|--------------|------------|
-| Moving | ON | 전진 (Advanced) | ON |
-| Fighting | OFF | 복귀 (Idle) | OFF |
-| Transition | - | - | - |
-
----
-
-### MonsterSpawner (GamePlay)
-
-몬스터 스폰과 오브젝트 풀링을 담당합니다.
+몬스터 스폰과 상태 관리를 담당합니다.
 
 ```csharp
 public class MonsterSpawner : MonoBehaviour
 {
+    // 웨이브 인덱스 추적
+    private int _currentWaveIndex = 1;
+    
+    // 읽기 전용 프로퍼티
+    IReadOnlyList<MonsterUnitView> ActiveMonsters { get; }
+    IReadOnlyList<MonsterUnitView> EngagedMonsters { get; }
+    int EngagedMonsterCount { get; }
+    
     // 주요 API
-    void Initialize(CombatSettings settings, Transform spawnPoint);
-    void StartSpawning();
-    void StopSpawning();
-    void ResetWave();
+    void Initialize(CombatSettings settings, Transform spawnPoint, 
+                    Transform playerTransform, ICombatService combatService);
+    void StartSpawning(int waveIndex = 1);  // 웨이브 인덱스 전달
+    MonsterUnitView SpawnMonster();
+    void HandleMonsterDeath(MonsterUnitView monster);
+    IReadOnlyList<MonsterUnitView> GetEngagedTargets();
     
-    UnitView SpawnMonster();           // 풀에서 가져옴
-    void ReleaseMonster(UnitView m);   // 풀로 반환
-    UnitView GetCurrentTarget();       // 현재 타겟
-    
-    // 프로퍼티
-    IReadOnlyList<UnitView> ActiveMonsters { get; }
-    int ActiveMonsterCount { get; }
+    // 내부 로직
+    private MonsterKind DetermineMonsterKind();  // WaveConfig 기반 종류 결정
 }
 ```
 
 ---
 
-### CombatInputHandler (GamePlay)
+### CombatService
 
-터치/클릭 입력을 처리합니다.
+스테이지 진행과 공격 이벤트를 관리합니다.
 
 ```csharp
-public class CombatInputHandler : MonoBehaviour
+public interface ICombatService
 {
-    void Initialize(ICombatService combatService);
-    void SetEnabled(bool enabled);
-}
-```
-
-**입력 처리 흐름:**
-1. `Input.GetMouseButtonDown(0)` 감지
-2. `EventSystem.IsPointerOverGameObject()` 체크 (UI 충돌 방지)
-3. `ICombatService.ApplyTouchAttack()` 호출
-
----
-
-### ObjectPool<T> (Core)
-
-GC 할당을 최소화하기 위한 오브젝트 풀 시스템입니다.
-
-```csharp
-public interface IObjectPool<T> where T : class
-{
-    T Get();
-    void Release(T obj);
-    void Clear();
-    int CountActive { get; }
-    int CountInactive { get; }
-}
-
-public class MonoObjectPool<T> : IObjectPool<T> where T : MonoBehaviour
-{
-    // 생성자
-    MonoObjectPool(
-        T prefab,
-        Transform parent,
-        int initialSize = 0,
-        int maxSize = 100,
-        Action<T> onGet = null,
-        Action<T> onRelease = null
-    );
+    // 스테이지 관리
+    UniTask StartStageAsync(int stageIndex, int waveIndex = 1);
+    void CheckWaveComplete(int requiredKills);
+    CombatProgress GetProgress();
+    
+    // 웨이브 설정 (외부에서 주입)
+    void SetWavesPerStage(int count);
+    int GetCurrentWaveIndex();
+    
+    // 몬스터 정보
+    MonsterSpawnInfo GetMonsterSpawnInfo();
+    int GetMaxTargetCount();
+    
+    // 전투
+    void Tick(float deltaTime);
+    void ApplyTouchAttack();
+    BigDouble CalculateDamage(bool isTouch, out bool isCritical);
+    double GetDefenseIgnoreRate();
+    
+    // 피해
+    void OnMonsterKilled(MonsterKind kind, BigDouble goldReward);
+    void DealDamageToPlayer(BigDouble damage);
+    
+    // 이벤트
+    event Action<AttackEvent> OnAttack;
 }
 ```
 
 ---
 
-### CombatSettings (GamePlay)
+## 🔄 전투 흐름
 
-전투 관련 설정값을 저장하는 ScriptableObject입니다.
-
-| 카테고리 | 프로퍼티 | 설명 |
-|---------|---------|------|
-| 몬스터 스폰 | MonstersPerWave | 웨이브당 몬스터 수 |
-| | MaxMonstersOnScreen | 동시 최대 몬스터 수 |
-| | SpawnInterval | 스폰 간격 (초) |
-| | MonsterSpawnYOffset | Y축 랜덤 오프셋 |
-| 이동 | MonsterMoveSpeed | 몬스터 이동 속도 |
-| | PlayerMoveSpeed | 플레이어 이동 속도 |
-| | PlayerAdvanceDistance | 플레이어 전진 거리 |
-| | PlayerReturnSpeedMultiplier | 복귀 속도 배율 |
-| | BackgroundScrollSpeed | 배경 스크롤 속도 |
-| 전투 | AttackRange | 공격 사거리 |
-| | DeathToSpawnDelay | 사망 후 풀 반환 대기 |
-
----
-
-### UnitView 상속 구조 (GamePlay)
+### 초기화 흐름
 
 ```
-UnitView (Base)
-├── Initialize()
-├── PlayMove(bool isMoving)
-├── PlayAttack()
-├── PlayDie()
-├── Flip(bool isLeft)
-│
-├── PlayerUnitView
-│   └── 바퀴 회전(Wobble/Bounce) 로직
-│
-└── MonsterUnitView
-    └── 확장용 빈 클래스
+CombatRunner.InitializeAsync()
+    │
+    ├─► GameManager 초기화 대기
+    │
+    ├─► 서비스 연결 (CombatService, EventBus)
+    │
+    ├─► 플레이어 스폰
+    │
+    ├─► 하위 컴포넌트 초기화
+    │       ├─► MonsterSpawner.Initialize()
+    │       └─► CombatInputHandler.Initialize()
+    │
+    ├─► CombatService.SetWavesPerStage(settings.WavesPerStage)
+    │
+    └─► CombatService.StartStageAsync(1)
 ```
 
----
-
-## 🔄 이벤트 흐름
-
-### 공격 이벤트 흐름
+### 공격 처리 흐름
 
 ```
 CombatService.ProcessAutoAttack()
-    │
-    ├─► CalculateDamage() → damage, isCritical
-    │
-    ├─► DealDamage(damage)
     │
     └─► OnAttack.Invoke(AttackEvent)
             │
             ▼
 CombatRunner.OnAttack(AttackEvent evt)
     │
-    ├─► evt.IsPlayerAttack → _playerInstance.PlayAttack()
-    │      └─► evt.IsCritical → 크리티컬 이펙트
+    ├─► _playerInstance.PlayAttack()
     │
-    └─► !evt.IsPlayerAttack → _currentTarget.PlayAttack()
+    ├─► 전투 중인 몬스터들 순회 (최대 MaxTargetCount)
+    │       │
+    │       ├─► monster.TakeDamage(damage, defenseIgnore)
+    │       │
+    │       └─► HP ≤ 0 → HandleMonsterDeath(monster)
+    │               │
+    │               ├─► monster.PlayDie()
+    │               ├─► _combatService.OnMonsterKilled()
+    │               └─► _monsterSpawner.HandleMonsterDeath()
+    │
+    └─► 크리티컬 이펙트 (evt.IsCritical)
 ```
 
-### 몬스터 처치 이벤트 흐름
+### 웨이브 진행 흐름
 
 ```
-CombatService.DealDamage() → HP ≤ 0
+CombatRunner.HandleMonsterDeath()
     │
-    └─► EventBus.Publish(EnemyDefeatedEvent)
+    ├─► _monstersKilledThisWave++
+    │
+    ├─► monstersPerWave = _settings.GetMonstersPerWave(_currentWaveIndex)
+    │
+    ├─► _combatService.CheckWaveComplete(monstersPerWave)
+    │
+    └─► if (_monstersKilledThisWave >= monstersPerWave)
             │
-            ▼
-CombatRunner.OnEnemyDefeated()
-    │
-    ├─► _currentTarget.PlayDie()
-    │
-    ├─► ReleaseMonsterDelayed() → MonsterSpawner.ReleaseMonster()
-    │
-    └─► ActiveMonsterCount == 0 → EnterTransitionPhase()
+            ├─► _currentWaveIndex++
+            ├─► _monsterSpawner.ResetWave()
+            └─► _monstersKilledThisWave = 0
 ```
 
 ---
 
 ## 📝 에디터 설정
 
-### CombatRunner 인스펙터
+### CombatSettings 설정값
 
-```
-CombatRunner
-├── 필수 레퍼런스
-│   ├── Settings: CombatSettings (SO)
-│   ├── Background Scroller: BackgroundScroller
-│   ├── Player Spawn Point: Transform
-│   ├── Monster Spawn Point: Transform
-│   └── Player Prefab: PlayerUnitView
-│
-├── 하위 컴포넌트 (자동 AddComponent 지원)
-│   ├── Monster Spawner: MonsterSpawner (Optional)
-│   └── Input Handler: CombatInputHandler (Optional)
-│
-└── 디버그
-    └── Show Debug Logs: bool
-```
+| 카테고리 | 프로퍼티 | 기본값 | 설명 |
+|---------|---------|-------|------|
+| **웨이브별 설정** | WaveConfigs | [] | 웨이브별 상세 구성 |
+| **기본값** | DefaultMonstersPerWave | 10 | 기본 웨이브당 몬스터 수 |
+| | DefaultMaxMonstersOnScreen | 5 | 기본 동시 화면 최대 수 |
+| | DefaultSpawnInterval | 0.5s | 기본 스폰 간격 |
+| **스테이지** | WavesPerStage | 4 | 스테이지당 웨이브 수 |
+| **간격** | MonsterXSpacing | 1.5 | 몬스터 간 X 거리 |
+| | MonsterYRandomRange | 0.5 | Y축 랜덤 범위 |
+| **전투** | AttackRange | 1.5 | 공격 사거리 |
 
-### MonsterSpawner 인스펙터
+### WaveConfig 설정값
 
-```
-MonsterSpawner
-├── 스폰 설정
-│   ├── Spawn Point: Transform
-│   ├── Pool Initial Size: 3
-│   └── Pool Max Size: 10
-```
+| 프로퍼티 | 기본값 | 설명 |
+|---------|-------|------|
+| NormalCount | 10 | 일반 몬스터 수 |
+| EliteCount | 0 | 엘리트 몬스터 수 |
+| BossCount | 0 | 보스 몬스터 수 |
+| MaxMonstersOnScreen | 5 | 동시 화면 최대 수 |
+| SpawnInterval | 0.5s | 스폰 간격 |
+| Description | "" | 메모 (에디터용) |
+
+### MonsterUnitView 애니메이터
+
+필요한 애니메이션 상태:
+- `Walk` (이동)
+- `Idle-A` (간격 대기) ← **새로 추가 필요**
+- `Attack` (공격)
+- `Death` (사망)
 
 ---
 
@@ -378,9 +503,20 @@ MonsterSpawner
 
 | 기능 | 확장 방법 |
 |------|----------|
-| 새로운 공격 유형 | `AttackType` enum에 추가 |
-| 스킬 시스템 | `AttackType.Skill` 사용, `SkillService` 연동 |
-| 다중 타겟 공격 | `TargetIndex` 활용 |
-| 다중 연속 공격 | `HitIndex`, `IsLastHit` 활용 |
-| 몬스터 AI | `MonsterUnitView` 확장 |
-| 새로운 입력 방식 | `CombatInputHandler` 수정 또는 교체 |
+| Evolution 시스템 | StatService에서 evolutionLevel 변수 연동 |
+| 다중 히트 공격 | AttackEvent.HitIndex 활용 |
+| 보스 전용 연출 | MonsterKind.Boss 체크, WaveConfig.HasBoss 활용 |
+| 범위 공격 | MaxTargetCount를 공격 범위용으로 활용 |
+| 몬스터 특수 능력 | MonsterUnitView 확장 |
+| 웨이브별 특수 효과 | WaveConfig에 추가 필드 정의 |
+
+---
+
+## ⚠️ 주의사항
+
+1. **Idle-A 애니메이션 필요**: 몬스터 Animator에 `Idle-A` 상태를 추가해야 합니다.
+2. **Evolution 시스템 연동**: 현재 evolutionLevel은 0으로 고정. 추후 Evolution 서비스 구현 시 연동 필요.
+3. **오브젝트 풀 크기**: MaxMonstersOnScreen보다 큰 값으로 poolMaxSize 설정 권장.
+4. **웨이브 인덱스 주의**: 코드 내부는 1-based 인덱스 사용 (1웨이브 = waveIndex 1).
+저장된 데이터를 불러와서 시작하려면, 이 1 부분을 _combatService.GetProgress().CurrentStage 등으로 변경해야 합니다.
+5. **스폰 순서**: 몬스터는 Normal → Elite → Boss 순서로 스폰됨.

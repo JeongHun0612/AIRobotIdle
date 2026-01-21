@@ -7,39 +7,59 @@ namespace SahurRaising.GamePlay
 {
     /// <summary>
     /// 몬스터 스폰 및 오브젝트 풀링을 담당하는 컴포넌트
-    /// CombatRunner에서 스폰 로직을 분리하여 단일 책임 원칙(SRP)을 준수합니다.
+    /// 
+    /// 주요 기능:
+    /// - 오브젝트 풀링을 통한 몬스터 재사용
+    /// - 몬스터 간 적절한 간격 유지 (Y: 랜덤, X: 겹침 방지)
+    /// - 전투 범위 내 몬스터와 대기 중 몬스터 구분
     /// </summary>
     public class MonsterSpawner : MonoBehaviour
     {
-        [Header("스폰 설정")]
+        [Header("풀 설정 (씬 전용)")]
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private int _poolInitialSize = 3;
-        [SerializeField] private int _poolMaxSize = 10;
+        [SerializeField] private int _poolInitialSize = 5;
+        [SerializeField] private int _poolMaxSize = 15;
         
         private CombatSettings _settings;
-        private readonly List<UnitView> _activeMonsters = new();
+        private ICombatService _combatService;
+        
+        // 활성 몬스터 리스트
+        private readonly List<MonsterUnitView> _activeMonsters = new();
+        
+        // 전투 중인 몬스터 (공격 사거리 내)
+        private readonly List<MonsterUnitView> _engagedMonsters = new();
+        
+        // 오브젝트 풀
         private readonly Dictionary<MonsterUnitView, MonoObjectPool<MonsterUnitView>> _monsterPools = new();
         
         // 스폰 상태
         private int _monstersSpawnedThisWave = 0;
         private float _spawnTimer = 0f;
         private bool _isSpawningEnabled = false;
-
-        // 이벤트
-        public event Action<UnitView> OnMonsterSpawned;
-        public event Action<UnitView> OnMonsterReleased;
+        private Transform _playerTransform;
+        private int _currentWaveIndex = 1;
 
         // 읽기 전용 프로퍼티
-        public IReadOnlyList<UnitView> ActiveMonsters => _activeMonsters;
+        public IReadOnlyList<MonsterUnitView> ActiveMonsters => _activeMonsters;
+        public IReadOnlyList<MonsterUnitView> EngagedMonsters => _engagedMonsters;
         public int MonstersSpawnedThisWave => _monstersSpawnedThisWave;
         public int ActiveMonsterCount => _activeMonsters.Count;
+        public int EngagedMonsterCount => _engagedMonsters.Count;
+
+        // 이벤트
+        public event Action<MonsterUnitView> OnMonsterSpawned;
+        public event Action<MonsterUnitView> OnMonsterReleased;
+        public event Action<MonsterUnitView> OnMonsterEngaged;
+        public event Action<MonsterUnitView> OnMonsterKilled;
 
         /// <summary>
         /// 스포너 초기화
         /// </summary>
-        public void Initialize(CombatSettings settings, Transform spawnPoint = null)
+        public void Initialize(CombatSettings settings, Transform spawnPoint, Transform playerTransform, ICombatService combatService)
         {
             _settings = settings;
+            _combatService = combatService;
+            _playerTransform = playerTransform;
             
             if (spawnPoint != null)
                 _spawnPoint = spawnPoint;
@@ -75,10 +95,11 @@ namespace SahurRaising.GamePlay
         /// <summary>
         /// 스폰 활성화
         /// </summary>
-        public void StartSpawning()
+        public void StartSpawning(int waveIndex = 1)
         {
+            _currentWaveIndex = waveIndex;
             _isSpawningEnabled = true;
-            _spawnTimer = _settings?.SpawnInterval ?? 0f; // 즉시 첫 몬스터 스폰
+            _spawnTimer = _settings?.GetSpawnInterval(_currentWaveIndex) ?? 0f;
         }
 
         /// <summary>
@@ -103,16 +124,23 @@ namespace SahurRaising.GamePlay
             if (!_isSpawningEnabled || _settings == null) return;
             
             UpdateSpawning();
+            UpdateMonsterStates();
         }
 
+        /// <summary>
+        /// 스폰 로직
+        /// </summary>
         private void UpdateSpawning()
         {
-            // 이번 웨이브에 스폰할 몬스터가 남아있고, 화면에 여유가 있으면 스폰
-            if (_monstersSpawnedThisWave >= _settings.MonstersPerWave) return;
-            if (_activeMonsters.Count >= _settings.MaxMonstersOnScreen) return;
+            int monstersPerWave = _settings.GetMonstersPerWave(_currentWaveIndex);
+            int maxOnScreen = _settings.GetMaxMonstersOnScreen(_currentWaveIndex);
+            float spawnInterval = _settings.GetSpawnInterval(_currentWaveIndex);
+            
+            if (_monstersSpawnedThisWave >= monstersPerWave) return;
+            if (_activeMonsters.Count >= maxOnScreen) return;
             
             _spawnTimer += Time.deltaTime;
-            if (_spawnTimer >= _settings.SpawnInterval)
+            if (_spawnTimer >= spawnInterval)
             {
                 _spawnTimer = 0f;
                 SpawnMonster();
@@ -120,9 +148,76 @@ namespace SahurRaising.GamePlay
         }
 
         /// <summary>
+        /// 몬스터 상태 업데이트 (간격 유지 및 전투 참여 체크)
+        /// </summary>
+        private void UpdateMonsterStates()
+        {
+            if (_playerTransform == null) return;
+            
+            // 거리 기준으로 정렬 (가까운 순)
+            _activeMonsters.Sort((a, b) => 
+            {
+                float distA = Vector3.Distance(a.transform.position, _playerTransform.position);
+                float distB = Vector3.Distance(b.transform.position, _playerTransform.position);
+                return distA.CompareTo(distB);
+            });
+
+            _engagedMonsters.Clear();
+            
+            int maxTargets = _combatService?.GetMaxTargetCount() ?? 3;
+            float lastEngagedX = float.MaxValue;
+            
+            for (int i = 0; i < _activeMonsters.Count; i++)
+            {
+                var monster = _activeMonsters[i];
+                if (monster == null || monster.IsDead) continue;
+
+                float distToPlayer = Vector3.Distance(monster.transform.position, _playerTransform.position);
+                bool isInRange = distToPlayer <= _settings.AttackRange;
+                
+                // 전투 참여 가능한지 체크
+                bool canEngage = _engagedMonsters.Count < maxTargets && isInRange;
+                
+                // X 간격 체크 (이미 전투 중인 몬스터와의 거리)
+                if (canEngage && _engagedMonsters.Count > 0)
+                {
+                    float xDiff = Mathf.Abs(monster.transform.position.x - lastEngagedX);
+                    if (xDiff < _settings.MonsterXSpacing)
+                    {
+                        // 간격이 좁으면 대기
+                        canEngage = false;
+                    }
+                }
+
+                if (canEngage)
+                {
+                    // 전투 참여
+                    if (!_engagedMonsters.Contains(monster))
+                    {
+                        _engagedMonsters.Add(monster);
+                        lastEngagedX = monster.transform.position.x;
+                        
+                        monster.SetWaitingForSpace(false);
+                        OnMonsterEngaged?.Invoke(monster);
+                    }
+                }
+                else if (isInRange)
+                {
+                    // 사거리 내지만 간격 대기 중
+                    monster.SetWaitingForSpace(true);
+                }
+                else
+                {
+                    // 사거리 밖 (이동 중)
+                    monster.SetWaitingForSpace(false);
+                }
+            }
+        }
+
+        /// <summary>
         /// 몬스터 스폰
         /// </summary>
-        public UnitView SpawnMonster()
+        public MonsterUnitView SpawnMonster()
         {
             MonsterUnitView prefab = _settings.GetRandomMonsterPrefab();
             if (prefab == null)
@@ -134,7 +229,6 @@ namespace SahurRaising.GamePlay
             // 풀에서 가져오기
             if (!_monsterPools.TryGetValue(prefab, out var pool))
             {
-                // 풀이 없으면 새로 생성
                 pool = new MonoObjectPool<MonsterUnitView>(
                     prefab: prefab,
                     parent: _spawnPoint,
@@ -148,14 +242,17 @@ namespace SahurRaising.GamePlay
 
             var monster = pool.Get();
             
-            // 스폰 위치 설정 (Y축 랜덤 오프셋)
-            Vector3 spawnPos = _spawnPoint.position;
-            float yOffset = _settings.MonsterSpawnYOffset;
-            spawnPos.y += UnityEngine.Random.Range(-yOffset, yOffset);
+            // 스폰 위치 설정 (Y축 랜덤, 기존 몬스터와 X 간격 유지)
+            Vector3 spawnPos = CalculateSpawnPosition();
             monster.transform.position = spawnPos;
             
-            // 초기화
+            // 몬스터 종류 결정 (WaveConfig 기반)
+            var monsterKind = DetermineMonsterKind();
+            
+            // 스탯 설정 (CombatService에서 기본 스탯을 가져오되, Kind는 WaveConfig에서 결정)
+            var spawnInfo = _combatService.GetMonsterSpawnInfo();
             monster.Initialize();
+            monster.SetupStats(spawnInfo.MaxHp, spawnInfo.Defense, spawnInfo.Level, monsterKind);
             monster.Flip(true); // 몬스터는 왼쪽을 봄
             
             _activeMonsters.Add(monster);
@@ -165,53 +262,158 @@ namespace SahurRaising.GamePlay
             
             return monster;
         }
+        
+        /// <summary>
+        /// 현재 웨이브의 WaveConfig를 기반으로 몬스터 종류 결정
+        /// Normal -> Elite -> Boss 순서로 스폰
+        /// </summary>
+        private MonsterKind DetermineMonsterKind()
+        {
+            var waveConfig = _settings.GetWaveConfig(_currentWaveIndex);
+            
+            // 현재까지 스폰한 마리수 기준으로 종류 결정
+            // Normal(0~N-1) -> Elite(N~N+E-1) -> Boss(N+E~끝)
+            int normalEnd = waveConfig.NormalCount;
+            int eliteEnd = normalEnd + waveConfig.EliteCount;
+            
+            if (_monstersSpawnedThisWave < normalEnd)
+            {
+                return MonsterKind.Normal;
+            }
+            else if (_monstersSpawnedThisWave < eliteEnd)
+            {
+                return MonsterKind.Elite;
+            }
+            else
+            {
+                return MonsterKind.Boss;
+            }
+        }
+
+        /// <summary>
+        /// 스폰 위치 계산 (간격 유지)
+        /// </summary>
+        private Vector3 CalculateSpawnPosition()
+        {
+            Vector3 basePos = _spawnPoint.position;
+            
+            // Y축 랜덤 오프셋 (CombatSettings에서 가져옴)
+            float yRange = _settings.MonsterYRandomRange;
+            float yOffset = UnityEngine.Random.Range(-yRange, yRange);
+            basePos.y += yOffset;
+            
+            // 기존 몬스터들과 X 간격 체크
+            float requiredX = basePos.x;
+            foreach (var existingMonster in _activeMonsters)
+            {
+                if (existingMonster == null) continue;
+                
+                float existingX = existingMonster.transform.position.x;
+                float minRequiredX = existingX + _settings.MonsterXSpacing;
+                
+                if (requiredX < minRequiredX)
+                {
+                    requiredX = minRequiredX;
+                }
+            }
+            
+            // 기존 몬스터가 있으면 그 뒤에 스폰
+            if (_activeMonsters.Count > 0)
+            {
+                basePos.x = Mathf.Max(basePos.x, requiredX);
+            }
+            
+            return basePos;
+        }
 
         /// <summary>
         /// 몬스터 해제 (풀로 반환)
         /// </summary>
-        public void ReleaseMonster(UnitView monster)
+        public void ReleaseMonster(MonsterUnitView monster)
         {
             if (monster == null) return;
-            if (!_activeMonsters.Contains(monster)) return;
             
             _activeMonsters.Remove(monster);
+            _engagedMonsters.Remove(monster);
+            
             OnMonsterReleased?.Invoke(monster);
             
             // 풀로 반환
-            if (monster is MonsterUnitView monsterView)
+            foreach (var kvp in _monsterPools)
             {
-                foreach (var kvp in _monsterPools)
-                {
-                    // 프리팹 타입으로 적절한 풀 찾기 (간단한 비교)
-                    // 실제로는 프리팹 참조를 몬스터에 저장하는 것이 더 효율적
-                    kvp.Value.Release(monsterView);
-                    return;
-                }
+                kvp.Value.Release(monster);
+                return;
             }
             
-            // 풀에서 찾지 못하면 직접 파괴
-            Destroy(monster.gameObject);
+            // 풀에서 찾지 못하면 비활성화만
+            monster.gameObject.SetActive(false);
         }
 
         /// <summary>
-        /// 첫 번째 활성 몬스터 가져오기 (현재 타겟)
+        /// 몬스터 사망 처리
         /// </summary>
-        public UnitView GetCurrentTarget()
+        public void HandleMonsterDeath(MonsterUnitView monster)
         {
-            CleanupNullMonsters();
-            return _activeMonsters.Count > 0 ? _activeMonsters[0] : null;
+            if (monster == null) return;
+            
+            _engagedMonsters.Remove(monster);
+            
+            OnMonsterKilled?.Invoke(monster);
+            
+            // 딜레이 후 풀 반환 (사망 애니메이션 시간)
+            ReleaseMonsterDelayedAsync(monster).Forget();
+        }
+
+        private async Cysharp.Threading.Tasks.UniTaskVoid ReleaseMonsterDelayedAsync(MonsterUnitView monster)
+        {
+            await Cysharp.Threading.Tasks.UniTask.Delay(
+                TimeSpan.FromSeconds(_settings.DeathToSpawnDelay + 0.5f));
+            
+            if (monster != null)
+            {
+                _activeMonsters.Remove(monster);
+                ReleaseMonster(monster);
+            }
         }
 
         /// <summary>
-        /// null 참조 정리
+        /// 현재 전투 중인 첫 번째 몬스터 (주 타겟)
         /// </summary>
-        private void CleanupNullMonsters()
+        public MonsterUnitView GetCurrentTarget()
+        {
+            CleanupDeadMonsters();
+            return _engagedMonsters.Count > 0 ? _engagedMonsters[0] : null;
+        }
+
+        /// <summary>
+        /// 전투 중인 모든 몬스터 반환
+        /// </summary>
+        public IReadOnlyList<MonsterUnitView> GetEngagedTargets()
+        {
+            CleanupDeadMonsters();
+            return _engagedMonsters;
+        }
+
+        /// <summary>
+        /// 죽은 몬스터 정리
+        /// </summary>
+        private void CleanupDeadMonsters()
         {
             for (int i = _activeMonsters.Count - 1; i >= 0; i--)
             {
-                if (_activeMonsters[i] == null)
+                var monster = _activeMonsters[i];
+                if (monster == null || !monster.gameObject.activeInHierarchy)
                 {
                     _activeMonsters.RemoveAt(i);
+                }
+            }
+            
+            for (int i = _engagedMonsters.Count - 1; i >= 0; i--)
+            {
+                var monster = _engagedMonsters[i];
+                if (monster == null || monster.IsDead || !monster.gameObject.activeInHierarchy)
+                {
+                    _engagedMonsters.RemoveAt(i);
                 }
             }
         }
@@ -230,28 +432,30 @@ namespace SahurRaising.GamePlay
                 }
             }
             _activeMonsters.Clear();
+            _engagedMonsters.Clear();
         }
 
         private void OnMonsterGet(MonsterUnitView monster)
         {
-            // 풀에서 가져올 때 초기화
+            monster.gameObject.SetActive(true);
         }
 
         private void OnMonsterRelease(MonsterUnitView monster)
         {
-            // 풀로 반환할 때 정리
+            monster.ResetForPool();
             monster.transform.SetParent(_spawnPoint);
+            monster.gameObject.SetActive(false);
         }
 
         private void OnDestroy()
         {
-            // 모든 풀 정리
             foreach (var pool in _monsterPools.Values)
             {
                 pool.Clear();
             }
             _monsterPools.Clear();
             _activeMonsters.Clear();
+            _engagedMonsters.Clear();
         }
     }
 }

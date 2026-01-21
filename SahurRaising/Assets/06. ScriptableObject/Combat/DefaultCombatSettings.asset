@@ -12,18 +12,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d35e963a11668a4bac66f00871091d3, type: 3}
   m_Name: DefaultCombatSettings
   m_EditorClassIdentifier: 
-  _monstersPerWave: 3
-  _maxMonstersOnScreen: 2
-  _spawnInterval: 0.5
+  _waveConfigs:
+  - NormalCount: 10
+    EliteCount: 0
+    BossCount: 0
+    MaxMonstersOnScreen: 5
+    SpawnInterval: 0
+    Description: 
+  _defaultMonstersPerWave: 10
+  _defaultMaxMonstersOnScreen: 5
+  _defaultSpawnInterval: 0.5
+  _wavesPerStage: 4
+  _monsterXSpacing: 1.5
+  _monsterYRandomRange: 0.5
   _monsterVisuals:
+  - Prefab: {fileID: 8566933824873381930, guid: 8640f86cc1cb10448814047cfd71eec9, type: 3}
+    SpawnWeight: 1
+    Description: 
   - Prefab: {fileID: 8141837568579480828, guid: 8459140a28c7eac4d8b170b721453d02, type: 3}
+    SpawnWeight: 1
+    Description: 
+  - Prefab: {fileID: 7288813077900149248, guid: 35427bf7548e5a240b1e7ab1c463b940, type: 3}
+    SpawnWeight: 1
+    Description: 
+  - Prefab: {fileID: 3857243875334167431, guid: ba1efe4715e75654683dd4445d9ec977, type: 3}
+    SpawnWeight: 1
+    Description: 
+  - Prefab: {fileID: 5530851893144277058, guid: 897aecc094df4994f92a96275faede89, type: 3}
+    SpawnWeight: 1
+    Description: 
+  - Prefab: {fileID: 7877353734295956226, guid: cd89c039595bb744f8192a6fe0dbf1f6, type: 3}
+    SpawnWeight: 1
+    Description: 
+  - Prefab: {fileID: 6746022427727955051, guid: a7d63823e0bbd2248bb4b66a2ca54bcb, type: 3}
+    SpawnWeight: 1
+    Description: 
+  - Prefab: {fileID: 6746022427727955051, guid: a7d63823e0bbd2248bb4b66a2ca54bcb, type: 3}
+    SpawnWeight: 1
+    Description: 
+  - Prefab: {fileID: 5264113624791144920, guid: ad12ad48536ce5b42aaaa2d54a013911, type: 3}
     SpawnWeight: 1
     Description: 
   _monsterMoveSpeed: 7
   _backgroundScrollSpeed: 12
   _playerAdvanceDistance: 3
   _playerMoveSpeed: 10
+  _playerReturnSpeedMultiplier: 1.5
   _attackRange: 3
   _deathToSpawnDelay: 0.3
-  _monsterSpawnYOffset: 1
-  _playerReturnSpeedMultiplier: 1.5

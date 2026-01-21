@@ -236,6 +236,12 @@ namespace SahurRaising.Core
             var rowIGNDEF = Row(igndefLv);
             var characterLevel = GetTotalStatLevel();
 
+            // Evolution 레벨 기반 MaxTargetCount 계산
+            // 기본값: 3, Evolution 레벨당 +1
+            // TODO: Evolution 시스템 구현 시 evolutionLevel 변수로 교체
+            int evolutionLevel = 0; // 추후 Evolution 서비스에서 가져올 예정
+            int maxTargetCount = 3 + evolutionLevel;
+
             return new CharacterStats
             {
                 Attack = ToBigDouble(rowATK.ATK_Base, rowATK.ATK_Pow),
@@ -261,6 +267,9 @@ namespace SahurRaising.Core
                 DefenseIgnore = ToDouble(rowIGNDEF.IGNDEF_Base, rowIGNDEF.IGNDEF_Pow),
                 BossDamageRate = 0,
                 EliteDamageRate = 0,
+                
+                // 동시 공격 가능한 최대 타겟 수
+                MaxTargetCount = maxTargetCount,
             };
         }
 

@@ -87,21 +87,14 @@ namespace SahurRaising.EditorTools
         {
             int changedCount = 0;
 
-            // 1) 현재 열린 씬들 내의 TMP_Text 모두 교체
-            var sceneTexts = FindObjectsByType<TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            foreach (var text in sceneTexts)
-            {
-                if (text.font == font)
-                    continue;
+            // 1) (제거됨) 현재 열린 씬들 내의 TMP_Text 교체 로직 제거
+            // 사용자의 요청으로 03. Prefabs 폴더 하위만 대상으로 변경함.
 
-                Undo.RecordObject(text, "Replace TMP Font (Scene)");
-                text.font = font;
-                EditorUtility.SetDirty(text);
-                changedCount++;
-            }
+            // 2) 프로젝트 내 "Assets/03. Prefabs" 폴더 하위의 프리팹 안의 TMP_Text 교체
+            string[] searchFolders = new[] { "Assets/03. Prefabs" };
+            string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", searchFolders);
 
-            // 2) 프로젝트 내 모든 프리팹 안의 TMP_Text 교체
-            string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab");
+
             for (int i = 0; i < prefabGuids.Length; i++)
             {
                 string guid = prefabGuids[i];
@@ -131,23 +124,21 @@ namespace SahurRaising.EditorTools
             }
 
             AssetDatabase.SaveAssets();
-            Debug.Log($"[ReplaceTMPFontsEditor] TMP_Text 폰트 일괄 교체 완료. 변경된 오브젝트 수: {changedCount}");
-            EditorUtility.DisplayDialog("Complete", $"TMP_Text 폰트 일괄 교체 완료.\n변경된 오브젝트 수: {changedCount}", "OK");
+            Debug.Log($"[ReplaceTMPFontsEditor] TMP_Text 폰트 일괄 교체 완료 (Target: Assets/03. Prefabs). 변경된 오브젝트 수: {changedCount}");
+            EditorUtility.DisplayDialog("Complete", $"TMP_Text 폰트 일괄 교체 완료.\n(Target: Assets/03. Prefabs)\n변경된 오브젝트 수: {changedCount}", "OK");
         }
 
         private static void AddLocalizedTMPFontToAllTMPTexts(TMP_FontAsset koreanEnglishFont, TMP_FontAsset cjkFont)
         {
             int addedOrUpdatedCount = 0;
 
-            // 1) 현재 열린 씬들 내의 TMP_Text 처리
-            var sceneTexts = FindObjectsByType<TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            foreach (var text in sceneTexts)
-            {
-                addedOrUpdatedCount += AddOrUpdateLocalizedTMPFontOnText(text, koreanEnglishFont, cjkFont);
-            }
+            // 1) (제거됨) 현재 열린 씬들 내의 TMP_Text 처리 로직 제거
+            // 사용자의 요청으로 03. Prefabs 폴더 하위만 대상으로 변경함.
 
-            // 2) 모든 프리팹 내의 TMP_Text 처리
-            string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab");
+            // 2) "Assets/03. Prefabs" 폴더 내의 프리팹 처리
+            string[] searchFolders = new[] { "Assets/03. Prefabs" };
+            string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", searchFolders);
+
             for (int i = 0; i < prefabGuids.Length; i++)
             {
                 string guid = prefabGuids[i];
@@ -175,8 +166,8 @@ namespace SahurRaising.EditorTools
             }
 
             AssetDatabase.SaveAssets();
-            Debug.Log($"[ReplaceTMPFontsEditor] LocalizedTMPFont 자동 추가/업데이트 완료. 처리된 컴포넌트 수: {addedOrUpdatedCount}");
-            EditorUtility.DisplayDialog("Complete", $"LocalizedTMPFont 자동 추가/업데이트 완료.\n처리된 컴포넌트 수: {addedOrUpdatedCount}", "OK");
+            Debug.Log($"[ReplaceTMPFontsEditor] LocalizedTMPFont 자동 추가/업데이트 완료 (Target: Assets/03. Prefabs). 처리된 컴포넌트 수: {addedOrUpdatedCount}");
+            EditorUtility.DisplayDialog("Complete", $"LocalizedTMPFont 자동 추가/업데이트 완료.\n(Target: Assets/03. Prefabs)\n처리된 컴포넌트 수: {addedOrUpdatedCount}", "OK");
         }
 
         /// <summary>
