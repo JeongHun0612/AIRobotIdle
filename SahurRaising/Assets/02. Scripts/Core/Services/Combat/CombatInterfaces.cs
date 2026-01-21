@@ -30,7 +30,7 @@ namespace SahurRaising.Core
         public double DefenseIgnore;
         public double BossDamageRate;
         public double EliteDamageRate;
-        
+
         /// <summary>
         /// 동시에 공격할 수 있는 최대 몬스터 수 (Evolution 레벨 기반)
         /// 기본값: 3, Evolution 레벨당 +1
@@ -172,43 +172,43 @@ namespace SahurRaising.Core
     {
         UniTask InitializeAsync();
         UniTask StartStageAsync(int stageIndex, int waveIndex = 1);
-        void Tick(float deltaTime);
+        void Tick(float deltaTime, int engagedMonsterCount = 0);
         void ApplyTouchAttack();
         CombatProgress GetProgress();
         UniTask SaveAsync();
         UniTask LoadAsync();
-        
+
         /// <summary>공격 발생 시 이벤트 (플레이어/몬스터 모두 포함)</summary>
         event System.Action<AttackEvent> OnAttack;
-        
+
         /// <summary>동시 공격 가능한 최대 타겟 수</summary>
         int GetMaxTargetCount();
-        
+
         /// <summary>현재 스테이지에 맞는 몬스터 스폰 정보</summary>
         MonsterSpawnInfo GetMonsterSpawnInfo();
-        
+
         /// <summary>몬스터 처치 시 호출</summary>
         void OnMonsterKilled(MonsterKind kind, BreakInfinity.BigDouble goldReward);
-        
+
         /// <summary>웨이브 완료 체크</summary>
         void CheckWaveComplete(int requiredKills);
-        
+
         /// <summary>방어 무시율 반환</summary>
         double GetDefenseIgnoreRate();
-        
+
         /// <summary>플레이어에게 데미지 적용</summary>
         void DealDamageToPlayer(BreakInfinity.BigDouble damage);
-        
+
         /// <summary>데미지 계산</summary>
         BreakInfinity.BigDouble CalculateDamage(bool isTouch, out bool isCritical);
-        
+
         /// <summary>스테이지당 웨이브 수 설정 (CombatSettings에서 주입)</summary>
         void SetWavesPerStage(int count);
-        
+
         /// <summary>현재 웨이브 인덱스 반환</summary>
         int GetCurrentWaveIndex();
     }
-    
+
     /// <summary>
     /// 몬스터 스폰 정보
     /// </summary>

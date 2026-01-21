@@ -83,7 +83,7 @@ Assets/02. Scripts/
 │   │               MonsterUnitView                         │  │
 │   │  - 개별 HP/방어력 관리                                │  │
 │   │  - TakeDamage() 메서드                                │  │
-│   │  - 간격 대기 시 Idle-A 애니메이션                     │  │
+│   │  - 간격 대기 시 Idle_A 애니메이션                     │  │
 │   │  - 사망 후 자동 비활성화                              │  │
 │   └──────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
@@ -225,14 +225,14 @@ public struct CharacterStats
 ```
 [몬스터 A] ─── minXSpacing ─── [몬스터 B] ─── minXSpacing ─── [몬스터 C]
      │                              │                              │
-     └──── 전투 참여 (Engaged) ─────┴──────── 대기 중 (Idle-A) ────┘
+     └──── 전투 참여 (Engaged) ─────┴──────── 대기 중 (Idle_A) ────┘
 ```
 
 **로직:**
 1. 몬스터들을 플레이어와의 거리 기준으로 정렬
 2. MaxTargetCount까지 전투 참여 허용
 3. 이미 전투 중인 몬스터와 X 간격 체크
-4. 간격이 좁으면 대기 상태로 전환 (Idle-A 애니메이션)
+4. 간격이 좁으면 대기 상태로 전환 (Idle_A 애니메이션)
 
 ```csharp
 // MonsterSpawner.UpdateMonsterStates()
@@ -256,7 +256,7 @@ for (int i = 0; i < _activeMonsters.Count; i++)
     }
     else if (isInRange)
     {
-        monster.SetWaitingForSpace(true);  // Idle-A 애니메이션
+        monster.SetWaitingForSpace(true);  // Idle_A 애니메이션
     }
 }
 ```
@@ -313,7 +313,7 @@ public class MonsterUnitView : UnitView
     // 데미지 적용 (방어력 고려)
     public BigDouble TakeDamage(BigDouble damage, double defenseIgnoreRate = 0);
     
-    // 간격 대기 상태 (Idle-A 애니메이션)
+    // 간격 대기 상태 (Idle_A 애니메이션)
     public void SetWaitingForSpace(bool waiting);
     
     // 풀 반환 준비
@@ -323,7 +323,7 @@ public class MonsterUnitView : UnitView
 
 **애니메이션 해시:**
 - `Walk`: 이동 중
-- `Idle-A`: 간격 대기 중
+- `Idle_A`: 간격 대기 중
 - `Attack`: 공격 중
 - `Death`: 사망
 
@@ -493,7 +493,7 @@ CombatRunner.HandleMonsterDeath()
 
 필요한 애니메이션 상태:
 - `Walk` (이동)
-- `Idle-A` (간격 대기) ← **새로 추가 필요**
+- `Idle_A` (간격 대기) ← **새로 추가 필요**
 - `Attack` (공격)
 - `Death` (사망)
 
@@ -514,7 +514,7 @@ CombatRunner.HandleMonsterDeath()
 
 ## ⚠️ 주의사항
 
-1. **Idle-A 애니메이션 필요**: 몬스터 Animator에 `Idle-A` 상태를 추가해야 합니다.
+1. **Idle_A 애니메이션 필요**: 몬스터 Animator에 `Idle_A` 상태를 추가해야 합니다.
 2. **Evolution 시스템 연동**: 현재 evolutionLevel은 0으로 고정. 추후 Evolution 서비스 구현 시 연동 필요.
 3. **오브젝트 풀 크기**: MaxMonstersOnScreen보다 큰 값으로 poolMaxSize 설정 권장.
 4. **웨이브 인덱스 주의**: 코드 내부는 1-based 인덱스 사용 (1웨이브 = waveIndex 1).

@@ -17,14 +17,20 @@ MonoBehaviour:
     EliteCount: 0
     BossCount: 0
     MaxMonstersOnScreen: 5
-    SpawnInterval: 0
+    SpawnInterval: 1
     Description: 
   _defaultMonstersPerWave: 10
   _defaultMaxMonstersOnScreen: 5
   _defaultSpawnInterval: 0.5
   _wavesPerStage: 4
-  _monsterXSpacing: 1.5
-  _monsterYRandomRange: 0.5
+  _monsterXSpacing: 2
+  _sineAmplitude: 10
+  _sinePeriodPerMonsters: 6
+  _yConvergenceSpeed: 3
+  _combatYOffsetRange: 2
+  _mapBoundsYMin: 0
+  _mapBoundsYMax: 18
+  _boundsMargin: 5
   _monsterVisuals:
   - Prefab: {fileID: 8566933824873381930, guid: 8640f86cc1cb10448814047cfd71eec9, type: 3}
     SpawnWeight: 1

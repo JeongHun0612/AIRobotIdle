@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace SahurRaising.GamePlay
 {
@@ -37,7 +37,7 @@ namespace SahurRaising.GamePlay
         public virtual void Initialize()
         {
             gameObject.SetActive(true);
-            
+
             if (_animator == null)
                 _animator = GetComponentInChildren<Animator>();
 
@@ -79,7 +79,12 @@ namespace SahurRaising.GamePlay
 
             if (_animator != null && gameObject.activeInHierarchy)
             {
-                _animator.Play(MoveAnimHash);
+                // 이미 해당 애니메이션이 재생 중이면 다시 Play하지 않음
+                var stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+                if (stateInfo.shortNameHash != MoveAnimHash)
+                {
+                    _animator.Play(MoveAnimHash);
+                }
             }
         }
 
@@ -110,7 +115,7 @@ namespace SahurRaising.GamePlay
             if (_animator != null)
             {
                 AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-                
+
                 if (stateInfo.shortNameHash == AttackAnimHash)
                 {
                     duration = stateInfo.length;

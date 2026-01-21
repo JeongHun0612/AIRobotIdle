@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using SahurRaising.Core;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace SahurRaising.GamePlay
     /// 다수 몬스터 동시 전투 지원:
     /// - MaxTargetCount에 따라 동시에 여러 몬스터 공격
     /// - 몬스터 간 간격 유지 (겹침 방지)
-    /// - 간격 대기 중인 몬스터는 Idle-A 애니메이션
+    /// - 간격 대기 중인 몬스터는 Idle_A 애니메이션
     /// 
     /// 전투 흐름:
     /// 1. 이동 중: 배경 스크롤, 플레이어 전진, 몬스터 스폰
@@ -222,7 +223,7 @@ namespace SahurRaising.GamePlay
                 _playerInstance.PlayMove(true);
             }
 
-            UpdateMonsterMovement();
+            UpdateMonstersLogic();
 
             // 전투 중인 몬스터가 있으면 전투 모드로 전환
             if (_monsterSpawner.EngagedMonsterCount > 0)
@@ -236,7 +237,8 @@ namespace SahurRaising.GamePlay
         /// </summary>
         private void UpdateFightingPhase()
         {
-            _combatService?.Tick(Time.deltaTime);
+            // 전투 중인 몬스터 수를 전달하여 몬스터 공격 여부 결정
+            _combatService?.Tick(Time.deltaTime, _monsterSpawner.EngagedMonsterCount);
 
             if (_playerInstance != null)
             {
@@ -263,7 +265,7 @@ namespace SahurRaising.GamePlay
             }
 
             // 몬스터 이동 업데이트
-            UpdateMonsterMovement();
+            UpdateMonstersLogic();
 
             // 전투 중인 몬스터가 없으면 이동 모드로 전환
             if (_monsterSpawner.EngagedMonsterCount == 0 && _monsterSpawner.ActiveMonsterCount == 0)
@@ -284,38 +286,110 @@ namespace SahurRaising.GamePlay
 
         #region Monster Management
 
-        private void UpdateMonsterMovement()
+        private void UpdateMonstersLogic()
         {
             var activeMonsters = _monsterSpawner.ActiveMonsters;
+            if (activeMonsters.Count == 0) return;
 
-            for (int i = activeMonsters.Count - 1; i >= 0; i--)
+            float playerX = _playerInstance.transform.position.x;
+            float playerY = _playerInstance.transform.position.y;
+
+            // 1. 거리순 정렬 (플레이어에게 가까운 순서)
+            // 매 프레임 정렬 비용이 있지만, 몬스터 수가 적으므로(최대 30마리 미만) 안정성을 위해 수행
+            // ToList()로 복사본을 생성하여 순회 중 리스트 변경 문제 방지
+            var sortedMonsters = activeMonsters
+                .OrderBy(m => Vector3.Distance(m.transform.position, _playerInstance.transform.position))
+                .ToList();
+
+            for (int i = 0; i < sortedMonsters.Count; i++)
             {
-                var monster = activeMonsters[i];
+                var monster = sortedMonsters[i];
                 if (monster == null || monster.IsDead) continue;
 
-                float distance = Vector3.Distance(monster.transform.position, _playerInstance.transform.position);
+                Vector3 currentPos = monster.transform.position;
+                float distToPlayer = Vector3.Distance(currentPos, _playerInstance.transform.position);
 
-                if (distance > _settings.AttackRange)
+                // 1. 전투 진입 판정
+                float engageRange = _settings.AttackRange;
+
+                // 이미 전투 중인 경우
+                if (_monsterSpawner.EngagedMonsters.Contains(monster))
                 {
-                    // 사거리 밖 - 이동
-                    if (!monster.IsWaitingForSpace)
+                    monster.PlayMove(false);
+                    continue;
+                }
+
+                // 2. 전투 진입 시도
+                if (distToPlayer <= engageRange)
+                {
+                    if (_monsterSpawner.TryEngageMonster(monster))
                     {
-                        Vector3 dir = (_playerInstance.transform.position - monster.transform.position).normalized;
-                        monster.transform.position += dir * _settings.MonsterMoveSpeed * Time.deltaTime;
-                        monster.PlayMove(true);
+                        monster.PlayMove(false);
+                        monster.MarkEnteredCombat();
+                        continue;
                     }
+                    else
+                    {
+                        // 자리가 없어서 대기
+                        monster.SetWaitingForSpace(true);
+                        monster.PlayMove(false);
+                        continue;
+                    }
+                }
+
+                // 3. 이동 로직 (전투 중이 아님)
+                bool shouldWaitForSpacing = false;
+
+                // 내 앞에 몬스터가 있는가? (sortedMonsters[i-1])
+                if (i > 0)
+                {
+                    var frontMonster = sortedMonsters[i - 1];
+                    // 앞 몬스터와의 X 거리 계산 (절대값)
+                    float distToFront = Mathf.Abs(currentPos.x - frontMonster.transform.position.x);
+
+                    // [히스테리시스 적용]
+                    // 이미 대기 중이라면, 해제하기 위해 더 넓은 간격(Spacing + Margin)이 필요함
+                    // 대기 중이 아니라면, 멈추기 위해 Spacing보다 가까워져야 함
+                    float spacingThreshold = _settings.MonsterXSpacing;
+
+                    // 떨림 방지용 여유폭 (0.5f)
+                    if (monster.IsWaitingForSpace)
+                    {
+                        spacingThreshold += 0.5f;
+                    }
+
+                    if (distToFront < spacingThreshold)
+                    {
+                        shouldWaitForSpacing = true;
+                    }
+                }
+
+                if (shouldWaitForSpacing)
+                {
+                    monster.SetWaitingForSpace(true);
+                    monster.PlayMove(false);
                 }
                 else
                 {
-                    // 사거리 내 - 전투 또는 대기
-                    if (!monster.IsWaitingForSpace && !monster.IsAttacking)
-                    {
-                        monster.PlayMove(false);
-                    }
+                    // 이동
+                    monster.SetWaitingForSpace(false);
+
+                    // 목표 Y 계산
+                    float targetY = playerY + monster.TargetYOffset;
+                    targetY = _settings.ClampY(targetY);
+
+                    Vector3 targetPos = new Vector3(playerX, targetY, currentPos.z);
+                    Vector3 direction = (targetPos - currentPos).normalized;
+
+                    // 이동
+                    currentPos += direction * _settings.MonsterMoveSpeed * Time.deltaTime;
+                    currentPos.y = _settings.ClampY(currentPos.y);
+
+                    monster.transform.position = currentPos;
+                    monster.PlayMove(true);
                 }
             }
         }
-
         private void SpawnPlayer()
         {
             if (_playerInstance == null && _playerPrefab != null && _playerSpawnPoint != null)

@@ -24,10 +24,10 @@ namespace SahurRaising.Core
         private const double BossHpMultiplier = 20d;
         private const float EliteTimeLimit = 20f;
         private const float BossTimeLimit = 30f;
-        
+
         // 외부에서 설정 가능한 웨이브 수 (기본값 4)
         private int _wavesPerStage = 4;
-        
+
         /// <summary>
         /// 기본 공격 속도 (초당 공격 횟수)
         /// 2초당 1회 = 0.5 공격/초
@@ -45,7 +45,11 @@ namespace SahurRaising.Core
         // 플레이어 상태
         private BigDouble _playerCurrentHp;
         private float _attackGauge;
-        
+        private float _monsterAttackGauge;
+
+        // 몬스터 공격 속도 (2초당 1회 = 0.5 공격/초)
+        private const float MONSTER_ATTACK_SPEED = 2f;
+
         // 스테이지/웨이브 상태
         private int _stageIndex = 1;
         private int _waveIndex = 1;
@@ -91,13 +95,13 @@ namespace SahurRaising.Core
             _stageIndex = Mathf.Max(1, stageIndex);
             _waveIndex = Mathf.Clamp(waveIndex, 1, _wavesPerStage);
             _monstersKilledThisWave = 0;
-            
+
             RefreshStats();
             _playerCurrentHp = _stats.MaxHP;
             _isStageRunning = true;
-            
+
             await UniTask.Yield();
-            
+
             Debug.Log($"[CombatService] 스테이지 {_stageIndex}, 웨이브 {_waveIndex} 시작");
         }
 
@@ -107,13 +111,13 @@ namespace SahurRaising.Core
         public void OnMonsterKilled(MonsterKind kind, BigDouble goldReward)
         {
             if (!_isStageRunning) return;
-            
+
             _monstersKilledThisWave++;
-            
+
             // 보상 지급
             var goldBonus = goldReward * (1 + _stats.GoldBonusRate);
             _currencyService.Add(CurrencyType.Gold, goldBonus, "Combat");
-            
+
             // 이벤트 발행
             _eventBus?.Publish(new EnemyDefeatedEvent
             {
@@ -128,7 +132,7 @@ namespace SahurRaising.Core
                     Ticket = 0
                 }
             });
-            
+
             Debug.Log($"[CombatService] 몬스터 처치! 이번 웨이브: {_monstersKilledThisWave}마리");
         }
 
@@ -146,7 +150,7 @@ namespace SahurRaising.Core
         private void AdvanceWave()
         {
             Debug.Log($"[CombatService] 웨이브 {_waveIndex} 클리어!");
-            
+
             if (_waveIndex >= _wavesPerStage)
             {
                 // 스테이지 클리어
@@ -155,12 +159,12 @@ namespace SahurRaising.Core
                     StageIndex = _stageIndex,
                     IsClear = true
                 });
-                
+
                 // 다음 스테이지 준비
                 _stageIndex++;
                 _waveIndex = 1;
                 _monstersKilledThisWave = 0;
-                
+
                 Debug.Log($"[CombatService] 스테이지 클리어! 다음 스테이지: {_stageIndex}");
             }
             else
@@ -168,7 +172,7 @@ namespace SahurRaising.Core
                 // 다음 웨이브
                 _waveIndex++;
                 _monstersKilledThisWave = 0;
-                
+
                 Debug.Log($"[CombatService] 다음 웨이브: {_waveIndex}");
             }
         }
@@ -185,7 +189,7 @@ namespace SahurRaising.Core
             var level = GetMonsterLevel(_stageIndex, _waveIndex);
             var row = GetMonsterRow(level);
             var kind = DetermineMonsterKind(_stageIndex, _waveIndex);
-            
+
             return new MonsterSpawnInfo
             {
                 Level = level,
@@ -256,7 +260,12 @@ namespace SahurRaising.Core
 
         #region Combat Tick
 
-        public void Tick(float deltaTime)
+        /// <summary>
+        /// 전투 틱 업데이트
+        /// </summary>
+        /// <param name="deltaTime">델타 시간</param>
+        /// <param name="engagedMonsterCount">현재 전투 중인 몬스터 수 (0이면 몬스터 공격 안함)</param>
+        public void Tick(float deltaTime, int engagedMonsterCount = 0)
         {
             if (!_isStageRunning) return;
 
@@ -281,6 +290,17 @@ namespace SahurRaising.Core
 
             // 자동 공격 처리
             ProcessAutoAttack(deltaTime);
+
+            // 몬스터 공격 처리 (전투 중인 몬스터가 있을 때만)
+            if (engagedMonsterCount > 0)
+            {
+                ProcessMonsterAutoAttack(deltaTime);
+            }
+            else
+            {
+                // 전투 중이 아니면 몬스터 공격 게이지 리셋
+                _monsterAttackGauge = 0f;
+            }
         }
 
         private void ProcessAutoAttack(float deltaTime)
@@ -302,8 +322,36 @@ namespace SahurRaising.Core
                     HitIndex = 0,
                     IsLastHit = true
                 });
-                
+
                 _attackGauge -= 1f;
+
+                if (!_isStageRunning)
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 몬스터 자동 공격 처리
+        /// </summary>
+        private void ProcessMonsterAutoAttack(float deltaTime)
+        {
+            _monsterAttackGauge += deltaTime * MONSTER_ATTACK_SPEED;
+
+            while (_monsterAttackGauge >= 1f)
+            {
+                // 몬스터 공격 이벤트 발행 (실제 데미지는 CombatRunner가 처리)
+                OnAttack?.Invoke(new AttackEvent
+                {
+                    IsPlayerAttack = false,
+                    Damage = GetMonsterSpawnInfo().Attack,
+                    IsCritical = false,
+                    AttackType = AttackType.Auto,
+                    TargetIndex = 0,
+                    HitIndex = 0,
+                    IsLastHit = true
+                });
+
+                _monsterAttackGauge -= 1f;
 
                 if (!_isStageRunning)
                     break;
@@ -319,7 +367,7 @@ namespace SahurRaising.Core
             if (!_isStageRunning) return;
 
             var damage = CalculateDamage(isTouch: true, out bool isCritical);
-            
+
             OnAttack?.Invoke(new AttackEvent
             {
                 IsPlayerAttack = true,
@@ -338,14 +386,14 @@ namespace SahurRaising.Core
         public BigDouble CalculateDamage(bool isTouch, out bool isCritical)
         {
             RefreshStats();
-            
+
             var baseDamage = _stats.Attack * (1 + _stats.AttackRate) + _stats.AttackBonus;
             if (isTouch)
                 baseDamage *= 1 + _stats.TouchDamageMultiplier;
 
             var critChance = Mathf.Clamp01((float)(_stats.CritChance + _stats.UltraCritChance));
             isCritical = UnityEngine.Random.value < critChance;
-            
+
             if (isCritical)
             {
                 baseDamage *= _stats.CritMultiplier + _stats.CritDamageBonus;
@@ -392,7 +440,7 @@ namespace SahurRaising.Core
                 StageIndex = _stageIndex,
                 IsClear = false
             });
-            
+
             Debug.Log($"[CombatService] 스테이지 {_stageIndex} 실패!");
         }
 
@@ -473,9 +521,9 @@ namespace SahurRaising.Core
         }
 
         #endregion
-        
+
         #region Wave Configuration
-        
+
         /// <summary>
         /// 스테이지당 웨이브 수 설정 (CombatSettings에서 주입)
         /// </summary>
@@ -484,12 +532,12 @@ namespace SahurRaising.Core
             _wavesPerStage = Mathf.Max(1, count);
             Debug.Log($"[CombatService] 스테이지당 웨이브 수 설정: {_wavesPerStage}");
         }
-        
+
         /// <summary>
         /// 현재 웨이브 인덱스 반환
         /// </summary>
         public int GetCurrentWaveIndex() => _waveIndex;
-        
+
         #endregion
     }
 }
