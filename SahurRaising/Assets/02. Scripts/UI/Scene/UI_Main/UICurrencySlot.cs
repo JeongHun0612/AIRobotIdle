@@ -1,5 +1,6 @@
 ﻿using BreakInfinity;
 using SahurRaising.Core;
+using SahurRaising.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +33,8 @@ namespace SahurRaising.UI
             if (_amountText != null)
             {
                 // TODO: 필요하다면 전역 포맷팅 유틸리티 사용 (예: 1.2A, 1.5B 등)
-                _amountText.text = amount.ToString("F0");
+                //_amountText.text = amount.ToString("F0");
+                _amountText.text = NumberFormatUtil.FormatBigDouble(amount);
             }
         }
     }
