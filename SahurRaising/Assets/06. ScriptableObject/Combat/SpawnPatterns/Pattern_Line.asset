@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ca188345c056e4eb8246f60c780f16, type: 3}
+  m_Name: Pattern_Line
+  m_EditorClassIdentifier: 
+  _patternName: Line
+  _description: "\uC77C\uB82C\uB85C \uB4F1\uC7A5\uD558\uB294 \uAE30\uBCF8 \uD328\uD134"
+  _spawnSlots:
+  - OrderOffset: 0
+    YNormalized: 0
+    MonsterKind: 0
+    Note: "\uC911\uC559"
+  - OrderOffset: 0.3
+    YNormalized: 0
+    MonsterKind: 0
+    Note: "\uC911\uC559"
+  - OrderOffset: 0.6
+    YNormalized: 0
+    MonsterKind: 0
+    Note: "\uC911\uC559"
+  _spawnDelay: 0.1
+  _patternCooldown: 3
+  _selectionWeight: 2

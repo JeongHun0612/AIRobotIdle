@@ -317,6 +317,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 1685362013768044704}
   _attackAnimDuration: 0.4
+  _useSortingOrder: 1
+  _sortingOrderBase: 0
+  _baseZ: -5
+  _sortingGroup: {fileID: 0}
+  _renderer: {fileID: 0}
+  _sortingOffsetY: 0.36
+  _deathAnimDuration: 0.5
 --- !u!210 &2936614703642689502
 SortingGroup:
   m_ObjectHideFlags: 0

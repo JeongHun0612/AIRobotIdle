@@ -190,7 +190,11 @@ namespace SahurRaising.Core
         /// <summary>몬스터 처치 시 호출</summary>
         void OnMonsterKilled(MonsterKind kind, BreakInfinity.BigDouble goldReward);
 
-        /// <summary>웨이브 완료 체크</summary>
+        /// <summary>웨이브 완료 알림 (패턴 기반 시스템)</summary>
+        void NotifyWaveComplete();
+
+        /// <summary>웨이브 완료 체크 (레거시 - 패턴 기반에서는 NotifyWaveComplete 사용)</summary>
+        [System.Obsolete("패턴 기반 시스템에서는 NotifyWaveComplete()를 사용하세요.")]
         void CheckWaveComplete(int requiredKills);
 
         /// <summary>방어 무시율 반환</summary>

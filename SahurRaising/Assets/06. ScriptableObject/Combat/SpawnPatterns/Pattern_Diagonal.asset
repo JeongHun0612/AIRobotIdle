@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ca188345c056e4eb8246f60c780f16, type: 3}
+  m_Name: Pattern_Diagonal
+  m_EditorClassIdentifier: 
+  _patternName: Diagonal
+  _description: "\uB300\uAC01\uC120\uC73C\uB85C \uC21C\uCC28 \uB4F1\uC7A5"
+  _spawnSlots:
+  - OrderOffset: 0
+    YNormalized: 0.6
+    MonsterKind: 0
+    Note: "\uC0C1\uB2E8 \uC2DC\uC791"
+  - OrderOffset: 0.4
+    YNormalized: 0.2
+    MonsterKind: 0
+    Note: "\uC911\uC0C1\uB2E8"
+  - OrderOffset: 0.8
+    YNormalized: -0.2
+    MonsterKind: 0
+    Note: "\uC911\uD558\uB2E8"
+  - OrderOffset: 1.2
+    YNormalized: -0.6
+    MonsterKind: 0
+    Note: "\uD558\uB2E8 \uB05D"
+  _spawnDelay: 0.1
+  _patternCooldown: 3
+  _selectionWeight: 1

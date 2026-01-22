@@ -137,8 +137,17 @@ namespace SahurRaising.Core
         }
 
         /// <summary>
-        /// 웨이브 완료 체크 (CombatRunner에서 호출)
+        /// 웨이브 완료 알림 (패턴 기반 시스템에서 CombatRunner가 직접 호출)
         /// </summary>
+        public void NotifyWaveComplete()
+        {
+            AdvanceWave();
+        }
+
+        /// <summary>
+        /// [Obsolete] 레거시 호환용 - 패턴 기반 시스템에서는 NotifyWaveComplete 사용 권장
+        /// </summary>
+        [Obsolete("패턴 기반 시스템에서는 NotifyWaveComplete()를 사용하세요.")]
         public void CheckWaveComplete(int requiredKills)
         {
             if (_monstersKilledThisWave >= requiredKills)

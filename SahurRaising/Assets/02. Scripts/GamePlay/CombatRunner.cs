@@ -32,6 +32,7 @@ namespace SahurRaising.GamePlay
         [Header("=== 필수 레퍼런스 ===")]
         [SerializeField] private CombatSettings _settings;
         [SerializeField] private BackgroundScroller _backgroundScroller;
+        [SerializeField] private SpriteRenderer _backgroundRenderer; // 맵 경계 자동 계산용
         [SerializeField] private Transform _playerSpawnPoint;
         [SerializeField] private Transform _monsterSpawnPoint;
         [SerializeField] private PlayerUnitView _playerPrefab;
@@ -112,6 +113,17 @@ namespace SahurRaising.GamePlay
             {
                 Debug.LogError("[CombatRunner] CombatSettings가 할당되지 않았습니다!");
                 return;
+            }
+
+            // 배경 렌더러를 CombatSettings에 연결 (자동 맵 경계 계산용)
+            if (_backgroundRenderer != null)
+            {
+                _settings.SetBackgroundRenderer(_backgroundRenderer);
+                LogDebug($"맵 경계 자동 계산 활성화: Y범위 = {_settings.MapBoundsYMin:F1} ~ {_settings.MapBoundsYMax:F1}");
+            }
+            else
+            {
+                LogDebug("배경 렌더러 미설정 - 수동 맵 경계 사용");
             }
 
             // 플레이어 스폰
@@ -295,8 +307,6 @@ namespace SahurRaising.GamePlay
             float playerY = _playerInstance.transform.position.y;
 
             // 1. 거리순 정렬 (플레이어에게 가까운 순서)
-            // 매 프레임 정렬 비용이 있지만, 몬스터 수가 적으므로(최대 30마리 미만) 안정성을 위해 수행
-            // ToList()로 복사본을 생성하여 순회 중 리스트 변경 문제 방지
             var sortedMonsters = activeMonsters
                 .OrderBy(m => Vector3.Distance(m.transform.position, _playerInstance.transform.position))
                 .ToList();
@@ -307,20 +317,53 @@ namespace SahurRaising.GamePlay
                 if (monster == null || monster.IsDead) continue;
 
                 Vector3 currentPos = monster.transform.position;
-                float distToPlayer = Vector3.Distance(currentPos, _playerInstance.transform.position);
-
-                // 1. 전투 진입 판정
+                
+                // X축 거리만으로 전투 진입 판정 (Y축 차이로 인해 전투에 못 들어가는 문제 해결)
+                float xDistToPlayer = Mathf.Abs(currentPos.x - playerX);
                 float engageRange = _settings.AttackRange;
 
-                // 이미 전투 중인 경우
+                // 이미 전투 중인 경우: Y축 고정, X 이동만
                 if (_monsterSpawner.EngagedMonsters.Contains(monster))
                 {
                     monster.PlayMove(false);
                     continue;
                 }
 
-                // 2. 전투 진입 시도
-                if (distToPlayer <= engageRange)
+                // 2. Y축 수렴 체크
+                bool useYConvergence = _settings.EnableYConvergence;
+                bool isYWithinCombatRange = _settings.IsWithinCombatYRange(currentPos.y);
+
+                // 3. 전투 진입 시도
+                // 조건: X거리가 사거리 내 (Y축 수렴이 켜져있다면 Y범위 체크도 수행, 꺼져있다면 무시)
+                bool canEngage = xDistToPlayer <= engageRange;
+                if (useYConvergence && !isYWithinCombatRange)
+                {
+                    // Y축 수렴이 켜져있는데 아직 범위 밖이라면 전투 진입 보류
+                    // 단, X거리가 매우 가까우면(0.5f) Y조건 무시하고 강제 진입 (무한 루프 방지)
+                    if (xDistToPlayer < 0.5f)
+                    {
+                        // 강제 진입 허용 (로그는 남김)
+                        // if (i == 0 && _showDebugLogs && Time.frameCount % 60 == 0) Debug.Log("[CombatRunner] Force Engaging due to close X distance");
+                    }
+                    else
+                    {
+                        canEngage = false; 
+                    }
+                }
+
+                // 디버그: 가장 가까운 몬스터(i==0)의 상태 로깅
+                if (i == 0 && _showDebugLogs)
+                {
+                    // 너무 자주 로그가 남지 않도록 60프레임마다 한번만
+                    if (Time.frameCount % 60 == 0)
+                    {
+                        Debug.Log($"[CombatRunner] Closest Monster: Dist={xDistToPlayer:F2}, Range={engageRange:F2}, " +
+                                  $"Y={currentPos.y:F2}, InYRange={isYWithinCombatRange}, UseY={useYConvergence}, " +
+                                  $"CanEngage={canEngage}, EngagedCount={_monsterSpawner.EngagedMonsterCount}");
+                    }
+                }
+
+                if (canEngage)
                 {
                     if (_monsterSpawner.TryEngageMonster(monster))
                     {
@@ -337,22 +380,16 @@ namespace SahurRaising.GamePlay
                     }
                 }
 
-                // 3. 이동 로직 (전투 중이 아님)
+                // 4. 이동 로직 (전투 중이 아님)
                 bool shouldWaitForSpacing = false;
 
                 // 내 앞에 몬스터가 있는가? (sortedMonsters[i-1])
                 if (i > 0)
                 {
                     var frontMonster = sortedMonsters[i - 1];
-                    // 앞 몬스터와의 X 거리 계산 (절대값)
                     float distToFront = Mathf.Abs(currentPos.x - frontMonster.transform.position.x);
-
-                    // [히스테리시스 적용]
-                    // 이미 대기 중이라면, 해제하기 위해 더 넓은 간격(Spacing + Margin)이 필요함
-                    // 대기 중이 아니라면, 멈추기 위해 Spacing보다 가까워져야 함
                     float spacingThreshold = _settings.MonsterXSpacing;
 
-                    // 떨림 방지용 여유폭 (0.5f)
                     if (monster.IsWaitingForSpace)
                     {
                         spacingThreshold += 0.5f;
@@ -367,6 +404,17 @@ namespace SahurRaising.GamePlay
                 if (shouldWaitForSpacing)
                 {
                     monster.SetWaitingForSpace(true);
+                    
+                    // 대기 중일 때도 Y축 수렴은 진행 (옵션이 켜져있다면)
+                    if (useYConvergence && !isYWithinCombatRange)
+                    {
+                        float targetY = _settings.ClampToCombatY(currentPos.y);
+                        float yMoveSpeed = _settings.MonsterMoveSpeed * _settings.YConvergeSpeedMultiplier;
+                        currentPos.y = Mathf.MoveTowards(currentPos.y, targetY, yMoveSpeed * Time.deltaTime);
+                        currentPos.y = _settings.ClampY(currentPos.y);
+                        monster.transform.position = currentPos;
+                    }
+                    
                     monster.PlayMove(false);
                 }
                 else
@@ -374,17 +422,25 @@ namespace SahurRaising.GamePlay
                     // 이동
                     monster.SetWaitingForSpace(false);
 
-                    // 목표 Y 계산
-                    float targetY = playerY + monster.TargetYOffset;
-                    targetY = _settings.ClampY(targetY);
+                    // 목표 X는 플레이어 방향
+                    float xDirection = Mathf.Sign(playerX - currentPos.x);
+                    float newX = currentPos.x + xDirection * _settings.MonsterMoveSpeed * Time.deltaTime;
+                    float newY = currentPos.y;
 
-                    Vector3 targetPos = new Vector3(playerX, targetY, currentPos.z);
-                    Vector3 direction = (targetPos - currentPos).normalized;
+                    // Y축 이동 (옵션이 켜져있을 때만)
+                    if (useYConvergence)
+                    {
+                        // 목표 Y 계산: 전투 범위 내로 수렴
+                        float targetY = playerY + monster.TargetYOffset;
+                        targetY = _settings.ClampToCombatY(targetY);
+                        targetY = _settings.ClampY(targetY);
 
-                    // 이동
-                    currentPos += direction * _settings.MonsterMoveSpeed * Time.deltaTime;
-                    currentPos.y = _settings.ClampY(currentPos.y);
+                        float yMoveSpeed = _settings.MonsterMoveSpeed * _settings.YConvergeSpeedMultiplier;
+                        newY = Mathf.MoveTowards(currentPos.y, targetY, yMoveSpeed * Time.deltaTime);
+                        newY = _settings.ClampY(newY);
+                    }
 
+                    currentPos = new Vector3(newX, newY, currentPos.z);
                     monster.transform.position = currentPos;
                     monster.PlayMove(true);
                 }
@@ -446,21 +502,28 @@ namespace SahurRaising.GamePlay
             {
                 _playerInstance?.PlayAttack();
 
-                // 전투 중인 모든 몬스터에게 데미지
-                var targets = _monsterSpawner.GetEngagedTargets();
+                // 전투 중인 몬스터 목록을 스냅샷으로 복사 (반복 중 리스트 변경 방지)
+                var originalTargets = _monsterSpawner.GetEngagedTargets();
                 int maxTargets = _combatService.GetMaxTargetCount();
-                int targetCount = Mathf.Min(targets.Count, maxTargets);
-
-                for (int i = 0; i < targetCount; i++)
+                int targetCount = Mathf.Min(originalTargets.Count, maxTargets);
+                
+                // 안전한 복사본 생성 (인덱스 범위 오류 방지)
+                var safeTargets = new List<MonsterUnitView>(targetCount);
+                for (int i = 0; i < targetCount && i < originalTargets.Count; i++)
                 {
-                    var monster = targets[i];
-                    if (monster == null || monster.IsDead) continue;
+                    if (originalTargets[i] != null && !originalTargets[i].IsDead)
+                    {
+                        safeTargets.Add(originalTargets[i]);
+                    }
+                }
 
+                foreach (var monster in safeTargets)
+                {
                     // 데미지 적용
                     var defenseIgnore = _combatService.GetDefenseIgnoreRate();
                     var actualDamage = monster.TakeDamage(evt.Damage, defenseIgnore);
 
-                    LogDebug($"몬스터 {i} 에게 {actualDamage} 데미지! (HP: {monster.CurrentHp}/{monster.MaxHp})");
+                    LogDebug($"몬스터에게 {actualDamage} 데미지! (HP: {monster.CurrentHp}/{monster.MaxHp})");
 
                     // 몬스터 사망 체크
                     if (monster.CurrentHp <= 0)
@@ -512,18 +575,32 @@ namespace SahurRaising.GamePlay
             // 풀 반환 처리
             _monsterSpawner.HandleMonsterDeath(monster);
 
-            // 현재 웨이브의 몬스터 수 확인
-            int monstersPerWave = _settings.GetMonstersPerWave(_currentWaveIndex);
+            // 현재 웨이브의 패턴 수
+            int patternsPerWave = _settings.GetPatternsPerWave(_currentWaveIndex);
 
-            // 웨이브 클리어 체크
-            _combatService.CheckWaveComplete(monstersPerWave);
+            // 웨이브 클리어 체크: 패턴이 모두 완료되고 활성 몬스터가 없으면 클리어
+            bool allPatternsCompleted = _monsterSpawner.PatternsCompletedThisWave >= patternsPerWave;
+            bool noActiveMonsters = _monsterSpawner.ActiveMonsterCount == 0;
 
-            if (_monstersKilledThisWave >= monstersPerWave)
+            LogDebug($"웨이브 상태 체크: 완료 패턴={_monsterSpawner.PatternsCompletedThisWave}/{patternsPerWave}, " +
+                     $"활성 몬스터={_monsterSpawner.ActiveMonsterCount}, 전투 중={_monsterSpawner.EngagedMonsterCount}");
+
+            if (allPatternsCompleted && noActiveMonsters)
             {
-                LogDebug($"웨이브 {_currentWaveIndex} 클리어!");
+                LogDebug($">>> 웨이브 {_currentWaveIndex} 클리어! (패턴 {patternsPerWave}개 완료, 처치 몬스터: {_monstersKilledThisWave})");
+                
+                // CombatService에 웨이브 완료 알림
+                _combatService.NotifyWaveComplete();
+                
+                // 다음 웨이브로 전환
                 _currentWaveIndex++;
-                _monsterSpawner.ResetWave();
                 _monstersKilledThisWave = 0;
+                
+                // MonsterSpawner 웨이브 초기화 및 새 웨이브 스폰 시작
+                _monsterSpawner.ResetWave();
+                _monsterSpawner.StartSpawning(_currentWaveIndex);
+                
+                LogDebug($">>> 웨이브 {_currentWaveIndex} 시작!");
             }
         }
 

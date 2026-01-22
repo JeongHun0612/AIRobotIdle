@@ -64,6 +64,12 @@ namespace SahurRaising.GamePlay
 
             if (_currentState == UnitState.Dead) return;
 
+            // 플레이어는 항상 몬스터보다 앞에 보이도록 Z값을 더 앞으로 당김
+            // UnitView의 기본 baseZ가 -5.0f이므로, 플레이어는 -6.0f 정도로 설정하여 무조건 앞에 오게 함
+            var pos = transform.position;
+            pos.z = _baseZ - 1.0f; 
+            transform.position = pos;
+
             // 바퀴 회전 처리
             // Move 상태이고, 실제로 이동 중(_isMovingParams)일 때만 회전
             if (_currentState == UnitState.Move && _isMovingParams)

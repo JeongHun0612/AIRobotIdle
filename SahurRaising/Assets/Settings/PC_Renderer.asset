@@ -71,8 +71,6 @@ MonoBehaviour:
     defaultColor: {r: 0, g: 0, b: 0, a: 1}
     defaultWidth: 2
     sampleCount: 8
-    depthSensitivity: 0.1
-    normalSensitivity: 0.5
 --- !u!114 &7833122117494664109
 MonoBehaviour:
   m_ObjectHideFlags: 0

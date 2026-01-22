@@ -12,25 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d35e963a11668a4bac66f00871091d3, type: 3}
   m_Name: DefaultCombatSettings
   m_EditorClassIdentifier: 
+  _backgroundRenderer: {fileID: 0}
+  _useAutoMapBounds: 1
+  _autoMarginY: 14
+  _manualMapBoundsYMin: -15
+  _manualMapBoundsYMax: 15
+  _combatYMin: 0
+  _combatYMax: 1
+  _combatYDefault: 1
+  _yConvergeSpeedMultiplier: 1
+  _enableYConvergence: 0
   _waveConfigs:
-  - NormalCount: 10
-    EliteCount: 0
-    BossCount: 0
-    MaxMonstersOnScreen: 5
-    SpawnInterval: 1
+  - PatternsPerWave: 3
+    MaxMonstersOnScreen: 10
     Description: 
-  _defaultMonstersPerWave: 10
+  - PatternsPerWave: 6
+    MaxMonstersOnScreen: 10
+    Description: 
+  _defaultPatternsPerWave: 3
   _defaultMaxMonstersOnScreen: 5
-  _defaultSpawnInterval: 0.5
   _wavesPerStage: 4
+  _spawnPatterns:
+  - {fileID: 11400000, guid: 848d4818b5893f7448dc91525df4ba1f, type: 2}
+  - {fileID: 11400000, guid: 06e7316a8b78db046957449e2fd347a7, type: 2}
+  - {fileID: 11400000, guid: 2a0d139ccb0a9e74987a40cd2ed082a6, type: 2}
+  _useFallbackSpawning: 1
   _monsterXSpacing: 2
-  _sineAmplitude: 10
-  _sinePeriodPerMonsters: 6
-  _yConvergenceSpeed: 3
-  _combatYOffsetRange: 2
-  _mapBoundsYMin: 0
-  _mapBoundsYMax: 18
-  _boundsMargin: 5
   _monsterVisuals:
   - Prefab: {fileID: 8566933824873381930, guid: 8640f86cc1cb10448814047cfd71eec9, type: 3}
     SpawnWeight: 1
@@ -64,5 +71,5 @@ MonoBehaviour:
   _playerAdvanceDistance: 3
   _playerMoveSpeed: 10
   _playerReturnSpeedMultiplier: 1.5
-  _attackRange: 3
+  _attackRange: 4.06
   _deathToSpawnDelay: 0.3
