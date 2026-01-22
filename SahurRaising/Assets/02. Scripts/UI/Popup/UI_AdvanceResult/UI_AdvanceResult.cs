@@ -88,10 +88,5 @@ namespace SahurRaising
                 Debug.LogWarning($"[UI_AdvanceResult] 결과 개수({resultCount})가 슬롯 개수({slotCount})보다 많습니다.");
             }
         }
-
-        public void OnClickBack()
-        {
-            UIManager.Instance.CloseCurrentPopup();
-        }
     }
 }

@@ -24,6 +24,7 @@ namespace SahurRaising.UI
         GachaResult = 30,
 
         AdvanceResult = 40,
+        OfflineResult = 41,
 
         // 공용
         //Temp = 20,

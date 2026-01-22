@@ -99,6 +99,17 @@ namespace SahurRaising.Core
         public string Reason;
     }
 
+    /// <summary>
+    /// 오프라인 보상 정보
+    /// </summary>
+    public struct OfflineRewardInfo
+    {
+        public BigDouble RewardAmount;
+        public long ElapsedSeconds;
+        public long ClampedSeconds;
+        public long MaxSeconds;
+    }
+
     // 서비스 인터페이스
     public interface ICurrencyService
     {
@@ -109,6 +120,7 @@ namespace SahurRaising.Core
         UniTask SaveAsync();
         UniTask LoadAsync();
         CurrencyData GetCurrencyData(CurrencyType type);
+        OfflineRewardInfo? GetOfflineRewardInfo();
     }
 
     public interface IUpgradeService

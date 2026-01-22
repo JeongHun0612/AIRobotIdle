@@ -95,6 +95,45 @@ namespace SahurRaising.Core
             });
         }
 
+        public OfflineRewardInfo? GetOfflineRewardInfo()
+        {
+            if (_lastSavedUnix <= 0)
+                return null;
+
+            var elapsedSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - _lastSavedUnix;
+            if (elapsedSeconds <= 0)
+                return null;
+
+            var snapshot = _statService?.GetSnapshot() ?? default;
+
+            // OFFT는 스탯 테이블에 이미 합산된 누적 분 단위 값으로 가정한다.
+            var cappedMinutes = snapshot.OfflineTimeMinutes > 0
+                ? snapshot.OfflineTimeMinutes
+                : DefaultOfflineMinutes;
+            var maxSeconds = (long)(cappedMinutes * 60d);
+            var clampedSeconds = Math.Min(elapsedSeconds, maxSeconds);
+
+            if (clampedSeconds <= 0)
+                return null;
+
+            var reward = new BigDouble(BaseGoldPerSecond * clampedSeconds);
+            var bonus = 1 + snapshot.OfflineAmountRate;
+            var goldRate = 1 + snapshot.GoldBonusRate;
+
+            reward *= bonus;
+            reward *= goldRate;
+
+            Debug.Log($"[CurrencyService] 미접속 보상 계산: 경과 {elapsedSeconds}s → {clampedSeconds}s, base {BaseGoldPerSecond}/s, bonus {bonus}, goldRate {goldRate}, 결과 {reward}");
+
+            return new OfflineRewardInfo
+            {
+                RewardAmount = reward,
+                ElapsedSeconds = elapsedSeconds,
+                ClampedSeconds = clampedSeconds,
+                MaxSeconds = maxSeconds
+            };
+        }
+
         public async UniTask SaveAsync()
         {
             try
@@ -143,12 +182,13 @@ namespace SahurRaising.Core
                 _balances[CurrencyType.Ruby] = ParseBigDouble(data.Ruby);
                 _lastSavedUnix = data.LastSavedUnix;
 
-                var offlineReward = CalculateOfflineReward();
-                if (offlineReward > 0)
-                {
-                    Add(CurrencyType.Gold, offlineReward, "OfflineReward");
-                    Debug.Log($"[CurrencyService] 미접속 보상 지급: {offlineReward}");
-                }
+                //var offlineRewardInfo = GetOfflineRewardInfo();
+                //if (offlineRewardInfo.HasValue)
+                //{
+                //    var offlineReward = offlineRewardInfo.Value.RewardAmount;
+                //    Add(CurrencyType.Gold, offlineReward, "OfflineReward");
+                //    Debug.Log($"[CurrencyService] 미접속 보상 지급: {offlineReward}");
+                //}
             }
             catch (Exception ex)
             {
@@ -164,38 +204,6 @@ namespace SahurRaising.Core
             _balances[CurrencyType.Diamond] = BigDouble.Zero;
             _balances[CurrencyType.Ticket] = BigDouble.Zero;
             _balances[CurrencyType.Ruby] = BigDouble.Zero;
-        }
-
-        private BigDouble CalculateOfflineReward()
-        {
-            if (_lastSavedUnix <= 0)
-                return BigDouble.Zero;
-
-            var elapsedSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - _lastSavedUnix;
-            if (elapsedSeconds <= 0)
-                return BigDouble.Zero;
-
-            var snapshot = _statService?.GetSnapshot() ?? default;
-
-            // OFFT는 스탯 테이블에 이미 합산된 누적 분 단위 값으로 가정한다.
-            var cappedMinutes = snapshot.OfflineTimeMinutes > 0
-                ? snapshot.OfflineTimeMinutes
-                : DefaultOfflineMinutes;
-            var maxSeconds = cappedMinutes * 60d;
-            var clampedSeconds = Math.Min(elapsedSeconds, maxSeconds);
-
-            if (clampedSeconds <= 0)
-                return BigDouble.Zero;
-
-            var reward = new BigDouble(BaseGoldPerSecond * clampedSeconds);
-            var bonus = 1 + snapshot.OfflineAmountRate;
-            var goldRate = 1 + snapshot.GoldBonusRate;
-
-            reward *= bonus;
-            reward *= goldRate;
-
-            Debug.Log($"[CurrencyService] 미접속 보상 계산: 경과 {elapsedSeconds}s → {clampedSeconds}s, base {BaseGoldPerSecond}/s, bonus {bonus}, goldRate {goldRate}, 결과 {reward}");
-            return reward;
         }
 
         private string GetSavePath()

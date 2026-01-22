@@ -416,12 +416,12 @@ namespace SahurRaising
             SkipAnimation();
         }
 
-        public void OnClickBack()
+        public override void OnClickBack()
         {
             if (_isAnimating)
                 return;
 
-            UIManager.Instance.CloseCurrentPopup();
+            base.OnClickBack();
         }
     }
 }

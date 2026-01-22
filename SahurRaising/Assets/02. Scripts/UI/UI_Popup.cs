@@ -32,5 +32,10 @@ namespace SahurRaising.UI
                 _backdropButton.enabled = CanCloseOnBackdropClick;
             }
         }
+
+        public virtual void OnClickBack()
+        {
+            UIManager.Instance.CloseCurrentPopup();
+        }
     }
 }

@@ -44,13 +44,14 @@ namespace SahurRaising.Core
             }
 
             // CurrencyService 가져오기
-            var currencyService = ServiceLocator.Get<ICurrencyService>();
-            if (currencyService == null)
+            if (!ServiceLocator.HasService<ICurrencyService>())
             {
                 EditorGUILayout.HelpBox("CurrencyService를 찾을 수 없습니다. 게임이 초기화되었는지 확인하세요.", MessageType.Error);
                 serializedObject.ApplyModifiedProperties();
                 return;
             }
+
+            var currencyService = ServiceLocator.Get<ICurrencyService>();
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("현재 보유량", EditorStyles.boldLabel);

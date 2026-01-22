@@ -35,6 +35,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5cc9a89867faa0a4095f1ec2465201d3
+    m_Address: UI_OfflineResult
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5f2232cf4e20bf54bbdc8f72a0f6511a
     m_Address: UI_Equipment
     m_ReadOnly: 0
