@@ -20,7 +20,6 @@ namespace SahurRaising
         [SerializeField] private ScrollRect _scrollRect;
 
         [Header("장비 정보 영역")]
-        [SerializeField] private TMP_Text _equipmentTypeText;
         [SerializeField] private EquipmentInfo _equipmentInfo;
 
         private readonly List<EquipmentItemSlot> _itemSlots = new();
@@ -152,7 +151,7 @@ namespace SahurRaising
             if (string.IsNullOrEmpty(equippedCode))
             {
                 // 장착된 장비가 없으면 장비 정보 숨기기
-                _equipmentInfo.HideEquipmentInfo();
+                _equipmentInfo.HideInfo();
                 return;
             }
 
@@ -161,7 +160,7 @@ namespace SahurRaising
                 return;
 
             // EquipmentInfo에 표시
-            _equipmentInfo.RefreshEquipmentInfo(equippedData);
+            _equipmentInfo.UpdateItemInfo(equippedData);
 
             if (_selectedSlot == null)
             {
@@ -259,12 +258,6 @@ namespace SahurRaising
 
             _currentType = type;
 
-            // 탭 텍스트 업데이트
-            if (_equipmentTypeText != null)
-            {
-                _equipmentTypeText.text = type.ToString();
-            }
-
             // 인벤토리 현재 타입에 맞춰 갱신
             RefreshInventoryByCurrentType();
 
@@ -283,7 +276,7 @@ namespace SahurRaising
             if (_equipmentInfo != null && itemSlot.Data.Code != null)
             {
                 itemSlot.HideNewIfActive();
-                _equipmentInfo.RefreshEquipmentInfo(itemSlot.Data);
+                _equipmentInfo.UpdateItemInfo(itemSlot.Data);
             }
         }
 

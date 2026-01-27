@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rows:
   - Code: P1
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 41f869d2271795242ac3f3d9f98aecea, type: 3}
     Type: 0
     Grade: 0
     EquipOption:
@@ -34,7 +34,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P2
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e64ce829c343fdc4697b7fa5b7a9fb1a, type: 3}
     Type: 0
     Grade: 1
     EquipOption:
@@ -54,7 +54,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P3
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e64ce829c343fdc4697b7fa5b7a9fb1a, type: 3}
     Type: 0
     Grade: 2
     EquipOption:
@@ -74,7 +74,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P4
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e64ce829c343fdc4697b7fa5b7a9fb1a, type: 3}
     Type: 0
     Grade: 3
     EquipOption:
@@ -94,7 +94,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P5
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 41e8290e192c6fe42ac6490802b1078f, type: 3}
     Type: 0
     Grade: 4
     EquipOption:
@@ -114,7 +114,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P6
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 41e8290e192c6fe42ac6490802b1078f, type: 3}
     Type: 0
     Grade: 5
     EquipOption:
@@ -134,7 +134,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P7
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 41e8290e192c6fe42ac6490802b1078f, type: 3}
     Type: 0
     Grade: 6
     EquipOption:
@@ -154,7 +154,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P8
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 731d9196b614d924a937fcde97879945, type: 3}
     Type: 0
     Grade: 7
     EquipOption:
@@ -174,7 +174,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P9
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 731d9196b614d924a937fcde97879945, type: 3}
     Type: 0
     Grade: 8
     EquipOption:
@@ -194,7 +194,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P10
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 731d9196b614d924a937fcde97879945, type: 3}
     Type: 0
     Grade: 9
     EquipOption:
@@ -214,7 +214,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P11
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 351bb90ce83ced54598dde2f95a71000, type: 3}
     Type: 0
     Grade: 10
     EquipOption:
@@ -234,7 +234,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P12
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 351bb90ce83ced54598dde2f95a71000, type: 3}
     Type: 0
     Grade: 11
     EquipOption:
@@ -254,7 +254,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P13
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 351bb90ce83ced54598dde2f95a71000, type: 3}
     Type: 0
     Grade: 12
     EquipOption:
@@ -274,7 +274,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P14
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 28ad4ad7a1a0b55428595504eb4da6b5, type: 3}
     Type: 0
     Grade: 13
     EquipOption:
@@ -294,7 +294,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P15
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 28ad4ad7a1a0b55428595504eb4da6b5, type: 3}
     Type: 0
     Grade: 14
     EquipOption:
@@ -314,7 +314,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P16
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 28ad4ad7a1a0b55428595504eb4da6b5, type: 3}
     Type: 0
     Grade: 15
     EquipOption:
@@ -334,7 +334,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P17
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 6c4fa1978c2c77a4783b7c927b4dea59, type: 3}
     Type: 0
     Grade: 16
     EquipOption:
@@ -354,7 +354,7 @@ MonoBehaviour:
       Base: 1
       Up: 0
   - Code: P18
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 6c4fa1978c2c77a4783b7c927b4dea59, type: 3}
     Type: 0
     Grade: 17
     EquipOption:
@@ -374,7 +374,7 @@ MonoBehaviour:
       Base: 2
       Up: 0
   - Code: P19
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 6c4fa1978c2c77a4783b7c927b4dea59, type: 3}
     Type: 0
     Grade: 18
     EquipOption:
@@ -394,7 +394,7 @@ MonoBehaviour:
       Base: 3
       Up: 0
   - Code: P20
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 49ce10d1dcafbee44ab4aa0234f01da8, type: 3}
     Type: 0
     Grade: 19
     EquipOption:
@@ -414,7 +414,7 @@ MonoBehaviour:
       Base: 4
       Up: 0
   - Code: W1
-    Icon: {fileID: 21300000, guid: 6358c62b484454de39a6c22799c77355, type: 3}
+    Icon: {fileID: 21300000, guid: 5e6312ceaa070204fae9cf12ed2cb226, type: 3}
     Type: 1
     Grade: 0
     EquipOption:
@@ -434,7 +434,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W2
-    Icon: {fileID: 21300000, guid: 0e1cad91317f94a9d9edf72d8dea3bcb, type: 3}
+    Icon: {fileID: 21300000, guid: d80fe718a7b018a4ba9e6df5d927cf46, type: 3}
     Type: 1
     Grade: 1
     EquipOption:
@@ -454,7 +454,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W3
-    Icon: {fileID: 21300000, guid: bd0d19263e2a84efeb73d4ce5880c90e, type: 3}
+    Icon: {fileID: 21300000, guid: d80fe718a7b018a4ba9e6df5d927cf46, type: 3}
     Type: 1
     Grade: 2
     EquipOption:
@@ -474,7 +474,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W4
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d80fe718a7b018a4ba9e6df5d927cf46, type: 3}
     Type: 1
     Grade: 3
     EquipOption:
@@ -494,7 +494,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W5
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 9e8af5c3f54672247970a0994ef79719, type: 3}
     Type: 1
     Grade: 4
     EquipOption:
@@ -514,7 +514,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W6
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 9e8af5c3f54672247970a0994ef79719, type: 3}
     Type: 1
     Grade: 5
     EquipOption:
@@ -534,7 +534,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W7
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 9e8af5c3f54672247970a0994ef79719, type: 3}
     Type: 1
     Grade: 6
     EquipOption:
@@ -554,7 +554,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W8
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 3644126800986cc4caf04fabac5970ee, type: 3}
     Type: 1
     Grade: 7
     EquipOption:
@@ -574,7 +574,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W9
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 3644126800986cc4caf04fabac5970ee, type: 3}
     Type: 1
     Grade: 8
     EquipOption:
@@ -594,7 +594,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W10
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 3644126800986cc4caf04fabac5970ee, type: 3}
     Type: 1
     Grade: 9
     EquipOption:
@@ -614,7 +614,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W11
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 248dde4b013090e4c9ff70727d75ce7f, type: 3}
     Type: 1
     Grade: 10
     EquipOption:
@@ -634,7 +634,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W12
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 248dde4b013090e4c9ff70727d75ce7f, type: 3}
     Type: 1
     Grade: 11
     EquipOption:
@@ -654,7 +654,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W13
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 248dde4b013090e4c9ff70727d75ce7f, type: 3}
     Type: 1
     Grade: 12
     EquipOption:
@@ -674,7 +674,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W14
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: deec4cf0c6242774880370d0bf74714d, type: 3}
     Type: 1
     Grade: 13
     EquipOption:
@@ -694,7 +694,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W15
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: deec4cf0c6242774880370d0bf74714d, type: 3}
     Type: 1
     Grade: 14
     EquipOption:
@@ -714,7 +714,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W16
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: deec4cf0c6242774880370d0bf74714d, type: 3}
     Type: 1
     Grade: 15
     EquipOption:
@@ -734,7 +734,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W17
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: fadbf1888d3b8b447af2ca55911ccfff, type: 3}
     Type: 1
     Grade: 16
     EquipOption:
@@ -754,7 +754,7 @@ MonoBehaviour:
       Base: 1
       Up: 0
   - Code: W18
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: fadbf1888d3b8b447af2ca55911ccfff, type: 3}
     Type: 1
     Grade: 17
     EquipOption:
@@ -774,7 +774,7 @@ MonoBehaviour:
       Base: 2
       Up: 0
   - Code: W19
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: fadbf1888d3b8b447af2ca55911ccfff, type: 3}
     Type: 1
     Grade: 18
     EquipOption:
@@ -794,7 +794,7 @@ MonoBehaviour:
       Base: 3
       Up: 0
   - Code: W20
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a4ef8540d5dc89542b1e9bfca764c591, type: 3}
     Type: 1
     Grade: 19
     EquipOption:
@@ -814,7 +814,7 @@ MonoBehaviour:
       Base: 4
       Up: 0
   - Code: B1
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 85a497e91ef3f6a45bd161c9acd780d2, type: 3}
     Type: 2
     Grade: 0
     EquipOption:
@@ -834,7 +834,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B2
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 87c7790b601baa848ab8bdf9d9fb4651, type: 3}
     Type: 2
     Grade: 1
     EquipOption:
@@ -854,7 +854,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B3
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 87c7790b601baa848ab8bdf9d9fb4651, type: 3}
     Type: 2
     Grade: 2
     EquipOption:
@@ -874,7 +874,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B4
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 87c7790b601baa848ab8bdf9d9fb4651, type: 3}
     Type: 2
     Grade: 3
     EquipOption:
@@ -894,7 +894,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B5
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: b753fa4c314a2f74a94ed1f32713f944, type: 3}
     Type: 2
     Grade: 4
     EquipOption:
@@ -914,7 +914,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B6
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: b753fa4c314a2f74a94ed1f32713f944, type: 3}
     Type: 2
     Grade: 5
     EquipOption:
@@ -934,7 +934,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B7
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: b753fa4c314a2f74a94ed1f32713f944, type: 3}
     Type: 2
     Grade: 6
     EquipOption:
@@ -954,7 +954,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B8
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 656aa6535afcf584dbfb404ae348cbb7, type: 3}
     Type: 2
     Grade: 7
     EquipOption:
@@ -974,7 +974,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B9
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 656aa6535afcf584dbfb404ae348cbb7, type: 3}
     Type: 2
     Grade: 8
     EquipOption:
@@ -994,7 +994,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B10
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 656aa6535afcf584dbfb404ae348cbb7, type: 3}
     Type: 2
     Grade: 9
     EquipOption:
@@ -1014,7 +1014,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B11
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8f1c189600ba7df46b0bd77b063a47a7, type: 3}
     Type: 2
     Grade: 10
     EquipOption:
@@ -1034,7 +1034,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B12
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8f1c189600ba7df46b0bd77b063a47a7, type: 3}
     Type: 2
     Grade: 11
     EquipOption:
@@ -1054,7 +1054,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B13
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8f1c189600ba7df46b0bd77b063a47a7, type: 3}
     Type: 2
     Grade: 12
     EquipOption:
@@ -1074,7 +1074,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B14
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 94498855b5d268d4193c1741d793fd77, type: 3}
     Type: 2
     Grade: 13
     EquipOption:
@@ -1094,7 +1094,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B15
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 94498855b5d268d4193c1741d793fd77, type: 3}
     Type: 2
     Grade: 14
     EquipOption:
@@ -1114,7 +1114,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B16
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 94498855b5d268d4193c1741d793fd77, type: 3}
     Type: 2
     Grade: 15
     EquipOption:
@@ -1134,7 +1134,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B17
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bf5af0a52182c984a8e6c8bc1091fdc2, type: 3}
     Type: 2
     Grade: 16
     EquipOption:
@@ -1154,7 +1154,7 @@ MonoBehaviour:
       Base: 10
       Up: 0
   - Code: B18
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bf5af0a52182c984a8e6c8bc1091fdc2, type: 3}
     Type: 2
     Grade: 17
     EquipOption:
@@ -1174,7 +1174,7 @@ MonoBehaviour:
       Base: 20
       Up: 0
   - Code: B19
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bf5af0a52182c984a8e6c8bc1091fdc2, type: 3}
     Type: 2
     Grade: 18
     EquipOption:
@@ -1194,7 +1194,7 @@ MonoBehaviour:
       Base: 30
       Up: 0
   - Code: B20
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 3ffa2158c5d3cb64587fc4bcc926aceb, type: 3}
     Type: 2
     Grade: 19
     EquipOption:
@@ -1214,7 +1214,7 @@ MonoBehaviour:
       Base: 40
       Up: 0
   - Code: A1
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 28679b76681b03c49b9188fb863c2023, type: 3}
     Type: 3
     Grade: 0
     EquipOption:
@@ -1234,7 +1234,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A2
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 26a1e2ffc0281f745a2a4e002c60d576, type: 3}
     Type: 3
     Grade: 1
     EquipOption:
@@ -1254,7 +1254,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A3
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 26a1e2ffc0281f745a2a4e002c60d576, type: 3}
     Type: 3
     Grade: 2
     EquipOption:
@@ -1274,7 +1274,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A4
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 26a1e2ffc0281f745a2a4e002c60d576, type: 3}
     Type: 3
     Grade: 3
     EquipOption:
@@ -1294,7 +1294,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A5
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 06cbe89efc987e341a51fa186808e11c, type: 3}
     Type: 3
     Grade: 4
     EquipOption:
@@ -1314,7 +1314,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A6
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 06cbe89efc987e341a51fa186808e11c, type: 3}
     Type: 3
     Grade: 5
     EquipOption:
@@ -1334,7 +1334,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A7
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 06cbe89efc987e341a51fa186808e11c, type: 3}
     Type: 3
     Grade: 6
     EquipOption:
@@ -1354,7 +1354,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A8
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: f3608cd8891df8e4384729938d4c66bf, type: 3}
     Type: 3
     Grade: 7
     EquipOption:
@@ -1374,7 +1374,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A9
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: f3608cd8891df8e4384729938d4c66bf, type: 3}
     Type: 3
     Grade: 8
     EquipOption:
@@ -1394,7 +1394,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A10
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: f3608cd8891df8e4384729938d4c66bf, type: 3}
     Type: 3
     Grade: 9
     EquipOption:
@@ -1414,7 +1414,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A11
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 74f1002949534ee45a6ba4311860f45b, type: 3}
     Type: 3
     Grade: 10
     EquipOption:
@@ -1434,7 +1434,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A12
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 74f1002949534ee45a6ba4311860f45b, type: 3}
     Type: 3
     Grade: 11
     EquipOption:
@@ -1454,7 +1454,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A13
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 74f1002949534ee45a6ba4311860f45b, type: 3}
     Type: 3
     Grade: 12
     EquipOption:
@@ -1474,7 +1474,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A14
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 2ed9de1ecc18d5e4ea21fc65c65d75f7, type: 3}
     Type: 3
     Grade: 13
     EquipOption:
@@ -1494,7 +1494,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A15
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 2ed9de1ecc18d5e4ea21fc65c65d75f7, type: 3}
     Type: 3
     Grade: 14
     EquipOption:
@@ -1514,7 +1514,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A16
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 2ed9de1ecc18d5e4ea21fc65c65d75f7, type: 3}
     Type: 3
     Grade: 15
     EquipOption:
@@ -1534,7 +1534,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A17
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bb15ecb6dd51bbe45a673108273086b8, type: 3}
     Type: 3
     Grade: 16
     EquipOption:
@@ -1554,7 +1554,7 @@ MonoBehaviour:
       Base: 30
       Up: 0
   - Code: A18
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bb15ecb6dd51bbe45a673108273086b8, type: 3}
     Type: 3
     Grade: 17
     EquipOption:
@@ -1574,7 +1574,7 @@ MonoBehaviour:
       Base: 30
       Up: 0
   - Code: A19
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bb15ecb6dd51bbe45a673108273086b8, type: 3}
     Type: 3
     Grade: 18
     EquipOption:
@@ -1594,7 +1594,7 @@ MonoBehaviour:
       Base: 30
       Up: 0
   - Code: A20
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 16fc920389fad744780a1b01ea85cd3d, type: 3}
     Type: 3
     Grade: 19
     EquipOption:
@@ -1614,7 +1614,7 @@ MonoBehaviour:
       Base: 60
       Up: 0
   - Code: M1
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cd8052a41c18b1b4bb28937a6d9ed35c, type: 3}
     Type: 4
     Grade: 0
     EquipOption:
@@ -1634,7 +1634,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M2
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 284ea34e1a8694b4e8ab1b8f520435a9, type: 3}
     Type: 4
     Grade: 1
     EquipOption:
@@ -1654,7 +1654,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M3
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 284ea34e1a8694b4e8ab1b8f520435a9, type: 3}
     Type: 4
     Grade: 2
     EquipOption:
@@ -1674,7 +1674,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M4
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 284ea34e1a8694b4e8ab1b8f520435a9, type: 3}
     Type: 4
     Grade: 3
     EquipOption:
@@ -1694,7 +1694,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M5
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cf7bd4a749a068d48a5e12c44f848bf6, type: 3}
     Type: 4
     Grade: 4
     EquipOption:
@@ -1714,7 +1714,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M6
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cf7bd4a749a068d48a5e12c44f848bf6, type: 3}
     Type: 4
     Grade: 5
     EquipOption:
@@ -1734,7 +1734,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M7
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cf7bd4a749a068d48a5e12c44f848bf6, type: 3}
     Type: 4
     Grade: 6
     EquipOption:
@@ -1754,7 +1754,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M8
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 76ddc23497284da4da477c70241aba37, type: 3}
     Type: 4
     Grade: 7
     EquipOption:
@@ -1774,7 +1774,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M9
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 76ddc23497284da4da477c70241aba37, type: 3}
     Type: 4
     Grade: 8
     EquipOption:
@@ -1794,7 +1794,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M10
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 76ddc23497284da4da477c70241aba37, type: 3}
     Type: 4
     Grade: 9
     EquipOption:
@@ -1814,7 +1814,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M11
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: c423dab11f0952b44b356420cfa9c8c4, type: 3}
     Type: 4
     Grade: 10
     EquipOption:
@@ -1834,7 +1834,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M12
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: c423dab11f0952b44b356420cfa9c8c4, type: 3}
     Type: 4
     Grade: 11
     EquipOption:
@@ -1854,7 +1854,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M13
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: c423dab11f0952b44b356420cfa9c8c4, type: 3}
     Type: 4
     Grade: 12
     EquipOption:
@@ -1874,7 +1874,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M14
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: fc1fdf21f080b494a8f849196c36dbb2, type: 3}
     Type: 4
     Grade: 13
     EquipOption:
@@ -1894,7 +1894,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M15
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: fc1fdf21f080b494a8f849196c36dbb2, type: 3}
     Type: 4
     Grade: 14
     EquipOption:
@@ -1914,7 +1914,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M16
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: fc1fdf21f080b494a8f849196c36dbb2, type: 3}
     Type: 4
     Grade: 15
     EquipOption:
@@ -1934,7 +1934,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M17
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a15eca5b83fb0d545ae880bda1856384, type: 3}
     Type: 4
     Grade: 16
     EquipOption:
@@ -1954,7 +1954,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: M18
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a15eca5b83fb0d545ae880bda1856384, type: 3}
     Type: 4
     Grade: 17
     EquipOption:
@@ -1974,7 +1974,7 @@ MonoBehaviour:
       Base: 10
       Up: 0
   - Code: M19
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a15eca5b83fb0d545ae880bda1856384, type: 3}
     Type: 4
     Grade: 18
     EquipOption:
@@ -1994,7 +1994,7 @@ MonoBehaviour:
       Base: 10
       Up: 0
   - Code: M20
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cb75e4f191869ab42ac88662a9eaee5f, type: 3}
     Type: 4
     Grade: 19
     EquipOption:
@@ -2014,7 +2014,7 @@ MonoBehaviour:
       Base: 15
       Up: 0
   - Code: R1
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 98437f97729cc484e8eac1ac7b5f60fe, type: 3}
     Type: 5
     Grade: 0
     EquipOption:
@@ -2034,7 +2034,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R2
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e01d3a51a4e9b3f4dafc1a16c187cf26, type: 3}
     Type: 5
     Grade: 1
     EquipOption:
@@ -2054,7 +2054,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R3
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e01d3a51a4e9b3f4dafc1a16c187cf26, type: 3}
     Type: 5
     Grade: 2
     EquipOption:
@@ -2074,7 +2074,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R4
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e01d3a51a4e9b3f4dafc1a16c187cf26, type: 3}
     Type: 5
     Grade: 3
     EquipOption:
@@ -2094,7 +2094,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R5
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bcff4507926499f42acf6144b65246b1, type: 3}
     Type: 5
     Grade: 4
     EquipOption:
@@ -2114,7 +2114,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R6
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bcff4507926499f42acf6144b65246b1, type: 3}
     Type: 5
     Grade: 5
     EquipOption:
@@ -2134,7 +2134,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R7
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bcff4507926499f42acf6144b65246b1, type: 3}
     Type: 5
     Grade: 6
     EquipOption:
@@ -2154,7 +2154,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R8
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 48bf4e4a324b3b44fb7aa54f2bbefc3f, type: 3}
     Type: 5
     Grade: 7
     EquipOption:
@@ -2174,7 +2174,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R9
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 48bf4e4a324b3b44fb7aa54f2bbefc3f, type: 3}
     Type: 5
     Grade: 8
     EquipOption:
@@ -2194,7 +2194,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R10
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 48bf4e4a324b3b44fb7aa54f2bbefc3f, type: 3}
     Type: 5
     Grade: 9
     EquipOption:
@@ -2214,7 +2214,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R11
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d9148156372c5044aa076f1a2388d87c, type: 3}
     Type: 5
     Grade: 10
     EquipOption:
@@ -2234,7 +2234,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R12
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d9148156372c5044aa076f1a2388d87c, type: 3}
     Type: 5
     Grade: 11
     EquipOption:
@@ -2254,7 +2254,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R13
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d9148156372c5044aa076f1a2388d87c, type: 3}
     Type: 5
     Grade: 12
     EquipOption:
@@ -2274,7 +2274,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R14
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 40cd2044a152d5842a24e077228461f9, type: 3}
     Type: 5
     Grade: 13
     EquipOption:
@@ -2294,7 +2294,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R15
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 40cd2044a152d5842a24e077228461f9, type: 3}
     Type: 5
     Grade: 14
     EquipOption:
@@ -2314,7 +2314,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R16
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 40cd2044a152d5842a24e077228461f9, type: 3}
     Type: 5
     Grade: 15
     EquipOption:
@@ -2334,7 +2334,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R17
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: eeaf78d6af9774a439198f9d7d6e4889, type: 3}
     Type: 5
     Grade: 16
     EquipOption:
@@ -2354,7 +2354,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: R18
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: eeaf78d6af9774a439198f9d7d6e4889, type: 3}
     Type: 5
     Grade: 17
     EquipOption:
@@ -2374,7 +2374,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: R19
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: eeaf78d6af9774a439198f9d7d6e4889, type: 3}
     Type: 5
     Grade: 18
     EquipOption:
@@ -2394,7 +2394,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: R20
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: fbd2854e1332d6944a90b66f9ff37e18, type: 3}
     Type: 5
     Grade: 19
     EquipOption:

@@ -132,7 +132,7 @@ namespace SahurRaising
             if (string.IsNullOrEmpty(equippedID))
             {
                 // 장착된 드론이 없으면 드론 정보 숨기기
-                _droneInfo.HideEquipmentInfo();
+                _droneInfo.HideInfo();
                 return;
             }
 
@@ -141,7 +141,7 @@ namespace SahurRaising
                 return;
 
             // EquipmentInfo에 표시
-            _droneInfo.RefreshDroneInfo(equippedData);
+            _droneInfo.UpdateItemInfo(equippedData);
 
             // 해당 ItemSlot 찾아서 선택 상태로 표시
             DroneItemSlot equippedSlot = FindItemSlotByCode(equippedID);
@@ -231,7 +231,7 @@ namespace SahurRaising
             if (_droneInfo != null && itemSlot.Data.ID != null)
             {
                 itemSlot.HideNewIfActive();
-                _droneInfo.RefreshDroneInfo(itemSlot.Data);
+                _droneInfo.UpdateItemInfo(itemSlot.Data);
             }
         }
 

@@ -1,63 +1,40 @@
 ﻿using SahurRaising.Core;
-using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SahurRaising
 {
-    public class EquipmentInfo : MonoBehaviour
+    public class EquipmentInfo : ItemInfoBase<EquipmentRow, IEquipmentService>
     {
         [Header("아이템 정보")]
         [SerializeField] private EquipmentInfoItemSlot _itemSlot;
 
-        [Header("아이템 장착 스탯")]
-        [SerializeField] private OptionStatPanel _equipOptionStatPanel;
-
         [Header("아이템 보유 스탯")]
         [SerializeField] private List<OptionStatPanel> _heldOptionStatPanels;
 
-        [Header("장착 버튼")]
-        [SerializeField] private Button _equipToggleButton;
-        [SerializeField] private GameObject _equipButtonPanel;
-        [SerializeField] private GameObject _unEquipButtonPanel;
-
-        [Header("레벨업 버튼")]
-        [SerializeField] private Button _levelUpButton;
-
-        private IEquipmentService _equipmentService;
-        private EquipmentRow _currentData;
-        private Action _onEquipChanged; // 갱신 콜백
-
-        public void Initialize(Action onEquipChanged = null)
+        protected override void UpdateItemSlot(EquipmentRow data)
         {
-            _onEquipChanged = onEquipChanged;
-            _itemSlot.Initialize();
-        }
-
-        public void RefreshEquipmentInfo(EquipmentRow data)
-        {
-            _currentData = data;
+            if (_itemSlot == null)
+                return;
 
             _itemSlot.gameObject.SetActive(true);
             _itemSlot.SetData(data);
+        }
 
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
+        protected override void UpdateEquipOptionStat(EquipmentRow data, int level)
+        {
+            if (_equipOptionStatPanel == null)
+                return;
 
-            // 인벤토리 정보에서 레벨 가져오기
-            var inventoryInfo = _equipmentService.GetInventoryInfo(data.Code);
-            int level = inventoryInfo.Level;
+            _equipOptionStatPanel.gameObject.SetActive(true);
+            _equipOptionStatPanel.UpdateEquipmentStatText(data.EquipOption, level);
+        }
 
-            // 장착 스탯 (EquipOption)
-            if (_equipOptionStatPanel != null)
-            {
-                _equipOptionStatPanel.gameObject.SetActive(true);
-                _equipOptionStatPanel.UpdateEquipmentStatText(data.EquipOption, level);
-            }
+        protected override void UpdateHeldOptionStats(EquipmentRow data, int level)
+        {
+            if (_heldOptionStatPanels == null || _heldOptionStatPanels.Count == 0)
+                return;
 
-            // 보유 스탯 (HeldOption1, 2, 3)
             var heldOptions = new List<OptionValue>
             {
                 data.HeldOption1,
@@ -89,91 +66,52 @@ namespace SahurRaising
                     }
                 }
             }
-
-            _equipToggleButton.gameObject.SetActive(true);
-            _levelUpButton.gameObject.SetActive(true);
-
-            // 장착 버튼 상태 업데이트
-            UpdateEquipButtonState();
         }
 
-        public void HideEquipmentInfo()
+        public override void HideInfo()
         {
-            _itemSlot.gameObject.SetActive(false);
+            base.HideInfo();
 
-            _equipOptionStatPanel.gameObject.SetActive(false);
+            if (_itemSlot != null)
+                _itemSlot.gameObject.SetActive(false);
 
             foreach (var heldOptionStatPanel in _heldOptionStatPanels)
             {
-                heldOptionStatPanel.gameObject.SetActive(false);
+                if (heldOptionStatPanel != null)
+                    heldOptionStatPanel.gameObject.SetActive(false);
             }
-
-            _equipToggleButton.gameObject.SetActive(false);
-            _levelUpButton.gameObject.SetActive(false);
         }
 
-        private void UpdateEquipButtonState()
+        protected override bool GetIsEquipped()
         {
-            if (_equipToggleButton == null || _currentData.Code == null)
-                return;
-
-            // 현재 장착 상태 확인
-            bool isEquipped = GetIsEquipped();
-
-            _equipButtonPanel.SetActive(!isEquipped);
-            _unEquipButtonPanel.SetActive(isEquipped);
-        }
-
-        private bool GetIsEquipped()
-        {
-            if (_equipmentService == null)
-                _equipmentService = ServiceLocator.Get<IEquipmentService>();
-
-            string equippedCode = _equipmentService.GetEquippedCode(_currentData.Type);
+            string equippedCode = _service.GetEquippedCode(_currentData.Type);
             return !string.IsNullOrEmpty(equippedCode) && equippedCode == _currentData.Code;
         }
 
-        public void OnClickEquip()
+        protected override void Equip()
         {
-            if (_equipmentService == null || _currentData.Code == null)
-                return;
-
-            // 현재 장착 상태 확인
-            bool isEquipped = GetIsEquipped();
-
-            // 장착/해제 처리
-            if (isEquipped)
-            {
-                _equipmentService.Unequip(_currentData.Type);
-            }
-            else
-            {
-                _equipmentService.Equip(_currentData.Type, _currentData.Code);
-            }
-
-            // 버튼 상태 업데이트
-            UpdateEquipButtonState();
-
-            // UI_Equipment 갱신 요청
-            _onEquipChanged?.Invoke();
+            _service.Equip(_currentData.Type, _currentData.Code);
         }
 
-        public void OnClickLevelUp()
+        protected override void Unequip()
         {
-            if (_equipmentService == null || _currentData.Code == null)
-                return;
+            _service.Unequip(_currentData.Type);
+        }
 
-            // 레벨업 수행
-            bool success = _equipmentService.LevelUp(_currentData.Code);
+        protected override bool LevelUp()
+        {
+            return _service.LevelUp(_currentData.Code);
+        }
 
-            if (success)
-            {
-                // UI 갱신
-                RefreshEquipmentInfo(_currentData);
+        protected override string GetItemID()
+        {
+            return _currentData.Code;
+        }
 
-                // 인벤토리 갱신
-                _onEquipChanged?.Invoke();
-            }
+        protected override int GetItemLevel()
+        {
+            var inventoryInfo = _service.GetInventoryInfo(_currentData.Code);
+            return inventoryInfo.Level;
         }
     }
 }
