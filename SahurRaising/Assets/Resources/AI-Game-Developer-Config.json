@@ -66,10 +66,6 @@
       "enabled": true
     },
     {
-      "name": "component-list",
-      "enabled": true
-    },
-    {
       "name": "console-get-logs",
       "enabled": true
     },
@@ -102,6 +98,10 @@
       "enabled": true
     },
     {
+      "name": "gameobject-component-list-all",
+      "enabled": true
+    },
+    {
       "name": "gameobject-component-modify",
       "enabled": true
     },
@@ -127,6 +127,14 @@
     },
     {
       "name": "gameobject-set-parent",
+      "enabled": true
+    },
+    {
+      "name": "object-get-data",
+      "enabled": true
+    },
+    {
+      "name": "object-modify",
       "enabled": true
     },
     {
