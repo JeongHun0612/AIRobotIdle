@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using SahurRaising.Core;
@@ -106,6 +106,15 @@ namespace SahurRaising.GamePlay
         public void StartSpawning(int waveIndex = 1)
         {
             _currentWaveIndex = waveIndex;
+            
+            // 스폰 비활성화 체크
+            if (!_settings.IsMonsterSpawnEnabled)
+            {
+                _isSpawningEnabled = false;
+                Debug.Log("[MonsterSpawner] 몬스터 스폰이 비활성화되어 있습니다. (CombatSettings 확인)");
+                return;
+            }
+
             _isSpawningEnabled = true;
             _patternCooldownTimer = 0f;
             _currentPattern = null;

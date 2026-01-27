@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d35e963a11668a4bac66f00871091d3, type: 3}
   m_Name: DefaultCombatSettings
   m_EditorClassIdentifier: 
-  _backgroundRenderer: {fileID: 0}
   _useAutoMapBounds: 1
   _autoMarginY: 14
   _manualMapBoundsYMin: -15
@@ -23,7 +22,7 @@ MonoBehaviour:
   _yConvergeSpeedMultiplier: 1
   _enableYConvergence: 0
   _waveConfigs:
-  - PatternsPerWave: 3
+  - PatternsPerWave: 1
     MaxMonstersOnScreen: 10
     Description: 
   - PatternsPerWave: 6
@@ -73,3 +72,4 @@ MonoBehaviour:
   _playerReturnSpeedMultiplier: 1.5
   _attackRange: 4.06
   _deathToSpawnDelay: 0.3
+  _isMonsterSpawnEnabled: 1

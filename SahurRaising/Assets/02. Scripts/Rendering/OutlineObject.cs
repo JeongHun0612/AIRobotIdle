@@ -109,11 +109,23 @@ namespace SahurRaising.Rendering
             _style = style;
         }
 
+        /// <summary>
+        /// 도메인 리로드 비활성화 대응: 게임 시작 시 목록 초기화
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetList()
+        {
+            _activeOutlines.Clear();
+        }
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
             // 에디터에서 값 변경 시 즉시 반영되도록 처리
-            _renderer = GetComponent<Renderer>();
+            if (_renderer == null)
+            {
+                _renderer = GetComponent<Renderer>();
+            }
         }
 
         private void Reset()
