@@ -9,6 +9,16 @@ namespace SahurRaising.Core
         private static Dictionary<Type, object> _services = new Dictionary<Type, object>();
 
         /// <summary>
+        /// 도메인 리로드 비활성화 시(Fast Play Mode) 정적 변수가 초기화되지 않는 문제를 방지하기 위해
+        /// 게임 시작 시 서비스 목록을 강제로 초기화합니다.
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Reset()
+        {
+            _services.Clear();
+        }
+
+        /// <summary>
         /// 제네릭을 사용하여 타입 안전성을 보장하는 방식으로 서비스를 등록
         /// </summary>
         /// <typeparam name="TInterface">서비스 인터페이스 타입</typeparam>

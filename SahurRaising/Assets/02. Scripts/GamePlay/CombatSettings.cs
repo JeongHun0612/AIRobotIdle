@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using SahurRaising.Core;
 using UnityEngine;
@@ -22,7 +22,7 @@ namespace SahurRaising.GamePlay
         [Header("=== 맵 경계 설정 (자동 계산) ===")]
         [Tooltip("배경 SpriteRenderer를 참조하면 자동으로 맵 경계를 계산합니다.\n" +
                  "런타임에 동적으로 설정되거나, 에디터에서 직접 참조할 수 있습니다.")]
-        [SerializeField] private SpriteRenderer _backgroundRenderer;
+        [System.NonSerialized] private SpriteRenderer _backgroundRenderer;
 
         [Tooltip("배경 기반 자동 계산 사용 여부\n" +
                  "true: 배경 bounds에서 자동 계산\n" +
@@ -114,6 +114,11 @@ namespace SahurRaising.GamePlay
         [Tooltip("몬스터 사망 후 풀 반환까지 대기 시간 (사망 애니메이션 시간)")]
         [SerializeField, Range(0f, 2f)] private float _deathToSpawnDelay = 0.5f;
 
+        [Header("=== 디버그/테스트 설정 ===")]
+        [Tooltip("몬스터 스폰 활성화 여부 (테스트용)\n" +
+                 "false: 몬스터가 스폰되지 않음 (배경만 이동)")]
+        [SerializeField] private bool _isMonsterSpawnEnabled = true;
+
         // ===== 런타임 캐시 =====
         private float _cachedMapYMin;
         private float _cachedMapYMax;
@@ -154,6 +159,7 @@ namespace SahurRaising.GamePlay
         // 전투
         public float AttackRange => _attackRange;
         public float DeathToSpawnDelay => _deathToSpawnDelay;
+        public bool IsMonsterSpawnEnabled => _isMonsterSpawnEnabled;
 
         // 프리팹
         public IReadOnlyList<MonsterVisualEntry> MonsterVisuals => _monsterVisuals;
@@ -372,12 +378,31 @@ namespace SahurRaising.GamePlay
             // 에디터에서 값 변경 시 캐시 무효화
             InvalidateBoundsCache();
 
+            // 변경 사항 체크 (불필요한 Dirty 방지)
+            bool isChanged = false;
+
             // 전투 Y 범위 검증
             if (_combatYMin > _combatYMax)
             {
                 _combatYMin = _combatYMax;
+                isChanged = true;
             }
-            _combatYDefault = Mathf.Clamp(_combatYDefault, _combatYMin, _combatYMax);
+
+            // Default값 클램핑
+            float clampedDefault = Mathf.Clamp(_combatYDefault, _combatYMin, _combatYMax);
+            if (Mathf.Abs(_combatYDefault - clampedDefault) > 0.0001f)
+            {
+                _combatYDefault = clampedDefault;
+                isChanged = true;
+            }
+
+#if UNITY_EDITOR
+            // 값이 변경된 경우에만 Dirty 처리 (수동 저장 유도)
+            if (isChanged)
+            {
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+#endif
         }
 
         #endregion

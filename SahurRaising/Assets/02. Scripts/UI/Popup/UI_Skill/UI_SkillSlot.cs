@@ -25,6 +25,7 @@ namespace SahurRaising.UI
         private SkillRow _data;
         private ISkillService _skillService;
         private System.Action _onStateChanged;
+        private Rendering.FogRevealer _fogRevealer;
 
         public SkillRow Data => _data;
 
@@ -33,6 +34,8 @@ namespace SahurRaising.UI
             _data = data;
             _skillService = skillService;
             _onStateChanged = onStateChanged;
+
+            _fogRevealer = GetComponent<Rendering.FogRevealer>();
 
             if (_nameText != null) _nameText.text = data.Name;
             if (_costText != null) _costText.text = data.Cost.ToString();
@@ -59,6 +62,18 @@ namespace SahurRaising.UI
         public void RefreshState()
         {
             var state = _skillService.GetSkillState(_data.ID);
+
+            // Fog of War 시야 처리: 해금되었거나 연구 중인 경우 시야를 밝힘
+            if (_fogRevealer != null)
+            {
+                // 해금되었거나 연구 중이면 안개를 걷어냄
+                bool shouldReveal = (state == SkillState.Unlocked || state == SkillState.Researching);
+                if (_fogRevealer.enabled != shouldReveal)
+                {
+                    _fogRevealer.enabled = shouldReveal;
+                    _fogRevealer.RequestFogUpdate();
+                }
+            }
 
             switch (state)
             {

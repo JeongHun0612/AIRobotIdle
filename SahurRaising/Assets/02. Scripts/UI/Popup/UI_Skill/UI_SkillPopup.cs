@@ -78,10 +78,19 @@ namespace SahurRaising.UI
 
         private void BuildSkillTree()
         {
-            // 기존 슬롯 제거
+            // 기존 슬롯 제거 (FogOfWarManager는 보존)
+            var childrenToDestroy = new System.Collections.Generic.List<GameObject>();
             foreach (Transform child in _content)
             {
-                Destroy(child.gameObject);
+                // FogOfWarManager 컴포넌트가 있는 오브젝트는 삭제하지 않음
+                if (child.GetComponent<Rendering.FogOfWarManager>() == null)
+                {
+                    childrenToDestroy.Add(child.gameObject);
+                }
+            }
+            foreach (var obj in childrenToDestroy)
+            {
+                Destroy(obj);
             }
             _slots.Clear();
 

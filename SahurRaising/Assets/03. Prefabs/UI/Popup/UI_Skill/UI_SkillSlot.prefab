@@ -294,7 +294,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.45
+  m_fontSize: 34
   m_fontSizeBase: 24.9
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2068,6 +2068,7 @@ GameObject:
   - component: {fileID: 491001890423539653}
   - component: {fileID: 5376490562276285737}
   - component: {fileID: 6597332084523018895}
+  - component: {fileID: 8966679565442347494}
   m_Layer: 5
   m_Name: UI_SkillSlot
   m_TagString: Untagged
@@ -2169,6 +2170,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8966679565442347494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8699128759957497010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f1dd213a17c214ea06f56c1698e341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 400
+  Intensity: 1
 --- !u!1 &8892308984490356088
 GameObject:
   m_ObjectHideFlags: 0
