@@ -24,7 +24,7 @@ MonoBehaviour:
     Coord: 0|0
     Prefix: AUTO
     IsFirstNode: 1
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -40,7 +40,7 @@ MonoBehaviour:
     Coord: 0|-1
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -56,7 +56,7 @@ MonoBehaviour:
     Coord: -2|0
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -72,7 +72,7 @@ MonoBehaviour:
     Coord: -3|-1
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -88,7 +88,7 @@ MonoBehaviour:
     Coord: -2|-2
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -104,7 +104,7 @@ MonoBehaviour:
     Coord: -4|1
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -120,7 +120,7 @@ MonoBehaviour:
     Coord: -4|-2
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -136,7 +136,7 @@ MonoBehaviour:
     Coord: -3|-3
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -152,7 +152,7 @@ MonoBehaviour:
     Coord: -4|3
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -168,7 +168,7 @@ MonoBehaviour:
     Coord: -3|4
     Prefix: AUTO
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8b39d50c3a1c1604d94c80816c6de837, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 1
@@ -184,7 +184,7 @@ MonoBehaviour:
     Coord: -1|-1
     Prefix: PARR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7627aea525fa8dd4d8adc0d91be49eca, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 2
@@ -200,7 +200,7 @@ MonoBehaviour:
     Coord: 4|0
     Prefix: PARR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7627aea525fa8dd4d8adc0d91be49eca, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 2
@@ -216,7 +216,7 @@ MonoBehaviour:
     Coord: 7|0
     Prefix: PARR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7627aea525fa8dd4d8adc0d91be49eca, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 2
@@ -232,7 +232,7 @@ MonoBehaviour:
     Coord: 7|-2
     Prefix: PARR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7627aea525fa8dd4d8adc0d91be49eca, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 2
@@ -248,7 +248,7 @@ MonoBehaviour:
     Coord: 10|2
     Prefix: PARR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7627aea525fa8dd4d8adc0d91be49eca, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 2
@@ -264,7 +264,7 @@ MonoBehaviour:
     Coord: 1|-2
     Prefix: HERR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a304634e71d31dc4bbe5dd96edd3b82f, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 3
@@ -280,7 +280,7 @@ MonoBehaviour:
     Coord: 0|-4
     Prefix: HERR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a304634e71d31dc4bbe5dd96edd3b82f, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 3
@@ -296,7 +296,7 @@ MonoBehaviour:
     Coord: -4|-1
     Prefix: HERR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a304634e71d31dc4bbe5dd96edd3b82f, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 3
@@ -312,7 +312,7 @@ MonoBehaviour:
     Coord: -2|-9
     Prefix: HERR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a304634e71d31dc4bbe5dd96edd3b82f, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 3
@@ -328,7 +328,7 @@ MonoBehaviour:
     Coord: -1|-11
     Prefix: HERR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a304634e71d31dc4bbe5dd96edd3b82f, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 3
@@ -345,7 +345,7 @@ MonoBehaviour:
     Coord: 3|-3
     Prefix: OFIT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: c2cfb1563a97b88449b68bf27a894113, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 4
@@ -362,7 +362,7 @@ MonoBehaviour:
     Coord: 7|-3
     Prefix: OFIT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: c2cfb1563a97b88449b68bf27a894113, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 4
@@ -379,7 +379,7 @@ MonoBehaviour:
     Coord: 10|3
     Prefix: OFIT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: c2cfb1563a97b88449b68bf27a894113, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 4
@@ -396,7 +396,7 @@ MonoBehaviour:
     Coord: 0|-2
     Prefix: FINT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8ad65655f8b793745aff5c88bb4d0df7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 5
@@ -413,7 +413,7 @@ MonoBehaviour:
     Coord: 5|-1
     Prefix: FINT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8ad65655f8b793745aff5c88bb4d0df7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 5
@@ -430,7 +430,7 @@ MonoBehaviour:
     Coord: 8|-3
     Prefix: FINT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8ad65655f8b793745aff5c88bb4d0df7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 5
@@ -447,7 +447,7 @@ MonoBehaviour:
     Coord: -1|4
     Prefix: KNAG
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 504d2fe284b317346b950cb0b7ecf4fd, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 6
@@ -464,7 +464,7 @@ MonoBehaviour:
     Coord: 0|5
     Prefix: KNAG
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 504d2fe284b317346b950cb0b7ecf4fd, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 6
@@ -481,7 +481,7 @@ MonoBehaviour:
     Coord: 2|4
     Prefix: KNAG
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 504d2fe284b317346b950cb0b7ecf4fd, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 6
@@ -498,7 +498,7 @@ MonoBehaviour:
     Coord: 5|0
     Prefix: SELF
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e57dcc846bcb5bb48858ddff30f077e4, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 7
@@ -515,7 +515,7 @@ MonoBehaviour:
     Coord: 6|-2
     Prefix: SELF
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e57dcc846bcb5bb48858ddff30f077e4, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 7
@@ -532,7 +532,7 @@ MonoBehaviour:
     Coord: 9|-3
     Prefix: SELF
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: e57dcc846bcb5bb48858ddff30f077e4, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 7
@@ -548,7 +548,7 @@ MonoBehaviour:
     Coord: -2|3
     Prefix: SENS
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cacf22fabbacf5242b67b5193db26262, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 8
@@ -564,7 +564,7 @@ MonoBehaviour:
     Coord: -1|5
     Prefix: SENS
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cacf22fabbacf5242b67b5193db26262, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 8
@@ -580,7 +580,7 @@ MonoBehaviour:
     Coord: -4|4
     Prefix: SENS
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cacf22fabbacf5242b67b5193db26262, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 8
@@ -596,7 +596,7 @@ MonoBehaviour:
     Coord: -3|6
     Prefix: SENS
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cacf22fabbacf5242b67b5193db26262, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 8
@@ -612,7 +612,7 @@ MonoBehaviour:
     Coord: 4|5
     Prefix: SENS
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cacf22fabbacf5242b67b5193db26262, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 8
@@ -628,7 +628,7 @@ MonoBehaviour:
     Coord: -3|2
     Prefix: VALG
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 970a35b2c37965b428074048d472f3e3, type: 3}
     EffectType: 1
     TargetStat: 11
     TargetSpecial: 0
@@ -644,7 +644,7 @@ MonoBehaviour:
     Coord: -3|5
     Prefix: VALG
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 970a35b2c37965b428074048d472f3e3, type: 3}
     EffectType: 1
     TargetStat: 11
     TargetSpecial: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
     Coord: -1|8
     Prefix: VALG
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 970a35b2c37965b428074048d472f3e3, type: 3}
     EffectType: 1
     TargetStat: 11
     TargetSpecial: 0
@@ -676,7 +676,7 @@ MonoBehaviour:
     Coord: -1|9
     Prefix: VALG
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 970a35b2c37965b428074048d472f3e3, type: 3}
     EffectType: 1
     TargetStat: 11
     TargetSpecial: 0
@@ -692,7 +692,7 @@ MonoBehaviour:
     Coord: 2|5
     Prefix: VALG
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 970a35b2c37965b428074048d472f3e3, type: 3}
     EffectType: 1
     TargetStat: 11
     TargetSpecial: 0
@@ -708,7 +708,7 @@ MonoBehaviour:
     Coord: 0|4
     Prefix: CALB
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cf9007df96cf38949b7c169008ee11c7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 9
@@ -724,7 +724,7 @@ MonoBehaviour:
     Coord: 1|3
     Prefix: CALB
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cf9007df96cf38949b7c169008ee11c7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 9
@@ -740,7 +740,7 @@ MonoBehaviour:
     Coord: 1|5
     Prefix: CALB
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cf9007df96cf38949b7c169008ee11c7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 9
@@ -756,7 +756,7 @@ MonoBehaviour:
     Coord: -3|3
     Prefix: CALB
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cf9007df96cf38949b7c169008ee11c7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 9
@@ -772,7 +772,7 @@ MonoBehaviour:
     Coord: -1|6
     Prefix: CALB
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: cf9007df96cf38949b7c169008ee11c7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 9
@@ -788,7 +788,7 @@ MonoBehaviour:
     Coord: 2|-2
     Prefix: ACTU
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1bcf41f2d29adf640bfdb6b64e634025, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 10
@@ -804,7 +804,7 @@ MonoBehaviour:
     Coord: -1|-4
     Prefix: ACTU
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1bcf41f2d29adf640bfdb6b64e634025, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 10
@@ -820,7 +820,7 @@ MonoBehaviour:
     Coord: 1|-5
     Prefix: ACTU
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1bcf41f2d29adf640bfdb6b64e634025, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 10
@@ -836,7 +836,7 @@ MonoBehaviour:
     Coord: -1|-8
     Prefix: ACTU
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1bcf41f2d29adf640bfdb6b64e634025, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 10
@@ -852,7 +852,7 @@ MonoBehaviour:
     Coord: -2|-7
     Prefix: ACTU
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1bcf41f2d29adf640bfdb6b64e634025, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 10
@@ -868,7 +868,7 @@ MonoBehaviour:
     Coord: -3|1
     Prefix: RLOP
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1fbeb8b335816bf40b1d93e1738da8f7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 11
@@ -884,7 +884,7 @@ MonoBehaviour:
     Coord: -1|3
     Prefix: RLOP
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1fbeb8b335816bf40b1d93e1738da8f7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 11
@@ -900,7 +900,7 @@ MonoBehaviour:
     Coord: -4|0
     Prefix: RLOP
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1fbeb8b335816bf40b1d93e1738da8f7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 11
@@ -916,7 +916,7 @@ MonoBehaviour:
     Coord: -5|-1
     Prefix: RLOP
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1fbeb8b335816bf40b1d93e1738da8f7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 11
@@ -932,7 +932,7 @@ MonoBehaviour:
     Coord: -5|1
     Prefix: RLOP
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1fbeb8b335816bf40b1d93e1738da8f7, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 11
@@ -948,7 +948,7 @@ MonoBehaviour:
     Coord: 2|-3
     Prefix: WBOX
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7534985a84d6d34488bd1c2685d6ef89, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 12
@@ -964,7 +964,7 @@ MonoBehaviour:
     Coord: -2|-4
     Prefix: WBOX
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7534985a84d6d34488bd1c2685d6ef89, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 12
@@ -980,7 +980,7 @@ MonoBehaviour:
     Coord: 1|-6
     Prefix: WBOX
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7534985a84d6d34488bd1c2685d6ef89, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 12
@@ -996,7 +996,7 @@ MonoBehaviour:
     Coord: -2|-8
     Prefix: WBOX
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7534985a84d6d34488bd1c2685d6ef89, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 12
@@ -1012,7 +1012,7 @@ MonoBehaviour:
     Coord: -1|-10
     Prefix: WBOX
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7534985a84d6d34488bd1c2685d6ef89, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 12
@@ -1028,7 +1028,7 @@ MonoBehaviour:
     Coord: 10|4
     Prefix: SGRL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 82b69e281a507c04eb6fb73c9e55606c, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 13
@@ -1044,7 +1044,7 @@ MonoBehaviour:
     Coord: -2|2
     Prefix: CBKD
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8eec2d2ae7708a740836e6b6084b2b60, type: 3}
     EffectType: 1
     TargetStat: 8
     TargetSpecial: 0
@@ -1060,7 +1060,7 @@ MonoBehaviour:
     Coord: -3|0
     Prefix: CBKD
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8eec2d2ae7708a740836e6b6084b2b60, type: 3}
     EffectType: 1
     TargetStat: 8
     TargetSpecial: 0
@@ -1076,7 +1076,7 @@ MonoBehaviour:
     Coord: -5|0
     Prefix: CBKD
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8eec2d2ae7708a740836e6b6084b2b60, type: 3}
     EffectType: 1
     TargetStat: 8
     TargetSpecial: 0
@@ -1093,7 +1093,7 @@ MonoBehaviour:
     Coord: 0|-3
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1110,7 +1110,7 @@ MonoBehaviour:
     Coord: -2|-1
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1127,7 +1127,7 @@ MonoBehaviour:
     Coord: 3|-2
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1144,7 +1144,7 @@ MonoBehaviour:
     Coord: -2|-3
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1161,7 +1161,7 @@ MonoBehaviour:
     Coord: 0|-6
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1178,7 +1178,7 @@ MonoBehaviour:
     Coord: 2|-5
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1195,7 +1195,7 @@ MonoBehaviour:
     Coord: -1|-6
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1212,7 +1212,7 @@ MonoBehaviour:
     Coord: 1|-7
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1229,7 +1229,7 @@ MonoBehaviour:
     Coord: -1|-7
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1246,7 +1246,7 @@ MonoBehaviour:
     Coord: -2|-6
     Prefix: DCOL
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 10fcaf701c9cbba46b59e33bd0403858, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 14
@@ -1262,7 +1262,7 @@ MonoBehaviour:
     Coord: -1|-5
     Prefix: DFIR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1b82a0003a1123c44b61538ee8b04102, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 15
@@ -1278,7 +1278,7 @@ MonoBehaviour:
     Coord: 6|0
     Prefix: DFIR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1b82a0003a1123c44b61538ee8b04102, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 15
@@ -1294,7 +1294,7 @@ MonoBehaviour:
     Coord: 5|-2
     Prefix: DFIR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1b82a0003a1123c44b61538ee8b04102, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 15
@@ -1310,7 +1310,7 @@ MonoBehaviour:
     Coord: 8|0
     Prefix: DFIR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1b82a0003a1123c44b61538ee8b04102, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 15
@@ -1326,7 +1326,7 @@ MonoBehaviour:
     Coord: 7|1
     Prefix: DFIR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 1b82a0003a1123c44b61538ee8b04102, type: 3}
     EffectType: 2
     TargetStat: 0
     TargetSpecial: 15
@@ -1342,7 +1342,7 @@ MonoBehaviour:
     Coord: 0|1
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1358,7 +1358,7 @@ MonoBehaviour:
     Coord: 1|0
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1374,7 +1374,7 @@ MonoBehaviour:
     Coord: -1|0
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1390,7 +1390,7 @@ MonoBehaviour:
     Coord: -1|2
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1406,7 +1406,7 @@ MonoBehaviour:
     Coord: 0|3
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1422,7 +1422,7 @@ MonoBehaviour:
     Coord: 3|0
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1438,7 +1438,7 @@ MonoBehaviour:
     Coord: 2|1
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1454,7 +1454,7 @@ MonoBehaviour:
     Coord: -2|1
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1470,7 +1470,7 @@ MonoBehaviour:
     Coord: 1|2
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1486,7 +1486,7 @@ MonoBehaviour:
     Coord: 2|-1
     Prefix: CPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 61437e308e7fbd348be4b4baa7781eef, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1502,7 +1502,7 @@ MonoBehaviour:
     Coord: -6|0
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1518,7 +1518,7 @@ MonoBehaviour:
     Coord: -1|7
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1534,7 +1534,7 @@ MonoBehaviour:
     Coord: 3|5
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1550,7 +1550,7 @@ MonoBehaviour:
     Coord: 9|0
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1566,7 +1566,7 @@ MonoBehaviour:
     Coord: -1|-9
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1582,7 +1582,7 @@ MonoBehaviour:
     Coord: 11|0
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1598,7 +1598,7 @@ MonoBehaviour:
     Coord: 10|1
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1614,7 +1614,7 @@ MonoBehaviour:
     Coord: 10|-1
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1630,7 +1630,7 @@ MonoBehaviour:
     Coord: 9|-2
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1646,7 +1646,7 @@ MonoBehaviour:
     Coord: 10|-2
     Prefix: GPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 62ba2de400e9e4a40b0a3ed73cf56949, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1662,7 +1662,7 @@ MonoBehaviour:
     Coord: 13|0
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1678,7 +1678,7 @@ MonoBehaviour:
     Coord: 12|1
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1694,7 +1694,7 @@ MonoBehaviour:
     Coord: 12|-1
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1710,7 +1710,7 @@ MonoBehaviour:
     Coord: 11|-2
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1726,7 +1726,7 @@ MonoBehaviour:
     Coord: 11|2
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1742,7 +1742,7 @@ MonoBehaviour:
     Coord: 13|1
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1758,7 +1758,7 @@ MonoBehaviour:
     Coord: 13|-1
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1774,7 +1774,7 @@ MonoBehaviour:
     Coord: 12|2
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1790,7 +1790,7 @@ MonoBehaviour:
     Coord: 12|-2
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1806,7 +1806,7 @@ MonoBehaviour:
     Coord: 11|-3
     Prefix: TPUR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 7fb278510e187454c958e012b5e52800, type: 3}
     EffectType: 1
     TargetStat: 1
     TargetSpecial: 0
@@ -1822,7 +1822,7 @@ MonoBehaviour:
     Coord: 0|2
     Prefix: MATR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 66a4f49cc4684bd4b9c4c2453d630bd7, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1838,7 +1838,7 @@ MonoBehaviour:
     Coord: 1|1
     Prefix: MATR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 66a4f49cc4684bd4b9c4c2453d630bd7, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1854,7 +1854,7 @@ MonoBehaviour:
     Coord: -1|1
     Prefix: MATR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 66a4f49cc4684bd4b9c4c2453d630bd7, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1870,7 +1870,7 @@ MonoBehaviour:
     Coord: 2|0
     Prefix: MATR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 66a4f49cc4684bd4b9c4c2453d630bd7, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1886,7 +1886,7 @@ MonoBehaviour:
     Coord: 1|-1
     Prefix: MATR
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 66a4f49cc4684bd4b9c4c2453d630bd7, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1902,7 +1902,7 @@ MonoBehaviour:
     Coord: 8|1
     Prefix: MATT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d99cd30e4bfbf724cb0f1544a6cb1538, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1918,7 +1918,7 @@ MonoBehaviour:
     Coord: 9|-1
     Prefix: MATT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d99cd30e4bfbf724cb0f1544a6cb1538, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1934,7 +1934,7 @@ MonoBehaviour:
     Coord: 12|0
     Prefix: MATT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d99cd30e4bfbf724cb0f1544a6cb1538, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1950,7 +1950,7 @@ MonoBehaviour:
     Coord: 11|1
     Prefix: MATT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d99cd30e4bfbf724cb0f1544a6cb1538, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0
@@ -1966,7 +1966,7 @@ MonoBehaviour:
     Coord: 11|-1
     Prefix: MATT
     IsFirstNode: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: d99cd30e4bfbf724cb0f1544a6cb1538, type: 3}
     EffectType: 1
     TargetStat: 3
     TargetSpecial: 0

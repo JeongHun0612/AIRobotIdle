@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Data
   m_GUID: 9459323f54a86ad49b193367d2e67ad1
   m_SerializeEntries:
-  - m_GUID: 014903ff12b5f824e938eff029bb78b1
+  - m_GUID: 0f342c1fb4a45f84ca92af1ba062068f
     m_Address: SkillTable
     m_ReadOnly: 0
     m_SerializedLabels: []
