@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: 2022402d34d686c459bb98d2efd36d66
-  m_SerializeEntries:
-  - m_GUID: 58c3728a7a017b84fbcff1fa810cd6b9
-    m_Address: Assets/03. Prefabs/UI/Popup/UI_Skill/UI_SkillPopup.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: ad0c1b3dcdb50a24da9502035515dbcb, type: 2}
   m_SchemaSet:
