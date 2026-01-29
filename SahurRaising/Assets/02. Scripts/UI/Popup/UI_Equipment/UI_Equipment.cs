@@ -22,6 +22,13 @@ namespace SahurRaising
         [Header("장비 정보 영역")]
         [SerializeField] private EquipmentInfo _equipmentInfo;
 
+        [Header("뽑기 버튼")]
+        [SerializeField] private Button _gachaButton;
+
+        [Header("합성 버튼")]
+        [SerializeField] private Button _advanceButton;
+        [SerializeField] private GameObject _advanceButtonDisabled;
+
         private readonly List<EquipmentItemSlot> _itemSlots = new();
 
         private EquipmentType _currentType = EquipmentType.Processor;
@@ -57,6 +64,19 @@ namespace SahurRaising
 
             // 장비 정보 패널 초기화
             _equipmentInfo.Initialize(RefreshInventoryByCurrentType);
+
+            // 버튼 이벤트 등록
+            if (_gachaButton != null)
+            {
+                _gachaButton.onClick.RemoveAllListeners();
+                _gachaButton.onClick.AddListener(OnClickGacha);
+            }
+
+            if (_advanceButton != null)
+            {
+                _advanceButton.onClick.RemoveAllListeners();
+                _advanceButton.onClick.AddListener(OnClickAdvanceAll);
+            }
 
             await UniTask.Yield();
         }
@@ -263,6 +283,9 @@ namespace SahurRaising
 
             // 현재 탭 타입에 장착된 장비 정보 표시
             ShowEquippedEquipmentInfo();
+
+            // 일괄합성 버튼 상태 업데이트
+            UpdateAdvanceButtonState();
         }
 
         public void OnClickItemSlot(EquipmentItemSlot itemSlot)
@@ -293,7 +316,23 @@ namespace SahurRaising
             var shopPopup = UIManager.Instance.ShowPopup<UI_ShopPopup>(EPopupUIType.Shop);
             if (shopPopup != null)
             {
-                shopPopup.OnClickTabButton(ShopType.Gacha);
+                shopPopup.OnClickTabButton(EPopupUIType.Gacha);
+            }
+        }
+
+        private void UpdateAdvanceButtonState()
+        {
+            // 현재 선택된 탭 타입의 장비중 강화할 장비가 있는지 여부
+            bool hasAdvance = _equipmentService.HasAdvanceableEquipment(_currentType);
+
+            if (_advanceButton != null)
+            {
+                _advanceButton.interactable = hasAdvance;
+            }
+
+            if (_advanceButtonDisabled != null)
+            {
+                _advanceButtonDisabled.SetActive(!hasAdvance);
             }
         }
 
@@ -321,6 +360,9 @@ namespace SahurRaising
 
             // 현재 탭 타입에 장착된 장비 정보 표시
             ShowEquippedEquipmentInfo();
+
+            // 일괄합성 버튼 상태 업데이트
+            UpdateAdvanceButtonState();
         }
     }
 }

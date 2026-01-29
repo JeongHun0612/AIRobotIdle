@@ -62,6 +62,12 @@ namespace SahurRaising.Core
         bool LevelUp(string equipmentCode);
 
         /// <summary>
+        /// 특정 타입의 장비 중 강화 가능한 장비가 있는지 확인합니다.
+        /// </summary>
+        /// <param name="type">확인할 장비 타입</param>
+        bool HasAdvanceableEquipment(EquipmentType type);
+
+        /// <summary>
         /// 특정 타입의 보유한 모든 장비를 일괄 승급합니다.
         /// </summary>
         /// <returns>승급된 최상위 등급 장비 결과 (승급 불가능하면 null)</returns>

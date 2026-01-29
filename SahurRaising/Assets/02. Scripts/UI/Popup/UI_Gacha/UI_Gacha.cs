@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SahurRaising
 {
-    public class UI_Gacha : ShopPanelBase
+    public class UI_Gacha : UI_Popup
     {
         [Header("가챠 패널들")]
         [SerializeField] private List<GachaPanel> _gachaPanels;
@@ -15,43 +15,33 @@ namespace SahurRaising
         private IGachaService _gachaService;
         private IEventBus _eventBus;
 
-        public override void Initialize()
+        public async override UniTask InitializeAsync()
         {
-            base.Initialize();
+            TryBindService();
 
             // 자식에서 GachaPanel들을 자동으로 찾기 (Inspector에서 할당하지 않은 경우)
             if (_gachaPanels == null || _gachaPanels.Count == 0)
             {
                 _gachaPanels = GetComponentsInChildren<GachaPanel>().ToList();
             }
+
+            await UniTask.Yield();
         }
 
         public override void OnShow()
         {
             base.OnShow();
 
-            if (_eventBus == null)
-                _eventBus = ServiceLocator.Get<IEventBus>();
-
-            if (_gachaService == null)
-                _gachaService = ServiceLocator.Get<IGachaService>();
-
-            if (_eventBus == null || _gachaService == null)
+            if (!TryBindService())
                 return;
 
             if (_eventBus != null)
             {
                 _eventBus.Subscribe<GachaPullEvent>(OnGachaDraw);
+                _eventBus.Subscribe<RewardGrantedEvent>(OnRewardGranted);
             }
 
-            // 각 가챠 패널 업데이트
-            if (_gachaPanels != null)
-            {
-                foreach (var panel in _gachaPanels)
-                {
-                    panel?.Refresh();
-                }
-            }
+            RefreshGachaPanel();
         }
 
         public override void OnHide()
@@ -61,6 +51,42 @@ namespace SahurRaising
             if (_eventBus != null)
             {
                 _eventBus.Unsubscribe<GachaPullEvent>(OnGachaDraw);
+                _eventBus.Unsubscribe<RewardGrantedEvent>(OnRewardGranted);
+            }
+        }
+
+        private bool TryBindService()
+        {
+            if (_gachaService == null && ServiceLocator.HasService<IGachaService>())
+            {
+                _gachaService = ServiceLocator.Get<IGachaService>();
+            }
+
+            if (_eventBus == null && ServiceLocator.HasService<IEventBus>())
+            {
+                _eventBus = ServiceLocator.Get<IEventBus>();
+            }
+
+            return _gachaService != null && _eventBus != null;
+        }
+
+        private void RefreshGachaPanel()
+        {
+            if (_gachaPanels == null || _gachaPanels.Count == 0)
+                return;
+
+            // 각 가챠 패널 업데이트
+            foreach (var panel in _gachaPanels)
+            {
+                panel?.Refresh();
+            }
+        }
+
+        private void OnRewardGranted(RewardGrantedEvent evt)
+        {
+            if (evt.CurrencyType == CurrencyType.Diamond)
+            {
+                RefreshGachaPanel();
             }
         }
 
@@ -80,16 +106,7 @@ namespace SahurRaising
                 Debug.LogWarning("[UI_Gacha] UI_GachaResult 팝업을 찾을 수 없습니다.");
             }
 
-            // 해당 타입의 GachaPanel 찾기
-            var panel = _gachaPanels?.FirstOrDefault(p => p.GachaType == evt.Type);
-            if (panel != null)
-            {
-                panel.Refresh();
-            }
-            else
-            {
-                Debug.LogWarning($"[UI_Gacha] {evt.Type} 타입의 GachaPanel을 찾을 수 없습니다.");
-            }
+            RefreshGachaPanel();
         }
     }
 }

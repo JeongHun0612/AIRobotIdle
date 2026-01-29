@@ -26,6 +26,10 @@ namespace SahurRaising.UI
         AdvanceResult = 40,
         OfflineResult = 41,
 
+        // 상점 탭
+        Gacha = 200,
+        DailyShop = 201,
+
         // 공용
         //Temp = 20,
 

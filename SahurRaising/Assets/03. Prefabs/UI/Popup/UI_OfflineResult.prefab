@@ -559,14 +559,14 @@ MonoBehaviour:
   m_text: "\uC624\uD504\uB77C\uC778 \uBCF4\uC0C1"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
-  m_sharedMaterial: {fileID: -3458215521879921934, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 4efb88e8e5471b64abb91f1133266a83, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -881,6 +881,7 @@ GameObject:
   - component: {fileID: 5102541062093702407}
   - component: {fileID: 1749116769387448751}
   - component: {fileID: 469244928621175468}
+  - component: {fileID: 9075511728537716003}
   m_Layer: 5
   m_Name: "Button_Claim (\uC77C\uBC18)"
   m_TagString: Untagged
@@ -937,7 +938,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -974,6 +975,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9075511728537716003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215198740326462122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19655477d3257014787cbcf86112cd0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pressScale: 0.95
+  _pressDuration: 0.1
+  _releaseDuration: 0.4
 --- !u!1 &3650015298719156058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,14 +1059,14 @@ MonoBehaviour:
   m_text: 154.05B
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
-  m_sharedMaterial: {fileID: -3458215521879921934, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 4efb88e8e5471b64abb91f1133266a83, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1194,14 +1210,14 @@ MonoBehaviour:
   m_text: "\uC624\uD504\uB77C\uC778 \uC2DC\uAC04"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
-  m_sharedMaterial: {fileID: -3458215521879921934, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 4efb88e8e5471b64abb91f1133266a83, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1327,6 +1343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7835679302254360773}
   - component: {fileID: 658153932758060326}
+  - component: {fileID: 8818820743039550591}
   m_Layer: 5
   m_Name: "Button_ClaimDouble (\uAD11\uACE0)"
   m_TagString: Untagged
@@ -1375,7 +1392,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1400,6 +1417,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8818820743039550591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4199250951462264097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19655477d3257014787cbcf86112cd0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pressScale: 0.95
+  _pressDuration: 0.1
+  _releaseDuration: 0.4
 --- !u!1 &4213419352521762171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1544,14 +1576,14 @@ MonoBehaviour:
   m_text: "\uC218\uB839"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
-  m_sharedMaterial: {fileID: -3458215521879921934, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 4efb88e8e5471b64abb91f1133266a83, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1901,15 +1933,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "12\uC2DC\uAC04 0\uBD84 (\uCD5C\uB300 12\uC2DC\uAC04)"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
-  m_sharedMaterial: {fileID: -3458215521879921934, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 654614dfd5a9dbf43801cd2b9538e82e, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 8ade2d0435d706d4b967a8c1a453e62f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286054189
-  m_fontColor: {r: 0.1745283, g: 1, b: 0.46709648, a: 1}
+    rgba: 4294960836
+  m_fontColor: {r: 0.76862746, g: 0.9019608, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1936,7 +1968,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2481,14 +2513,14 @@ MonoBehaviour:
   m_text: "x2 \uC218\uB839"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
-  m_sharedMaterial: {fileID: -3458215521879921934, guid: 6ea9fecf6bf87a24a9d1eb1930566eb2, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 4efb88e8e5471b64abb91f1133266a83, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

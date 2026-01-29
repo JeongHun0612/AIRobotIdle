@@ -1,4 +1,5 @@
 ﻿using SahurRaising.Core;
+using SahurRaising.UI;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,46 +8,42 @@ namespace SahurRaising
 {
     public class ShopTabButton : MonoBehaviour
     {
-        [SerializeField] private ShopType _type;
-        [SerializeField] private string _titleText;
-
-        [SerializeField] private Image _image;
-        [SerializeField] private Button _button;
-
-        [SerializeField] private GameObject _alretIcon;
-        [SerializeField] private GameObject _lockIcon;
-
+        [SerializeField] private EPopupUIType _type;
         [SerializeField] private bool _isAlret;
-        [SerializeField] private bool _isLock;
+        [SerializeField] private bool _isDisabled;
 
-        [Header("활성화/비활성화 컬러")]
-        [SerializeField] private Color _normalColor;
-        [SerializeField] private Color _selectedColor;
+        [Header("UI 요소")]
+        [SerializeField] private Button _button;
+        [SerializeField] private GameObject _tabFocus;
 
-        public ShopType Type => _type;
-        public string TitleText => _titleText;
-        public bool IsLock => _isLock;
+        [SerializeField] private GameObject _alretObj;
+        [SerializeField] private GameObject _disableObj;
+
+        public EPopupUIType Type => _type;
 
         public void Initialize()
         {
-            _alretIcon.SetActive(_isAlret);
-            _lockIcon.SetActive(_isLock);
+            _alretObj.SetActive(_isAlret);
+            _disableObj.SetActive(_isDisabled);
 
-            _button.enabled = !_isLock;
-        }
-
-        public void Register(Action<ShopType> callback)
-        {
             if (_button == null)
                 _button = gameObject.GetComponent<Button>();
 
-            _button.onClick.RemoveAllListeners();
-            _button.onClick.AddListener(() => callback?.Invoke(_type));
+            _button.enabled = !_isDisabled;
+        }
+
+        public void Register(Action<EPopupUIType> callback)
+        {
+            if (_button != null)
+            {
+                _button.onClick.RemoveAllListeners();
+                _button.onClick.AddListener(() => callback?.Invoke(_type));
+            }
         }
 
         public void OnShow(bool isShow)
         {
-            _image.color = (isShow) ? _selectedColor : _normalColor;
+            _tabFocus.SetActive(isShow);
         }
     }
 }

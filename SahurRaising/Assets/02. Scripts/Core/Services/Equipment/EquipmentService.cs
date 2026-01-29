@@ -274,6 +274,55 @@ namespace SahurRaising.Core
         {
             return REQUIRED_COUNT_FOR_UPGRADE;
         }
+
+        public bool HasAdvanceableEquipment(EquipmentType type)
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogWarning("[EquipmentService] 아직 초기화되지 않았습니다.");
+                return false;
+            }
+
+            int requiredCount = GetRequiredCountForAdvance();
+
+            // 해당 타입의 모든 장비 가져오기
+            var equipmentList = GetByType(type);
+
+            if (equipmentList == null || equipmentList.Count == 0)
+                return false;
+
+            // 하위 등급부터 상위 등급으로 순회하며 강화 가능 여부 확인
+            for (int i = 0; i < equipmentList.Count - 1; i++)
+            {
+                var equipment = equipmentList[i];
+
+                if (string.IsNullOrEmpty(equipment.Code))
+                    continue;
+
+                if (!_inventory.TryGetValue(equipment.Code, out var info))
+                    continue;
+
+                // requiredCount 보다 보유 갯수가 적으면 스킵
+                if (info.Count < requiredCount)
+                    continue;
+
+                // 다음 등급 장비
+                var nextEquipment = equipmentList[i + 1];
+
+                // 같은 등급이면 스킵
+                if (nextEquipment.Grade <= equipment.Grade)
+                    continue;
+
+                if (string.IsNullOrEmpty(nextEquipment.Code))
+                    continue;
+
+                // 강화 가능한 장비 발견
+                return true;
+            }
+
+            return false;
+        }
+
         public AdvanceResult? AdvanceAllAvailable(EquipmentType type)
         {
             if (!IsInitialized)

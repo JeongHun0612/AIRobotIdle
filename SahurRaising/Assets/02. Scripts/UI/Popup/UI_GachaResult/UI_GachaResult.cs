@@ -2,6 +2,7 @@
 using DG.Tweening;
 using SahurRaising.Core;
 using SahurRaising.UI;
+using SahurRaising.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -12,6 +13,9 @@ namespace SahurRaising
 {
     public class UI_GachaResult : UI_Popup
     {
+        [Header("재화 슬롯")]
+        [SerializeField] private TMP_Text _currenyAmountText;
+
         [Header("가챠 슬롯")]
         [SerializeField] private Transform _slotContainer;
         [SerializeField] private GachaSlot _gachaSlotPrefab;
@@ -40,7 +44,9 @@ namespace SahurRaising
         private List<Tween> _activeTweens = new List<Tween>(); // GachaSlot 실행 중인 트윈 추적
         private Tween _progressTween; // 슬라이더 애니메이션 트윈
 
+        private IEventBus _eventBus;
         private IGachaService _gachaService;
+        private ICurrencyService _currencyService;
 
         public async override UniTask InitializeAsync()
         {
@@ -64,6 +70,11 @@ namespace SahurRaising
             if (!TryBindService())
                 return;
 
+            if (_eventBus != null)
+            {
+                _eventBus.Subscribe<RewardGrantedEvent>(OnRewardGranted);
+            }
+
             _isAnimating = false;
 
             if (_skipButton != null)
@@ -75,6 +86,11 @@ namespace SahurRaising
         public override void OnHide()
         {
             base.OnHide();
+
+            if (_eventBus != null)
+            {
+                _eventBus.Unsubscribe<RewardGrantedEvent>(OnRewardGranted);
+            }
 
             // 애니메이션 중이면 정리
             SkipAnimation();
@@ -91,12 +107,45 @@ namespace SahurRaising
 
         private bool TryBindService()
         {
+            if (_eventBus == null && ServiceLocator.HasService<IEventBus>())
+            {
+                _eventBus = ServiceLocator.Get<IEventBus>();
+            }
+
             if (_gachaService == null && ServiceLocator.HasService<IGachaService>())
             {
                 _gachaService = ServiceLocator.Get<IGachaService>();
             }
 
-            return _gachaService != null;
+            if (_currencyService == null && ServiceLocator.HasService<ICurrencyService>())
+            {
+                _currencyService = ServiceLocator.Get<ICurrencyService>();
+            }
+
+            return _eventBus != null && _gachaService != null && _currencyService != null;
+        }
+        
+        private void UpdateGachaButton(GachaType type = GachaType.None)
+        {
+            // 각 GachaButton 업데이트
+            foreach (var button in _gachaButtons)
+            {
+                button?.Refresh(type);
+            }
+        }
+
+        private void UpdateCurrenyAmountText()
+        {
+            if (_currencyService == null)
+                return;
+
+            var amount = _currencyService.Get(CurrencyType.Diamond);
+
+            if (_currenyAmountText != null)
+            {
+                _currenyAmountText.text = amount.ToString("F0");
+                //_currenyAmountText.text = NumberFormatUtil.FormatBigDouble(amount);
+            }
         }
 
         private void InitializeSlotPool()
@@ -122,10 +171,9 @@ namespace SahurRaising
             _currentEvent = evt;
 
             // 각 GachaButton 업데이트
-            foreach (var button in _gachaButtons)
-            {
-                button?.Refresh(evt.Type);
-            }
+            UpdateGachaButton(evt.Type);
+
+            UpdateCurrenyAmountText();
 
             ShowGachaResults();
         }
@@ -414,6 +462,15 @@ namespace SahurRaising
                 return;
 
             SkipAnimation();
+        }
+
+        private void OnRewardGranted(RewardGrantedEvent evt)
+        {
+            if (evt.CurrencyType == CurrencyType.Diamond)
+            {
+                UpdateGachaButton();
+                UpdateCurrenyAmountText();
+            }
         }
 
         public override void OnClickBack()

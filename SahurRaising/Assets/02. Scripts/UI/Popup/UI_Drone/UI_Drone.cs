@@ -248,7 +248,7 @@ namespace SahurRaising
             var shopPopup = UIManager.Instance.ShowPopup<UI_ShopPopup>(EPopupUIType.Shop);
             if (shopPopup != null)
             {
-                shopPopup.OnClickTabButton(ShopType.Gacha);
+                shopPopup.OnClickTabButton(EPopupUIType.Gacha);
             }
         }
 

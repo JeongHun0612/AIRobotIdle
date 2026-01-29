@@ -1,6 +1,7 @@
 ﻿using BreakInfinity;
 using SahurRaising.Core;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,14 @@ namespace SahurRaising
 {
     public class GachaButton : MonoBehaviour
     {
+        [System.Serializable]
+        private class GachaButtonItem
+        {
+            public Image _iconImage;
+            public TMP_Text costText;
+            public TMP_Text pullCountText;
+        }
+
         [Header("가챠 변수")]
         [SerializeField] private GachaType _gachaType;
         [SerializeField] private int _pullCount;
@@ -16,10 +25,9 @@ namespace SahurRaising
 
         [Header("UI 요소")]
         [SerializeField] private Button _button;
-        [SerializeField] private Image _iconImage;
-        [SerializeField] private TMP_Text _costText;
-        [SerializeField] private TMP_Text _pullCountText;
         [SerializeField] private GameObject _disabledPanel;
+
+        [SerializeField] private List<GachaButtonItem> _items = new();
 
         private BigDouble _cost;
 
@@ -40,14 +48,10 @@ namespace SahurRaising
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(OnClick);
 
-            if (_costText != null)
+            foreach (var item in _items)
             {
-                _costText.text = _costValue.ToString("F0");
-            }
-
-            if (_pullCountText != null)
-            {
-                _pullCountText.text = $"{_pullCount} Count";
+                item.costText.text = _costValue.ToString("F0");
+                item.pullCountText.text = $"{_pullCount} Count";
             }
 
             _cost = new BigDouble(_costValue);
