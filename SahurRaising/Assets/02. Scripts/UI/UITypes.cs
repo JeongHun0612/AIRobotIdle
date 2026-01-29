@@ -22,6 +22,7 @@ namespace SahurRaising.UI
         Drone = 14,
 
         GachaResult = 30,
+        SkillInfo = 31,
 
         AdvanceResult = 40,
         OfflineResult = 41,

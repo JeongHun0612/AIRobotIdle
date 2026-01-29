@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SahurRaising.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,61 +8,43 @@ using Cysharp.Threading.Tasks;
 
 namespace SahurRaising.UI
 {
+    /// <summary>
+    /// 스킬 트리 팝업 UI
+    /// 스킬 슬롯들을 트리 형태로 배치하고 관리
+    /// </summary>
     public class UI_SkillPopup : UI_Popup
     {
         [Header("Components")]
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private Transform _content;
+        [SerializeField] private TextMeshProUGUI _skillNameText; // 우상단 스킬 이름 표시
 
         [Header("Prefabs")]
         [SerializeField] private UI_SkillSlot _slotPrefab;
-        [SerializeField] private GameObject _linePrefab; // Image with simple color
+        [SerializeField] private GameObject _linePrefab;
 
         [Header("Layout")]
-        [SerializeField] private Vector2 _slotSize = new Vector2(100, 100);
+        [SerializeField] private Vector2 _slotSize = new Vector2(140, 160);
         [SerializeField] private Vector2 _spacing = new Vector2(150, 150);
         [SerializeField] private float _lineThickness = 5f;
 
-        [Header("Background Settings")]
-        [SerializeField] private List<SkillBackgroundMapping> _backgroundMappings;
-        [SerializeField] private Sprite _defaultBackground;
-        [SerializeField] private Sprite _currencyIcon; // 재화 아이콘 (에메랄드)
-
-        [System.Serializable]
-        public struct SkillBackgroundMapping
-        {
-            public string Prefix;
-            public Sprite Background;
-        }
-
         private ISkillService _skillService;
         private readonly List<UI_SkillSlot> _slots = new();
+        private readonly List<GameObject> _lines = new();
         private bool _isInitialized = false;
 
         public override async UniTask InitializeAsync()
         {
             await base.InitializeAsync();
-            // _skillService 초기화는 OnShow에서 수행합니다.
-            // UIManager 초기화 시점에는 아직 Service가 등록되지 않았을 수 있기 때문입니다.
         }
 
         public override void OnShow()
         {
             base.OnShow();
             
-            if (_skillService == null)
-            {
-                if (ServiceLocator.HasService<ISkillService>())
-                {
-                    _skillService = ServiceLocator.Get<ISkillService>();
-                }
-                else
-                {
-                    Debug.LogError("[UI_SkillPopup] SkillService not found!");
-                    return;
-                }
-            }
-
+            // 서비스 초기화
+            InitializeServices();
+            
             if (_skillService != null)
             {
                 _skillService.CheckResearchCompletion();
@@ -74,25 +57,34 @@ namespace SahurRaising.UI
             }
 
             RefreshAllSlots();
+            
+            // 스킬 이름 초기화
+            UpdateSkillNameDisplay(null);
         }
 
+        /// <summary>
+        /// 서비스 초기화
+        /// </summary>
+        private void InitializeServices()
+        {
+            if (_skillService == null && ServiceLocator.HasService<ISkillService>())
+            {
+                _skillService = ServiceLocator.Get<ISkillService>();
+            }
+
+            if (_skillService == null)
+            {
+                Debug.LogError("[UI_SkillPopup] SkillService를 찾을 수 없습니다!");
+            }
+        }
+
+        /// <summary>
+        /// 스킬 트리 구축
+        /// </summary>
         private void BuildSkillTree()
         {
             // 기존 슬롯 제거 (FogOfWarManager는 보존)
-            var childrenToDestroy = new System.Collections.Generic.List<GameObject>();
-            foreach (Transform child in _content)
-            {
-                // FogOfWarManager 컴포넌트가 있는 오브젝트는 삭제하지 않음
-                if (child.GetComponent<Rendering.FogOfWarManager>() == null)
-                {
-                    childrenToDestroy.Add(child.gameObject);
-                }
-            }
-            foreach (var obj in childrenToDestroy)
-            {
-                Destroy(obj);
-            }
-            _slots.Clear();
+            ClearExistingSlots();
 
             if (_skillService == null)
             {
@@ -101,60 +93,147 @@ namespace SahurRaising.UI
 
             if (_skillService == null)
             {
-                Debug.LogError("[UI_SkillPopup] SkillService is not initialized.");
+                Debug.LogError("[UI_SkillPopup] SkillService가 초기화되지 않았습니다.");
                 return;
             }
 
             var table = _skillService.GetTable();
             if (table == null) return;
 
-            // 1. 슬롯 생성
+            // 1. 먼저 연결 라인 생성 (슬롯 뒤에 표시되도록)
+            foreach (var pair in table.Index)
+            {
+                var row = pair.Value;
+                CheckAndCreateLine(row, row.XCoord + 1, row.YCoord);
+                CheckAndCreateLine(row, row.XCoord, row.YCoord + 1);
+            }
+
+            // 2. 슬롯 생성 (라인 위에 표시)
             foreach (var pair in table.Index)
             {
                 var row = pair.Value;
                 var slot = Instantiate(_slotPrefab, _content);
 
-                // 좌표 설정 (중앙 기준 0,0)
-                // ScrollView Content의 Pivot이 0.5, 0.5라고 가정
+                // 좌표 설정
                 RectTransform rt = slot.GetComponent<RectTransform>();
                 rt.anchoredPosition = new Vector2(row.XCoord * _spacing.x, row.YCoord * _spacing.y);
 
-                // 배경 이미지 찾기
-                Sprite bgSprite = _defaultBackground;
-                if (_backgroundMappings != null)
-                {
-                    var mapping = _backgroundMappings.Find(m => m.Prefix == row.Prefix);
-                    if (mapping.Background != null)
-                    {
-                        bgSprite = mapping.Background;
-                    }
-                }
-
-                slot.Initialize(row, _skillService, RefreshAllSlots, bgSprite, _currencyIcon);
+                // 슬롯 초기화 - 클릭 콜백과 호버 콜백 전달
+                slot.Initialize(row, _skillService, RefreshAllSlots, OnSlotClicked);
+               // slot.OnSlotHovered += UpdateSkillNameDisplay;
                 _slots.Add(slot);
             }
+        }
 
-            // 2. 연결 라인 생성
-            // 모든 슬롯 쌍을 비교하여 인접한 경우 라인 생성
-            // 중복 생성을 막기 위해 (A,B) 연결 시 A < B 인 경우만 생성하거나, 
-            // 방향성(Right, Up)만 체크
-
-            foreach (var pair in table.Index)
+        /// <summary>
+        /// 기존 슬롯 정리
+        /// </summary>
+        private void ClearExistingSlots()
+        {
+            var childrenToDestroy = new List<GameObject>();
+            foreach (Transform child in _content)
             {
-                var row = pair.Value;
+                // FogOfWarManager 컴포넌트가 있는 오브젝트는 삭제하지 않음
+                if (child.GetComponent<Rendering.FogOfWarManager>() == null)
+                {
+                    childrenToDestroy.Add(child.gameObject);
+                }
+            }
+            
+            foreach (var obj in childrenToDestroy)
+            {
+                Destroy(obj);
+            }
+            
+            _slots.Clear();
+            _lines.Clear();
+        }
 
-                // 오른쪽(X+1)과 위쪽(Y+1)만 체크하여 라인 생성 (중복 방지)
-                CheckAndCreateLine(row, row.XCoord + 1, row.YCoord);
-                CheckAndCreateLine(row, row.XCoord, row.YCoord + 1);
+        /// <summary>
+        /// 스킬 이름 표시 업데이트
+        /// </summary>
+        private void UpdateSkillNameDisplay(SkillRow? skillData)
+        {
+            if (_skillNameText == null) return;
+            
+            if (skillData.HasValue && !string.IsNullOrEmpty(skillData.Value.Name))
+            {
+                _skillNameText.text = skillData.Value.Name;
+                _skillNameText.gameObject.SetActive(true);
+            }
+            else
+            {
+                _skillNameText.text = "";
+                _skillNameText.gameObject.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// 슬롯 클릭 시 스킬 정보 팝업 표시
+        /// </summary>
+        private void OnSlotClicked(SkillRow skillData)
+        {
+            var state = _skillService.GetSkillState(skillData.ID);
+            
+            Debug.Log($"[UI_SkillPopup] 슬롯 클릭: {skillData.Name}, 상태: {state}");
+            
+            // 잠김 상태면 팝업 표시하지 않음
+            if (state == SkillState.Locked)
+            {
+                Debug.Log($"[UI_SkillPopup] 아직 해금 불가능한 스킬: {skillData.Name}");
+                return;
+            }
+
+            // 해금 가능 또는 해금 완료 상태 모두 정보 팝업 표시
+            if (state == SkillState.Unlockable || state == SkillState.Unlocked)
+            {
+                ShowSkillInfoPopup(skillData, state);
+            }
+        }
+
+        /// <summary>
+        /// 스킬 정보 팝업 표시
+        /// </summary>
+        private void ShowSkillInfoPopup(SkillRow skillData, SkillState state)
+        {
+            if (UIManager.Instance == null)
+            {
+                Debug.LogError("[UI_SkillPopup] UIManager를 찾을 수 없어 팝업을 표시할 수 없습니다.");
+                return;
+            }
+
+            Debug.Log($"[UI_SkillPopup] 스킬 정보 팝업 표시 시도: {skillData.Name}, 상태: {state}");
+
+            // UI_Skill_Info 팝업 표시
+            var skillInfoPopup = UIManager.Instance.ShowPopup<UI_SkillInfo>(EPopupUIType.SkillInfo, remember: false);
+            if (skillInfoPopup != null)
+            {
+                // 상태에 따라 팝업에 다른 모드로 설정
+                bool isUnlocked = (state == SkillState.Unlocked);
+                skillInfoPopup.SetSkillData(skillData, OnSkillLearnConfirmed, isUnlocked);
+                Debug.Log($"[UI_SkillPopup] 스킬 정보 팝업 표시 성공 (해금완료: {isUnlocked})");
+            }
+            else
+            {
+                Debug.LogError($"[UI_SkillPopup] 스킬 정보 팝업을 찾을 수 없습니다. UIRegistry에 SkillInfo 팝업이 등록되어 있는지 확인하세요.");
+            }
+        }
+
+        /// <summary>
+        /// 스킬 학습 확인 콜백
+        /// </summary>
+        private void OnSkillLearnConfirmed(SkillRow skillData)
+        {
+            // 해당 스킬의 슬롯을 찾아서 해금 시도
+            var slot = _slots.Find(s => s.Data.ID == skillData.ID);
+            if (slot != null && slot.TryUnlock())
+            {
+                Debug.Log($"[UI_SkillPopup] 스킬 연구 시작: {skillData.Name}");
             }
         }
 
         private void CheckAndCreateLine(SkillRow fromRow, int targetX, int targetY)
         {
-            // 타겟 좌표에 스킬이 있는지 확인
-            // Table을 순회해서 찾거나, 미리 Dictionary로 매핑해두면 좋음.
-            // 여기서는 간단히 Table 순회 (데이터가 많지 않으므로)
-
             var table = _skillService.GetTable();
             SkillRow targetRow = default;
             bool found = false;
@@ -178,7 +257,9 @@ namespace SahurRaising.UI
         private void CreateLine(SkillRow from, SkillRow to)
         {
             var lineObj = Instantiate(_linePrefab, _content);
-            lineObj.transform.SetAsFirstSibling(); // 슬롯 뒤로 보내기
+            
+            // 라인 리스트에 추가
+            _lines.Add(lineObj);
 
             RectTransform rt = lineObj.GetComponent<RectTransform>();
             Image img = lineObj.GetComponent<Image>();
@@ -202,6 +283,18 @@ namespace SahurRaising.UI
             foreach (var slot in _slots)
             {
                 slot.RefreshState();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            // 이벤트 해제
+            foreach (var slot in _slots)
+            {
+                if (slot != null)
+                {
+                   // slot.OnSlotHovered -= UpdateSkillNameDisplay;
+                }
             }
         }
     }

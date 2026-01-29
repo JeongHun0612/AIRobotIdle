@@ -15,6 +15,7 @@ namespace SahurRaising.Core
         private readonly IResourceService _resourceService;
         private readonly ICurrencyService _currencyService;
         private readonly IStatService _statService;
+        private readonly IEventBus _eventBus;
 
         private SkillTable _skillTable;
         private HashSet<string> _unlockedSkillIds = new();
@@ -24,11 +25,13 @@ namespace SahurRaising.Core
         public SkillService(
             IResourceService resourceService,
             ICurrencyService currencyService,
-            IStatService statService)
+            IStatService statService,
+            IEventBus eventBus)
         {
             _resourceService = resourceService;
             _currencyService = currencyService;
             _statService = statService;
+            _eventBus = eventBus;
         }
 
         public async UniTask InitializeAsync()
@@ -44,6 +47,40 @@ namespace SahurRaising.Core
 
             // 초기화 시 효과 적용
             ApplyPassiveStats();
+            
+            // 로드된 연구 중인 스킬들의 타이머 복원
+            RestoreResearchTimers();
+        }
+
+        /// <summary>
+        /// 앱 재시작 후 진행 중인 연구 타이머 복원
+        /// </summary>
+        private void RestoreResearchTimers()
+        {
+            long now = DateTime.Now.Ticks;
+            var completedSkills = new List<string>();
+            
+            foreach (var research in _researchingSkills)
+            {
+                if (now >= research.EndTimeTicks)
+                {
+                    // 이미 완료된 연구 - 즉시 처리
+                    completedSkills.Add(research.SkillID);
+                }
+                else
+                {
+                    // 아직 진행 중인 연구 - 남은 시간만큼 타이머 시작
+                    double remainingSeconds = TimeSpan.FromTicks(research.EndTimeTicks - now).TotalSeconds;
+                    StartResearchTimerAsync(research.SkillID, (int)Math.Ceiling(remainingSeconds)).Forget();
+                    Debug.Log($"[SkillService] 연구 타이머 복원: {research.SkillID}, 남은 시간: {remainingSeconds:F1}초");
+                }
+            }
+            
+            // 완료된 연구들 처리
+            foreach (var skillId in completedSkills)
+            {
+                CompleteResearch(skillId);
+            }
         }
 
         public SkillTable GetTable() => _skillTable;
@@ -100,6 +137,11 @@ namespace SahurRaising.Core
                 // 연구 시작
                 long endTime = DateTime.Now.AddSeconds(row.Time).Ticks;
                 _researchingSkills.Add(new ResearchInfo { SkillID = skillId, EndTimeTicks = endTime });
+                
+                _eventBus.Publish(new SkillStateChangedEvent(skillId, SkillState.Researching));
+                
+                // 비동기 타이머 시작 (연구 완료 시 자동 처리)
+                StartResearchTimerAsync(skillId, row.Time).Forget();
             }
             else
             {
@@ -108,12 +150,54 @@ namespace SahurRaising.Core
                 _newSkillIds.Add(skillId);
                 // 효과 적용
                 ApplyPassiveStats();
+                
+                _eventBus.Publish(new SkillStateChangedEvent(skillId, SkillState.Unlocked));
             }
 
             // 저장
             SaveAsync().Forget();
 
             return true;
+        }
+
+        /// <summary>
+        /// 연구 완료 비동기 타이머
+        /// Update 폴링 대신 UniTask 기반 비동기 대기 사용
+        /// </summary>
+        private async UniTaskVoid StartResearchTimerAsync(string skillId, int researchTimeSeconds)
+        {
+            try
+            {
+                // 연구 시간만큼 대기
+                await UniTask.Delay(TimeSpan.FromSeconds(researchTimeSeconds), ignoreTimeScale: true);
+                
+                // 연구 완료 처리
+                CompleteResearch(skillId);
+            }
+            catch (OperationCanceledException)
+            {
+                // 취소된 경우 (앱 종료 등) 무시
+                Debug.Log($"[SkillService] 연구 타이머 취소됨: {skillId}");
+            }
+        }
+
+        /// <summary>
+        /// 연구 완료 처리 (단일 스킬)
+        /// </summary>
+        private void CompleteResearch(string skillId)
+        {
+            var research = _researchingSkills.Find(r => r.SkillID == skillId);
+            if (string.IsNullOrEmpty(research.SkillID)) return;
+            
+            _researchingSkills.RemoveAll(r => r.SkillID == skillId);
+            _unlockedSkillIds.Add(skillId);
+            _newSkillIds.Add(skillId);
+            
+            ApplyPassiveStats();
+            SaveAsync().Forget();
+            
+            _eventBus.Publish(new SkillStateChangedEvent(skillId, SkillState.Unlocked));
+            Debug.Log($"[SkillService] 연구 완료: {skillId}");
         }
 
         private bool HasUnlockedNeighbor(int targetX, int targetY)
@@ -217,6 +301,8 @@ namespace SahurRaising.Core
                     _unlockedSkillIds.Add(info.SkillID);
                     _newSkillIds.Add(info.SkillID);
                     changed = true;
+
+                    _eventBus.Publish(new SkillStateChangedEvent(info.SkillID, SkillState.Unlocked));
                 }
             }
 
@@ -309,5 +395,100 @@ namespace SahurRaising.Core
                 SaveAsync().Forget();
             }
         }
+
+        #region 디버그 전용 메서드
+
+        /// <summary>
+        /// 특정 스킬 강제 해금 (디버그용, 비용/선행조건 무시)
+        /// </summary>
+        public void ForceUnlock(string skillId)
+        {
+            if (string.IsNullOrEmpty(skillId)) return;
+            if (!_skillTable.Index.ContainsKey(skillId))
+            {
+                Debug.LogWarning($"[SkillService] 존재하지 않는 스킬 ID: {skillId}");
+                return;
+            }
+
+            // 연구 중인 경우 먼저 제거
+            _researchingSkills.RemoveAll(r => r.SkillID == skillId);
+            
+            if (_unlockedSkillIds.Add(skillId))
+            {
+                ApplyPassiveStats();
+                _eventBus.Publish(new SkillStateChangedEvent(skillId, SkillState.Unlocked));
+                SaveAsync().Forget();
+                Debug.Log($"[SkillService] 스킬 강제 해금: {skillId}");
+            }
+        }
+
+        /// <summary>
+        /// 특정 스킬 해금 취소 (디버그용)
+        /// </summary>
+        public void ForceLock(string skillId)
+        {
+            if (string.IsNullOrEmpty(skillId)) return;
+
+            bool changed = false;
+
+            // 해금 상태 제거
+            if (_unlockedSkillIds.Remove(skillId))
+            {
+                changed = true;
+            }
+
+            // 연구 중인 경우도 제거
+            if (_researchingSkills.RemoveAll(r => r.SkillID == skillId) > 0)
+            {
+                changed = true;
+            }
+
+            // NEW 태그도 제거
+            _newSkillIds.Remove(skillId);
+
+            if (changed)
+            {
+                ApplyPassiveStats();
+                _eventBus.Publish(new SkillStateChangedEvent(skillId, SkillState.Locked));
+                SaveAsync().Forget();
+                Debug.Log($"[SkillService] 스킬 잠금 처리: {skillId}");
+            }
+        }
+
+        /// <summary>
+        /// 모든 스킬 데이터 초기화 (디버그용)
+        /// </summary>
+        public void ResetAllSkills()
+        {
+            _unlockedSkillIds.Clear();
+            _researchingSkills.Clear();
+            _newSkillIds.Clear();
+
+            // 스탯 초기화
+            _statService.ApplySkillModifiers(new List<StatModifier>());
+
+            // 각 스킬에 대해 상태 변경 이벤트 발행
+            if (_skillTable != null)
+            {
+                foreach (var pair in _skillTable.Index)
+                {
+                    _eventBus.Publish(new SkillStateChangedEvent(pair.Key, 
+                        pair.Value.IsFirstNode ? SkillState.Unlockable : SkillState.Locked));
+                }
+            }
+
+            SaveAsync().Forget();
+            Debug.Log("[SkillService] 모든 스킬 초기화 완료");
+        }
+
+        /// <summary>
+        /// 현재 해금된 모든 스킬 ID 목록 조회 (디버그용)
+        /// </summary>
+        public IReadOnlyCollection<string> GetUnlockedSkillIds()
+        {
+            return _unlockedSkillIds;
+        }
+
+        #endregion
     }
 }
