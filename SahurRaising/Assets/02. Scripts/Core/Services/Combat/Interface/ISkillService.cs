@@ -57,5 +57,25 @@ namespace SahurRaising.Core
         /// 스킬 확인 처리 (NEW 태그 제거)
         /// </summary>
         void AcknowledgeSkill(string skillId);
+
+        /// <summary>
+        /// 특정 스킬 해금 상태 강제 설정 (디버그용)
+        /// </summary>
+        void ForceUnlock(string skillId);
+
+        /// <summary>
+        /// 특정 스킬 해금 상태 제거 (디버그용)
+        /// </summary>
+        void ForceLock(string skillId);
+
+        /// <summary>
+        /// 모든 스킬 데이터 초기화 (디버그용)
+        /// </summary>
+        void ResetAllSkills();
+
+        /// <summary>
+        /// 모든 해금된 스킬 ID 목록 조회 (디버그용)
+        /// </summary>
+        IReadOnlyCollection<string> GetUnlockedSkillIds();
     }
 }

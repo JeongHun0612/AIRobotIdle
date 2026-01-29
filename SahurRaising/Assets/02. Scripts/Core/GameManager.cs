@@ -196,7 +196,7 @@ namespace SahurRaising.Core
             await droneService.InitializeAsync();
             step++; Report();
 
-            var skillService = new SkillService(resourceManager, currencyService, statService);
+            var skillService = new SkillService(resourceManager, currencyService, statService, eventBus);
             ServiceLocator.Register<ISkillService, SkillService>(skillService);
             await skillService.InitializeAsync();
             step++; Report();

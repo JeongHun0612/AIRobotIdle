@@ -697,7 +697,7 @@ MonoBehaviour:
   TextureResolution: {x: 256, y: 256}
   FogColor: {r: 0, g: 0, b: 0, a: 0.95}
   ClearFogEveryFrame: 0
-  EdgeSoftness: 0.3
+  EdgeSoftness: 0.6
   _fogOverlayImage: {fileID: 6067356352810002229}
 --- !u!1 &4807479286991668970
 GameObject:
@@ -853,14 +853,12 @@ MonoBehaviour:
   _backdropButton: {fileID: 0}
   _scrollRect: {fileID: 3946464322178797692}
   _content: {fileID: 2516261174067396524}
+  _skillNameText: {fileID: 0}
   _slotPrefab: {fileID: 5376490562276285737, guid: 180a4ed2e982c4b4b82a0ab3783bb3de, type: 3}
   _linePrefab: {fileID: 6209923853751606644, guid: 8d5542beb75fde04799b5cb0c6cde7e1, type: 3}
-  _slotSize: {x: 100, y: 100}
-  _spacing: {x: 150, y: 150}
+  _slotSize: {x: 140, y: 160}
+  _spacing: {x: 200, y: 200}
   _lineThickness: 5
-  _backgroundMappings: []
-  _defaultBackground: {fileID: 0}
-  _currencyIcon: {fileID: 0}
 --- !u!1 &6997059490790985887
 GameObject:
   m_ObjectHideFlags: 0
