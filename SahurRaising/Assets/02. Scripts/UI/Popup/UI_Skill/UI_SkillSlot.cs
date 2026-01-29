@@ -36,7 +36,7 @@ namespace SahurRaising.UI
         public SkillRow Data => _data;
         
         // 호버 이벤트 (스킬 이름 표시용)
-        public event System.Action<SkillRow?> OnSlotHovered;
+       // public event System.Action<SkillRow?> OnSlotHovered;
 
         // 로마자 변환 배열 (1~10 레벨)
         private static readonly string[] ROMAN_NUMERALS = 
@@ -111,7 +111,7 @@ namespace SahurRaising.UI
         /// </summary>
         public void OnPointerEnter(PointerEventData eventData)
         {
-            OnSlotHovered?.Invoke(_data);
+           // OnSlotHovered?.Invoke(_data);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace SahurRaising.UI
         /// </summary>
         public void OnPointerExit(PointerEventData eventData)
         {
-            OnSlotHovered?.Invoke(null);
+          //  OnSlotHovered?.Invoke(null);
         }
 
         /// <summary>

@@ -694,7 +694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetArea: {fileID: 2516261174067396524}
-  TextureResolution: {x: 256, y: 256}
+  TextureResolution: {x: 512, y: 512}
   FogColor: {r: 0, g: 0, b: 0, a: 0.95}
   ClearFogEveryFrame: 0
   EdgeSoftness: 0.6

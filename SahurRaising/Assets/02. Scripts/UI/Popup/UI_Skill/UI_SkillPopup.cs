@@ -120,7 +120,7 @@ namespace SahurRaising.UI
 
                 // 슬롯 초기화 - 클릭 콜백과 호버 콜백 전달
                 slot.Initialize(row, _skillService, RefreshAllSlots, OnSlotClicked);
-                slot.OnSlotHovered += UpdateSkillNameDisplay;
+               // slot.OnSlotHovered += UpdateSkillNameDisplay;
                 _slots.Add(slot);
             }
         }
@@ -293,7 +293,7 @@ namespace SahurRaising.UI
             {
                 if (slot != null)
                 {
-                    slot.OnSlotHovered -= UpdateSkillNameDisplay;
+                   // slot.OnSlotHovered -= UpdateSkillNameDisplay;
                 }
             }
         }
