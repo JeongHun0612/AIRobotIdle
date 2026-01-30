@@ -694,9 +694,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetArea: {fileID: 2516261174067396524}
-  TextureResolution: {x: 512, y: 512}
+  TextureResolution: {x: 1024, y: 1024}
   FogColor: {r: 0, g: 0, b: 0, a: 0.95}
   ClearFogEveryFrame: 0
+  AutoAspect: 1
   EdgeSoftness: 0.6
   _fogOverlayImage: {fileID: 6067356352810002229}
 --- !u!1 &4807479286991668970
@@ -858,7 +859,7 @@ MonoBehaviour:
   _linePrefab: {fileID: 6209923853751606644, guid: 8d5542beb75fde04799b5cb0c6cde7e1, type: 3}
   _slotSize: {x: 140, y: 160}
   _spacing: {x: 200, y: 200}
-  _lineThickness: 5
+  _lineThickness: 10
 --- !u!1 &6997059490790985887
 GameObject:
   m_ObjectHideFlags: 0

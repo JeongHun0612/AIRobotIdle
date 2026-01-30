@@ -68,6 +68,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Data
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aa021beee1115e24e817dbb484f24bac
+    m_Address: SkillVisualConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b08c5fbfdf019164db60079916bba97b
     m_Address: CurrencyTable
     m_ReadOnly: 0

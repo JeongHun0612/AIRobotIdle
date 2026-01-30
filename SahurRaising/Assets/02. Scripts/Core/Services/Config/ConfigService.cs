@@ -9,11 +9,13 @@ namespace SahurRaising.Core
     public class ConfigService : IConfigService
     {
         private const string ITEM_VISUAL_CONFIG_KEY = "ItemVisualConfig";
+        private const string SKILL_VISUAL_CONFIG_KEY = "SkillVisualConfig";
 
         private readonly IResourceService _resourceService;
 
         public bool IsInitialized { get; private set; }
         public ItemVisualConfig ItemVisualConfig { get; private set; }
+        public SkillVisualConfig SkillVisualConfig { get; private set; }
 
         public ConfigService(IResourceService resourceService)
         {
@@ -34,11 +36,18 @@ namespace SahurRaising.Core
                 return;
             }
 
+            // 아이템 시각 설정 로드
             ItemVisualConfig = await _resourceService.LoadAssetAsync<ItemVisualConfig>(ITEM_VISUAL_CONFIG_KEY);
             if (ItemVisualConfig == null)
             {
                 Debug.LogError("[ConfigService] ItemVisualConfig 로드 실패");
-                return;
+            }
+
+            // 스킬 시각 설정 로드
+            SkillVisualConfig = await _resourceService.LoadAssetAsync<SkillVisualConfig>(SKILL_VISUAL_CONFIG_KEY);
+            if (SkillVisualConfig == null)
+            {
+                Debug.LogWarning("[ConfigService] SkillVisualConfig 로드 실패 - 기본값 사용");
             }
 
             IsInitialized = true;
@@ -58,6 +67,22 @@ namespace SahurRaising.Core
                 return null;
 
             return ItemVisualConfig.GetTypeIcon(gachaType, typeKey);
+        }
+
+        public Color GetSkillFrameColor(SkillIdPrefix prefix)
+        {
+            if (SkillVisualConfig == null)
+                return Color.white;
+
+            return SkillVisualConfig.GetFrameColor(prefix);
+        }
+
+        public Color GetSkillFrameColor(string skillIdOrPrefix)
+        {
+            if (SkillVisualConfig == null)
+                return Color.white;
+
+            return SkillVisualConfig.GetFrameColorByString(skillIdOrPrefix);
         }
     }
 }

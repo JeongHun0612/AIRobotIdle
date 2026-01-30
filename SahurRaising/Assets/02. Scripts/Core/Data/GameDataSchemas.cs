@@ -253,6 +253,37 @@ namespace SahurRaising.Core
         Unlocked
     }
 
+    // 스킬 ID 접두사 분류
+    public enum SkillIdPrefix
+    {
+        None,
+        AUTO,   // 자동화
+        PARR,   // 병렬처리
+        HERR,   // 휴먼에러
+        OFIT,   // 오버피팅
+        FINT,   // 파인튜닝
+        KNAG,   // 지식확장
+        SELF,   // 자기개선
+        SENS,   // 센서
+        VALG,   // 비전 알고리즘
+        CALB,   // 칼리브레이션
+        ACTU,   // 액추에이터
+        RLOP,   // 강화학습 최적화
+        WBOX,   // 화이트박스
+        SGRL,   // 싱귤래리티
+        CBKD,   // 코인채굴 백도어
+        DCOL,   // 데이터 수집
+        DFIR,   // 드론 펌웨어
+        CPUR,   // CPU 강화
+        GPUR,   // GPU 강화
+        TPUR,   // TPU 강화
+        MATR,   // 장갑강화
+        MATT,   // 티타늄 쉘 강화
+
+        // 필요시 추가
+        ETC
+    }
+
     [Serializable]
     public struct SkillRow
     {

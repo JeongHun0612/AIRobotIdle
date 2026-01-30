@@ -21,6 +21,8 @@ namespace SahurRaising.Rendering
         public Color FogColor = new Color(0, 0, 0, 0.95f);
         [Tooltip("매 프레임 안개를 다시 덮을지 여부. True면 시야 밖은 다시 어두워짐.")]
         public bool ClearFogEveryFrame = false;
+        [Tooltip("맵의 가로세로 비율에 맞춰 텍스처 해상도 Y를 자동 조절합니다.")]
+        public bool AutoAspect = true;
         [Tooltip("안개 가장자리 부드러움 (0~1)")]
         [Range(0f, 1f)]
         public float EdgeSoftness = 0.3f;
@@ -126,12 +128,28 @@ namespace SahurRaising.Rendering
                 DestroyAdaptive(_fogTexture);
             }
 
-            _fogTexture = new Texture2D(TextureResolution.x, TextureResolution.y, TextureFormat.RGBA32, false);
+            int width = TextureResolution.x;
+            int height = TextureResolution.y;
+
+            // 비율 자동 보정
+            if (AutoAspect && _targetArea != null)
+            {
+                Rect rect = _targetArea.rect;
+                if (rect.width > 0 && rect.height > 0)
+                {
+                    float ratio = rect.height / rect.width;
+                    height = Mathf.RoundToInt(width * ratio);
+                    // 인스펙터 값도 갱신하여 보여줌 (선택사항)
+                    TextureResolution.y = height; 
+                }
+            }
+
+            _fogTexture = new Texture2D(width, height, TextureFormat.RGBA32, false);
             _fogTexture.filterMode = FilterMode.Bilinear;
             _fogTexture.wrapMode = TextureWrapMode.Clamp;
             _fogTexture.hideFlags = HideFlags.DontSave;
 
-            int pixelCount = TextureResolution.x * TextureResolution.y;
+            int pixelCount = width * height;
             _fogPixels = new Color[pixelCount];
             _clearPixels = new Color[pixelCount];
 
@@ -144,6 +162,8 @@ namespace SahurRaising.Rendering
             
             _fogTexture.SetPixels(_fogPixels);
             _fogTexture.Apply();
+            
+            Debug.Log($"[FogOfWar] 텍스처 생성: {width}x{height} (AutoAspect: {AutoAspect})");
         }
 
         private void SetupMaterial()
@@ -235,11 +255,11 @@ namespace SahurRaising.Rendering
                 float radiusU = worldRadius / overlaySize.x;
                 float radiusV = worldRadius / overlaySize.y;
                 
-                int pixelRadiusX = Mathf.CeilToInt(radiusU * TextureResolution.x);
-                int pixelRadiusY = Mathf.CeilToInt(radiusV * TextureResolution.y);
+                int pixelRadiusX = Mathf.CeilToInt(radiusU * _fogTexture.width);
+                int pixelRadiusY = Mathf.CeilToInt(radiusV * _fogTexture.height);
                 
-                int centerX = Mathf.RoundToInt(u * TextureResolution.x);
-                int centerY = Mathf.RoundToInt(v * TextureResolution.y);
+                int centerX = Mathf.RoundToInt(u * _fogTexture.width);
+                int centerY = Mathf.RoundToInt(v * _fogTexture.height);
 
                 // 영향 범위 내 픽셀 업데이트
                 DrawCircle(centerX, centerY, pixelRadiusX, pixelRadiusY, rev.Intensity);
@@ -252,10 +272,15 @@ namespace SahurRaising.Rendering
 
         private void DrawCircle(int centerX, int centerY, int radiusX, int radiusY, float intensity)
         {
+            if (_fogTexture == null) return;
+            
+            int texWidth = _fogTexture.width;
+            int texHeight = _fogTexture.height;
+
             int minX = Mathf.Max(0, centerX - radiusX);
-            int maxX = Mathf.Min(TextureResolution.x - 1, centerX + radiusX);
+            int maxX = Mathf.Min(texWidth - 1, centerX + radiusX);
             int minY = Mathf.Max(0, centerY - radiusY);
-            int maxY = Mathf.Min(TextureResolution.y - 1, centerY + radiusY);
+            int maxY = Mathf.Min(texHeight - 1, centerY + radiusY);
 
             float radSqX = radiusX * radiusX;
             float radSqY = radiusY * radiusY;
@@ -265,6 +290,9 @@ namespace SahurRaising.Rendering
 
             for (int y = minY; y <= maxY; y++)
             {
+                // 행의 시작 인덱스 미리 계산 (최적화)
+                int rowOffset = y * texWidth;
+                
                 for (int x = minX; x <= maxX; x++)
                 {
                     float dx = x - centerX;
@@ -275,7 +303,7 @@ namespace SahurRaising.Rendering
 
                     if (normalizedDistSq <= 1f)
                     {
-                        int idx = y * TextureResolution.x + x;
+                        int idx = rowOffset + x;
                         
                         // 정규화된 거리 (0 = 중심, 1 = 가장자리)
                         float dist = Mathf.Sqrt(normalizedDistSq);

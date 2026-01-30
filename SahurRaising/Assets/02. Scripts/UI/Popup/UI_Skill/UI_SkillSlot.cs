@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 namespace SahurRaising.UI
 {
@@ -14,29 +15,30 @@ namespace SahurRaising.UI
     public class UI_SkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [Header("핵심 UI 컴포넌트")]
-        [SerializeField] private Image _skillIconImage;        // 스킬 아이콘 (항상 표시)
-        [SerializeField] private TextMeshProUGUI _levelText;   // 우하단 로마자 레벨
+        [SerializeField, Tooltip("스킬 아이콘을 표시할 이미지 컴포넌트")] private Image _skillIconImage;
+        [SerializeField, Tooltip("스킬 레벨(로마자)을 표시할 텍스트 컴포넌트")] private TextMeshProUGUI _levelText;
         
         [Header("상태 오버레이")]
-        [SerializeField] private GameObject _dimOverlay;       // 딤 처리 (잠김 상태)
-        [SerializeField] private Image _lockIconImage;         // 우상단 자물쇠 아이콘
-        [SerializeField] private GameObject _focusGlow;        // 해금 가능 상태 포커스
-        [SerializeField] private Image _progressBorder;        // Radial fill 프로그레스
+        [SerializeField, Tooltip("스킬이 잠겨있거나 연구 중일 때 표시되는 어두운 배경")] private GameObject _dimOverlay;
+        [SerializeField, Tooltip("스킬이 잠겨있거나 해금 가능할 때 표시되는 자물쇠 아이콘")] private Image _lockIconImage;
+        [SerializeField, Tooltip("스킬이 해금 가능할 때 강조 표시되는 효과")] private GameObject _focusGlow;
+        [SerializeField, Tooltip("연구 중일 때 진행도를 표시하는 원형 프로그레스 이미지")] private Image _progressBorder;
         
-        [SerializeField] private Button _button;
+        [SerializeField, Tooltip("클릭 이벤트를 받을 버튼 컴포넌트")] private Button _button;
+
+        [Header("스타일 설정")]
+        [SerializeField, Tooltip("스킬의 배경 프레임(예: 파란색 박스)을 표시하는 이미지")] private Image _slotFrameImage;
 
         private SkillRow _data;
         private ISkillService _skillService;
         private IEventBus _eventBus;
+        private IConfigService _configService;
         
         private System.Action _onStateChanged;
         private System.Action<SkillRow> _onSlotClicked;
         private Rendering.FogRevealer _fogRevealer;
 
         public SkillRow Data => _data;
-        
-        // 호버 이벤트 (스킬 이름 표시용)
-       // public event System.Action<SkillRow?> OnSlotHovered;
 
         // 로마자 변환 배열 (1~10 레벨)
         private static readonly string[] ROMAN_NUMERALS = 
@@ -68,8 +70,10 @@ namespace SahurRaising.UI
             _onStateChanged = onStateChanged;
             _onSlotClicked = onSlotClicked;
             
-            // 이벤트 버스 연결
+            // 서비스 연결
             _eventBus = ServiceLocator.Get<IEventBus>();
+            _configService = ServiceLocator.Get<IConfigService>();
+            
             if (_eventBus != null)
             {
                 // 재활용 시 중복 구독 방지
@@ -85,6 +89,9 @@ namespace SahurRaising.UI
                 _skillIconImage.sprite = data.Icon;
             }
 
+            // 스킬 분류(Prefix)에 따른 프레임 색상 설정
+            UpdateFrameColor();
+
             // 스킬 레벨 로마자 표시
             UpdateLevelText();
 
@@ -97,6 +104,37 @@ namespace SahurRaising.UI
 
             RefreshState();
         }
+
+        /// <summary>
+        /// 스킬 ID 접두사에 따라 프레임 색상 변경
+        /// ConfigService의 SkillVisualConfig를 통해 색상 조회
+        /// </summary>
+        private void UpdateFrameColor()
+        {
+            if (_slotFrameImage == null) return;
+
+            Color targetColor = Color.white;
+
+            if (_configService != null)
+            {
+                // Prefix 우선 사용, 없으면 ID에서 추출
+                string prefixStr = !string.IsNullOrEmpty(_data.Prefix) 
+                    ? _data.Prefix 
+                    : _data.ID;
+
+                targetColor = _configService.GetSkillFrameColor(prefixStr);
+                
+                Debug.Log($"[UI_SkillSlot] 색상 조회 - Prefix: {prefixStr}, Color: {targetColor}, SkillVisualConfig null: {_configService.SkillVisualConfig == null}");
+            }
+            else
+            {
+                Debug.LogWarning($"[UI_SkillSlot] _configService가 null입니다. 스킬: {_data.Name}");
+            }
+
+            _slotFrameImage.color = targetColor;
+        }
+
+        // UpdateBorderImage 메서드 제거됨 (불필요)
 
         private void OnSkillStateChanged(SkillStateChangedEvent evt)
         {

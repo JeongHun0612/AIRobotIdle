@@ -24,9 +24,9 @@ namespace SahurRaising.UI
         [SerializeField] private GameObject _linePrefab;
 
         [Header("Layout")]
-        [SerializeField] private Vector2 _slotSize = new Vector2(140, 160);
-        [SerializeField] private Vector2 _spacing = new Vector2(150, 150);
-        [SerializeField] private float _lineThickness = 5f;
+        [SerializeField, Tooltip("스킬 슬롯의 크기")] private Vector2 _slotSize = new Vector2(140, 160);
+        [SerializeField, Tooltip("스킬 슬롯 간 간격")] private Vector2 _spacing = new Vector2(150, 150);
+        [SerializeField, Tooltip("스킬 슬롯 간 연결선의 두께")] private float _lineThickness = 5f;
 
         private ISkillService _skillService;
         private readonly List<UI_SkillSlot> _slots = new();
@@ -101,11 +101,17 @@ namespace SahurRaising.UI
             if (table == null) return;
 
             // 1. 먼저 연결 라인 생성 (슬롯 뒤에 표시되도록)
+            // 맨하탄 거리 1인 인접 노드끼리 연결 (중복 방지)
+            var createdLines = new HashSet<string>();
+            
             foreach (var pair in table.Index)
             {
                 var row = pair.Value;
-                CheckAndCreateLine(row, row.XCoord + 1, row.YCoord);
-                CheckAndCreateLine(row, row.XCoord, row.YCoord + 1);
+                // 4방향 인접 노드 체크 (맨하탄 거리 1)
+                TryCreateLine(row, row.XCoord + 1, row.YCoord, table, createdLines);  // 오른쪽
+                TryCreateLine(row, row.XCoord - 1, row.YCoord, table, createdLines);  // 왼쪽
+                TryCreateLine(row, row.XCoord, row.YCoord + 1, table, createdLines);  // 위
+                TryCreateLine(row, row.XCoord, row.YCoord - 1, table, createdLines);  // 아래
             }
 
             // 2. 슬롯 생성 (라인 위에 표시)
@@ -232,9 +238,13 @@ namespace SahurRaising.UI
             }
         }
 
-        private void CheckAndCreateLine(SkillRow fromRow, int targetX, int targetY)
+        /// <summary>
+        /// 대상 좌표에 노드가 있으면 라인 생성 (중복 방지)
+        /// </summary>
+        private void TryCreateLine(SkillRow fromRow, int targetX, int targetY, 
+            SkillTable table, HashSet<string> createdLines)
         {
-            var table = _skillService.GetTable();
+            // 대상 좌표에 노드 찾기
             SkillRow targetRow = default;
             bool found = false;
 
@@ -248,10 +258,27 @@ namespace SahurRaising.UI
                 }
             }
 
-            if (found)
+            if (!found) return;
+
+            // 중복 방지 (A→B와 B→A가 같은 라인)
+            string lineKey = GetLineKey(fromRow.XCoord, fromRow.YCoord, targetX, targetY);
+            if (createdLines.Contains(lineKey)) return;
+            
+            createdLines.Add(lineKey);
+            CreateLine(fromRow, targetRow);
+        }
+
+        /// <summary>
+        /// 라인 키 생성 (양방향 동일 키 보장)
+        /// </summary>
+        private string GetLineKey(int x1, int y1, int x2, int y2)
+        {
+            // 좌표 정렬하여 (A→B)와 (B→A)가 동일한 키를 갖도록
+            if (x1 < x2 || (x1 == x2 && y1 < y2))
             {
-                CreateLine(fromRow, targetRow);
+                return $"{x1},{y1}_{x2},{y2}";
             }
+            return $"{x2},{y2}_{x1},{y1}";
         }
 
         private void CreateLine(SkillRow from, SkillRow to)
@@ -270,7 +297,8 @@ namespace SahurRaising.UI
             Vector2 dir = (posB - posA).normalized;
             float distance = Vector2.Distance(posA, posB);
 
-            rt.anchoredPosition = posA + dir * (distance * 0.5f);
+            // pivot이 중앙(0.5, 0.5)이므로 두 점의 중간에 배치
+            rt.anchoredPosition = (posA + posB) / 2f;
             rt.sizeDelta = new Vector2(distance, _lineThickness);
 
             // 회전
