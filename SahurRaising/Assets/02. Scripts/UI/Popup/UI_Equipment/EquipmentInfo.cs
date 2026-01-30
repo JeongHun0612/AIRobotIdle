@@ -17,7 +17,6 @@ namespace SahurRaising
             if (_itemSlot == null)
                 return;
 
-            _itemSlot.gameObject.SetActive(true);
             _itemSlot.SetData(data);
         }
 
@@ -26,7 +25,6 @@ namespace SahurRaising
             if (_equipOptionStatPanel == null)
                 return;
 
-            _equipOptionStatPanel.gameObject.SetActive(true);
             _equipOptionStatPanel.UpdateEquipmentStatText(data.EquipOption, level);
         }
 
@@ -65,20 +63,6 @@ namespace SahurRaising
                         activePanelIndex++;
                     }
                 }
-            }
-        }
-
-        public override void HideInfo()
-        {
-            base.HideInfo();
-
-            if (_itemSlot != null)
-                _itemSlot.gameObject.SetActive(false);
-
-            foreach (var heldOptionStatPanel in _heldOptionStatPanels)
-            {
-                if (heldOptionStatPanel != null)
-                    heldOptionStatPanel.gameObject.SetActive(false);
             }
         }
 

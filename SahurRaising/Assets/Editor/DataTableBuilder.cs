@@ -169,6 +169,7 @@ public static class DataTableBuilder
 
     // Equipment 테이블 컬럼명
     private const string COL_EQ_CODE = "EquipmentCode";
+    private const string COL_EQ_NAME = "EquipmentName";
     private const string COL_EQ_TYPE = "EquipmentType";
     private const string COL_EQ_GRADE = "EquipmentGrade";
     private const string COL_EQ_OPT_TYPE = "EquipOption_Type";
@@ -251,6 +252,7 @@ public static class DataTableBuilder
             {
                 Code = code,
                 Type = row.EnumValue<EquipmentType>(COL_EQ_TYPE),
+                Name = row.String(COL_EQ_NAME),
                 Grade = row.EnumValue<EquipmentGrade>(COL_EQ_GRADE),
                 EquipOption = new OptionValue
                 {
@@ -311,6 +313,7 @@ public static class DataTableBuilder
                 AtkRate = row.Double(COL_DR_ATK_RATE),
                 EquipOption = new OptionValue
                 {
+                    Type = "ATKR2",
                     Base = row.Double(COL_DR_EQ_OPT_BASE),
                     Up = row.Double(COL_DR_EQ_OPT_UP)
                 },

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 namespace SahurRaising
 {
@@ -7,5 +8,14 @@ namespace SahurRaising
     /// </summary>
     public class DroneInfoItemSlot : DroneItemSlotBase
     {
+        [SerializeField] protected TMP_Text _nameText;
+
+        protected override void UpdateItemName(string itemName)
+        {
+            if (_nameText == null)
+                return;
+
+            _nameText.text = itemName;
+        }
     }
 }

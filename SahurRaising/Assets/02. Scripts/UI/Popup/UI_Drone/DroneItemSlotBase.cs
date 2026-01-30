@@ -1,4 +1,5 @@
 ﻿using SahurRaising.Core;
+using SahurRaising.Utils;
 using UnityEngine;
 
 namespace SahurRaising
@@ -11,6 +12,11 @@ namespace SahurRaising
         protected override string GetItemID()
         {
             return _data.ID;
+        }
+
+        protected override string GetItemName()
+        {
+            return string.Empty;
         }
 
         protected override Sprite GetIcon()
@@ -30,6 +36,15 @@ namespace SahurRaising
 
         protected override string GetRankText(string gradeString)
         {
+            var (_, gradeNumber) = StringUtils.ParseLettersAndNumber(gradeString);
+
+            string romanNumeral = NumberFormatUtil.ToRomanNumeral(gradeNumber);
+
+            if (!string.IsNullOrEmpty(romanNumeral))
+            {
+                return romanNumeral;
+            }
+
             return gradeString;
         }
 

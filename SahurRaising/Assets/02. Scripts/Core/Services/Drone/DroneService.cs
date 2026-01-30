@@ -217,12 +217,14 @@ namespace SahurRaising.Core
 
         public DroneInventoryInfo GetInventoryInfo(string droneID)
         {
+            const int defaultLevel = 1;
+
             if (string.IsNullOrEmpty(droneID))
-                return new DroneInventoryInfo(string.Empty, 0, 0, false);
+                return new DroneInventoryInfo(string.Empty, defaultLevel, 0, false);
 
             return _inventory.TryGetValue(droneID, out var info)
                 ? info
-                : new DroneInventoryInfo(string.Empty, 0, 0, false); // 보유 X
+                : new DroneInventoryInfo(string.Empty, defaultLevel, 0, false); // 보유 X
         }
 
         public bool LevelUp(string droneID)

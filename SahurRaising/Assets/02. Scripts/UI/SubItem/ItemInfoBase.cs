@@ -76,24 +76,8 @@ namespace SahurRaising
             // 보유 스탯 설정
             UpdateHeldOptionStats(data, level);
 
-            if (_equipButton != null)
-                _equipButton.gameObject.SetActive(true);
-            if (_levelUpButton != null)
-                _levelUpButton.gameObject.SetActive(true);
-
             // 장착 버튼 상태 업데이트
             UpdateEquipButtonState();
-        }
-
-        public virtual void HideInfo()
-        {
-            if (_equipOptionStatPanel != null)
-                _equipOptionStatPanel.gameObject.SetActive(false);
-
-            if (_equipButton != null)
-                _equipButton.gameObject.SetActive(false);
-            if (_levelUpButton != null)
-                _levelUpButton.gameObject.SetActive(false);
         }
 
         public void OnClickEquip()

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rows:
   - Code: P1
+    Name: "\uB179\uC2A8 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 41f869d2271795242ac3f3d9f98aecea, type: 3}
     Type: 0
     Grade: 0
@@ -34,6 +35,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P2
+    Name: "\uC2F1\uAE00\uCF54\uC5B4 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: e64ce829c343fdc4697b7fa5b7a9fb1a, type: 3}
     Type: 0
     Grade: 1
@@ -54,6 +56,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P3
+    Name: "\uC2F1\uAE00\uCF54\uC5B4 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: e64ce829c343fdc4697b7fa5b7a9fb1a, type: 3}
     Type: 0
     Grade: 2
@@ -74,6 +77,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P4
+    Name: "\uC2F1\uAE00\uCF54\uC5B4 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: e64ce829c343fdc4697b7fa5b7a9fb1a, type: 3}
     Type: 0
     Grade: 3
@@ -94,6 +98,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P5
+    Name: "\uB4C0\uC5BC\uCF54\uC5B4 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 41e8290e192c6fe42ac6490802b1078f, type: 3}
     Type: 0
     Grade: 4
@@ -114,6 +119,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P6
+    Name: "\uB4C0\uC5BC\uCF54\uC5B4 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 41e8290e192c6fe42ac6490802b1078f, type: 3}
     Type: 0
     Grade: 5
@@ -134,6 +140,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P7
+    Name: "\uB4C0\uC5BC\uCF54\uC5B4 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 41e8290e192c6fe42ac6490802b1078f, type: 3}
     Type: 0
     Grade: 6
@@ -154,6 +161,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P8
+    Name: "\uBCD1\uB82C \uCC98\uB9AC \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 731d9196b614d924a937fcde97879945, type: 3}
     Type: 0
     Grade: 7
@@ -174,6 +182,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P9
+    Name: "\uBCD1\uB82C \uCC98\uB9AC \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 731d9196b614d924a937fcde97879945, type: 3}
     Type: 0
     Grade: 8
@@ -194,6 +203,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P10
+    Name: "\uBCD1\uB82C \uCC98\uB9AC \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 731d9196b614d924a937fcde97879945, type: 3}
     Type: 0
     Grade: 9
@@ -214,6 +224,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P11
+    Name: "\uACE0\uC18D \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 351bb90ce83ced54598dde2f95a71000, type: 3}
     Type: 0
     Grade: 10
@@ -234,6 +245,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P12
+    Name: "\uACE0\uC18D \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 351bb90ce83ced54598dde2f95a71000, type: 3}
     Type: 0
     Grade: 11
@@ -254,6 +266,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P13
+    Name: "\uACE0\uC18D \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 351bb90ce83ced54598dde2f95a71000, type: 3}
     Type: 0
     Grade: 12
@@ -274,6 +287,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P14
+    Name: "\uCD5C\uC801\uD654 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 28ad4ad7a1a0b55428595504eb4da6b5, type: 3}
     Type: 0
     Grade: 13
@@ -294,6 +308,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P15
+    Name: "\uCD5C\uC801\uD654 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 28ad4ad7a1a0b55428595504eb4da6b5, type: 3}
     Type: 0
     Grade: 14
@@ -314,6 +329,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P16
+    Name: "\uCD5C\uC801\uD654 \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 28ad4ad7a1a0b55428595504eb4da6b5, type: 3}
     Type: 0
     Grade: 15
@@ -334,6 +350,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: P17
+    Name: "\uC2E0\uACBD\uB9DD \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 6c4fa1978c2c77a4783b7c927b4dea59, type: 3}
     Type: 0
     Grade: 16
@@ -354,6 +371,7 @@ MonoBehaviour:
       Base: 1
       Up: 0
   - Code: P18
+    Name: "\uC2E0\uACBD\uB9DD \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 6c4fa1978c2c77a4783b7c927b4dea59, type: 3}
     Type: 0
     Grade: 17
@@ -374,6 +392,7 @@ MonoBehaviour:
       Base: 2
       Up: 0
   - Code: P19
+    Name: "\uC2E0\uACBD\uB9DD \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 6c4fa1978c2c77a4783b7c927b4dea59, type: 3}
     Type: 0
     Grade: 18
@@ -394,6 +413,7 @@ MonoBehaviour:
       Base: 3
       Up: 0
   - Code: P20
+    Name: "\uC288\uD37C \uC2E0\uACBD\uB9DD \uD504\uB85C\uC138\uC11C"
     Icon: {fileID: 21300000, guid: 49ce10d1dcafbee44ab4aa0234f01da8, type: 3}
     Type: 0
     Grade: 19
@@ -414,6 +434,7 @@ MonoBehaviour:
       Base: 4
       Up: 0
   - Code: W1
+    Name: "\uB9C8\uBAA8\uB41C \uD720"
     Icon: {fileID: 21300000, guid: 5e6312ceaa070204fae9cf12ed2cb226, type: 3}
     Type: 1
     Grade: 0
@@ -434,6 +455,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W2
+    Name: "\uBD88\uADE0\uD615 \uD720"
     Icon: {fileID: 21300000, guid: d80fe718a7b018a4ba9e6df5d927cf46, type: 3}
     Type: 1
     Grade: 1
@@ -454,6 +476,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W3
+    Name: "\uBD88\uADE0\uD615 \uD720"
     Icon: {fileID: 21300000, guid: d80fe718a7b018a4ba9e6df5d927cf46, type: 3}
     Type: 1
     Grade: 2
@@ -474,6 +497,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W4
+    Name: "\uBD88\uADE0\uD615 \uD720"
     Icon: {fileID: 21300000, guid: d80fe718a7b018a4ba9e6df5d927cf46, type: 3}
     Type: 1
     Grade: 3
@@ -494,6 +518,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W5
+    Name: "\uBCF4\uAC15 \uD720"
     Icon: {fileID: 21300000, guid: 9e8af5c3f54672247970a0994ef79719, type: 3}
     Type: 1
     Grade: 4
@@ -514,6 +539,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W6
+    Name: "\uBCF4\uAC15 \uD720"
     Icon: {fileID: 21300000, guid: 9e8af5c3f54672247970a0994ef79719, type: 3}
     Type: 1
     Grade: 5
@@ -534,6 +560,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W7
+    Name: "\uBCF4\uAC15 \uD720"
     Icon: {fileID: 21300000, guid: 9e8af5c3f54672247970a0994ef79719, type: 3}
     Type: 1
     Grade: 6
@@ -554,6 +581,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W8
+    Name: "\uC548\uC815 \uD720"
     Icon: {fileID: 21300000, guid: 3644126800986cc4caf04fabac5970ee, type: 3}
     Type: 1
     Grade: 7
@@ -574,6 +602,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W9
+    Name: "\uC548\uC815 \uD720"
     Icon: {fileID: 21300000, guid: 3644126800986cc4caf04fabac5970ee, type: 3}
     Type: 1
     Grade: 8
@@ -594,6 +623,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W10
+    Name: "\uC548\uC815 \uD720"
     Icon: {fileID: 21300000, guid: 3644126800986cc4caf04fabac5970ee, type: 3}
     Type: 1
     Grade: 9
@@ -614,6 +644,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W11
+    Name: "\uACE0\uC18D \uD720"
     Icon: {fileID: 21300000, guid: 248dde4b013090e4c9ff70727d75ce7f, type: 3}
     Type: 1
     Grade: 10
@@ -634,6 +665,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W12
+    Name: "\uACE0\uC18D \uD720"
     Icon: {fileID: 21300000, guid: 248dde4b013090e4c9ff70727d75ce7f, type: 3}
     Type: 1
     Grade: 11
@@ -654,6 +686,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W13
+    Name: "\uACE0\uC18D \uD720"
     Icon: {fileID: 21300000, guid: 248dde4b013090e4c9ff70727d75ce7f, type: 3}
     Type: 1
     Grade: 12
@@ -674,6 +707,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W14
+    Name: "\uD130\uBCF4 \uD720"
     Icon: {fileID: 21300000, guid: deec4cf0c6242774880370d0bf74714d, type: 3}
     Type: 1
     Grade: 13
@@ -694,6 +728,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W15
+    Name: "\uD130\uBCF4 \uD720"
     Icon: {fileID: 21300000, guid: deec4cf0c6242774880370d0bf74714d, type: 3}
     Type: 1
     Grade: 14
@@ -714,6 +749,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W16
+    Name: "\uD130\uBCF4 \uD720"
     Icon: {fileID: 21300000, guid: deec4cf0c6242774880370d0bf74714d, type: 3}
     Type: 1
     Grade: 15
@@ -734,6 +770,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: W17
+    Name: "\uBC18\uC911\uB825 \uD720"
     Icon: {fileID: 21300000, guid: fadbf1888d3b8b447af2ca55911ccfff, type: 3}
     Type: 1
     Grade: 16
@@ -754,6 +791,7 @@ MonoBehaviour:
       Base: 1
       Up: 0
   - Code: W18
+    Name: "\uBC18\uC911\uB825 \uD720"
     Icon: {fileID: 21300000, guid: fadbf1888d3b8b447af2ca55911ccfff, type: 3}
     Type: 1
     Grade: 17
@@ -774,6 +812,7 @@ MonoBehaviour:
       Base: 2
       Up: 0
   - Code: W19
+    Name: "\uBC18\uC911\uB825 \uD720"
     Icon: {fileID: 21300000, guid: fadbf1888d3b8b447af2ca55911ccfff, type: 3}
     Type: 1
     Grade: 18
@@ -794,6 +833,7 @@ MonoBehaviour:
       Base: 3
       Up: 0
   - Code: W20
+    Name: "\uCC28\uC6D0 \uC774\uB3D9 \uD720"
     Icon: {fileID: 21300000, guid: a4ef8540d5dc89542b1e9bfca764c591, type: 3}
     Type: 1
     Grade: 19
@@ -814,6 +854,7 @@ MonoBehaviour:
       Base: 4
       Up: 0
   - Code: B1
+    Name: "\uB204\uC124 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 85a497e91ef3f6a45bd161c9acd780d2, type: 3}
     Type: 2
     Grade: 0
@@ -834,6 +875,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B2
+    Name: "\uC800\uCD9C\uB825 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 87c7790b601baa848ab8bdf9d9fb4651, type: 3}
     Type: 2
     Grade: 1
@@ -854,6 +896,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B3
+    Name: "\uC800\uCD9C\uB825 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 87c7790b601baa848ab8bdf9d9fb4651, type: 3}
     Type: 2
     Grade: 2
@@ -874,6 +917,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B4
+    Name: "\uC800\uCD9C\uB825 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 87c7790b601baa848ab8bdf9d9fb4651, type: 3}
     Type: 2
     Grade: 3
@@ -894,6 +938,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B5
+    Name: "\uC555\uCD95 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: b753fa4c314a2f74a94ed1f32713f944, type: 3}
     Type: 2
     Grade: 4
@@ -914,6 +959,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B6
+    Name: "\uC555\uCD95 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: b753fa4c314a2f74a94ed1f32713f944, type: 3}
     Type: 2
     Grade: 5
@@ -934,6 +980,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B7
+    Name: "\uC555\uCD95 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: b753fa4c314a2f74a94ed1f32713f944, type: 3}
     Type: 2
     Grade: 6
@@ -954,6 +1001,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B8
+    Name: "\uACE0\uBC00\uB3C4 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 656aa6535afcf584dbfb404ae348cbb7, type: 3}
     Type: 2
     Grade: 7
@@ -974,6 +1022,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B9
+    Name: "\uACE0\uBC00\uB3C4 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 656aa6535afcf584dbfb404ae348cbb7, type: 3}
     Type: 2
     Grade: 8
@@ -994,6 +1043,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B10
+    Name: "\uACE0\uBC00\uB3C4 \uCF54\uC5B4 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 656aa6535afcf584dbfb404ae348cbb7, type: 3}
     Type: 2
     Grade: 9
@@ -1014,6 +1064,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B11
+    Name: "\uD50C\uB77C\uC988\uB9C8 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 8f1c189600ba7df46b0bd77b063a47a7, type: 3}
     Type: 2
     Grade: 10
@@ -1034,6 +1085,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B12
+    Name: "\uD50C\uB77C\uC988\uB9C8 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 8f1c189600ba7df46b0bd77b063a47a7, type: 3}
     Type: 2
     Grade: 11
@@ -1054,6 +1106,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B13
+    Name: "\uD50C\uB77C\uC988\uB9C8 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 8f1c189600ba7df46b0bd77b063a47a7, type: 3}
     Type: 2
     Grade: 12
@@ -1074,6 +1127,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B14
+    Name: "\uACE0\uC548\uC815 \uD50C\uB77C\uC988\uB9C8 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 94498855b5d268d4193c1741d793fd77, type: 3}
     Type: 2
     Grade: 13
@@ -1094,6 +1148,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B15
+    Name: "\uACE0\uC548\uC815 \uD50C\uB77C\uC988\uB9C8 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 94498855b5d268d4193c1741d793fd77, type: 3}
     Type: 2
     Grade: 14
@@ -1114,6 +1169,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B16
+    Name: "\uACE0\uC548\uC815 \uD50C\uB77C\uC988\uB9C8 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 94498855b5d268d4193c1741d793fd77, type: 3}
     Type: 2
     Grade: 15
@@ -1134,6 +1190,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: B17
+    Name: "\uC591\uC790 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: bf5af0a52182c984a8e6c8bc1091fdc2, type: 3}
     Type: 2
     Grade: 16
@@ -1154,6 +1211,7 @@ MonoBehaviour:
       Base: 10
       Up: 0
   - Code: B18
+    Name: "\uC591\uC790 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: bf5af0a52182c984a8e6c8bc1091fdc2, type: 3}
     Type: 2
     Grade: 17
@@ -1174,6 +1232,7 @@ MonoBehaviour:
       Base: 20
       Up: 0
   - Code: B19
+    Name: "\uC591\uC790 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: bf5af0a52182c984a8e6c8bc1091fdc2, type: 3}
     Type: 2
     Grade: 18
@@ -1194,6 +1253,7 @@ MonoBehaviour:
       Base: 30
       Up: 0
   - Code: B20
+    Name: "\uC6B8\uD2B8\uB77C\uD4E8\uC804 \uBC30\uD130\uB9AC"
     Icon: {fileID: 21300000, guid: 3ffa2158c5d3cb64587fc4bcc926aceb, type: 3}
     Type: 2
     Grade: 19
@@ -1214,6 +1274,7 @@ MonoBehaviour:
       Base: 40
       Up: 0
   - Code: A1
+    Name: "\uC7A1\uC74C \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 28679b76681b03c49b9188fb863c2023, type: 3}
     Type: 3
     Grade: 0
@@ -1234,6 +1295,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A2
+    Name: "\uB2E8\uBC29\uD5A5 \uC2E0\uD638 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 26a1e2ffc0281f745a2a4e002c60d576, type: 3}
     Type: 3
     Grade: 1
@@ -1254,6 +1316,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A3
+    Name: "\uB2E8\uBC29\uD5A5 \uC2E0\uD638 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 26a1e2ffc0281f745a2a4e002c60d576, type: 3}
     Type: 3
     Grade: 2
@@ -1274,6 +1337,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A4
+    Name: "\uB2E8\uBC29\uD5A5 \uC2E0\uD638 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 26a1e2ffc0281f745a2a4e002c60d576, type: 3}
     Type: 3
     Grade: 3
@@ -1294,6 +1358,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A5
+    Name: "\uC99D\uD3ED \uC2E0\uD638 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 06cbe89efc987e341a51fa186808e11c, type: 3}
     Type: 3
     Grade: 4
@@ -1314,6 +1379,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A6
+    Name: "\uC99D\uD3ED \uC2E0\uD638 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 06cbe89efc987e341a51fa186808e11c, type: 3}
     Type: 3
     Grade: 5
@@ -1334,6 +1400,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A7
+    Name: "\uC99D\uD3ED \uC2E0\uD638 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 06cbe89efc987e341a51fa186808e11c, type: 3}
     Type: 3
     Grade: 6
@@ -1354,6 +1421,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A8
+    Name: "\uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: f3608cd8891df8e4384729938d4c66bf, type: 3}
     Type: 3
     Grade: 7
@@ -1374,6 +1442,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A9
+    Name: "\uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: f3608cd8891df8e4384729938d4c66bf, type: 3}
     Type: 3
     Grade: 8
@@ -1394,6 +1463,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A10
+    Name: "\uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: f3608cd8891df8e4384729938d4c66bf, type: 3}
     Type: 3
     Grade: 9
@@ -1414,6 +1484,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A11
+    Name: "\uC704\uC0C1 \uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 74f1002949534ee45a6ba4311860f45b, type: 3}
     Type: 3
     Grade: 10
@@ -1434,6 +1505,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A12
+    Name: "\uC704\uC0C1 \uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 74f1002949534ee45a6ba4311860f45b, type: 3}
     Type: 3
     Grade: 11
@@ -1454,6 +1526,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A13
+    Name: "\uC704\uC0C1 \uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 74f1002949534ee45a6ba4311860f45b, type: 3}
     Type: 3
     Grade: 12
@@ -1474,6 +1547,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A14
+    Name: "\uC65C\uACE1 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 2ed9de1ecc18d5e4ea21fc65c65d75f7, type: 3}
     Type: 3
     Grade: 13
@@ -1494,6 +1568,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A15
+    Name: "\uC65C\uACE1 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 2ed9de1ecc18d5e4ea21fc65c65d75f7, type: 3}
     Type: 3
     Grade: 14
@@ -1514,6 +1589,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A16
+    Name: "\uC65C\uACE1 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 2ed9de1ecc18d5e4ea21fc65c65d75f7, type: 3}
     Type: 3
     Grade: 15
@@ -1534,6 +1610,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: A17
+    Name: "\uCD08\uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: bb15ecb6dd51bbe45a673108273086b8, type: 3}
     Type: 3
     Grade: 16
@@ -1554,6 +1631,7 @@ MonoBehaviour:
       Base: 30
       Up: 0
   - Code: A18
+    Name: "\uCD08\uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: bb15ecb6dd51bbe45a673108273086b8, type: 3}
     Type: 3
     Grade: 17
@@ -1574,6 +1652,7 @@ MonoBehaviour:
       Base: 30
       Up: 0
   - Code: A19
+    Name: "\uCD08\uACF5\uBA85 \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: bb15ecb6dd51bbe45a673108273086b8, type: 3}
     Type: 3
     Grade: 18
@@ -1594,6 +1673,7 @@ MonoBehaviour:
       Base: 30
       Up: 0
   - Code: A20
+    Name: "\uC6B8\uD2B8\uB77C \uC548\uD14C\uB098"
     Icon: {fileID: 21300000, guid: 16fc920389fad744780a1b01ea85cd3d, type: 3}
     Type: 3
     Grade: 19
@@ -1614,6 +1694,7 @@ MonoBehaviour:
       Base: 60
       Up: 0
   - Code: M1
+    Name: "\uC190\uC0C1\uB41C \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: cd8052a41c18b1b4bb28937a6d9ed35c, type: 3}
     Type: 4
     Grade: 0
@@ -1634,6 +1715,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M2
+    Name: "\uAE5C\uBE61 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: 284ea34e1a8694b4e8ab1b8f520435a9, type: 3}
     Type: 4
     Grade: 1
@@ -1654,6 +1736,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M3
+    Name: "\uAE5C\uBE61 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: 284ea34e1a8694b4e8ab1b8f520435a9, type: 3}
     Type: 4
     Grade: 2
@@ -1674,6 +1757,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M4
+    Name: "\uAE5C\uBE61 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: 284ea34e1a8694b4e8ab1b8f520435a9, type: 3}
     Type: 4
     Grade: 3
@@ -1694,6 +1778,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M5
+    Name: "\uD655\uC7A5 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: cf7bd4a749a068d48a5e12c44f848bf6, type: 3}
     Type: 4
     Grade: 4
@@ -1714,6 +1799,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M6
+    Name: "\uD655\uC7A5 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: cf7bd4a749a068d48a5e12c44f848bf6, type: 3}
     Type: 4
     Grade: 5
@@ -1734,6 +1820,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M7
+    Name: "\uD655\uC7A5 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: cf7bd4a749a068d48a5e12c44f848bf6, type: 3}
     Type: 4
     Grade: 6
@@ -1754,6 +1841,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M8
+    Name: "\uC555\uCD95 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: 76ddc23497284da4da477c70241aba37, type: 3}
     Type: 4
     Grade: 7
@@ -1774,6 +1862,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M9
+    Name: "\uC555\uCD95 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: 76ddc23497284da4da477c70241aba37, type: 3}
     Type: 4
     Grade: 8
@@ -1794,6 +1883,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M10
+    Name: "\uC555\uCD95 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: 76ddc23497284da4da477c70241aba37, type: 3}
     Type: 4
     Grade: 9
@@ -1814,6 +1904,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M11
+    Name: "\uC7A5\uAE30 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: c423dab11f0952b44b356420cfa9c8c4, type: 3}
     Type: 4
     Grade: 10
@@ -1834,6 +1925,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M12
+    Name: "\uC7A5\uAE30 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: c423dab11f0952b44b356420cfa9c8c4, type: 3}
     Type: 4
     Grade: 11
@@ -1854,6 +1946,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M13
+    Name: "\uC7A5\uAE30 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: c423dab11f0952b44b356420cfa9c8c4, type: 3}
     Type: 4
     Grade: 12
@@ -1874,6 +1967,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M14
+    Name: "\uC790\uAE30\uD559\uC2B5 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: fc1fdf21f080b494a8f849196c36dbb2, type: 3}
     Type: 4
     Grade: 13
@@ -1894,6 +1988,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M15
+    Name: "\uC790\uAE30\uD559\uC2B5 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: fc1fdf21f080b494a8f849196c36dbb2, type: 3}
     Type: 4
     Grade: 14
@@ -1914,6 +2009,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M16
+    Name: "\uC790\uAE30\uD559\uC2B5 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: fc1fdf21f080b494a8f849196c36dbb2, type: 3}
     Type: 4
     Grade: 15
@@ -1934,6 +2030,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: M17
+    Name: "\uC608\uCE21 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: a15eca5b83fb0d545ae880bda1856384, type: 3}
     Type: 4
     Grade: 16
@@ -1954,6 +2051,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: M18
+    Name: "\uC608\uCE21 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: a15eca5b83fb0d545ae880bda1856384, type: 3}
     Type: 4
     Grade: 17
@@ -1974,6 +2072,7 @@ MonoBehaviour:
       Base: 10
       Up: 0
   - Code: M19
+    Name: "\uC608\uCE21 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: a15eca5b83fb0d545ae880bda1856384, type: 3}
     Type: 4
     Grade: 18
@@ -1994,6 +2093,7 @@ MonoBehaviour:
       Base: 10
       Up: 0
   - Code: M20
+    Name: "\uB2E4\uC911\uCC28\uC6D0 \uBA54\uBAA8\uB9AC"
     Icon: {fileID: 21300000, guid: cb75e4f191869ab42ac88662a9eaee5f, type: 3}
     Type: 4
     Grade: 19
@@ -2014,6 +2114,7 @@ MonoBehaviour:
       Base: 15
       Up: 0
   - Code: R1
+    Name: "\uACE0\uC7A5\uB09C \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: 98437f97729cc484e8eac1ac7b5f60fe, type: 3}
     Type: 5
     Grade: 0
@@ -2034,6 +2135,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R2
+    Name: "\uBB34\uAC70\uC6B4 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: e01d3a51a4e9b3f4dafc1a16c187cf26, type: 3}
     Type: 5
     Grade: 1
@@ -2054,6 +2156,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R3
+    Name: "\uBB34\uAC70\uC6B4 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: e01d3a51a4e9b3f4dafc1a16c187cf26, type: 3}
     Type: 5
     Grade: 2
@@ -2074,6 +2177,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R4
+    Name: "\uBB34\uAC70\uC6B4 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: e01d3a51a4e9b3f4dafc1a16c187cf26, type: 3}
     Type: 5
     Grade: 3
@@ -2094,6 +2198,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R5
+    Name: "\uAC15\uCCA0 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: bcff4507926499f42acf6144b65246b1, type: 3}
     Type: 5
     Grade: 4
@@ -2114,6 +2219,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R6
+    Name: "\uAC15\uCCA0 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: bcff4507926499f42acf6144b65246b1, type: 3}
     Type: 5
     Grade: 5
@@ -2134,6 +2240,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R7
+    Name: "\uAC15\uCCA0 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: bcff4507926499f42acf6144b65246b1, type: 3}
     Type: 5
     Grade: 6
@@ -2154,6 +2261,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R8
+    Name: "\uD734\uBA38\uB178\uC774\uB4DC \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: 48bf4e4a324b3b44fb7aa54f2bbefc3f, type: 3}
     Type: 5
     Grade: 7
@@ -2174,6 +2282,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R9
+    Name: "\uD734\uBA38\uB178\uC774\uB4DC \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: 48bf4e4a324b3b44fb7aa54f2bbefc3f, type: 3}
     Type: 5
     Grade: 8
@@ -2194,6 +2303,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R10
+    Name: "\uD734\uBA38\uB178\uC774\uB4DC \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: 48bf4e4a324b3b44fb7aa54f2bbefc3f, type: 3}
     Type: 5
     Grade: 9
@@ -2214,6 +2324,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R11
+    Name: "\uC815\uBC00 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: d9148156372c5044aa076f1a2388d87c, type: 3}
     Type: 5
     Grade: 10
@@ -2234,6 +2345,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R12
+    Name: "\uC815\uBC00 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: d9148156372c5044aa076f1a2388d87c, type: 3}
     Type: 5
     Grade: 11
@@ -2254,6 +2366,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R13
+    Name: "\uC815\uBC00 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: d9148156372c5044aa076f1a2388d87c, type: 3}
     Type: 5
     Grade: 12
@@ -2274,6 +2387,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R14
+    Name: "\uC790\uB3D9 \uBCF4\uC815 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: 40cd2044a152d5842a24e077228461f9, type: 3}
     Type: 5
     Grade: 13
@@ -2294,6 +2408,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R15
+    Name: "\uC790\uB3D9 \uBCF4\uC815 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: 40cd2044a152d5842a24e077228461f9, type: 3}
     Type: 5
     Grade: 14
@@ -2314,6 +2429,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R16
+    Name: "\uC790\uB3D9 \uBCF4\uC815 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: 40cd2044a152d5842a24e077228461f9, type: 3}
     Type: 5
     Grade: 15
@@ -2334,6 +2450,7 @@ MonoBehaviour:
       Base: 0
       Up: 0
   - Code: R17
+    Name: "\uC815\uBC00 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: eeaf78d6af9774a439198f9d7d6e4889, type: 3}
     Type: 5
     Grade: 16
@@ -2354,6 +2471,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: R18
+    Name: "\uC815\uBC00 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: eeaf78d6af9774a439198f9d7d6e4889, type: 3}
     Type: 5
     Grade: 17
@@ -2374,6 +2492,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: R19
+    Name: "\uC815\uBC00 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: eeaf78d6af9774a439198f9d7d6e4889, type: 3}
     Type: 5
     Grade: 18
@@ -2394,6 +2513,7 @@ MonoBehaviour:
       Base: 5
       Up: 0
   - Code: R20
+    Name: "\uB2E4\uBE48\uCE58 \uB85C\uBD07\uD314"
     Icon: {fileID: 21300000, guid: fbd2854e1332d6944a90b66f9ff37e18, type: 3}
     Type: 5
     Grade: 19

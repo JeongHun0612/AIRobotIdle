@@ -157,6 +157,7 @@ namespace SahurRaising.Core
     public struct EquipmentRow
     {
         public string Code;
+        public string Name;
         public Sprite Icon;
         public EquipmentType Type;
         public EquipmentGrade Grade;

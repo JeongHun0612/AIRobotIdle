@@ -83,5 +83,53 @@ namespace SahurRaising.Utils
 
             return $"{formattedNumber}{suffixes[suffixIndex]}";
         }
+
+        /// <summary>
+        /// 정수를 로마자로 변환합니다 (1~3999 범위)
+        /// </summary>
+        /// <param name="number">변환할 숫자</param>
+        /// <returns>로마자 문자열 (범위를 벗어나면 빈 문자열 반환)</returns>
+        public static string ToRomanNumeral(int number)
+        {
+            if (number <= 0 || number > 3999)
+                return string.Empty;
+
+            string[] thousands = { "", "M", "MM", "MMM" };
+            string[] hundreds = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+            string[] tens = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+            string[] ones = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+
+            return thousands[number / 1000] +
+                   hundreds[(number % 1000) / 100] +
+                   tens[(number % 100) / 10] +
+                   ones[number % 10];
+        }
+
+        /// <summary>
+        /// long 타입 숫자를 로마자로 변환합니다 (1~3999 범위)
+        /// </summary>
+        public static string ToRomanNumeral(long number)
+        {
+            if (number <= 0 || number > 3999)
+                return string.Empty;
+
+            return ToRomanNumeral((int)number);
+        }
+
+        /// <summary>
+        /// BigDouble을 로마자로 변환합니다 (1~3999 범위의 정수만 지원)
+        /// </summary>
+        public static string ToRomanNumeral(BigDouble number)
+        {
+            if (number <= 0 || number > 3999)
+                return string.Empty;
+
+            // 정수인지 확인
+            double doubleValue = number.ToDouble();
+            if (System.Math.Abs(doubleValue % 1) >= double.Epsilon)
+                return string.Empty;
+
+            return ToRomanNumeral((int)doubleValue);
+        }
     }
 }

@@ -16,6 +16,11 @@ namespace SahurRaising
             return _data.Code;
         }
 
+        protected override string GetItemName()
+        {
+            return _data.Name;
+        }
+
         protected override Sprite GetIcon()
         {
             return _data.Icon;

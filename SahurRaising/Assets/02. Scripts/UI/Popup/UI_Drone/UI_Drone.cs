@@ -48,7 +48,10 @@ namespace SahurRaising
             }
 
             // 장비 정보 패널 초기화
-            _droneInfo.Initialize(RefreshInventory);
+            if (_droneInfo != null)
+            {
+                _droneInfo.Initialize(RefreshInventory);
+            }
 
             await UniTask.Yield();
         }
@@ -131,8 +134,23 @@ namespace SahurRaising
 
             if (string.IsNullOrEmpty(equippedID))
             {
-                // 장착된 드론이 없으면 드론 정보 숨기기
-                _droneInfo.HideInfo();
+                // 장착된 드론이 없으면 드론 리스트 중 첫 번째 드론을 타겟으로 설정
+                IReadOnlyList<DroneRow> droneList = _droneService.GetAll();
+
+                if (droneList == null || droneList.Count == 0)
+                    return;
+
+                // 첫 번째 드론을 타겟으로 설정
+                DroneRow firstDrone = droneList[0];
+                _droneInfo.UpdateItemInfo(firstDrone);
+
+                // 해당 ItemSlot 찾아서 선택 상태로 표시
+                DroneItemSlot firstSlot = FindItemSlotByCode(firstDrone.ID);
+                if (firstSlot != null)
+                {
+                    SetSelectedSlot(firstSlot);
+                    ScrollToItemSlot(firstSlot);
+                }
                 return;
             }
 
@@ -143,12 +161,15 @@ namespace SahurRaising
             // EquipmentInfo에 표시
             _droneInfo.UpdateItemInfo(equippedData);
 
-            // 해당 ItemSlot 찾아서 선택 상태로 표시
-            DroneItemSlot equippedSlot = FindItemSlotByCode(equippedID);
-            if (equippedSlot != null)
+            if (_selectedSlot == null)
             {
-                SetSelectedSlot(equippedSlot);
-                ScrollToItemSlot(equippedSlot);
+                // 해당 ItemSlot 찾아서 선택 상태로 표시
+                DroneItemSlot equippedSlot = FindItemSlotByCode(equippedID);
+                if (equippedSlot != null)
+                {
+                    SetSelectedSlot(equippedSlot);
+                    ScrollToItemSlot(equippedSlot);
+                }
             }
         }
 

@@ -19,6 +19,7 @@ namespace SahurRaising
         [Header("강화 진행도 UI")]
         [SerializeField] protected Slider _progressSlider;
         [SerializeField] protected TMP_Text _progressText;
+        [SerializeField] protected Image _upgradeArrowIcon;
 
         protected IConfigService _configService;
         protected IService _service;
@@ -47,6 +48,7 @@ namespace SahurRaising
             var info = GetInventoryInfo();
 
             string gradeString = GetGradeString();
+            string itemName = GetItemName();
             GachaType gachaType = GetGachaType();
 
             // 배경 색깔 설정
@@ -63,6 +65,9 @@ namespace SahurRaising
 
             // 잼 아이콘 업데이트 (Equipment만 사용)
             UpdateGemIcons(gradeString);
+
+            // 아이템 이름 설정
+            UpdateItemName(itemName);
 
             // 프로그래스바 UI 업데이트
             int ownedCount = GetCount(info);
@@ -127,7 +132,10 @@ namespace SahurRaising
 
         protected virtual void UpdateGemIcons(string gradeString)
         {
-            // Equipment만 오버라이드하여 구현
+        }
+
+        protected virtual void UpdateItemName(string itemName)
+        {
         }
 
         protected void UpdateProgressUI(int ownedCount, int requiredCount)
@@ -143,9 +151,17 @@ namespace SahurRaising
                 _progressSlider.maxValue = requiredCount;
                 _progressSlider.value = Mathf.Clamp(ownedCount, 0, requiredCount);
             }
+
+            // 업그레이드 가능 여부 확인 및 화살표 아이콘 업데이트
+            if (_upgradeArrowIcon != null)
+            {
+                bool canUpgrade = ownedCount >= requiredCount;
+                _upgradeArrowIcon.gameObject.SetActive(canUpgrade);
+            }
         }
 
         protected abstract string GetItemID();
+        protected abstract string GetItemName();
         protected abstract Sprite GetIcon();
         protected abstract string GetGradeString();
         protected abstract GachaType GetGachaType();

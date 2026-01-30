@@ -233,12 +233,14 @@ namespace SahurRaising.Core
 
         public EquipmentInventoryInfo GetInventoryInfo(string equipmentCode)
         {
+            const int defaultLevel = 1;
+
             if (string.IsNullOrEmpty(equipmentCode))
-                return new EquipmentInventoryInfo(string.Empty, 0, 0, false);
+                return new EquipmentInventoryInfo(string.Empty, defaultLevel, 0, false);
 
             return _inventory.TryGetValue(equipmentCode, out var info)
                 ? info
-                : new EquipmentInventoryInfo(string.Empty, 0, 0, false); // 보유 X
+                : new EquipmentInventoryInfo(string.Empty, defaultLevel, 0, false); // 보유 X
         }
 
         public bool LevelUp(string equipmentCode)

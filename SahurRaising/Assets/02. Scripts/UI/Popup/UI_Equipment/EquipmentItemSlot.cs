@@ -60,12 +60,6 @@ namespace SahurRaising
 
             // 아이템 보유 여부 확인
             bool isOwned = info.IsOwned;
-
-            if (_slotButton != null)
-            {
-                _slotButton.interactable = isOwned;
-            }
-
             if (_itemDisable != null)
             {
                 _itemDisable.SetActive(!isOwned);

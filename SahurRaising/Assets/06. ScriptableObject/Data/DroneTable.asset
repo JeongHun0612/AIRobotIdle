@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rows:
   - ID: 1
+    Icon: {fileID: 0}
     AtkRate: 5
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 10
       Up: 2
     HeldOption1:
@@ -24,9 +25,10 @@ MonoBehaviour:
       Base: 5
       Up: 2
   - ID: 2
+    Icon: {fileID: 0}
     AtkRate: 10
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 20
       Up: 4
     HeldOption1:
@@ -34,9 +36,10 @@ MonoBehaviour:
       Base: 10
       Up: 4
   - ID: 3
+    Icon: {fileID: 0}
     AtkRate: 15
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 35
       Up: 7
     HeldOption1:
@@ -44,9 +47,10 @@ MonoBehaviour:
       Base: 18
       Up: 6
   - ID: 4
+    Icon: {fileID: 0}
     AtkRate: 20
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 75
       Up: 15
     HeldOption1:
@@ -54,9 +58,10 @@ MonoBehaviour:
       Base: 38
       Up: 15
   - ID: 5
+    Icon: {fileID: 0}
     AtkRate: 30
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 160
       Up: 32
     HeldOption1:
@@ -64,9 +69,10 @@ MonoBehaviour:
       Base: 80
       Up: 30
   - ID: 6
+    Icon: {fileID: 0}
     AtkRate: 40
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 360
       Up: 72
     HeldOption1:
@@ -74,9 +80,10 @@ MonoBehaviour:
       Base: 150
       Up: 50
   - ID: 7
+    Icon: {fileID: 0}
     AtkRate: 50
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 720
       Up: 144
     HeldOption1:
@@ -84,9 +91,10 @@ MonoBehaviour:
       Base: 240
       Up: 80
   - ID: 8
+    Icon: {fileID: 0}
     AtkRate: 65
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 2160
       Up: 432
     HeldOption1:
@@ -94,9 +102,10 @@ MonoBehaviour:
       Base: 720
       Up: 240
   - ID: 9
+    Icon: {fileID: 0}
     AtkRate: 80
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 7500
       Up: 1500
     HeldOption1:
@@ -104,9 +113,10 @@ MonoBehaviour:
       Base: 2160
       Up: 432
   - ID: 10A
+    Icon: {fileID: 0}
     AtkRate: 100
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 20000
       Up: 4000
     HeldOption1:
@@ -114,9 +124,10 @@ MonoBehaviour:
       Base: 7500
       Up: 1500
   - ID: 10B
+    Icon: {fileID: 0}
     AtkRate: 100
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 20000
       Up: 4000
     HeldOption1:
@@ -124,9 +135,10 @@ MonoBehaviour:
       Base: 20
       Up: 5
   - ID: 10C
+    Icon: {fileID: 0}
     AtkRate: 100
     EquipOption:
-      Type: 
+      Type: ATKR2
       Base: 20000
       Up: 4000
     HeldOption1:

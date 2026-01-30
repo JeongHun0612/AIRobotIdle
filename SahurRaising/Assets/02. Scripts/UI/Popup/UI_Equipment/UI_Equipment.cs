@@ -63,7 +63,10 @@ namespace SahurRaising
             }
 
             // 장비 정보 패널 초기화
-            _equipmentInfo.Initialize(RefreshInventoryByCurrentType);
+            if (_equipmentInfo != null)
+            {
+                _equipmentInfo.Initialize(RefreshInventoryByCurrentType);
+            }
 
             // 버튼 이벤트 등록
             if (_gachaButton != null)
@@ -170,8 +173,23 @@ namespace SahurRaising
 
             if (string.IsNullOrEmpty(equippedCode))
             {
-                // 장착된 장비가 없으면 장비 정보 숨기기
-                _equipmentInfo.HideInfo();
+                // 장착된 장비가 없으면 현재 탭의 인벤토리 중 첫 번째 장비를 타겟으로 설정
+                IReadOnlyList<EquipmentRow> equipmentList = _equipmentService.GetByType(_currentType);
+
+                if (equipmentList == null || equipmentList.Count == 0)
+                    return;
+
+                // 첫 번째 장비를 타겟으로 설정
+                EquipmentRow firstEquipment = equipmentList[0];
+                _equipmentInfo.UpdateItemInfo(firstEquipment);
+
+                // 해당 ItemSlot 찾아서 선택 상태로 표시
+                EquipmentItemSlot firstSlot = FindItemSlotByCode(firstEquipment.Code);
+                if (firstSlot != null)
+                {
+                    SetSelectedSlot(firstSlot);
+                    ScrollToItemSlot(firstSlot);
+                }
                 return;
             }
 
