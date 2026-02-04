@@ -50,6 +50,11 @@ namespace SahurRaising.Core
         // 몬스터 공격 속도 (2초당 1회 = 0.5 공격/초)
         private const float MONSTER_ATTACK_SPEED = 2f;
 
+        // 터치 공격 속도 제한 (초당 최대 공격 횟수)
+        private const float MAX_TOUCH_ATTACKS_PER_SECOND = 2f;
+        private const float TOUCH_ATTACK_COOLDOWN = 1f / MAX_TOUCH_ATTACKS_PER_SECOND; // 0.5초
+        private float _lastTouchAttackTime = float.NegativeInfinity;
+
         // 스테이지/웨이브 상태
         private int _stageIndex = 1;
         private int _waveIndex = 1;
@@ -375,6 +380,9 @@ namespace SahurRaising.Core
         {
             if (!_isStageRunning) return;
 
+            // 쿨타임 갱신
+            _lastTouchAttackTime = Time.time;
+
             var damage = CalculateDamage(isTouch: true, out bool isCritical);
 
             OnAttack?.Invoke(new AttackEvent
@@ -387,6 +395,43 @@ namespace SahurRaising.Core
                 HitIndex = 0,
                 IsLastHit = true
             });
+        }
+
+        /// <summary>
+        /// 터치 공격 가능 여부 확인
+        /// - 스테이지 진행 중이어야 함
+        /// - 전투 중인 몬스터가 있어야 함
+        /// - 쿨타임이 지났어야 함
+        /// </summary>
+        public bool CanTouchAttack(int engagedMonsterCount)
+        {
+            // 스테이지 진행 중이 아니면 불가
+            if (!_isStageRunning) return false;
+
+            // 전투 중인 몬스터가 없으면 불가
+            if (engagedMonsterCount <= 0) return false;
+
+            // 쿨타임 체크
+            float timeSinceLastAttack = Time.time - _lastTouchAttackTime;
+            if (timeSinceLastAttack < TOUCH_ATTACK_COOLDOWN) return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 쿨타임 검사 포함 터치 공격 시도
+        /// </summary>
+        /// <param name="engagedMonsterCount">현재 전투 중인 몬스터 수</param>
+        /// <returns>공격 성공 시 true</returns>
+        public bool TryApplyTouchAttack(int engagedMonsterCount)
+        {
+            if (!CanTouchAttack(engagedMonsterCount))
+            {
+                return false;
+            }
+
+            ApplyTouchAttack();
+            return true;
         }
 
         /// <summary>

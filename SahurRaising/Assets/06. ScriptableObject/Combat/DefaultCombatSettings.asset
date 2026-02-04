@@ -25,10 +25,10 @@ MonoBehaviour:
   - PatternsPerWave: 1
     MaxMonstersOnScreen: 10
     Description: 
-  - PatternsPerWave: 6
+  - PatternsPerWave: 1
     MaxMonstersOnScreen: 10
     Description: 
-  _defaultPatternsPerWave: 3
+  _defaultPatternsPerWave: 1
   _defaultMaxMonstersOnScreen: 5
   _wavesPerStage: 4
   _spawnPatterns:
@@ -72,4 +72,5 @@ MonoBehaviour:
   _playerReturnSpeedMultiplier: 1.5
   _attackRange: 4.06
   _deathToSpawnDelay: 0.3
+  _minWaveTransitionTime: 1.5
   _isMonsterSpawnEnabled: 1

@@ -186,6 +186,12 @@ namespace SahurRaising.Core
         UniTask StartStageAsync(int stageIndex, int waveIndex = 1);
         void Tick(float deltaTime, int engagedMonsterCount = 0);
         void ApplyTouchAttack();
+
+        /// <summary>터치 공격 가능 여부 (전투 중 & 적 존재 & 쿨타임)</summary>
+        bool CanTouchAttack(int engagedMonsterCount);
+
+        /// <summary>쿨타임 검사 포함 터치 공격 시도 (성공 시 true)</summary>
+        bool TryApplyTouchAttack(int engagedMonsterCount);
         CombatProgress GetProgress();
         UniTask SaveAsync();
         UniTask LoadAsync();

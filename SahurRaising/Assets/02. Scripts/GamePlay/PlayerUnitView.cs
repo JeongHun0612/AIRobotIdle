@@ -4,30 +4,18 @@ namespace SahurRaising.GamePlay
 {
     /// <summary>
     /// 플레이어 유닛 전용 뷰
-    /// - 바퀴 회전 및 흔들림(Wobble/Bounce) 로직 포함
+    /// - Idle, Move, Attack, Dead 애니메이션 처리
     /// </summary>
     public class PlayerUnitView : UnitView
     {
-        [Header("Player Settings")]
-        [Tooltip("회전시킬 바퀴 오브젝트들 (없으면 비워두세요)")]
-        [SerializeField] private Transform[] _wheels;
-        [Tooltip("바퀴 회전 속도 (애니메이션 속도)")]
-        [SerializeField] private float _wheelRotateSpeed = 360f;
-        [Tooltip("좌우 흔들림 각도 (Wobble)")]
-        [SerializeField] private float _wheelWobbleAngle = 10f;
-        [Tooltip("위아래 들썩임 높이 (Bounce)")]
-        [SerializeField] private float _wheelBounceHeight = 0.1f;
-
-        // 바퀴 애니메이션 상태 관리
-        private Quaternion[] _initialWheelRotations;
-        private Vector3[] _initialWheelPositions;
-
         // 플레이어 전용 애니메이션 해시
-        private static readonly int AnimStateMove = Animator.StringToHash("move");
-        private static readonly int AnimStateAttack = Animator.StringToHash("attack");
-        private static readonly int AnimStateDead = Animator.StringToHash("dead");
+        private static readonly int AnimStateIdle = Animator.StringToHash("Idle");
+        private static readonly int AnimStateMove = Animator.StringToHash("Move");
+        private static readonly int AnimStateAttack = Animator.StringToHash("Attack");
+        private static readonly int AnimStateDead = Animator.StringToHash("Die");
 
         // 부모 클래스의 프로퍼티 오버라이드
+        // 참고: MoveAnimHash는 이동 중일 때 사용되며, Idle은 별도로 처리
         protected override int MoveAnimHash => AnimStateMove;
         protected override int AttackAnimHash => AnimStateAttack;
         protected override int DeadAnimHash => AnimStateDead;
@@ -35,27 +23,6 @@ namespace SahurRaising.GamePlay
         public override void Initialize()
         {
             base.Initialize();
-
-            // 바퀴 초기값 저장
-            if (_wheels != null)
-            {
-                _initialWheelRotations = new Quaternion[_wheels.Length];
-                _initialWheelPositions = new Vector3[_wheels.Length];
-
-                for (int i = 0; i < _wheels.Length; i++)
-                {
-                    if (_wheels[i] != null)
-                    {
-                        _initialWheelRotations[i] = _wheels[i].localRotation;
-                        _initialWheelPositions[i] = _wheels[i].localPosition;
-                    }
-                }
-            }
-
-            if (_wheels == null || _wheels.Length == 0)
-            {
-                // Debug.LogWarning($"[PlayerUnitView] '{name}'에 바퀴(Wheels)가 할당되지 않았습니다!");
-            }
         }
 
         protected override void LateUpdate()
@@ -67,52 +34,37 @@ namespace SahurRaising.GamePlay
             // 플레이어는 항상 몬스터보다 앞에 보이도록 Z값을 더 앞으로 당김
             // UnitView의 기본 baseZ가 -5.0f이므로, 플레이어는 -6.0f 정도로 설정하여 무조건 앞에 오게 함
             var pos = transform.position;
-            pos.z = _baseZ - 1.0f; 
+            pos.z = _baseZ - 1.0f;
             transform.position = pos;
-
-            // 바퀴 회전 처리
-            // Move 상태이고, 실제로 이동 중(_isMovingParams)일 때만 회전
-            if (_currentState == UnitState.Move && _isMovingParams)
-            {
-                RotateWheels();
-            }
         }
 
-        private void RotateWheels()
+        /// <summary>
+        /// 이동/대기 상태 전환 오버라이드
+        /// - isMoving이 true면 Move 애니메이션, false면 Idle 애니메이션
+        /// </summary>
+        public override void PlayMove(bool isMoving = true)
         {
-            if (_wheels == null || _wheels.Length == 0) return;
+            if (IsDead) return;
 
-            // 반원 바퀴 애니메이션:
-            // 1. Wobble: 좌우로 뒤뚱뒤뚱 (Sin)
-            // 2. Bounce: 위아래로 들썩들썩 (Abs(Sin))
-            
-            // 속도 보정: 360도가 1초에 한 바퀴라고 가정하고 주기를 계산
-            float frequency = _wheelRotateSpeed / 360f; 
-            float time = Time.time * frequency * 2 * Mathf.PI; // 2PI = 1주기
-
-            float wobbleAngle = Mathf.Sin(time) * _wheelWobbleAngle;
-            float bounceHeight = Mathf.Abs(Mathf.Sin(time)) * _wheelBounceHeight;
-
-            for (int i = 0; i < _wheels.Length; i++)
+            // 공격 중일 때 PlayMove가 호출되면 예약만 해둠
+            if (_currentState == UnitState.Attack)
             {
-                var wheel = _wheels[i];
-                if (wheel != null)
+                _isMovingParams = isMoving;
+                return;
+            }
+
+            _currentState = UnitState.Move;
+            _isMovingParams = isMoving;
+
+            if (_animator != null && gameObject.activeInHierarchy)
+            {
+                int targetAnimHash = isMoving ? AnimStateMove : AnimStateIdle;
+
+                // 이미 해당 애니메이션이 재생 중이면 다시 Play하지 않음
+                var stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+                if (stateInfo.shortNameHash != targetAnimHash)
                 {
-                    // 1. 회전 (Wobble)
-                    Quaternion baseRot = (_initialWheelRotations != null && i < _initialWheelRotations.Length) 
-                        ? _initialWheelRotations[i] 
-                        : Quaternion.identity;
-                    
-                    // Z축 기준으로 좌우 흔들림 적용
-                    wheel.localRotation = baseRot * Quaternion.Euler(0, 0, wobbleAngle);
-
-                    // 2. 위치 (Bounce)
-                    Vector3 basePos = (_initialWheelPositions != null && i < _initialWheelPositions.Length)
-                        ? _initialWheelPositions[i]
-                        : Vector3.zero;
-
-                    // Y축으로 들썩임 적용
-                    wheel.localPosition = basePos + Vector3.up * bounceHeight;
+                    _animator.Play(targetAnimHash);
                 }
             }
         }
