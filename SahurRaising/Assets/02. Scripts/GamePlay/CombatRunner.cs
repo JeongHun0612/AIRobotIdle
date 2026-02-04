@@ -58,6 +58,11 @@ namespace SahurRaising.GamePlay
         private int _monstersKilledThisWave = 0;
         private int _currentWaveIndex = 1;
         private bool _isInitialized = false;
+        
+        // 웨이브 전환 상태
+        private bool _isWaveTransitioning = false;
+        private float _waveTransitionTimer = 0f;
+        private int _nextWaveIndex = 1;
 
         #region Unity Lifecycle
 
@@ -221,6 +226,25 @@ namespace SahurRaising.GamePlay
         /// </summary>
         private void UpdateMovingPhase()
         {
+            // InputHandler에 전투 중인 몬스터 수 전달
+            _inputHandler?.UpdateEngagedMonsterCount(_monsterSpawner.EngagedMonsterCount);
+            
+            // 웨이브 전환 중이면 타이머 처리
+            if (_isWaveTransitioning)
+            {
+                _waveTransitionTimer -= Time.deltaTime;
+                
+                if (_waveTransitionTimer <= 0f)
+                {
+                    // 전환 완료 - 다음 웨이브 스폰 시작
+                    _isWaveTransitioning = false;
+                    _currentWaveIndex = _nextWaveIndex;
+                    _monsterSpawner.ResetWave();
+                    _monsterSpawner.StartSpawning(_currentWaveIndex);
+                    LogDebug($">>> 웨이브 {_currentWaveIndex} 스폰 시작!");
+                }
+            }
+
             if (_playerInstance != null)
             {
                 Vector3 currentPos = _playerInstance.transform.position;
@@ -232,7 +256,12 @@ namespace SahurRaising.GamePlay
                         _settings.PlayerMoveSpeed * Time.deltaTime
                     );
                 }
-                _playerInstance.PlayMove(true);
+                
+                // 공격 중이 아닐 때만 이동 애니메이션 재생
+                if (!_playerInstance.IsAttacking)
+                {
+                    _playerInstance.PlayMove(true);
+                }
             }
 
             UpdateMonstersLogic();
@@ -252,6 +281,9 @@ namespace SahurRaising.GamePlay
             // 전투 중인 몬스터 수를 전달하여 몬스터 공격 여부 결정
             _combatService?.Tick(Time.deltaTime, _monsterSpawner.EngagedMonsterCount);
 
+            // InputHandler에 전투 중인 몬스터 수 전달 (터치 공격 조건 검사용)
+            _inputHandler?.UpdateEngagedMonsterCount(_monsterSpawner.EngagedMonsterCount);
+
             if (_playerInstance != null)
             {
                 Vector3 currentPos = _playerInstance.transform.position;
@@ -264,6 +296,7 @@ namespace SahurRaising.GamePlay
                         returnSpeed * Time.deltaTime
                     );
 
+                    // 공격 중이 아닐 때만 이동 애니메이션 재생
                     if (!_playerInstance.IsAttacking)
                         _playerInstance.PlayMove(false);
                 }
@@ -271,6 +304,7 @@ namespace SahurRaising.GamePlay
                 {
                     _playerInstance.transform.position = _playerIdlePosition;
 
+                    // 공격 중이 아닐 때만 Idle 애니메이션 재생
                     if (!_playerInstance.IsAttacking)
                         _playerInstance.PlayMove(false);
                 }
@@ -280,8 +314,13 @@ namespace SahurRaising.GamePlay
             UpdateMonstersLogic();
 
             // 전투 중인 몬스터가 없으면 이동 모드로 전환
+            // 단, 공격 애니메이션이 재생 중이면 대기
             if (_monsterSpawner.EngagedMonsterCount == 0 && _monsterSpawner.ActiveMonsterCount == 0)
             {
+                // 공격 중이면 전환 보류
+                if (_playerInstance != null && _playerInstance.IsAttacking)
+                    return;
+                
                 EnterTransitionPhase();
             }
         }
@@ -500,8 +539,6 @@ namespace SahurRaising.GamePlay
         {
             if (evt.IsPlayerAttack)
             {
-                _playerInstance?.PlayAttack();
-
                 // 전투 중인 몬스터 목록을 스냅샷으로 복사 (반복 중 리스트 변경 방지)
                 var originalTargets = _monsterSpawner.GetEngagedTargets();
                 int maxTargets = _combatService.GetMaxTargetCount();
@@ -516,6 +553,15 @@ namespace SahurRaising.GamePlay
                         safeTargets.Add(originalTargets[i]);
                     }
                 }
+                
+                // 공격 대상이 없으면 공격 애니메이션도 재생하지 않음 (허공 공격 방지)
+                if (safeTargets.Count == 0)
+                {
+                    return;
+                }
+                
+                // 공격 대상이 있을 때만 공격 애니메이션 재생
+                _playerInstance?.PlayAttack();
 
                 foreach (var monster in safeTargets)
                 {
@@ -592,15 +638,18 @@ namespace SahurRaising.GamePlay
                 // CombatService에 웨이브 완료 알림
                 _combatService.NotifyWaveComplete();
                 
-                // 다음 웨이브로 전환
-                _currentWaveIndex++;
+                // 다음 웨이브 준비 (이동 페이즈를 거치므로 즉시 시작하지 않음)
+                _nextWaveIndex = _currentWaveIndex + 1;
                 _monstersKilledThisWave = 0;
                 
-                // MonsterSpawner 웨이브 초기화 및 새 웨이브 스폰 시작
-                _monsterSpawner.ResetWave();
-                _monsterSpawner.StartSpawning(_currentWaveIndex);
+                // 웨이브 전환 타이머 설정
+                _isWaveTransitioning = true;
+                _waveTransitionTimer = _settings.MinWaveTransitionTime;
                 
-                LogDebug($">>> 웨이브 {_currentWaveIndex} 시작!");
+                // 이동 페이즈로 전환 (스폰은 타이머 완료 후)
+                _monsterSpawner.StopSpawning();
+                
+                LogDebug($">>> 웨이브 전환 시작 - {_waveTransitionTimer}초 후 웨이브 {_nextWaveIndex} 시작");
             }
         }
 

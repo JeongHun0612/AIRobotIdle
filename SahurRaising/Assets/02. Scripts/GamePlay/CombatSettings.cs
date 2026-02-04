@@ -114,6 +114,11 @@ namespace SahurRaising.GamePlay
         [Tooltip("몬스터 사망 후 풀 반환까지 대기 시간 (사망 애니메이션 시간)")]
         [SerializeField, Range(0f, 2f)] private float _deathToSpawnDelay = 0.5f;
 
+        [Header("=== 웨이브 전환 설정 ===")]
+        [Tooltip("웨이브 클리어 후 다음 웨이브까지 최소 이동 시간 (초)\n" +
+                 "이 시간 동안 배경 스크롤 및 이동 애니메이션 재생")]
+        [SerializeField, Range(0f, 5f)] private float _minWaveTransitionTime = 1.5f;
+
         [Header("=== 디버그/테스트 설정 ===")]
         [Tooltip("몬스터 스폰 활성화 여부 (테스트용)\n" +
                  "false: 몬스터가 스폰되지 않음 (배경만 이동)")]
@@ -160,6 +165,9 @@ namespace SahurRaising.GamePlay
         public float AttackRange => _attackRange;
         public float DeathToSpawnDelay => _deathToSpawnDelay;
         public bool IsMonsterSpawnEnabled => _isMonsterSpawnEnabled;
+        
+        // 웨이브 전환
+        public float MinWaveTransitionTime => _minWaveTransitionTime;
 
         // 프리팹
         public IReadOnlyList<MonsterVisualEntry> MonsterVisuals => _monsterVisuals;

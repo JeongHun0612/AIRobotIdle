@@ -114,10 +114,14 @@ namespace SahurRaising.GamePlay
 
         /// <summary>
         /// 공격 상태로 전환
+        /// 이미 공격 중이면 무시 (애니메이션 끊김 방지)
         /// </summary>
         public virtual void PlayAttack()
         {
             if (IsDead) return;
+            
+            // 이미 공격 중이면 무시 (애니메이션 끊김 방지)
+            if (_currentState == UnitState.Attack) return;
 
             _currentState = UnitState.Attack;
             _isMovingParams = false; // 공격 중엔 이동 멈춤
