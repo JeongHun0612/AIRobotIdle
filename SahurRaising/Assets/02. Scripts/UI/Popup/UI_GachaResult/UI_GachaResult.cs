@@ -17,7 +17,7 @@ namespace SahurRaising
         [SerializeField] private TMP_Text _currenyAmountText;
 
         [Header("가챠 슬롯")]
-        [SerializeField] private Transform _slotContainer;
+        [SerializeField] private RectTransform _slotContainer;
         [SerializeField] private GachaSlot _gachaSlotPrefab;
 
         [Header("뽑기 레벨 경험치 슬라이더")]
@@ -27,22 +27,39 @@ namespace SahurRaising
         [SerializeField] private TMP_Text _progressText;
 
         [Header("연출 설정")]
-        [SerializeField] private float _slotAnimationDuration = 0.3f;
-        [SerializeField] private float _slotAnimationDelay = 0.1f; // 각 슬롯 사이의 딜레이
-        [SerializeField] private float _progressAnimationDuration = 1.5f; // 슬라이더 애니메이션 시간
+        [SerializeField, Tooltip("각 슬롯 사이의 딜레이")]
+        private float _slotAnimationDelay = 0.025f;
+
+        [SerializeField, Tooltip("특별 슬롯 추가 딜레이 (슬로우 모션 효과)")]
+        private float _specialSlotDelay = 0.5f;
+
+        [SerializeField, Tooltip("특별 슬롯 이후 다음 슬롯까지의 추가 딜레이")]
+        private float _specialSlotNextDelay = 0.2f;
+
+        [SerializeField, Tooltip("슬라이더 애니메이션 시간")]
+        private float _progressAnimationDuration = 1f;
+
+        [Header("쉐이킹 설정")]
+        [SerializeField, Tooltip("쉐이킹 지속 시간")]
+        private float _shakeDuration = 0.5f;
+        [SerializeField, Tooltip("쉐이킹 강도")]
+        private float _shakeStrength = 20f;
+        [SerializeField, Tooltip("쉐이킹 진동 횟수")]
+        private int _shakeVibrato = 20;
 
         [Header("봅기 버튼")]
         [SerializeField] private List<GachaButton> _gachaButtons;
 
-        [Header("클릭 감지")]
-        [SerializeField] private Button _skipButton;
+        [Header("클릭 블로커")]
+        [SerializeField] private GameObject _clickBlocker;
 
         private List<GachaSlot> _slotPool = new List<GachaSlot>();
         private GachaPullEvent _currentEvent;
 
-        private bool _isAnimating = false;
-        private List<Tween> _activeTweens = new List<Tween>(); // GachaSlot 실행 중인 트윈 추적
-        private Tween _progressTween; // 슬라이더 애니메이션 트윈
+        private Tween _progressTween;   // 슬라이더 애니메이션 트윈
+        private Tween _shakeTween;      // 쉐이킹 트윈
+
+        private IGachaResultStrategy _currentStrategy;
 
         private IEventBus _eventBus;
         private IGachaService _gachaService;
@@ -54,10 +71,9 @@ namespace SahurRaising
 
             InitializeSlotPool();
 
-            if (_skipButton != null)
+            if (_clickBlocker != null)
             {
-                _skipButton.onClick.RemoveAllListeners();
-                _skipButton.onClick.AddListener(OnClickSkipAnimation);
+                _clickBlocker.SetActive(false);
             }
 
             await UniTask.Yield();
@@ -75,11 +91,10 @@ namespace SahurRaising
                 _eventBus.Subscribe<RewardGrantedEvent>(OnRewardGranted);
             }
 
-            _isAnimating = false;
-
-            if (_skipButton != null)
+            // 클릭 블로커 초기 상태
+            if (_clickBlocker != null)
             {
-                _skipButton.gameObject.SetActive(false);
+                _clickBlocker.SetActive(false);
             }
         }
 
@@ -92,8 +107,14 @@ namespace SahurRaising
                 _eventBus.Unsubscribe<RewardGrantedEvent>(OnRewardGranted);
             }
 
-            // 애니메이션 중이면 정리
-            SkipAnimation();
+            // 애니메이션 정리
+            ClearActiveTweens();
+
+            // 클릭 블로커 비활성화
+            if (_clickBlocker != null)
+            {
+                _clickBlocker.SetActive(false);
+            }
 
             foreach (var slot in _slotPool)
             {
@@ -168,17 +189,29 @@ namespace SahurRaising
 
         public void SetGachaResult(GachaPullEvent evt)
         {
+            if (!TryBindService())
+                return;
+
             _currentEvent = evt;
+
+            // GachaService를 통해 전략 가져오기
+            _currentStrategy = _gachaService.GetResultStrategy(evt.Type);
+
+            if (_currentStrategy == null)
+            {
+                Debug.LogError($"[UI_GachaResult] {evt.Type}에 대한 전략을 찾을 수 없습니다.");
+                return;
+            }
 
             // 각 GachaButton 업데이트
             UpdateGachaButton(evt.Type);
 
             UpdateCurrenyAmountText();
 
-            ShowGachaResults();
+            ShowGachaResultsAsync().Forget();
         }
 
-        private void ShowGachaResults()
+        private async UniTask ShowGachaResultsAsync()
         {
             if (_currentEvent.Results == null || _currentEvent.Results.Count == 0)
             {
@@ -219,10 +252,11 @@ namespace SahurRaising
 
             // 기존 트윈 정리
             ClearActiveTweens();
-            _isAnimating = true;
-            if (_skipButton != null)
+
+            // 클릭 블로커 활성화 (애니메이션 시작)
+            if (_clickBlocker != null)
             {
-                _skipButton.gameObject.SetActive(true);
+                _clickBlocker.SetActive(true);
             }
 
             // 슬라이더 초기 상태 설정
@@ -240,28 +274,69 @@ namespace SahurRaising
                 slot.SetData(result);
                 slot.gameObject.SetActive(true);
 
-                // 순차적으로 애니메이션 실행
-                float delay = i * _slotAnimationDelay;
-                var tween = slot.ShowWithAnimation(delay, _slotAnimationDuration);
+                float delay = _slotAnimationDelay;
+                if (slot.IsHighGradeNewItemSlot)
+                {
+                    delay += _specialSlotNextDelay;
+
+                    await UniTask.WaitForSeconds(_specialSlotDelay);
+                    StartShakeAnimation();
+                }
+
+                // 슬롯 간 딜레이만 전달하고, 나머지 연출은 슬롯이 자체 관리
+                var tween = slot.ShowWithAnimation();
 
                 if (tween != null)
                 {
-                    _activeTweens.Add(tween);
-
                     // 마지막 슬롯의 애니메이션이 끝나면 플래그 해제
                     if (i == resultCount - 1)
                     {
                         tween.OnComplete(() =>
                         {
-                            _isAnimating = false;
-                            if (_skipButton != null)
+                            if (_clickBlocker != null)
                             {
-                                _skipButton.gameObject.SetActive(false);
+                                _clickBlocker.SetActive(false);
+                            }
+
+                            // 연출 완료 후 인벤토리에 추가
+                            if (_gachaService != null)
+                            {
+                                _gachaService.AddResultsToInventory(_currentEvent.Type, _currentEvent.Results);
                             }
                         });
                     }
                 }
+
+                await UniTask.WaitForSeconds(delay);
             }
+        }
+
+        /// <summary>
+        /// 슬롯 컨테이너 쉐이킹 애니메이션 시작
+        /// </summary>
+        private void StartShakeAnimation()
+        {
+            if (_slotContainer == null)
+                return;
+
+            // 이미 쉐이킹 중이면 중복 실행 방지
+            if (_shakeTween != null && _shakeTween.IsActive())
+                return;
+
+            // 초기 위치 저장
+            Vector3 originalPosition = _slotContainer.anchoredPosition;
+
+            // 쉐이킹 애니메이션
+            _shakeTween = _slotContainer.DOShakeAnchorPos(_shakeDuration, _shakeStrength, _shakeVibrato, 90f, false, true)
+                .OnComplete(() =>
+                {
+                    // 쉐이킹 완료 후 원래 위치로 복귀
+                    if (_slotContainer != null)
+                    {
+                        _slotContainer.anchoredPosition = originalPosition;
+                        _shakeTween = null;
+                    }
+                });
         }
 
         private void InitializeProgressBar(GachaType gachaType)
@@ -390,78 +465,26 @@ namespace SahurRaising
             }
         }
 
-        private void SkipAnimation()
-        {
-            if (!_isAnimating)
-                return;
-
-            // 모든 활성 트윈 즉시 완료
-            foreach (var tween in _activeTweens)
-            {
-                if (tween != null && tween.IsActive())
-                {
-                    tween.Complete();
-                }
-            }
-            _activeTweens.Clear();
-
-            // 슬라이더 애니메이션 즉시 완료
-            if (_progressTween != null && _progressTween.IsActive())
-            {
-                _progressTween.Complete();
-                _progressTween = null;
-            }
-
-            // 최종 상태로 슬라이더 업데이트
-            if (_currentEvent.Results != null && _currentEvent.Results.Count > 0 && _gachaService != null)
-            {
-                // 앞쪽 슬라이더를 최종 값으로 즉시 설정
-                if (_frontProgressSlider != null && _backProgressSlider != null)
-                {
-                    _frontProgressSlider.value = _backProgressSlider.value;
-                }
-            }
-
-            // 모든 활성화된 슬롯을 최종 상태로 설정
-            foreach (var slot in _slotPool)
-            {
-                if (slot != null && slot.gameObject.activeSelf)
-                {
-                    slot.SetFinalState();
-                }
-            }
-
-            _isAnimating = false;
-            if (_skipButton != null)
-            {
-                _skipButton.gameObject.SetActive(false);
-            }
-        }
-
         private void ClearActiveTweens()
         {
-            foreach (var tween in _activeTweens)
-            {
-                if (tween != null && tween.IsActive())
-                {
-                    tween.Kill();
-                }
-            }
-            _activeTweens.Clear();
-
             if (_progressTween != null && _progressTween.IsActive())
             {
                 _progressTween.Kill();
                 _progressTween = null;
             }
-        }
 
-        private void OnClickSkipAnimation()
-        {
-            if (!_isAnimating)
-                return;
+            // 쉐이킹 애니메이션 정리
+            if (_shakeTween != null && _shakeTween.IsActive())
+            {
+                _shakeTween.Kill();
+                _shakeTween = null;
+            }
 
-            SkipAnimation();
+            // 쉐이킹 후 원래 위치로 복귀
+            if (_slotContainer != null)
+            {
+                _slotContainer.DOKill();
+            }
         }
 
         private void OnRewardGranted(RewardGrantedEvent evt)
@@ -471,14 +494,6 @@ namespace SahurRaising
                 UpdateGachaButton();
                 UpdateCurrenyAmountText();
             }
-        }
-
-        public override void OnClickBack()
-        {
-            if (_isAnimating)
-                return;
-
-            base.OnClickBack();
         }
     }
 }

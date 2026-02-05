@@ -186,7 +186,7 @@ namespace SahurRaising.Core
             await combatService.InitializeAsync();
             step++; Report();
 
-            var equipmentService = new EquipmentService(resourceManager);
+            var equipmentService = new EquipmentService(resourceManager, eventBus);
             ServiceLocator.Register<IEquipmentService, EquipmentService>(equipmentService);
             await equipmentService.InitializeAsync();
             step++; Report();

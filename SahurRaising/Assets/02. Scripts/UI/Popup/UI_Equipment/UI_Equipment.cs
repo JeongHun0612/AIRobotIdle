@@ -35,6 +35,7 @@ namespace SahurRaising
         private EquipmentItemSlot _selectedSlot;
 
         private IEquipmentService _equipmentService;
+        private IEventBus _eventBus;
 
         public async override UniTask InitializeAsync()
         {
@@ -91,12 +92,24 @@ namespace SahurRaising
             if (!TryBindService())
                 return;
 
+            if (_eventBus != null)
+            {
+                _eventBus.Subscribe<EquipmentInventoryChangedEvent>(OnEquipmentInventoryChanged);
+                _eventBus.Subscribe<EquipmentEquippedEvent>(OnEquipmentEquipped);
+            }
+
             OnClickTabButton(_currentType);
         }
 
         public override void OnHide()
         {
             base.OnHide();
+
+            if (_eventBus != null)
+            {
+                _eventBus.Unsubscribe<EquipmentInventoryChangedEvent>(OnEquipmentInventoryChanged);
+                _eventBus.Unsubscribe<EquipmentEquippedEvent>(OnEquipmentEquipped);
+            }
 
             _selectedSlot = null;
         }
@@ -106,6 +119,11 @@ namespace SahurRaising
             if (_equipmentService == null && ServiceLocator.HasService<IEquipmentService>())
             {
                 _equipmentService = ServiceLocator.Get<IEquipmentService>();
+            }
+
+            if (_eventBus == null && ServiceLocator.HasService<IEventBus>())
+            {
+                _eventBus = ServiceLocator.Get<IEventBus>();
             }
 
             return _equipmentService != null;
@@ -381,6 +399,31 @@ namespace SahurRaising
 
             // 일괄합성 버튼 상태 업데이트
             UpdateAdvanceButtonState();
+        }
+
+        private void OnEquipmentInventoryChanged(EquipmentInventoryChangedEvent eventData)
+        {
+            // 현재 탭 타입과 일치하는 경우에만 갱신
+            if (eventData.EquipmentType == _currentType)
+            {
+                RefreshInventoryByCurrentType();
+
+                // 현재 탭 타입에 장착된 장비 정보 표시
+                ShowEquippedEquipmentInfo();
+
+                // 일괄합성 버튼 상태 업데이트
+                UpdateAdvanceButtonState();
+            }
+        }
+
+        private void OnEquipmentEquipped(EquipmentEquippedEvent eventData)
+        {
+            // 현재 탭 타입과 일치하는 경우에만 갱신
+            if (eventData.EquipmentType == _currentType)
+            {
+                RefreshInventoryByCurrentType();
+                ShowEquippedEquipmentInfo();
+            }
         }
     }
 }

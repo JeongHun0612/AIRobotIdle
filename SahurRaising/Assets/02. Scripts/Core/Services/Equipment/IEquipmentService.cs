@@ -52,6 +52,11 @@ namespace SahurRaising.Core
         bool AddToInventory(string equipmentCode, int count = 1);
 
         /// <summary>
+        /// 인벤토리에서 장비를 제거합니다.
+        /// </summary>
+        bool RemoveFromInventory(string equipmentCode, int count = 1);
+
+        /// <summary>
         /// 인벤토리에서 해당 장비의 정보를 가져옵니다.
         /// </summary>
         EquipmentInventoryInfo GetInventoryInfo(string equipmentCode);
@@ -60,6 +65,11 @@ namespace SahurRaising.Core
         /// 장비의 레벨을 1 증가시킵니다.
         /// </summary>
         bool LevelUp(string equipmentCode);
+
+        /// <summary>
+        /// 장비의 레벨을 1 감소시킵니다.
+        /// </summary>
+        bool LevelDown(string equipmentCode);
 
         /// <summary>
         /// 특정 타입의 장비 중 강화 가능한 장비가 있는지 확인합니다.
@@ -89,6 +99,11 @@ namespace SahurRaising.Core
         /// 이후부터는 IsNewEquipment 호출 시 NEW 대상으로 판단되지 않습니다.
         /// </summary>
         void MarkAsSeen(string equipmentCode);
+
+        /// <summary>
+        /// 특정 타입의 모든 장비를 인벤토리에서 제거합니다. (IsOwned를 false로 설정)
+        /// </summary>
+        void ClearAllInventoryByType(EquipmentType type);
 
         /// <summary>
         /// 데이터를 저장합니다.
