@@ -3,6 +3,7 @@ using DG.Tweening;
 using SahurRaising.Core;
 using SahurRaising.UI;
 using SahurRaising.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -26,18 +27,35 @@ namespace SahurRaising
         [SerializeField] private TMP_Text _levelText;
         [SerializeField] private TMP_Text _progressText;
 
-        [Header("연출 설정")]
+        [Header("슬롯 연출 설정")]
         [SerializeField, Tooltip("각 슬롯 사이의 딜레이")]
         private float _slotAnimationDelay = 0.025f;
-
         [SerializeField, Tooltip("특별 슬롯 추가 딜레이 (슬로우 모션 효과)")]
-        private float _specialSlotDelay = 0.5f;
-
+        private float _specialSlotDelay = 0.3f;
         [SerializeField, Tooltip("특별 슬롯 이후 다음 슬롯까지의 추가 딜레이")]
         private float _specialSlotNextDelay = 0.2f;
 
-        [SerializeField, Tooltip("슬라이더 애니메이션 시간")]
+        [Header("프로그래스 바 연출 설정")]
+        [SerializeField, Tooltip("프로그래스 바 애니메이션 시간")]
         private float _progressAnimationDuration = 1f;
+
+        [Header("프로그래스 텍스트 연출 설정")]
+        [SerializeField, Tooltip("프로그래스 텍스트 확대 크기")]
+        private float _progressTextScaleSize = 1.2f;
+        [SerializeField, Tooltip("프로그래스 텍스트 확대 시간")]
+        private float _progressTextScaleUpDuration = 0.1f;
+        [SerializeField, Tooltip("프로그래스 텍스트 축소 시간")]
+        private float _progressTextScaleDownDuration = 0.15f;
+
+        [Header("레벨업 텍스트 애니메이션 설정")]
+        [SerializeField, Tooltip("레벨업 텍스트 확대 크기")]
+        private float _levelUpScaleSize = 1.5f;
+        [SerializeField, Tooltip("레벨업 텍스트 확대 시간")]
+        private float _levelUpScaleUpDuration = 0.15f;
+        [SerializeField, Tooltip("레벨업 텍스트 대기 시간")]
+        private float _levelUpHoldDuration = 0.3f;
+        [SerializeField, Tooltip("레벨업 텍스트 축소 시간")]
+        private float _levelUpScaleDownDuration = 0.2f;
 
         [Header("쉐이킹 설정")]
         [SerializeField, Tooltip("쉐이킹 지속 시간")]
@@ -56,8 +74,10 @@ namespace SahurRaising
         private List<GachaSlot> _slotPool = new List<GachaSlot>();
         private GachaPullEvent _currentEvent;
 
-        private Tween _progressTween;   // 슬라이더 애니메이션 트윈
-        private Tween _shakeTween;      // 쉐이킹 트윈
+        private Tween _progressBarTween;       // 슬라이더 바 애니메이션 트윈
+        private Tween _progressTextTween;      // 슬라이더 텍스트 애니메이션 트윈
+        private Tween _levelTextTween;         // 레벨 텍스트 애니메이션 트윈
+        private Tween _shakeTween;             // 쉐이킹 트윈
 
         private IGachaResultStrategy _currentStrategy;
 
@@ -145,7 +165,7 @@ namespace SahurRaising
 
             return _eventBus != null && _gachaService != null && _currencyService != null;
         }
-        
+
         private void UpdateGachaButton(GachaType type = GachaType.None)
         {
             // 각 GachaButton 업데이트
@@ -259,11 +279,8 @@ namespace SahurRaising
                 _clickBlocker.SetActive(true);
             }
 
-            // 슬라이더 초기 상태 설정
-            InitializeProgressBar(gachaType);
-
-            // 슬라이더 애니메이션 시작 (슬롯 애니메이션과 동시에)
-            AnimateProgressBar(gachaType);
+            // 슬라이더 업데이트
+            UpdateProgressBar(gachaType);
 
             // 필요한 만큼만 슬롯 활성화 및 데이터 설정
             for (int i = 0; i < resultCount && i < _slotPool.Count; i++)
@@ -311,6 +328,227 @@ namespace SahurRaising
             }
         }
 
+        private void UpdateProgressBar(GachaType gachaType)
+        {
+            if (_gachaService == null || _gachaService.LevelConfig == null)
+                return;
+
+            int beforeLevel = _gachaService.GetGachaLevel(gachaType);  // 뽑기 전 레벨
+            int maxLevel = _gachaService.LevelConfig.GetMaxLevel(gachaType);
+
+            // 레벨 텍스트 설정
+            if (_levelText != null)
+            {
+                _levelText.text = $"Lv.{beforeLevel}";
+            }
+
+            // 최대 레벨인 경우
+            if (beforeLevel >= maxLevel)
+            {
+                if (_backProgressSlider != null)
+                    _backProgressSlider.value = 1f;
+                if (_frontProgressSlider != null)
+                    _frontProgressSlider.value = 1f;
+
+                if (_progressText != null)
+                    _progressText.text = "MAX";
+
+                return;
+            }
+
+            int beforeCount = _gachaService.GetGachaCount(gachaType);
+            int afterCount = beforeCount + _currentEvent.Count;
+
+            // 다음 레벨에 필요한 갯수
+            int nextLevelRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, beforeLevel + 1);
+            bool isLevelUp = afterCount > nextLevelRequiredCount;
+
+            int afterLevel = (isLevelUp) ? beforeLevel + 1 : beforeLevel;
+
+            // 갯수 텍스트 설정
+            if (_progressText != null)
+            {
+                _progressText.text = $"{beforeCount}/{nextLevelRequiredCount}";
+            }
+
+            if (isLevelUp)
+            {
+                // 각 단계의 애니메이션 시간 계산
+                int totalPulledCount = _currentEvent.Count;
+
+                // 이전 레벨에서 남은 개수 (레벨업까지 필요한 개수)
+                int remainingCountInPreviousLevel = nextLevelRequiredCount - beforeCount;
+                // 새 레벨에서의 개수 (레벨업 후 남은 개수)
+                int countInNewLevel = afterCount - nextLevelRequiredCount;
+
+                float firstStageRatio = 0f;
+                float secondStageRatio = 0f;
+                if (totalPulledCount > 0)
+                {
+                    firstStageRatio = (float)remainingCountInPreviousLevel / totalPulledCount;
+                    secondStageRatio = (float)countInNewLevel / totalPulledCount;
+                }
+
+                float firstStageDuration = _progressAnimationDuration * firstStageRatio;
+                float secondStageDuration = _progressAnimationDuration * secondStageRatio;
+
+                // 첫 번째 단계: 이전 레벨에서 1.0까지
+                float startProgress = Mathf.Clamp01((float)beforeCount / nextLevelRequiredCount);
+                float targetProgress = 1f;
+
+                AnimateProgressBar(startProgress, targetProgress, firstStageDuration,
+                    (tween) =>
+                    {
+                        if (_levelText != null)
+                        {
+                            _levelText.text = $"Lv.{afterLevel}";
+                        }
+
+                        AnimateLevelText();
+
+                        if (afterLevel >= maxLevel)
+                        {
+                            if (_frontProgressSlider != null)
+                                _frontProgressSlider.value = 1f;
+
+                            if (_backProgressSlider != null)
+                                _backProgressSlider.value = 1f;
+
+                            return;
+                        }
+
+                        // 두 번째 단계: 새 레벨에서 0부터 최종 진행도까지
+                        int newLevelNextRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, afterLevel + 1);
+                        float secondStartProgress = 0f;
+                        float secondTargetProgress = Mathf.Clamp01((float)countInNewLevel / newLevelNextRequiredCount);
+
+                        AnimateProgressBar(secondStartProgress, secondTargetProgress, secondStageDuration);
+                    });
+
+                // 텍스트 애니메이션: 첫 번째 단계
+                AnimateProgressText(beforeCount, nextLevelRequiredCount, nextLevelRequiredCount, firstStageDuration,
+                    (tween) =>
+                    {
+                        if (afterLevel >= maxLevel)
+                        {
+                            if (_progressText != null)
+                                _progressText.text = "MAX";
+
+                            return;
+                        }
+
+                        // 두 번째 단계 텍스트 애니메이션
+                        int newLevelNextRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, afterLevel + 1);
+                        AnimateProgressText(0, countInNewLevel, newLevelNextRequiredCount, secondStageDuration, null);
+
+                    });
+            }
+            else
+            {
+                // 레벨업 없이 같은 레벨 내에서 진행
+                float startProgress = Mathf.Clamp01((float)beforeCount / nextLevelRequiredCount);
+                float targetProgress = Mathf.Clamp01((float)afterCount / nextLevelRequiredCount);
+                AnimateProgressBar(startProgress, targetProgress, _progressAnimationDuration);
+                AnimateProgressText(beforeCount, afterCount, nextLevelRequiredCount, _progressAnimationDuration);
+            }
+        }
+
+        private void AnimateProgressBar(float startProgress, float targetProgress, float duration, Action<Tween> callback = null)
+        {
+            // 뒤쪽 슬라이더: 최종 목표 위치로 즉시 설정
+            if (_backProgressSlider != null)
+            {
+                _backProgressSlider.value = targetProgress;
+            }
+
+            if (_frontProgressSlider != null)
+            {
+                _frontProgressSlider.value = startProgress;
+            }
+
+            // 앞쪽 슬라이더가 뒤쪽 슬라이더의 값까지 차오르는 애니메이션
+            _progressBarTween = _frontProgressSlider.DOValue(targetProgress, duration)
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => callback?.Invoke(_progressBarTween));
+        }
+
+        private void AnimateProgressText(int startCount, int targetCount, int nextLevelCount, float duration, Action<Tween> callback = null)
+        {
+            if (_progressText == null)
+                return;
+
+            // 기존 트윈 정리
+            if (_progressTextTween != null && _progressTextTween.IsActive())
+            {
+                _progressTextTween.Kill();
+            }
+            if (_progressText.transform != null)
+            {
+                _progressText.transform.DOKill();
+            }
+
+            // 초기 스케일 설정
+            _progressText.transform.localScale = Vector3.one;
+
+            // 1단계: 빠르게 확대
+            _progressText.transform.DOScale(Vector3.one * _progressTextScaleSize, _progressTextScaleUpDuration)
+                .SetEase(Ease.OutQuad);
+
+            // 2단계: 숫자 애니메이션 (확대 상태 유지)
+            int currentCount = startCount;
+            float numberAnimationDuration = Mathf.Max(0f, duration - _progressTextScaleUpDuration - _progressTextScaleDownDuration);
+
+            _progressTextTween = DOTween.To(
+                () => currentCount,
+                x =>
+                {
+                    currentCount = x;
+                    _progressText.text = $"{currentCount}/{nextLevelCount}";
+                },
+                targetCount,
+                numberAnimationDuration
+            ).SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                // 3단계: 원래 크기로 복귀
+                _progressText.transform.DOScale(Vector3.one, _progressTextScaleDownDuration)
+                            .SetEase(Ease.InQuad)
+                            .OnComplete(() => callback?.Invoke(_progressTextTween));
+            });
+        }
+
+        private void AnimateLevelText()
+        {
+            if (_levelText == null)
+                return;
+
+            // 기존 트윈 정리
+            if (_levelTextTween != null && _levelTextTween.IsActive())
+            {
+                _levelTextTween.Kill();
+            }
+            _levelText.transform.DOKill();
+
+            // 초기 스케일 설정
+            _levelText.transform.localScale = Vector3.one;
+
+            // Sequence로 순차 애니메이션 구성
+            Sequence sequence = DOTween.Sequence();
+
+            // 1단계: 빠르게 확대
+            sequence.Append(_levelText.transform.DOScale(Vector3.one * _levelUpScaleSize, _levelUpScaleUpDuration)
+                .SetEase(Ease.OutBack));
+
+            // 2단계: 대기
+            sequence.AppendInterval(_levelUpHoldDuration);
+
+            // 3단계: 축소
+            sequence.Append(_levelText.transform.DOScale(Vector3.one, _levelUpScaleDownDuration)
+                .SetEase(Ease.InBack));
+
+            _levelTextTween = sequence;
+        }
+
         /// <summary>
         /// 슬롯 컨테이너 쉐이킹 애니메이션 시작
         /// </summary>
@@ -339,109 +577,6 @@ namespace SahurRaising
                 });
         }
 
-        private void InitializeProgressBar(GachaType gachaType)
-        {
-            if (_gachaService == null || _gachaService.LevelConfig == null)
-                return;
-
-            int beforeCount = _gachaService.GetGachaCount(gachaType) - _currentEvent.Count; // 뽑기 전 개수
-
-            int gachaCount = _gachaService.GetGachaCount(gachaType); // 뽑기 후 개수
-            int gachaLevel = _gachaService.GetGachaLevel(gachaType);
-
-            int maxLevel = _gachaService.LevelConfig.GetMaxLevel(gachaType);
-
-            // 레벨 텍스트 설정
-            if (_levelText != null)
-            {
-                _levelText.text = $"Lv.{gachaLevel}";
-            }
-
-            // 최대 레벨인 경우
-            if (gachaLevel >= maxLevel)
-            {
-                if (_backProgressSlider != null)
-                    _backProgressSlider.value = 1f;
-                if (_frontProgressSlider != null)
-                    _frontProgressSlider.value = 1f;
-
-                if (_progressText != null)
-                    _progressText.text = "MAX";
-
-                return;
-            }
-
-            // 최종 목표 진행도 계산
-            int nextLevelRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, gachaLevel + 1);
-
-            float finalProgress = 0f;
-            if (nextLevelRequiredCount > 0)
-            {
-                finalProgress = Mathf.Clamp01((float)gachaCount / nextLevelRequiredCount);
-            }
-
-            // 뒤쪽 슬라이더: 최종 목표 위치로 즉시 설정
-            if (_backProgressSlider != null)
-            {
-                _backProgressSlider.value = finalProgress;
-            }
-
-            // 앞쪽 슬라이더: 시작 위치 설정 (뽑기 전 위치)
-            float startProgress = 0f;
-
-            if (beforeCount >= 0)
-            {
-                // 같은 레벨 내에서 진행
-                if (nextLevelRequiredCount > 0)
-                {
-                    startProgress = Mathf.Clamp01((float)beforeCount / nextLevelRequiredCount);
-                }
-            }
-            else
-            {
-                // 레벨업이 발생한 경우, 시작은 0으로
-                startProgress = 0f;
-            }
-
-            if (_frontProgressSlider != null)
-            {
-                _frontProgressSlider.value = startProgress;
-            }
-
-            // 최종 텍스트 바로 할당
-            if (_progressText != null)
-            {
-                _progressText.text = $"{gachaCount}/{nextLevelRequiredCount}";
-            }
-        }
-
-        private void AnimateProgressBar(GachaType gachaType)
-        {
-            if (_frontProgressSlider == null || _gachaService == null || _gachaService.LevelConfig == null)
-                return;
-
-            // 기존 트윈 정리
-            if (_progressTween != null && _progressTween.IsActive())
-            {
-                _progressTween.Kill();
-            }
-
-            int afterLevel = _gachaService.GetGachaLevel(gachaType);
-            int maxLevel = _gachaService.LevelConfig.GetMaxLevel(gachaType);
-
-            // 최대 레벨인 경우
-            if (afterLevel >= maxLevel)
-                return;
-
-            // 뒤쪽 슬라이더의 값(최종 목표 진행도)을 가져와서 앞쪽 슬라이더가 그 값까지 차오르도록
-            float targetProgress = _backProgressSlider.value;
-            float startValue = _frontProgressSlider.value;
-
-            // 앞쪽 슬라이더가 뒤쪽 슬라이더의 값까지 차오르는 애니메이션
-            _progressTween = _frontProgressSlider.DOValue(targetProgress, _progressAnimationDuration)
-                .SetEase(Ease.OutQuad);
-        }
-
         private void CreateAdditionalSlots(int count)
         {
             if (_gachaSlotPrefab == null)
@@ -467,10 +602,28 @@ namespace SahurRaising
 
         private void ClearActiveTweens()
         {
-            if (_progressTween != null && _progressTween.IsActive())
+            // 프로그래스 애니메이션 정리
+            if (_progressBarTween != null && _progressBarTween.IsActive())
             {
-                _progressTween.Kill();
-                _progressTween = null;
+                _progressBarTween.Kill();
+                _progressBarTween = null;
+            }
+            if (_progressTextTween != null && _progressTextTween.IsActive())
+            {
+                _progressTextTween.Kill();
+                _progressTextTween = null;
+            }
+
+
+            // 레벨 텍스트 애니메이션 정리
+            if (_levelTextTween != null && _levelTextTween.IsActive())
+            {
+                _levelTextTween.Kill();
+                _levelTextTween = null;
+            }
+            if (_levelText != null)
+            {
+                _levelText.transform.DOKill();
             }
 
             // 쉐이킹 애니메이션 정리

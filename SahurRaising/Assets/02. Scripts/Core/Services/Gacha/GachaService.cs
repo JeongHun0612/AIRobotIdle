@@ -167,20 +167,15 @@ namespace SahurRaising.Core
 
             // 현재 레벨에서 다음 레벨로 가기 위해 필요한 개수
             int nextLevelRequiredCount = _levelConfig.GetRequiredCountForLevel(type, currentLevel + 1);
-            if (newCount >= nextLevelRequiredCount)
+
+            // 최대 레벨
+            int maxLevel = _levelConfig.GetMaxLevel(type);
+
+            if (currentLevel < maxLevel && newCount >= nextLevelRequiredCount)
             {
                 newCount = newCount - nextLevelRequiredCount;
                 currentLevel++;
             }
-
-            int maxLevel = _levelConfig.GetMaxLevel(type);
-            if (currentLevel >= maxLevel)
-            {
-                newCount = 0;
-            }
-
-            // 데이터 업데이트
-            _gachaData[type] = new GachaTypeSaveData(type, newCount, currentLevel);
 
             // 이벤트 발행
             _eventBus?.Publish(new GachaPullEvent
@@ -189,6 +184,9 @@ namespace SahurRaising.Core
                 Count = count,
                 Results = results
             });
+
+            // 데이터 업데이트
+            _gachaData[type] = new GachaTypeSaveData(type, newCount, currentLevel);
 
             return results;
         }
