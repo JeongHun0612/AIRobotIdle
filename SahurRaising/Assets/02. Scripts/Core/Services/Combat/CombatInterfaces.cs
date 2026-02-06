@@ -130,8 +130,41 @@ namespace SahurRaising.Core
         IReadOnlyDictionary<string, int> GetAllLevels();
         BigDouble GetNextCost(string code);
         bool TryUpgrade(string code, int levels, out int appliedLevels, out BigDouble totalCost);
+        
+        /// <summary>
+        /// 해당 업그레이드의 다음 레벨 비용을 지불할 수 있는지 확인
+        /// </summary>
+        bool CanAfford(string code);
+        
         UniTask SaveAsync();
         UniTask LoadAsync();
+
+        /// <summary>
+        /// 업그레이드 상태 변경 시 발생하는 이벤트
+        /// </summary>
+        event System.Action OnUpgradeChanged;
+        
+        // === Debug용 메서드 ===
+        
+        /// <summary>
+        /// [Debug] 업그레이드 테이블 반환
+        /// </summary>
+        UpgradeTable GetTable();
+        
+        /// <summary>
+        /// [Debug] 업그레이드 레벨을 강제로 설정 (비용 무시)
+        /// </summary>
+        void ForceSetLevel(string code, int level);
+        
+        /// <summary>
+        /// [Debug] 모든 업그레이드를 초기화 (레벨 0으로)
+        /// </summary>
+        void ResetAllLevels();
+        
+        /// <summary>
+        /// [Debug] 모든 업그레이드를 최대 레벨로 설정
+        /// </summary>
+        void MaxAllLevels();
     }
 
     public interface IStatService

@@ -12,6 +12,8 @@ namespace SahurRaising.Core
     /// </summary>
     public class UpgradeService : IUpgradeService
     {
+        public event Action OnUpgradeChanged;
+
         private const string SaveFileName = "upgrades.json";
         private const string UpgradeTableKey = nameof(UpgradeTable);
 
@@ -96,7 +98,19 @@ namespace SahurRaising.Core
             _levels[code] = currentLevel;
             _statService.ApplyUpgrades(_levels);
 
+            OnUpgradeChanged?.Invoke();
+
             return true;
+        }
+
+        public bool CanAfford(string code)
+        {
+            var cost = GetNextCost(code);
+            if (cost <= 0)
+                return false; // MAX 레벨이면 구매 불가
+
+            var currentGold = _currencyService.Get(CurrencyType.Gold);
+            return currentGold >= cost;
         }
 
         public async UniTask SaveAsync()
@@ -204,6 +218,53 @@ namespace SahurRaising.Core
                 row.Segment2.Growth,
                 row.Segment3.Growth,
                 row.Segment4.Growth);
+        }
+
+        // === Debug용 메서드 구현 ===
+
+        public UpgradeTable GetTable() => _upgradeTable;
+
+        public void ForceSetLevel(string code, int level)
+        {
+            if (!TryGetRow(code, out var row))
+            {
+                Debug.LogWarning($"[UpgradeService] ForceSetLevel 실패: 알 수 없는 코드 '{code}'");
+                return;
+            }
+
+            var clampedLevel = Mathf.Clamp(level, 0, row.MaxLevel);
+            _levels[code] = clampedLevel;
+            _statService.ApplyUpgrades(_levels);
+            OnUpgradeChanged?.Invoke();
+            
+            Debug.Log($"[UpgradeService] 레벨 강제 설정: {code} => Lv.{clampedLevel}");
+        }
+
+        public void ResetAllLevels()
+        {
+            _levels.Clear();
+            _statService.ApplyUpgrades(_levels);
+            OnUpgradeChanged?.Invoke();
+            
+            Debug.Log("[UpgradeService] 모든 업그레이드 초기화 완료");
+        }
+
+        public void MaxAllLevels()
+        {
+            if (_upgradeTable?.Index == null)
+            {
+                Debug.LogWarning("[UpgradeService] MaxAllLevels 실패: UpgradeTable이 로드되지 않음");
+                return;
+            }
+
+            foreach (var pair in _upgradeTable.Index)
+            {
+                _levels[pair.Key] = pair.Value.MaxLevel;
+            }
+            
+            _statService.ApplyUpgrades(_levels);
+            OnUpgradeChanged?.Invoke();
+            Debug.Log($"[UpgradeService] 모든 업그레이드 최대 레벨 설정 완료 ({_upgradeTable.Index.Count}개)");
         }
 
         private string GetSavePath()

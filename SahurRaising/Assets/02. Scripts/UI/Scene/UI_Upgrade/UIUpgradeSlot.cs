@@ -21,7 +21,16 @@ namespace SahurRaising.UI
 
         [Header("Action")]
         [SerializeField] private Button _upgradeButton;
-        [SerializeField] private TMP_Text _upgradeButtonText; // 예: "강화\n7QZ"
+
+        [Header("Button States - Normal")]
+        [SerializeField] private GameObject _normalState;       // 버튼 활성화 상태 오브젝트
+        [SerializeField] private TMP_Text _normalLabelText;     // Normal 상태 "강화" 라벨
+        [SerializeField] private TMP_Text _normalCostText;      // Normal 상태 비용 텍스트
+
+        [Header("Button States - Disabled")]
+        [SerializeField] private GameObject _disabledState;     // 버튼 비활성화 상태 오브젝트
+        [SerializeField] private TMP_Text _disabledLabelText;   // Disabled 상태 라벨
+        [SerializeField] private TMP_Text _disabledCostText;    // Disabled 상태 비용 텍스트
 
         [Header("Lock UI")]
         [SerializeField] private GameObject _lockRoot;
@@ -45,7 +54,7 @@ namespace SahurRaising.UI
             }
         }
 
-        public void Refresh(int currentLevel, BigDouble currentValue, BigDouble nextValue, BigDouble cost, bool isLocked, string lockReason, Sprite fallbackIcon)
+        public void Refresh(int currentLevel, BigDouble currentValue, BigDouble nextValue, BigDouble cost, bool isLocked, string lockReason, Sprite fallbackIcon, bool hasEnoughCurrency)
         {
             // 기본 정보
             if (_iconImage != null)
@@ -62,16 +71,34 @@ namespace SahurRaising.UI
                 _valueText.text = $"{currentValue} -> {nextValue}";
             }
 
-            // 버튼 상태 및 가격
-            if (_upgradeButtonText != null)
-            {
-                _upgradeButtonText.text = cost > 0 ? $"강화\n{cost}" : "MAX";
-            }
-
+            // 버튼 상태 결정
+            // - cost <= 0: MAX 레벨 도달
+            // - cost > 0 && !hasEnoughCurrency: 비용 부족
+            // - cost > 0 && hasEnoughCurrency: 강화 가능
+            bool isMaxLevel = cost <= 0;
+            bool canUpgrade = !isLocked && !isMaxLevel && hasEnoughCurrency;
+            
+            // 라벨 결정: 강화하기 / 비용부족 / MAX
+            string normalLabel = "강화하기";
+            string disabledLabel = isMaxLevel ? "MAX" : "비용부족";
+            string costText = isMaxLevel ? "" : $"{cost}";
+            
             if (_upgradeButton != null)
             {
-                _upgradeButton.interactable = !isLocked;
+                _upgradeButton.interactable = canUpgrade;
             }
+            
+            // 버튼 시각적 상태 전환
+            if (_normalState != null) _normalState.SetActive(canUpgrade);
+            if (_disabledState != null) _disabledState.SetActive(!canUpgrade);
+            
+            // Normal 상태 텍스트 (강화 가능할 때만 보임)
+            if (_normalLabelText != null) _normalLabelText.text = normalLabel;
+            if (_normalCostText != null) _normalCostText.text = costText;
+            
+            // Disabled 상태 텍스트 (비용부족 또는 MAX)
+            if (_disabledLabelText != null) _disabledLabelText.text = disabledLabel;
+            if (_disabledCostText != null) _disabledCostText.text = costText;
 
             // 잠금 상태
             if (_lockRoot != null) _lockRoot.SetActive(isLocked);

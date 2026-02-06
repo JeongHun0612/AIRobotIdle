@@ -66,8 +66,32 @@ namespace SahurRaising.UI
         {
             base.OnShow();
             TryBindServicesIfNeeded();
+            
+            if (_upgradeService != null)
+            {
+                _upgradeService.OnUpgradeChanged -= Refresh;
+                _upgradeService.OnUpgradeChanged += Refresh;
+            }
+
             EnsureTableLoadedIfNeeded().Forget();
             Refresh();
+        }
+
+        public override void OnHide()
+        {
+            base.OnHide();
+            if (_upgradeService != null)
+            {
+                _upgradeService.OnUpgradeChanged -= Refresh;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (_upgradeService != null)
+            {
+                _upgradeService.OnUpgradeChanged -= Refresh;
+            }
         }
 
         public void Refresh()
@@ -110,7 +134,10 @@ namespace SahurRaising.UI
                 BigDouble currentVal = _statService != null ? _statService.GetStatValue(slot.Code, level) : 0;
                 BigDouble nextVal = _statService != null ? _statService.GetStatValue(slot.Code, level + _levelsPerClick) : 0;
 
-                slot.Refresh(level, currentVal, nextVal, cost, isLocked, reason, _fallbackIcon);
+                // UpgradeService를 통해 구매 가능 여부 확인
+                bool hasEnoughCurrency = _upgradeService.CanAfford(slot.Code);
+
+                slot.Refresh(level, currentVal, nextVal, cost, isLocked, reason, _fallbackIcon, hasEnoughCurrency);
             }
         }
 

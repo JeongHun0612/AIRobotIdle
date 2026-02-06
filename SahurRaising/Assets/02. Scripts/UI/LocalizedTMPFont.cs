@@ -6,12 +6,16 @@ namespace SahurRaising.UI
 {
     /// <summary>
     /// 현재 로캘 코드에 따라 TMP_Text 폰트를 교체해 주는 컴포넌트
-    /// - \"Korean (South Korea)\"  : ko-KR  -> 한국어/영어 폰트(DNFBitBitv2 등)
-    /// - \"English\"               : en     -> 한국어/영어 폰트(DNFBitBitv2 등)
-    /// - \"Chinese (Traditional)\" : zh-Hant -> CJK 폰트(BoutiqueBitmap9x9_Bold_2 등)
-    /// - \"Chinese (Simplified)\"  : zh-Hans -> CJK 폰트
-    /// - \"Japanese\"              : ja-JP   -> CJK 폰트
+    /// - "Korean (South Korea)"  : ko-KR  -> 한국어/영어 폰트(DNFBitBitv2 등)
+    /// - "English"               : en     -> 한국어/영어 폰트(DNFBitBitv2 등)
+    /// - "Chinese (Traditional)" : zh-Hant -> CJK 폰트(BoutiqueBitmap9x9_Bold_2 등)
+    /// - "Chinese (Simplified)"  : zh-Hans -> CJK 폰트
+    /// - "Japanese"              : ja-JP   -> CJK 폰트
     /// 필요 시 인스펙터에서 폰트만 교체하여 사용한다.
+    /// 
+    /// [중요] 커스텀 머티리얼(아웃라인 등)을 사용하는 경우:
+    /// - useCustomMaterial을 체크하고 각 폰트에 맞는 머티리얼을 설정하세요.
+    /// - 폰트 변경 시 해당 머티리얼이 자동으로 적용됩니다.
     /// </summary>
     public class LocalizedTMPFont : MonoBehaviour
     {
@@ -19,12 +23,28 @@ namespace SahurRaising.UI
         [SerializeField] private TMP_FontAsset koreanEnglishFont;    // 예: DNFBitBitv2 SDF
         [SerializeField] private TMP_FontAsset cjkFont;              // 예: BoutiqueBitmap9x9_Bold_2
 
+        [Header("커스텀 머티리얼 설정 (아웃라인 등)")]
+        [SerializeField] private bool useCustomMaterial;
+        [Tooltip("한국어/영어 폰트에 사용할 커스텀 머티리얼 (예: Outline 머티리얼)")]
+        [SerializeField] private Material koreanEnglishMaterial;
+        [Tooltip("CJK 폰트에 사용할 커스텀 머티리얼 (예: Outline 머티리얼)")]
+        [SerializeField] private Material cjkMaterial;
+
         private TMP_Text _text;
         private ILocalizationService _localizationService;
+        
+        // 원본 머티리얼 백업 (커스텀 머티리얼이 설정되지 않은 경우 원본 유지용)
+        private Material _originalMaterial;
 
         private void Awake()
         {
             _text = GetComponent<TMP_Text>();
+            
+            // 원본 머티리얼 백업 (커스텀 머티리얼이 설정되어 있으면 이걸 사용)
+            if (_text != null)
+            {
+                _originalMaterial = _text.fontSharedMaterial;
+            }
 
             if (!ServiceLocator.HasService<ILocalizationService>())
             {
@@ -60,7 +80,7 @@ namespace SahurRaising.UI
         }
 
         /// <summary>
-        /// 현재 로캘 코드에 따라 적절한 폰트를 적용한다.
+        /// 현재 로캘 코드에 따라 적절한 폰트와 머티리얼을 적용한다.
         /// </summary>
         private void ApplyCurrentLocaleFont()
         {
@@ -72,9 +92,54 @@ namespace SahurRaising.UI
                 return;
 
             TMP_FontAsset targetFont = GetFontForLocale(code);
+            Material targetMaterial = GetMaterialForLocale(code);
+            
             if (targetFont != null && _text.font != targetFont)
             {
                 _text.font = targetFont;
+            }
+            
+            // 커스텀 머티리얼 적용 (폰트 변경 후 머티리얼이 리셋되므로 항상 적용)
+            if (targetMaterial != null)
+            {
+                _text.fontSharedMaterial = targetMaterial;
+            }
+            else if (_originalMaterial != null && useCustomMaterial)
+            {
+                // 커스텀 머티리얼 사용 설정되었지만 해당 로캘용 머티리얼이 없으면 원본 유지
+                _text.fontSharedMaterial = _originalMaterial;
+            }
+        }
+        
+        /// <summary>
+        /// 로캘 코드에 따라 사용할 머티리얼을 결정한다.
+        /// </summary>
+        private Material GetMaterialForLocale(string localeCode)
+        {
+            if (!useCustomMaterial)
+                return null;
+                
+            if (string.IsNullOrEmpty(localeCode))
+                return _originalMaterial;
+            
+            switch (localeCode)
+            {
+                case "ko-KR":
+                case "en":
+                    return koreanEnglishMaterial;
+
+                case "zh-Hant":
+                case "zh-Hans":
+                case "ja-JP":
+                    return cjkMaterial;
+
+                default:
+                    var lower = localeCode.ToLowerInvariant();
+                    if (lower.StartsWith("ko") || lower.StartsWith("en"))
+                        return koreanEnglishMaterial;
+                    if (lower.StartsWith("zh") || lower.StartsWith("ja"))
+                        return cjkMaterial;
+                    return _originalMaterial;
             }
         }
 
