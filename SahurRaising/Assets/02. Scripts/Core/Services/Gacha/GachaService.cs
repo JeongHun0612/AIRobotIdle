@@ -25,6 +25,9 @@ namespace SahurRaising.Core
         // 타입별 가챠 데이터 관리
         private readonly Dictionary<GachaType, GachaTypeSaveData> _gachaData = new();
 
+        // 타입별 UI 전략 관리
+        private readonly Dictionary<GachaType, IGachaResultStrategy> _resultStrategies = new();
+
         public bool IsInitialized { get; private set; }
         public GachaLevelConfig LevelConfig => _levelConfig;
 
@@ -66,8 +69,23 @@ namespace SahurRaising.Core
             _handlers[GachaType.Equipment] = new EquipmentGachaHandler(gachaEquipmentTable, equipmentTable, _levelConfig, _equipmentService);
             _handlers[GachaType.Drone] = new DroneGachaHandler(gachaDroneTable, droneTable, _droneService);
 
+            // UI 전략 등록
+            _resultStrategies[GachaType.Equipment] = new EquipmentGachaResultStrategy();
+            _resultStrategies[GachaType.Drone] = new DroneGachaResultStrategy();
+
             await LoadAsync();
             IsInitialized = true;
+        }
+
+        public IGachaResultStrategy GetResultStrategy(GachaType type)
+        {
+            if (_resultStrategies.TryGetValue(type, out var strategy))
+            {
+                return strategy;
+            }
+
+            Debug.LogWarning($"[GachaService] {type}에 대한 결과 전략을 찾을 수 없습니다.");
+            return null;
         }
 
         public int GetGachaLevel(GachaType type)
@@ -144,12 +162,6 @@ namespace SahurRaising.Core
 
             var results = handler.Pull(currentLevel, count);
 
-            // 결과를 인벤토리에 추가
-            foreach (var result in results)
-            {
-                handler.AddToInventory(result);
-            }
-
             // 가챠 횟수 증가
             int newCount = currentCount + count;
 
@@ -179,6 +191,24 @@ namespace SahurRaising.Core
             });
 
             return results;
+        }
+
+
+        public void AddResultsToInventory(GachaType type, List<GachaResult> results)
+        {
+            if (results == null || results.Count == 0)
+                return;
+
+            if (!_handlers.TryGetValue(type, out var handler))
+            {
+                Debug.LogError($"[GachaService] {type} 타입의 핸들러를 찾을 수 없습니다.");
+                return;
+            }
+
+            foreach (var result in results)
+            {
+                handler.AddToInventory(result);
+            }
         }
 
         public async UniTask SaveAsync()

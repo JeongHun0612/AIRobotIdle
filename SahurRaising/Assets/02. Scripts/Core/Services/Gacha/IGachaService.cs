@@ -15,6 +15,10 @@ namespace SahurRaising.Core
         /// </summary>
         GachaLevelConfig LevelConfig { get; }
 
+        /// <summary>
+        /// 가챠 결과 UI 전략을 가져옵니다
+        /// </summary>
+        IGachaResultStrategy GetResultStrategy(GachaType type);
 
         /// <summary>
         /// 현재 가챠 레벨을 가져옵니다
@@ -51,6 +55,11 @@ namespace SahurRaising.Core
         /// <param name="cost">소비할 비용</param>
         /// <returns>뽑기 결과 리스트</returns>
         List<GachaResult> Pull(GachaType type, int count, BigDouble cost);
+
+        /// <summary>
+        /// 뽑기 결과를 인벤토리에 추가합니다 (연출 완료 후 호출)
+        /// </summary>
+        void AddResultsToInventory(GachaType type, List<GachaResult> results);
 
         UniTask SaveAsync();
         UniTask LoadAsync();

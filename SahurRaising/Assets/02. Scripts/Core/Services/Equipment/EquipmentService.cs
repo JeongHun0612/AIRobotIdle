@@ -18,6 +18,7 @@ namespace SahurRaising.Core
         private readonly HashSet<string> _seenCodes = new();                                // NEW 여부 판단용 (본 적 있는 장비)
 
         private readonly IResourceService _resourceService;
+        private readonly IEventBus _eventBus;
 
         private EquipmentTable _equipmentTable;
         private Dictionary<EquipmentType, List<EquipmentRow>> _equipmentByType;
@@ -25,9 +26,10 @@ namespace SahurRaising.Core
 
         public bool IsInitialized { get; private set; }
 
-        public EquipmentService(IResourceService resourceService)
+        public EquipmentService(IResourceService resourceService, IEventBus eventBus)
         {
             _resourceService = resourceService;
+            _eventBus = eventBus;
         }
 
         public async UniTask InitializeAsync()
@@ -169,6 +171,9 @@ namespace SahurRaising.Core
 
             Debug.Log($"[EquipmentService] Equip 완료: {type} -> {equipmentCode} (보유 레벨: {inventoryInfo.Level}, 수량: {inventoryInfo.Count})");
 
+            // 이벤트 발행
+            _eventBus?.Publish(new EquipmentEquippedEvent(type, equipmentCode));
+
             return true;
         }
 
@@ -184,6 +189,10 @@ namespace SahurRaising.Core
             _equipped.Remove(type);
 
             Debug.Log($"[EquipmentService] Unequip 완료: {type} (코드: {code})");
+
+            // 이벤트 발행
+            _eventBus?.Publish(new EquipmentEquippedEvent(type, string.Empty));
+
             return true;
         }
 
@@ -228,6 +237,81 @@ namespace SahurRaising.Core
             }
 
             Debug.Log($"[EquipmentService] AddToInventory: {equipmentCode}, +{count}");
+
+            // 이벤트 발행
+            if (TryGetByCode(equipmentCode, out var equipment))
+            {
+                _eventBus?.Publish(new EquipmentInventoryChangedEvent(equipment.Type, equipmentCode));
+            }
+
+            return true;
+        }
+
+        public bool RemoveFromInventory(string equipmentCode, int count = 1)
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogWarning("[EquipmentService] 아직 초기화되지 않았습니다.");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(equipmentCode))
+            {
+                Debug.LogWarning("[EquipmentService] RemoveFromInventory: equipmentCode가 비어 있습니다.");
+                return false;
+            }
+
+            if (count <= 0)
+            {
+                Debug.LogWarning("[EquipmentService] RemoveFromInventory: count는 1 이상이어야 합니다.");
+                return false;
+            }
+
+            // 인벤토리에 장비가 있는지 확인
+            if (!_inventory.TryGetValue(equipmentCode, out var info))
+            {
+                Debug.LogWarning($"[EquipmentService] RemoveFromInventory: 인벤토리에 없는 장비입니다: {equipmentCode}");
+                return false;
+            }
+
+            // 개수가 1 이상이면 개수만 감소, 0이 되면 IsOwned를 false로 설정
+            if (info.Count > count)
+            {
+                var newInfo = new EquipmentInventoryInfo(info.Code, info.Level, info.Count - count, info.IsOwned);
+                _inventory[equipmentCode] = newInfo;
+                Debug.Log($"[EquipmentService] RemoveFromInventory: {equipmentCode}, -{count} (남은 개수: {newInfo.Count})");
+            }
+            else
+            {
+                // 개수가 count 이하면 IsOwned를 false로 설정하고 개수는 0으로
+                var newInfo = new EquipmentInventoryInfo(info.Code, info.Level, 0, false);
+                _inventory[equipmentCode] = newInfo;
+                Debug.Log($"[EquipmentService] RemoveFromInventory: {equipmentCode} 제거됨 (IsOwned: false)");
+
+                // SeenCodes에서도 제거 (NEW 상태 초기화)
+                _seenCodes.Remove(equipmentCode);
+
+                // 장착된 장비를 제거하는 경우 해제
+                foreach (var kvp in _equipped)
+                {
+                    if (kvp.Value == equipmentCode)
+                    {
+                        _equipped.Remove(kvp.Key);
+                        Debug.Log($"[EquipmentService] 장착된 {equipmentCode} 자동 해제됨: {kvp.Key}");
+
+                        // 해제 이벤트 발행
+                        _eventBus?.Publish(new EquipmentEquippedEvent(kvp.Key, string.Empty));
+                        break;
+                    }
+                }
+            }
+
+            // 이벤트 발행
+            if (TryGetByCode(equipmentCode, out var equipment))
+            {
+                _eventBus?.Publish(new EquipmentInventoryChangedEvent(equipment.Type, equipmentCode));
+            }
+
             return true;
         }
 
@@ -269,6 +353,55 @@ namespace SahurRaising.Core
             _inventory[equipmentCode] = new EquipmentInventoryInfo(equipmentCode, newLevel, info.Count, info.IsOwned);
 
             Debug.Log($"[EquipmentService] LevelUp 완료: {equipmentCode}, 레벨 {info.Level} -> {newLevel}");
+
+            // 이벤트 발행
+            if (TryGetByCode(equipmentCode, out var equipment))
+            {
+                _eventBus?.Publish(new EquipmentInventoryChangedEvent(equipment.Type, equipmentCode));
+            }
+
+            return true;
+        }
+
+        public bool LevelDown(string equipmentCode)
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogWarning("[EquipmentService] 아직 초기화되지 않았습니다.");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(equipmentCode))
+            {
+                Debug.LogWarning("[EquipmentService] LevelDown: equipmentCode가 비어 있습니다.");
+                return false;
+            }
+
+            // 인벤토리에서 장비 정보 가져오기
+            if (!_inventory.TryGetValue(equipmentCode, out var info))
+            {
+                Debug.LogWarning($"[EquipmentService] LevelDown: 인벤토리에 없는 장비입니다: {equipmentCode}");
+                return false;
+            }
+
+            // 레벨이 1보다 크면 감소, 1이면 그대로 유지
+            if (info.Level <= 1)
+            {
+                Debug.LogWarning($"[EquipmentService] LevelDown: 이미 최소 레벨입니다: {equipmentCode}");
+                return false;
+            }
+
+            int newLevel = info.Level - 1;
+            _inventory[equipmentCode] = new EquipmentInventoryInfo(equipmentCode, newLevel, info.Count, info.IsOwned);
+
+            Debug.Log($"[EquipmentService] LevelDown 완료: {equipmentCode}, 레벨 {info.Level} -> {newLevel}");
+
+            // 이벤트 발행
+            if (TryGetByCode(equipmentCode, out var equipment))
+            {
+                _eventBus?.Publish(new EquipmentInventoryChangedEvent(equipment.Type, equipmentCode));
+            }
+
             return true;
         }
 
@@ -424,6 +557,45 @@ namespace SahurRaising.Core
                 return;
 
             _seenCodes.Add(equipmentCode);
+        }
+
+        public void ClearAllInventoryByType(EquipmentType type)
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogWarning("[EquipmentService] 아직 초기화되지 않았습니다.");
+                return;
+            }
+
+            var equipmentList = GetByType(type);
+            if (equipmentList == null || equipmentList.Count == 0)
+                return;
+
+            foreach (var equipment in equipmentList)
+            {
+                if (string.IsNullOrEmpty(equipment.Code))
+                    continue;
+
+                if (_inventory.TryGetValue(equipment.Code, out var info))
+                {
+                    // 인벤토리에서 제거 (IsOwned를 false로 설정)
+                    var newInfo = new EquipmentInventoryInfo(info.Code, info.Level, 0, false);
+                    _inventory[equipment.Code] = newInfo;
+
+                    // SeenCodes에서도 제거 (NEW 상태 초기화)
+                    _seenCodes.Remove(equipment.Code);
+
+                    // 장착된 장비인 경우 해제
+                    if (_equipped.TryGetValue(type, out var equippedCode) && equippedCode == equipment.Code)
+                    {
+                        _equipped.Remove(type);
+                    }
+                }
+            }
+
+            _eventBus?.Publish(new EquipmentInventoryChangedEvent(type, string.Empty));
+
+            Debug.Log($"[EquipmentService] ClearAllInventoryByType 완료: {type} 타입의 장비 클리어됨");
         }
 
         public async UniTask SaveAsync()
