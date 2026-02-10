@@ -1,5 +1,7 @@
 {
   "logLevel": 6,
+  "keepServerRunning": true,
+  "transportMethod": 2,
   "tools": [
     {
       "name": "assets-copy",

@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using BreakInfinity;
 using SahurRaising.Core;
+using SahurRaising.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +37,11 @@ namespace SahurRaising.UI
         [SerializeField] private GameObject _lockRoot;
         [SerializeField] private TMP_Text _lockText;
 
+        [Header("Appearance")]
+        [SerializeField] private Image _iconBgImage;     // Icon (배경)
+        [SerializeField] private Image _iconBorderImage; // IconBorder (테두리)
+        [SerializeField] private Image _iconLightImage;  // IconLight (상단 하이라이트)
+
         private UpgradeRow _row;
         private Action<string> _onUpgrade;
 
@@ -54,7 +60,34 @@ namespace SahurRaising.UI
             }
         }
 
-        public void Refresh(int currentLevel, BigDouble currentValue, BigDouble nextValue, BigDouble cost, bool isLocked, string lockReason, Sprite fallbackIcon, bool hasEnoughCurrency)
+        /// <summary>
+        /// 티어 색상 세트를 적용합니다. (배경, 테두리, 하이라이트)
+        /// </summary>
+        public void SetTierColor(TierColorSet colorSet)
+        {
+            if (_iconBgImage != null)
+            {
+                Color bg = colorSet.BaseColor;
+                bg.a = 1f;
+                _iconBgImage.color = bg;
+            }
+
+            if (_iconBorderImage != null)
+            {
+                Color border = colorSet.BorderColor;
+                border.a = 1f;
+                _iconBorderImage.color = border;
+            }
+
+            if (_iconLightImage != null)
+            {
+                Color light = colorSet.LightColor;
+                light.a = Mathf.Max(light.a, 0.1f); // 하이라이트는 반투명 허용, 완전 투명 방지
+                _iconLightImage.color = light;
+            }
+        }
+
+        public void Refresh(int currentLevel, int maxLevel, BigDouble currentValue, BigDouble nextValue, BigDouble cost, bool isLocked, string lockReason, Sprite fallbackIcon, bool hasEnoughCurrency)
         {
             // 기본 정보
             if (_iconImage != null)
@@ -65,23 +98,25 @@ namespace SahurRaising.UI
             if (_levelText != null) _levelText.text = $"LV {currentLevel}";
 
             // 수치 변화 (예: 10 -> 15)
+            // NumberFormatUtil을 사용하여 큰 수를 가독성 있게 표시
             if (_valueText != null)
             {
-                // 포맷은 필요에 따라 조정 (예: G3, F1 등)
-                _valueText.text = $"{currentValue} -> {nextValue}";
+                string currentStr = FormatStatValue(currentValue);
+                string nextStr = FormatStatValue(nextValue);
+                _valueText.text = $"{currentStr} -> {nextStr}";
             }
 
             // 버튼 상태 결정
-            // - cost <= 0: MAX 레벨 도달
-            // - cost > 0 && !hasEnoughCurrency: 비용 부족
-            // - cost > 0 && hasEnoughCurrency: 강화 가능
-            bool isMaxLevel = cost <= 0;
+            // - MaxLevel과 비교하여 정확히 MAX 판단
+            bool isMaxLevel = currentLevel >= maxLevel;
             bool canUpgrade = !isLocked && !isMaxLevel && hasEnoughCurrency;
             
             // 라벨 결정: 강화하기 / 비용부족 / MAX
             string normalLabel = "강화하기";
-            string disabledLabel = isMaxLevel ? "MAX" : "비용부족";
-            string costText = isMaxLevel ? "" : $"{cost}";
+            string disabledLabel = isMaxLevel ? "MAX" : "강화하기";
+            
+            // 비용 텍스트: MAX면 빈 문자열, 아니면 포맷팅된 값
+            string costText = isMaxLevel ? "" : NumberFormatUtil.FormatBigDouble(cost);
             
             if (_upgradeButton != null)
             {
@@ -103,6 +138,39 @@ namespace SahurRaising.UI
             // 잠금 상태
             if (_lockRoot != null) _lockRoot.SetActive(isLocked);
             if (_lockText != null) _lockText.text = isLocked ? lockReason : "";
+        }
+
+        /// <summary>
+        /// 스탯 값을 포맷팅합니다.
+        /// 비율 스탯(ATKSP, CR 등 소수값)은 소수 형태로,
+        /// 큰 스탯(ATK, HP 등)은 알파벳 표기법으로 표시합니다.
+        /// </summary>
+        private string FormatStatValue(BigDouble value)
+        {
+            if (value == 0)
+                return "0";
+
+            // 1 미만의 작은 비율 값 (퍼센트/비율 스탯)
+            if (value < 1)
+            {
+                double d = value.ToDouble();
+                // 소수점 이하 유효숫자가 있는 경우 적절한 자릿수 사용
+                if (System.Math.Abs(d) < 0.001)
+                    return d.ToString("G4");
+                return d.ToString("F4").TrimEnd('0').TrimEnd('.');
+            }
+
+            // 1000 미만은 소수점 포함 가능
+            if (value < 1000)
+            {
+                double d = value.ToDouble();
+                if (System.Math.Abs(d % 1) < double.Epsilon)
+                    return ((long)d).ToString();
+                return d.ToString("F2").TrimEnd('0').TrimEnd('.');
+            }
+
+            // 큰 숫자는 NumberFormatUtil 사용
+            return NumberFormatUtil.FormatBigDouble(value);
         }
 
         private void HandleUpgradeClicked()

@@ -113,6 +113,14 @@ namespace SahurRaising.Core
             return currentGold >= cost;
         }
 
+        public int GetMaxLevel(string code)
+        {
+            if (!TryGetRow(code, out var row))
+                return 0;
+
+            return row.MaxLevel;
+        }
+
         public async UniTask SaveAsync()
         {
             try
@@ -192,10 +200,17 @@ namespace SahurRaising.Core
 
             var cost = new BigDouble(row.GoldBase);
             cost *= BigDouble.Pow(row.GoldPow, breakdown.PowLevels);
-            cost *= BigDouble.Pow(breakdown.Segment1Growth, breakdown.Segment1Levels);
-            cost *= BigDouble.Pow(breakdown.Segment2Growth, breakdown.Segment2Levels);
-            cost *= BigDouble.Pow(breakdown.Segment3Growth, breakdown.Segment3Levels);
-            cost *= BigDouble.Pow(breakdown.Segment4Growth, breakdown.Segment4Levels);
+
+            // Growth 값은 추가 성장률(예: 0.015 = 1.5%)이므로,
+            // 실제 배율은 (1 + growth)^levels로 계산해야 합니다.
+            if (breakdown.Segment1Levels > 0)
+                cost *= BigDouble.Pow(1.0 + breakdown.Segment1Growth, breakdown.Segment1Levels);
+            if (breakdown.Segment2Levels > 0)
+                cost *= BigDouble.Pow(1.0 + breakdown.Segment2Growth, breakdown.Segment2Levels);
+            if (breakdown.Segment3Levels > 0)
+                cost *= BigDouble.Pow(1.0 + breakdown.Segment3Growth, breakdown.Segment3Levels);
+            if (breakdown.Segment4Levels > 0)
+                cost *= BigDouble.Pow(1.0 + breakdown.Segment4Growth, breakdown.Segment4Levels);
 
             return cost;
         }

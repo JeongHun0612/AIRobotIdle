@@ -32,9 +32,8 @@ namespace SahurRaising.UI
         {
             if (_amountText != null)
             {
-                // TODO: 필요하다면 전역 포맷팅 유틸리티 사용 (예: 1.2A, 1.5B 등)
-                _amountText.text = amount.ToString("F0");
-                //_amountText.text = NumberFormatUtil.FormatBigDouble(amount);
+                // 업그레이드 UI와 동일한 1000단위 알파벳 표기법 사용 (예: 1.2A, 5.00F 등)
+                _amountText.text = NumberFormatUtil.FormatBigDouble(amount);
             }
         }
     }

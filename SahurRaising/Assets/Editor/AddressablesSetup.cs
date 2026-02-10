@@ -21,8 +21,6 @@ namespace SahurRaising.EditorTools
         private const string UpgradeTablePath = "Assets/06. ScriptableObject/Data/UpgradeTable.asset";
         private const string UpgradeTableKey = "UpgradeTable";
 
-        private const string StatsTablePath = "Assets/06. ScriptableObject/Data/StatsTable.asset";
-        private const string StatsTableKey = "StatsTable";
 
         private const string EquipmentTablePath = "Assets/06. ScriptableObject/Data/EquipmentTable.asset";
         private const string EquipmentTableKey = "EquipmentTable";
@@ -70,7 +68,6 @@ namespace SahurRaising.EditorTools
 
             AddOrUpdate(MonsterTablePath, MonsterTableKey);
             AddOrUpdate(UpgradeTablePath, UpgradeTableKey);
-            AddOrUpdate(StatsTablePath, StatsTableKey);
             AddOrUpdate(EquipmentTablePath, EquipmentTableKey);
 
             EditorUtility.SetDirty(settings);

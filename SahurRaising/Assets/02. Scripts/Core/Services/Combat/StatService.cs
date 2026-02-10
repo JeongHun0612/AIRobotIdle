@@ -7,12 +7,13 @@ using UnityEngine;
 namespace SahurRaising.Core
 {
     /// <summary>
-    /// 스탯 테이블/업그레이드/장비 옵션을 합산해 캐릭터 스냅샷을 생성하는 서비스
+    /// 업그레이드/장비/스킬 모디파이어를 합산해 캐릭터 스냅샷을 생성하는 서비스
+    /// 스탯 값은 StatsTable에서 레벨별로 조회합니다.
     /// </summary>
     public class StatService : IStatService
     {
-        private const string StatsTableKey = nameof(StatsTable);
         private const string UpgradeTableKey = nameof(UpgradeTable);
+        private const string StatsTableKey = nameof(StatsTable);
         private const string EquipmentTableKey = nameof(EquipmentTable);
 
         private readonly IResourceService _resourceService;
@@ -24,8 +25,8 @@ namespace SahurRaising.Core
         private readonly List<StatModifier> _skillModifiers = new();
         private readonly Dictionary<string, StatType> _optionTypeMap = new(StringComparer.OrdinalIgnoreCase);
 
-        private StatsTable _statsTable;
         private UpgradeTable _upgradeTable;
+        private StatsTable _statsTable;
         private EquipmentTable _equipmentTable;
         private CharacterStats _snapshot;
 
@@ -37,15 +38,15 @@ namespace SahurRaising.Core
 
         public async UniTask InitializeAsync()
         {
-            _statsTable = await _resourceService.LoadTableAsync<StatsTable>(StatsTableKey);
             _upgradeTable = await _resourceService.LoadTableAsync<UpgradeTable>(UpgradeTableKey);
+            _statsTable = await _resourceService.LoadTableAsync<StatsTable>(StatsTableKey);
             _equipmentTable = await _resourceService.LoadTableAsync<EquipmentTable>(EquipmentTableKey);
-
-            if (_statsTable == null)
-                Debug.LogError("[StatService] StatsTable을 로드하지 못했습니다. Addressables 설정을 확인하세요.");
 
             if (_upgradeTable == null)
                 Debug.LogError("[StatService] UpgradeTable을 로드하지 못했습니다. Addressables 설정을 확인하세요.");
+
+            if (_statsTable == null)
+                Debug.LogError("[StatService] StatsTable을 로드하지 못했습니다. Addressables 설정을 확인하세요.");
 
             if (_equipmentTable == null)
                 Debug.LogWarning("[StatService] EquipmentTable을 로드하지 못했습니다. 장비 스탯은 제외됩니다.");
@@ -137,6 +138,9 @@ namespace SahurRaising.Core
             return _optionTypeMap.TryGetValue(optionType ?? string.Empty, out statType);
         }
 
+        /// <summary>
+        /// 특정 업그레이드 코드의 해당 레벨 스탯 값을 StatsTable에서 조회합니다.
+        /// </summary>
         public BigDouble GetStatValue(string upgradeCode, int level)
         {
             if (_upgradeTable == null || !_upgradeTable.Index.TryGetValue(upgradeCode, out var upgradeRow))
@@ -146,6 +150,13 @@ namespace SahurRaising.Core
             return GetValueFromStatsRow(statsRow, upgradeRow.Stat);
         }
 
+        // ──────────────────────────────
+        // 내부 구현
+        // ──────────────────────────────
+
+        /// <summary>
+        /// StatsRow에서 특정 StatType에 해당하는 값을 BigDouble로 반환합니다.
+        /// </summary>
         private BigDouble GetValueFromStatsRow(StatsRow row, StatType statType)
         {
             switch (statType)
@@ -154,7 +165,7 @@ namespace SahurRaising.Core
                 case StatType.HP: return ToBigDouble(row.HP_Base, row.HP_Pow);
                 case StatType.DEF: return ToBigDouble(row.DEF_Base, row.DEF_Pow);
                 case StatType.HPREC: return ToBigDouble(row.HPREC_Base, row.HPREC_Pow);
-                case StatType.CR: return ToBigDouble(row.CR_Base, row.CR_Pow); // Usually percentage, but stored as double in struct. ToBigDouble handles it if it's base/pow. Wait, CR is double in CharacterStats.
+                case StatType.CR: return ToBigDouble(row.CR_Base, row.CR_Pow);
                 case StatType.ATKT: return ToBigDouble(row.ATKT_Base, row.ATKT_Pow);
                 case StatType.OFFT: return row.OFFT;
                 case StatType.GOLDR: return row.GOLDR;
@@ -180,6 +191,10 @@ namespace SahurRaising.Core
             _snapshot = stats;
         }
 
+        /// <summary>
+        /// StatsTable에서 해당 레벨의 행을 조회합니다.
+        /// 정확히 일치하는 레벨이 없으면 마지막 행을 반환합니다.
+        /// </summary>
         private StatsRow GetStatsRow(int level)
         {
             if (_statsTable == null)
@@ -194,6 +209,9 @@ namespace SahurRaising.Core
             return default;
         }
 
+        /// <summary>
+        /// 각 StatType별 업그레이드 레벨에 해당하는 StatsRow를 조회하여 기본 스탯을 빌드합니다.
+        /// </summary>
         private CharacterStats BuildBaseStatsFromLevels()
         {
             // 업그레이드 레벨이 지정되지 않은 스탯은 0레벨로 처리
@@ -267,7 +285,7 @@ namespace SahurRaising.Core
                 DefenseIgnore = ToDouble(rowIGNDEF.IGNDEF_Base, rowIGNDEF.IGNDEF_Pow),
                 BossDamageRate = 0,
                 EliteDamageRate = 0,
-                
+
                 // 동시 공격 가능한 최대 타겟 수
                 MaxTargetCount = maxTargetCount,
             };
@@ -456,5 +474,3 @@ namespace SahurRaising.Core
         }
     }
 }
-
-

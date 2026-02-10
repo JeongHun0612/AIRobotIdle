@@ -100,5 +100,26 @@ namespace SahurRaising
 
             return number;
         }
+
+        /// <summary>
+        /// 업그레이드 코드(예: UP101)에서 티어 인덱스를 추출합니다.
+        /// UP001 -> 0, UP101 -> 1, UP201 -> 2
+        /// </summary>
+        public static int ExtractTierFromCode(string code)
+        {
+            if (string.IsNullOrEmpty(code) || code.Length < 3)
+                return 0;
+
+            // "UP" 제거 시도, 만약 UP으로 시작하지 않으면 전체에서 숫자 파싱
+            string numberPart = code.StartsWith("UP") ? code.Substring(2) : code;
+
+            if (int.TryParse(numberPart, out int number))
+            {
+                // 100단위로 티어 구분
+                return number / 100;
+            }
+
+            return 0;
+        }
     }
 }
