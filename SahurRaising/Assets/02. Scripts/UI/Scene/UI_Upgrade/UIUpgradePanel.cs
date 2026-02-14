@@ -29,6 +29,7 @@ namespace SahurRaising.UI
         [Header("Settings")]
         [SerializeField] private string _upgradeTableKey = nameof(UpgradeTable);
         [SerializeField] private int _levelsPerClick = 1;
+        [SerializeField] private UpgradeTierThemeSO _tierTheme;
 
         [Header("Category Locks (Optional)")]
         [SerializeField] private GameObject _superLockedRoot;
@@ -128,6 +129,7 @@ namespace SahurRaising.UI
                 string reason = GetTierLockReason(slot.Tier, characterLevel);
 
                 int level = _upgradeService.GetLevel(slot.Code);
+                int maxLevel = _upgradeService.GetMaxLevel(slot.Code);
                 BigDouble cost = _upgradeService.GetNextCost(slot.Code);
 
                 // 현재 값과 다음 레벨 값 계산
@@ -137,7 +139,7 @@ namespace SahurRaising.UI
                 // UpgradeService를 통해 구매 가능 여부 확인
                 bool hasEnoughCurrency = _upgradeService.CanAfford(slot.Code);
 
-                slot.Refresh(level, currentVal, nextVal, cost, isLocked, reason, _fallbackIcon, hasEnoughCurrency);
+                slot.Refresh(level, maxLevel, currentVal, nextVal, cost, isLocked, reason, _fallbackIcon, hasEnoughCurrency);
             }
         }
 
@@ -189,6 +191,14 @@ namespace SahurRaising.UI
 
                 var slot = Instantiate(_slotPrefab, parent);
                 slot.Initialize(row, HandleSlotUpgrade);
+
+                // 티어 색상 적용
+                if (_tierTheme != null)
+                {
+                    int tierIndex = StringUtils.ExtractTierFromCode(row.Code);
+                    TierColorSet colorSet = _tierTheme.GetColorSet(tierIndex);
+                    slot.SetTierColor(colorSet);
+                }
 
 
                 if (_lockIcon != null)

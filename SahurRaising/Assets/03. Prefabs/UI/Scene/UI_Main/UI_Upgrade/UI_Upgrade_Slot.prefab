@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45323068, g: 0.7153694, b: 0.9150943, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -620,6 +620,9 @@ MonoBehaviour:
   _disabledCostText: {fileID: 8609796204630827470}
   _lockRoot: {fileID: 4625673303736302788}
   _lockText: {fileID: 6876703248927200559}
+  _iconBgImage: {fileID: 3495958198077283629}
+  _iconBorderImage: {fileID: 2687423045799476824}
+  _iconLightImage: {fileID: 3997192033032948076}
 --- !u!114 &1453349218931278975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3416,7 +3419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.30397826, g: 0.5017808, b: 0.6509434, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3517,7 +3520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.40939838, g: 0.6115361, b: 0.754717, a: 1}
+  m_Color: {r: 0.6886792, g: 0.36058205, b: 0.36058205, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3977feba2f02c9b44833b53c07af9a19, type: 3}
+  m_Name: UpgradeTierTheme
+  m_EditorClassIdentifier: 
+  TierColorSets:
+  - BaseColor: {r: 0.55, g: 0.55, b: 0.58, a: 1}
+    BorderColor: {r: 0.35, g: 0.35, b: 0.38, a: 1}
+    LightColor: {r: 0.82, g: 0.82, b: 0.85, a: 0.55}
+  - BaseColor: {r: 0.22, g: 0.7, b: 0.32, a: 1}
+    BorderColor: {r: 0.1, g: 0.42, b: 0.16, a: 1}
+    LightColor: {r: 0.6, g: 0.92, b: 0.65, a: 0.5}
+  - BaseColor: {r: 0.24, g: 0.42, b: 0.92, a: 1}
+    BorderColor: {r: 0.1, g: 0.22, b: 0.6, a: 1}
+    LightColor: {r: 0.55, g: 0.7, b: 1, a: 0.5}
+  - BaseColor: {r: 0.95, g: 0.78, b: 0.15, a: 1}
+    BorderColor: {r: 0.7, g: 0.52, b: 0.05, a: 1}
+    LightColor: {r: 1, g: 0.94, b: 0.55, a: 0.5}

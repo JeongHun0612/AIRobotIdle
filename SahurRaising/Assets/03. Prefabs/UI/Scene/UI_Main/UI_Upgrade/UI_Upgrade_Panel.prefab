@@ -610,6 +610,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   cjkFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &2921162401816812274
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,6 +712,7 @@ MonoBehaviour:
   _lockIcon: {fileID: 0}
   _upgradeTableKey: UpgradeTable
   _levelsPerClick: 1
+  _tierTheme: {fileID: 11400000, guid: 9a0f5f00e46dc644cb10499501476280, type: 2}
   _superLockedRoot: {fileID: 4075024149947927167}
   _superLockedReasonText: {fileID: 2715217166925842055}
   _ultraLockedRoot: {fileID: 953687631605640818}
@@ -1146,6 +1150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   cjkFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &7589517272738700988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1374,6 +1381,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   cjkFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &8271506921188587427
 GameObject:
   m_ObjectHideFlags: 0

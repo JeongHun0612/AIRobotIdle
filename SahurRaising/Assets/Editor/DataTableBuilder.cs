@@ -139,7 +139,7 @@ public static class DataTableBuilder
         SaveTable<string, UpgradeRow, UpgradeTable>("UpgradeTable.asset", rows);
     }
 
-    // Stats 테이블 컬럼명
+    // Stats 테이블 컨럼명
     private const string COL_ST_LV = "Lv";
     private const string COL_ST_ATK_BASE = "ATK_Base";
     private const string COL_ST_ATK_POW = "ATK_Pow";
@@ -166,22 +166,6 @@ public static class DataTableBuilder
     private const string COL_ST_DEFR = "DEFR";
     private const string COL_ST_IGNDEF_BASE = "IGNDEF_Base";
     private const string COL_ST_IGNDEF_POW = "IGNDEF_Pow";
-
-    // Equipment 테이블 컬럼명
-    private const string COL_EQ_CODE = "EquipmentCode";
-    private const string COL_EQ_NAME = "EquipmentName";
-    private const string COL_EQ_TYPE = "EquipmentType";
-    private const string COL_EQ_GRADE = "EquipmentGrade";
-    private const string COL_EQ_OPT_TYPE = "EquipOption_Type";
-    private const string COL_EQ_OPT_BASE = "EquipOption_Base";
-    private const string COL_EQ_OPT_UP = "EquipOption_Up";
-    private const string COL_EQ_H1_TYPE = "HeldOption1_Type";
-    private const string COL_EQ_H1_BASE = "HeldOption1_Base";
-    private const string COL_EQ_H1_UP = "HeldOption1_Up";
-    private const string COL_EQ_H2_TYPE = "HeldOption2_Type";
-    private const string COL_EQ_H2_VAL = "HeldOption2";
-    private const string COL_EQ_H3_TYPE = "HeldOption3_Type";
-    private const string COL_EQ_H3_VAL = "HeldOption3";
 
     private static void BuildStats()
     {
@@ -223,6 +207,24 @@ public static class DataTableBuilder
 
         SaveTable<int, StatsRow, StatsTable>("StatsTable.asset", rows);
     }
+
+
+
+    // Equipment 테이블 컬럼명
+    private const string COL_EQ_CODE = "EquipmentCode";
+    private const string COL_EQ_NAME = "EquipmentName";
+    private const string COL_EQ_TYPE = "EquipmentType";
+    private const string COL_EQ_GRADE = "EquipmentGrade";
+    private const string COL_EQ_OPT_TYPE = "EquipOption_Type";
+    private const string COL_EQ_OPT_BASE = "EquipOption_Base";
+    private const string COL_EQ_OPT_UP = "EquipOption_Up";
+    private const string COL_EQ_H1_TYPE = "HeldOption1_Type";
+    private const string COL_EQ_H1_BASE = "HeldOption1_Base";
+    private const string COL_EQ_H1_UP = "HeldOption1_Up";
+    private const string COL_EQ_H2_TYPE = "HeldOption2_Type";
+    private const string COL_EQ_H2_VAL = "HeldOption2";
+    private const string COL_EQ_H3_TYPE = "HeldOption3_Type";
+    private const string COL_EQ_H3_VAL = "HeldOption3";
 
     private static void BuildEquipment()
     {

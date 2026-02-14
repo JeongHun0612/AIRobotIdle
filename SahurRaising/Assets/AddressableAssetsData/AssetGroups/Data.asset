@@ -25,11 +25,10 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1aafaf8801825d74cb3c9e7cea9cc443
+  - m_GUID: 3b78e98d1fefe224fb1fff3a06eff7de
     m_Address: StatsTable
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Data
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 49cdfcf9dae44504983610c225ee488e
     m_Address: DroneTable
@@ -67,6 +66,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Data
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a0f5f00e46dc644cb10499501476280
+    m_Address: UpgradeTierTheme
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa021beee1115e24e817dbb484f24bac
     m_Address: SkillVisualConfig

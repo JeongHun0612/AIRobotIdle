@@ -136,6 +136,12 @@ namespace SahurRaising.Core
         /// </summary>
         bool CanAfford(string code);
         
+        /// <summary>
+        /// 해당 업그레이드의 최대 레벨을 반환합니다.
+        /// 코드가 존재하지 않으면 0을 반환합니다.
+        /// </summary>
+        int GetMaxLevel(string code);
+        
         UniTask SaveAsync();
         UniTask LoadAsync();
 

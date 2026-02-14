@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc30526416f3e2a41978656ef25a8669, type: 3}
   m_Name: DebugCurrencySettings
   m_EditorClassIdentifier: 
-  AddCurrencyType: 2
-  AddAmount: 1000
-  ConsumeCurrencyType: 1
-  ConsumeAmount: 100
+  AddCurrencyType: 0
+  AddAmount: 500000000000000
+  ConsumeCurrencyType: 0
+  ConsumeAmount: 
   GoldAmount: 0
   EmeraldAmount: 0
   DiamondAmount: 0

@@ -80,7 +80,9 @@ public static class CsvUtil
             var cell = Normalize(SafeCellByName(name));
             if (string.IsNullOrWhiteSpace(cell))
                 return 0;
-            return int.Parse(cell, CultureInfo.InvariantCulture);
+            if (!int.TryParse(cell, NumberStyles.Integer, CultureInfo.InvariantCulture, out var value))
+                throw new FormatException($"CSV int parse 실패 (line {_lineNumber}, column '{name}', value '{cell}')");
+            return value;
         }
 
         public float Float(string name)

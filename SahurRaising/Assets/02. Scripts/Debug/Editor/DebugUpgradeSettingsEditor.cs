@@ -8,7 +8,7 @@ namespace SahurRaising.Core
 {
     /// <summary>
     /// DebugUpgradeSettings의 커스텀 에디터
-    /// 플레이 모드에서 업그레이드 레벨을 관리할 수 있는 버튼 제공
+    /// 플레이 모드에서 업그레이드 레벨을 관리하고 캐릭터 스탯을 확인할 수 있습니다.
     /// 
     /// 빌드 영향: 없음 (#if UNITY_EDITOR + Editor 폴더)
     /// </summary>
@@ -18,11 +18,13 @@ namespace SahurRaising.Core
         private DebugUpgradeSettings _target;
         private Vector2 _scrollPosition;
         private bool _showAllUpgrades = true;
+        private bool _showStatSnapshot = true;
         private string _filterText = "";
         private UpgradeTier? _tierFilter = null;
         
         // 캐시된 서비스 참조 (플레이 모드 중 유지)
         private IUpgradeService _cachedUpgradeService;
+        private IStatService _cachedStatService;
         private UpgradeTable _cachedUpgradeTable;
         private bool _serviceInitialized = false;
 
@@ -49,6 +51,7 @@ namespace SahurRaising.Core
         private void ClearCache()
         {
             _cachedUpgradeService = null;
+            _cachedStatService = null;
             _cachedUpgradeTable = null;
             _serviceInitialized = false;
         }
@@ -59,7 +62,7 @@ namespace SahurRaising.Core
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("⬆️ Debug Upgrade Controller", EditorStyles.boldLabel);
-            EditorGUILayout.HelpBox("플레이 모드에서 업그레이드 레벨을 관리할 수 있습니다.\n서비스 초기화가 완료되면 자동으로 활성화됩니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("플레이 모드에서 업그레이드 레벨을 관리하고\n캐릭터 스탯 스냅샷을 확인할 수 있습니다.", MessageType.Info);
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -74,9 +77,9 @@ namespace SahurRaising.Core
             }
 
             // 서비스 초기화 체크 (캐싱 활용)
-            if (!TryGetUpgradeService())
+            if (!TryGetServices())
             {
-                EditorGUILayout.HelpBox("⏳ UpgradeService 초기화 대기 중...\n게임이 완전히 초기화될 때까지 잠시 기다려주세요.\n\n(Inspector 창을 클릭하면 수동 갱신됩니다)", MessageType.Warning);
+                EditorGUILayout.HelpBox("⏳ 서비스 초기화 대기 중...\n게임이 완전히 초기화될 때까지 잠시 기다려주세요.\n\n(Inspector 창을 클릭하면 수동 갱신됩니다)", MessageType.Warning);
                 
                 // 수동 갱신 버튼
                 if (GUILayout.Button("🔄 서비스 상태 확인", GUILayout.Height(30)))
@@ -94,15 +97,15 @@ namespace SahurRaising.Core
         }
 
         /// <summary>
-        /// 업그레이드 서비스를 안전하게 가져오기 (캐싱 활용)
+        /// 서비스들을 안전하게 가져오기 (캐싱 활용)
         /// </summary>
-        private bool TryGetUpgradeService()
+        private bool TryGetServices()
         {
             // 이미 초기화되었으면 캐시 사용
             if (_serviceInitialized && _cachedUpgradeService != null && _cachedUpgradeTable != null)
                 return true;
 
-            // 서비스 체크
+            // UpgradeService 체크
             if (!ServiceLocator.HasService<IUpgradeService>())
                 return false;
 
@@ -113,6 +116,10 @@ namespace SahurRaising.Core
             _cachedUpgradeTable = _cachedUpgradeService.GetTable();
             if (_cachedUpgradeTable == null || _cachedUpgradeTable.Index == null)
                 return false;
+
+            // StatService 체크 (선택적 — 없어도 업그레이드 관리는 가능)
+            if (ServiceLocator.HasService<IStatService>())
+                _cachedStatService = ServiceLocator.Get<IStatService>();
 
             _serviceInitialized = true;
             return true;
@@ -177,6 +184,12 @@ namespace SahurRaising.Core
             EditorGUILayout.EndHorizontal();
             
             EditorGUILayout.Space();
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+            // ===== 스탯 스냅샷 섹션 =====
+            DrawStatSnapshot();
+
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
             
             // ===== 필터 섹션 =====
             EditorGUILayout.BeginHorizontal();
@@ -233,6 +246,83 @@ namespace SahurRaising.Core
             {
                 SaveUpgradeState();
             }
+        }
+
+        /// <summary>
+        /// 현재 캐릭터 스탯 스냅샷을 표시하는 섹션
+        /// </summary>
+        private void DrawStatSnapshot()
+        {
+            _showStatSnapshot = EditorGUILayout.Foldout(_showStatSnapshot, "🎯 캐릭터 스탯 스냅샷", true);
+            
+            if (!_showStatSnapshot)
+                return;
+
+            if (_cachedStatService == null)
+            {
+                EditorGUILayout.HelpBox("StatService를 사용할 수 없습니다.", MessageType.Warning);
+                return;
+            }
+
+            var snapshot = _cachedStatService.GetSnapshot();
+
+            // 배경색 설정
+            var bgColor = new Color(0.15f, 0.2f, 0.3f, 0.3f);
+            var boxRect = EditorGUILayout.BeginVertical();
+            EditorGUI.DrawRect(boxRect, bgColor);
+            
+            EditorGUILayout.Space(4);
+
+            // --- 기본 전투 스탯 ---
+            EditorGUILayout.LabelField("⚔️ 기본 전투 스탯", EditorStyles.boldLabel);
+
+            DrawStatRow("캐릭터 레벨", snapshot.CharacterLevel.ToString("N0"));
+            DrawStatRow("공격력 (ATK)", FormatBigNumber(snapshot.Attack));
+            DrawStatRow("최대 HP", FormatBigNumber(snapshot.MaxHP));
+            DrawStatRow("방어력 (DEF)", FormatBigNumber(snapshot.Defense));
+            DrawStatRow("초당 회복량 (HPREC)", FormatBigNumber(snapshot.HealthRegen));
+            
+            EditorGUILayout.Space(4);
+            
+            // --- 공격 관련 스탯 ---
+            EditorGUILayout.LabelField("🎯 공격 관련", EditorStyles.boldLabel);
+            
+            DrawStatRow("공격 속도", $"{snapshot.AttackSpeed:F4}");
+            DrawStatRow("크리티컬 확률", $"{snapshot.CritChance:F2}%");
+            DrawStatRow("크리티컬 배율", $"{snapshot.CritMultiplier:F2}x");
+            DrawStatRow("터치 공격 배율", $"{snapshot.TouchDamageMultiplier:F2}x");
+            DrawStatRow("울트라 크리티컬 확률", $"{snapshot.UltraCritChance:F2}%");
+
+            EditorGUILayout.Space(4);
+            
+            // --- 보너스/비율 스탯 ---
+            EditorGUILayout.LabelField("📈 보너스 스탯", EditorStyles.boldLabel);
+            
+            DrawStatRow("공격력 증가율 (ATKR)", $"{snapshot.AttackRate:F2}%");
+            DrawStatRow("골드 획득 증가 (GOLDR)", $"{snapshot.GoldBonusRate:F2}%");
+            DrawStatRow("미접속 보너스 시간 (OFFT)", $"{snapshot.OfflineTimeMinutes:F1}분");
+            DrawStatRow("미접속 획득량 (OFFA)", $"{snapshot.OfflineAmountRate:F2}%");
+            DrawStatRow("쿨타임 감소 (RCD)", $"{snapshot.CooldownReduction:F4}%");
+            DrawStatRow("공격 보너스 (ATKB)", $"{snapshot.AttackBonus:F2}%");
+            DrawStatRow("크리 데미지 보너스 (CD)", $"{snapshot.CritDamageBonus:F2}%");
+            DrawStatRow("방어력 비율 (DEFR)", $"{snapshot.DefenseRate:F2}%");
+            DrawStatRow("방어 무시 (IGNDEF)", $"{snapshot.DefenseIgnore:F2}%");
+            DrawStatRow("보스 데미지 (BOSS)", $"{snapshot.BossDamageRate:F2}%");
+            DrawStatRow("동시 타겟 수", $"{snapshot.MaxTargetCount}");
+            
+            EditorGUILayout.Space(4);
+            EditorGUILayout.EndVertical();
+        }
+
+        /// <summary>
+        /// 스탯 행 하나를 그리는 헬퍼
+        /// </summary>
+        private void DrawStatRow(string label, string value)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField($"  {label}", GUILayout.Width(200));
+            EditorGUILayout.LabelField(value, EditorStyles.boldLabel);
+            EditorGUILayout.EndHorizontal();
         }
 
         /// <summary>
@@ -305,7 +395,16 @@ namespace SahurRaising.Core
             
             var nextCost = _cachedUpgradeService.GetNextCost(code);
             string costText = isMaxLevel ? "MAX" : $"다음 비용: {FormatBigNumber(nextCost)}";
-            EditorGUILayout.LabelField($"스탯: {upgradeRow.Stat} | {costText}", EditorStyles.miniLabel);
+            
+            // 현재 스탯 값 표시
+            string statText = "";
+            if (_cachedStatService != null)
+            {
+                var statValue = _cachedStatService.GetStatValue(code, currentLevel);
+                statText = $" | 스탯: {FormatBigNumber(statValue)}";
+            }
+            
+            EditorGUILayout.LabelField($"스탯: {upgradeRow.Stat} | {costText}{statText}", EditorStyles.miniLabel);
             EditorGUILayout.EndVertical();
             
             GUILayout.FlexibleSpace();
@@ -387,7 +486,7 @@ namespace SahurRaising.Core
         private string FormatBigNumber(BigDouble value)
         {
             if (value < 1000)
-                return value.ToString("F0");
+                return value.ToString("F2");
             if (value < 1e6)
                 return $"{(value / 1e3):F2}K";
             if (value < 1e9)
@@ -402,3 +501,4 @@ namespace SahurRaising.Core
     }
 }
 #endif
+
