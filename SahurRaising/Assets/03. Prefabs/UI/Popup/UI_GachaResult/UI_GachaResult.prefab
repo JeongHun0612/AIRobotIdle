@@ -664,6 +664,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &1524582871247566143
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,6 +1199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &3949580418548127304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,6 +1390,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &4372868576718630003
 GameObject:
   m_ObjectHideFlags: 0
@@ -2409,8 +2418,6 @@ MonoBehaviour:
   _specialSlotDelay: 0.35
   _specialSlotNextDelay: 0.2
   _progressAnimationDuration: 1
-  _progressTextPulseScale: 1.2
-  _progressTextPulseDuration: 0.1
   _progressTextScaleSize: 1.3
   _progressTextScaleUpDuration: 0.1
   _progressTextScaleDownDuration: 0.15

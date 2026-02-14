@@ -23,6 +23,7 @@ namespace SahurRaising.UI
 
         GachaResult = 30,
         SkillInfo = 31,
+        GachaRateInfo = 32,
 
         AdvanceResult = 40,
         OfflineResult = 41,

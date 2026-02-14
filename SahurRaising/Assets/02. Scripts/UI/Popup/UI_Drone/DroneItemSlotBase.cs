@@ -36,13 +36,13 @@ namespace SahurRaising
 
         protected override string GetRankText(string gradeString)
         {
-            var (_, gradeNumber) = StringUtils.ParseLettersAndNumber(gradeString);
+            var (letters, gradeNumber) = StringUtils.ParseLettersAndNumber(gradeString);
 
             string romanNumeral = NumberFormatUtil.ToRomanNumeral(gradeNumber);
 
             if (!string.IsNullOrEmpty(romanNumeral))
             {
-                return romanNumeral;
+                return romanNumeral + letters;
             }
 
             return gradeString;

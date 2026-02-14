@@ -1,4 +1,5 @@
 ﻿using SahurRaising.Core;
+using SahurRaising.UI;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -18,11 +19,22 @@ namespace SahurRaising
         [Header("봅기 버튼")]
         [SerializeField] private List<GachaButton> _gachaButtons;
 
+        [Header("정보 버튼")]
+        [SerializeField] private Button _infoButton;
 
         private IGachaService _gachaService;
 
         public GachaType GachaType => _gachaType;
 
+        private void Awake()
+        {
+            // InfoButton 클릭 이벤트 등록
+            if (_infoButton != null)
+            {
+                _infoButton.onClick.RemoveAllListeners();
+                _infoButton.onClick.AddListener(OnClickInfo);
+            }
+        }
 
         public void Refresh()
         {
@@ -39,7 +51,7 @@ namespace SahurRaising
             // 레벨 텍스트 업데이트
             if (_levelText != null)
             {
-                _levelText.text = $"Lv.{currentLevel}";
+                _levelText.text = $"Lv {currentLevel}";
             }
 
             // 프로그래스바 업데이트
@@ -78,6 +90,17 @@ namespace SahurRaising
 
             if (_progressText != null)
                 _progressText.text = $"{totalCount}/{nextLevelRequired}";
+        }
+
+        private void OnClickInfo()
+        {
+            // GachaRateInfo 팝업 표시
+            var rateInfoPopup = UIManager.Instance.ShowPopup<UI_GachaRateInfo>(EPopupUIType.GachaRateInfo);
+            if (rateInfoPopup != null)
+            {
+                // 현재 가챠 타입 설정
+                rateInfoPopup.SetGachaType(_gachaType);
+            }
         }
     }
 }

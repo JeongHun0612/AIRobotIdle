@@ -40,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3ea7b984a9715d44dbe066d595641788
+    m_Address: UI_GachaRateInfo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 45012b55604ddcf4096140450e748f58
     m_Address: UI_Main
     m_ReadOnly: 0

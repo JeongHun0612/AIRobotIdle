@@ -87,11 +87,6 @@ namespace SahurRaising
                 _offlineTimeText.text = $"{hours:D2}시{minutes:D2}분 (최대 {maxHours}시간{maxMinutes:D2}분)";
                 _rewardAmountText.text = NumberFormatUtil.FormatBigDouble(info.RewardAmount);
             }
-            else
-            {
-                // 팝업 닫기
-                UIManager.Instance.CloseCurrentPopup();
-            }
         }
 
         public void OnClickClaim()

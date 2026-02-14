@@ -177,6 +177,9 @@ namespace SahurRaising.Core
                 currentLevel++;
             }
 
+            // 데이터 업데이트
+            _gachaData[type] = new GachaTypeSaveData(type, newCount, currentLevel);
+
             // 이벤트 발행
             _eventBus?.Publish(new GachaPullEvent
             {
@@ -185,12 +188,8 @@ namespace SahurRaising.Core
                 Results = results
             });
 
-            // 데이터 업데이트
-            _gachaData[type] = new GachaTypeSaveData(type, newCount, currentLevel);
-
             return results;
         }
-
 
         public void AddResultsToInventory(GachaType type, List<GachaResult> results)
         {
@@ -207,6 +206,40 @@ namespace SahurRaising.Core
             {
                 handler.AddToInventory(result);
             }
+        }
+
+        public List<GachaProbability> GetProbabilitiesForLevel(GachaType type, int level)
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogError("[GachaService] 초기화되지 않았습니다.");
+                return new List<GachaProbability>();
+            }
+
+            if (!_handlers.TryGetValue(type, out var handler))
+            {
+                Debug.LogError($"[GachaService] {type} 타입의 핸들러를 찾을 수 없습니다.");
+                return new List<GachaProbability>();
+            }
+
+            return handler.GetProbabilitiesForLevel(level);
+        }
+
+        public int GetMaxLevel(GachaType type)
+        {
+            if (!IsInitialized)
+            {
+                Debug.LogError("[GachaService] 초기화되지 않았습니다.");
+                return 1;
+            }
+
+            if (!_handlers.TryGetValue(type, out var handler))
+            {
+                Debug.LogError($"[GachaService] {type} 타입의 핸들러를 찾을 수 없습니다.");
+                return 1;
+            }
+
+            return handler.GetMaxLevel();
         }
 
         public async UniTask SaveAsync()

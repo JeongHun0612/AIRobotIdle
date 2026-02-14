@@ -147,18 +147,18 @@ namespace SahurRaising.Core
                     GradeColors = new List<GradeColorEntry>
                     {
                         // 드론 ID 기반 색상 (예시 - 실제 드론 ID에 맞게 조정 필요)
-                        new GradeColorEntry { GradeKey = "1", Color = new Color(0.5f, 0.5f, 0.5f) }, // 회색
-                        new GradeColorEntry { GradeKey = "2", Color = new Color(0.5f, 0.5f, 0.5f) },
-                        new GradeColorEntry { GradeKey = "3", Color = new Color(0.5f, 0.5f, 0.5f) },
-                        new GradeColorEntry { GradeKey = "4", Color = new Color(0.2f, 0.6f, 0.2f) }, // 초록색
-                        new GradeColorEntry { GradeKey = "5", Color = new Color(0.2f, 0.6f, 0.2f) },
-                        new GradeColorEntry { GradeKey = "6", Color = new Color(0.2f, 0.6f, 0.2f) },
-                        new GradeColorEntry { GradeKey = "7", Color = new Color(0.2f, 0.4f, 0.8f) }, // 파란색
-                        new GradeColorEntry { GradeKey = "8", Color = new Color(0.2f, 0.4f, 0.8f) },
-                        new GradeColorEntry { GradeKey = "9", Color = new Color(0.8f, 0.2f, 0.8f) }, // 보라색
-                        new GradeColorEntry { GradeKey = "10A", Color = new Color(1f, 0.84f, 0f) },  // 금색
-                        new GradeColorEntry { GradeKey = "10B", Color = new Color(1f, 0.84f, 0f) },
-                        new GradeColorEntry { GradeKey = "10C", Color = new Color(1f, 0.84f, 0f) }
+                        new GradeColorEntry { GradeKey = "1", Color = new Color(0.647f, 0.635f, 0.569f) },      // 회색
+                        new GradeColorEntry { GradeKey = "2", Color = new Color(0.992f, 0.992f, 0.855f) },     // 연한 노란색
+                        new GradeColorEntry { GradeKey = "3", Color = new Color(0.992f, 0.992f, 0.855f) },
+                        new GradeColorEntry { GradeKey = "4", Color = new Color(0.443f, 0.882f, 0.690f) },     // 초록색
+                        new GradeColorEntry { GradeKey = "5", Color =new Color(0.443f, 0.882f, 0.690f) },
+                        new GradeColorEntry { GradeKey = "6", Color = new Color(0.310f, 0.522f, 0.863f) },     // 파란색
+                        new GradeColorEntry { GradeKey = "7", Color = new Color(0.310f, 0.522f, 0.863f) },
+                        new GradeColorEntry { GradeKey = "8", Color = new Color(0.792f, 0.357f, 1.0f) },       // 보라색
+                        new GradeColorEntry { GradeKey = "9", Color = new Color(0.792f, 0.357f, 1.0f) },
+                        new GradeColorEntry { GradeKey = "10A", Color = new Color(0.973f, 0.914f, 0.227f) },
+                        new GradeColorEntry { GradeKey = "10B", Color = new Color(0.973f, 0.914f, 0.227f) },
+                        new GradeColorEntry { GradeKey = "10C", Color = new Color(0.973f, 0.914f, 0.227f) },
                     },
                     TypeIcons = new List<TypeIconEntry>
                     {
@@ -237,6 +237,9 @@ namespace SahurRaising.Core
             {
                 if (_gradeColorDict == null)
                     BuildDictionary();
+
+                if (string.IsNullOrEmpty(gradeKey))
+                    return Color.white;
 
                 if (_gradeColorDict != null && _gradeColorDict.TryGetValue(gradeKey, out var color))
                 {

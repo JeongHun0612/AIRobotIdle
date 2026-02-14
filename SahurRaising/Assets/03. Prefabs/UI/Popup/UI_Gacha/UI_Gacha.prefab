@@ -633,6 +633,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &5216862943805400981
 GameObject:
   m_ObjectHideFlags: 0

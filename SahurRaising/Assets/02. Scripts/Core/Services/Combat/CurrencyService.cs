@@ -15,6 +15,7 @@ namespace SahurRaising.Core
         private const string SaveFileName = "currency.json";
         private const double BaseGoldPerSecond = 5.0; // 밸런스 확정 시 조정
         private const double DefaultOfflineMinutes = 360d; // 테이블 미적용 시 안전 기본값(분)
+        private const long MinOfflineSeconds = 300; // 최소 오프라인 보상 지급 시간(초) - 5분
 
         private readonly Dictionary<CurrencyType, BigDouble> _balances = new();
         private readonly IEventBus _eventBus;
@@ -101,7 +102,9 @@ namespace SahurRaising.Core
                 return null;
 
             var elapsedSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - _lastSavedUnix;
-            if (elapsedSeconds <= 0)
+
+            // 최소 5분(300초) 이상 오프라인 상태였을 때만 보상 지급
+            if (elapsedSeconds < MinOfflineSeconds)
                 return null;
 
             var snapshot = _statService?.GetSnapshot() ?? default;

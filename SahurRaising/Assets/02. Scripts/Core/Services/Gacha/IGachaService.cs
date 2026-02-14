@@ -61,6 +61,16 @@ namespace SahurRaising.Core
         /// </summary>
         void AddResultsToInventory(GachaType type, List<GachaResult> results);
 
+        /// <summary>
+        /// 특정 레벨의 가챠 확률 정보를 가져옵니다
+        /// </summary>
+        List<GachaProbability> GetProbabilitiesForLevel(GachaType type, int level);
+
+        /// <summary>
+        /// 테이블에 있는 최대 레벨을 반환합니다
+        /// </summary>
+        int GetMaxLevel(GachaType type);
+
         UniTask SaveAsync();
         UniTask LoadAsync();
     }

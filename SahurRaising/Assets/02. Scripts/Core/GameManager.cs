@@ -75,8 +75,17 @@ namespace SahurRaising.Core
                     await UIManager.Instance.ShowSceneWithFadeAsync(ESceneUIType.MainBattle);
                     Debug.Log("[GameManager] 메인 전투 UI 표시 완료");
 
-                    // 오프라인 보상 확인 및 표시
-                    UIManager.Instance.ShowPopup(EPopupUIType.OfflineResult);
+                    // 오프라인 보상 확인 및 표시 (보상이 있을 때만)
+                    if (ServiceLocator.HasService<ICurrencyService>())
+                    {
+                        var currencyService = ServiceLocator.Get<ICurrencyService>();
+                        var offlineRewardInfo = currencyService.GetOfflineRewardInfo();
+
+                        if (offlineRewardInfo.HasValue)
+                        {
+                            UIManager.Instance.ShowPopup(EPopupUIType.OfflineResult);
+                        }
+                    }
                 }
                 else
                 {

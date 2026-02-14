@@ -27,13 +27,10 @@ namespace SahurRaising
 
         public List<GachaResult> Pull(int level, int count)
         {
-            var maxLevel = _levelConfig.GetMaxLevel(GachaType.Equipment);
-            var probabilities = _gachaEquipmentTable.GetProbabilitiesForLevel(level, maxLevel);
-
             var results = new List<GachaResult>();
             for (int i = 0; i < count; i++)
             {
-                var selectedGrade = SelectGrade(probabilities);
+                var selectedGrade = _gachaEquipmentTable.DrawGrade(level);
                 var equipmentList = _equipmentTable?.GetByGrade(selectedGrade);
 
                 if (equipmentList == null || equipmentList.Count == 0)
@@ -74,43 +71,14 @@ namespace SahurRaising
             _equipmentService?.AddToInventory(result.ItemCode, 1);
         }
 
-        private EquipmentGrade SelectGrade(List<GradeProbability> probabilities)
+        public List<GachaProbability> GetProbabilitiesForLevel(int level)
         {
-            if (probabilities == null || probabilities.Count == 0)
-            {
-                Debug.LogWarning("[EquipmentGachaHandler] 확률 리스트가 비어있습니다.");
-                return EquipmentGrade.F;
-            }
+            return _gachaEquipmentTable.GetProbabilitiesForLevel(level);
+        }
 
-            float totalProb = 0f;
-            foreach (var gradeProb in probabilities)
-            {
-                if (gradeProb.Probability > 0)
-                    totalProb += gradeProb.Probability;
-            }
-
-            if (totalProb <= 0)
-            {
-                Debug.LogWarning("[EquipmentGachaHandler] 전체 확률이 0입니다.");
-                return EquipmentGrade.F;
-            }
-
-            var random = UnityEngine.Random.Range(0f, totalProb);
-            float accumulated = 0f;
-
-            foreach (var gradeProb in probabilities)
-            {
-                if (gradeProb.Probability > 0)
-                {
-                    accumulated += gradeProb.Probability;
-                    if (random <= accumulated)
-                    {
-                        return gradeProb.Grade;
-                    }
-                }
-            }
-
-            return EquipmentGrade.F;
+        public int GetMaxLevel()
+        {
+            return _gachaEquipmentTable.GetMaxLevel();
         }
     }
 }

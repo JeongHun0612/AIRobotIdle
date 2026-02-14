@@ -14,6 +14,7 @@ namespace SahurRaising
         [SerializeField] private List<AdvanceResultItemSlot> _itemSlots = new List<AdvanceResultItemSlot>();
 
         private IConfigService _configService;
+        private IGachaService _gachaService;
 
         public async override UniTask InitializeAsync()
         {
@@ -37,7 +38,12 @@ namespace SahurRaising
                 _configService = ServiceLocator.Get<IConfigService>();
             }
 
-            return _configService != null;
+            if (_gachaService == null && ServiceLocator.HasService<IGachaService>())
+            {
+                _gachaService = ServiceLocator.Get<IGachaService>();
+            }
+
+            return _configService != null && _gachaService != null;
         }
 
         public void SetAdvanceResult(AdvanceResult? result)
@@ -63,6 +69,9 @@ namespace SahurRaising
                 return;
             }
 
+            if (!TryBindService())
+                return;
+
             int resultCount = results.Count;
             int slotCount = _itemSlots.Count;
 
@@ -71,9 +80,14 @@ namespace SahurRaising
             {
                 if (i < resultCount)
                 {
+                    var result = results[i];
+
+                    // 각 결과의 타입에 맞는 전략 가져오기
+                    var strategy = _gachaService.GetResultStrategy(result.Type);
+
                     // 슬롯 활성화 및 데이터 전달
                     _itemSlots[i].gameObject.SetActive(true);
-                    _itemSlots[i].UpdateUI(results[i]);
+                    _itemSlots[i].UpdateUI(result, _configService, strategy);
                 }
                 else
                 {

@@ -333,13 +333,21 @@ namespace SahurRaising
             if (_gachaService == null || _gachaService.LevelConfig == null)
                 return;
 
-            int beforeLevel = _gachaService.GetGachaLevel(gachaType);  // 뽑기 전 레벨
+            // 현재 상태
+            int currentLevel = _gachaService.GetGachaLevel(gachaType);
+            int currentCount = _gachaService.GetGachaCount(gachaType);
             int maxLevel = _gachaService.LevelConfig.GetMaxLevel(gachaType);
+
+            // 뽑기 전 상태 역산
+            int pulledCount = _currentEvent.Count;
+            bool isLevelUp = (currentCount - pulledCount) < 0;
+
+            int beforeLevel = (isLevelUp) ? currentLevel - 1 : currentLevel;
 
             // 레벨 텍스트 설정
             if (_levelText != null)
             {
-                _levelText.text = $"Lv.{beforeLevel}";
+                _levelText.text = $"Lv {beforeLevel}";
             }
 
             // 최대 레벨인 경우
@@ -356,14 +364,11 @@ namespace SahurRaising
                 return;
             }
 
-            int beforeCount = _gachaService.GetGachaCount(gachaType);
-            int afterCount = beforeCount + _currentEvent.Count;
-
             // 다음 레벨에 필요한 갯수
             int nextLevelRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, beforeLevel + 1);
-            bool isLevelUp = afterCount > nextLevelRequiredCount;
-
-            int afterLevel = (isLevelUp) ? beforeLevel + 1 : beforeLevel;
+            int beforeCount = currentCount - pulledCount;
+            if (isLevelUp)
+                beforeCount = beforeCount + nextLevelRequiredCount;
 
             // 갯수 텍스트 설정
             if (_progressText != null)
@@ -377,9 +382,9 @@ namespace SahurRaising
                 int totalPulledCount = _currentEvent.Count;
 
                 // 이전 레벨에서 남은 개수 (레벨업까지 필요한 개수)
-                int remainingCountInPreviousLevel = nextLevelRequiredCount - beforeCount;
+                int remainingCountInPreviousLevel = totalPulledCount - currentCount;
                 // 새 레벨에서의 개수 (레벨업 후 남은 개수)
-                int countInNewLevel = afterCount - nextLevelRequiredCount;
+                int countInNewLevel = currentCount;
 
                 float firstStageRatio = 0f;
                 float secondStageRatio = 0f;
@@ -401,12 +406,12 @@ namespace SahurRaising
                     {
                         if (_levelText != null)
                         {
-                            _levelText.text = $"Lv.{afterLevel}";
+                            _levelText.text = $"Lv {currentLevel}";
                         }
 
                         AnimateLevelText();
 
-                        if (afterLevel >= maxLevel)
+                        if (currentLevel >= maxLevel)
                         {
                             if (_frontProgressSlider != null)
                                 _frontProgressSlider.value = 1f;
@@ -418,7 +423,7 @@ namespace SahurRaising
                         }
 
                         // 두 번째 단계: 새 레벨에서 0부터 최종 진행도까지
-                        int newLevelNextRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, afterLevel + 1);
+                        int newLevelNextRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, currentLevel + 1);
                         float secondStartProgress = 0f;
                         float secondTargetProgress = Mathf.Clamp01((float)countInNewLevel / newLevelNextRequiredCount);
 
@@ -429,7 +434,7 @@ namespace SahurRaising
                 AnimateProgressText(beforeCount, nextLevelRequiredCount, nextLevelRequiredCount, firstStageDuration,
                     (tween) =>
                     {
-                        if (afterLevel >= maxLevel)
+                        if (currentLevel >= maxLevel)
                         {
                             if (_progressText != null)
                                 _progressText.text = "MAX";
@@ -438,7 +443,7 @@ namespace SahurRaising
                         }
 
                         // 두 번째 단계 텍스트 애니메이션
-                        int newLevelNextRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, afterLevel + 1);
+                        int newLevelNextRequiredCount = _gachaService.GetRequiredCountForLevel(gachaType, currentLevel + 1);
                         AnimateProgressText(0, countInNewLevel, newLevelNextRequiredCount, secondStageDuration, null);
 
                     });
@@ -447,9 +452,9 @@ namespace SahurRaising
             {
                 // 레벨업 없이 같은 레벨 내에서 진행
                 float startProgress = Mathf.Clamp01((float)beforeCount / nextLevelRequiredCount);
-                float targetProgress = Mathf.Clamp01((float)afterCount / nextLevelRequiredCount);
+                float targetProgress = Mathf.Clamp01((float)currentCount / nextLevelRequiredCount);
                 AnimateProgressBar(startProgress, targetProgress, _progressAnimationDuration);
-                AnimateProgressText(beforeCount, afterCount, nextLevelRequiredCount, _progressAnimationDuration);
+                AnimateProgressText(beforeCount, currentCount, nextLevelRequiredCount, _progressAnimationDuration);
             }
         }
 

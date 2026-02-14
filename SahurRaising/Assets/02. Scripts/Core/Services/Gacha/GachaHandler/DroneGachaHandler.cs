@@ -21,12 +21,10 @@ namespace SahurRaising
 
         public List<GachaResult> Pull(int level, int count)
         {
-            var probabilities = _gachaDroneTable.GetProbabilitiesForLevel(level);
-
             var results = new List<GachaResult>();
             for (int i = 0; i < count; i++)
             {
-                var selectedDroneID = SelectDroneID(probabilities);
+                var selectedDroneID = _gachaDroneTable.DrawDroneID(level);
 
                 // 드론 정보 가져오기
                 if (_droneService.TryGetByID(selectedDroneID, out var drone))
@@ -60,43 +58,14 @@ namespace SahurRaising
             _droneService?.AddToInventory(result.ItemCode, 1);
         }
 
-        private string SelectDroneID(List<DroneProbability> probabilities)
+        public List<GachaProbability> GetProbabilitiesForLevel(int level)
         {
-            if (probabilities == null || probabilities.Count == 0)
-            {
-                Debug.LogWarning("[DroneGachaHandler] 확률 리스트가 비어있습니다.");
-                return "";
-            }
+            return _gachaDroneTable.GetProbabilitiesForLevel(level);
+        }
 
-            float totalProb = 0f;
-            foreach (var droneProb in probabilities)
-            {
-                if (droneProb.Probability > 0)
-                    totalProb += droneProb.Probability;
-            }
-
-            if (totalProb <= 0)
-            {
-                Debug.LogWarning("[DroneGachaHandler] 전체 확률이 0입니다.");
-                return "";
-            }
-
-            var random = UnityEngine.Random.Range(0f, totalProb);
-            float accumulated = 0f;
-
-            foreach (var droneProb in probabilities)
-            {
-                if (droneProb.Probability > 0)
-                {
-                    accumulated += droneProb.Probability;
-                    if (random <= accumulated)
-                    {
-                        return droneProb.ID;
-                    }
-                }
-            }
-
-            return "";
+        public int GetMaxLevel()
+        {
+            return _gachaDroneTable.GetMaxLevel();
         }
     }
 }

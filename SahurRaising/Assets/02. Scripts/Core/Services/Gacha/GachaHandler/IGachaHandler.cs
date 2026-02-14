@@ -14,14 +14,21 @@ namespace SahurRaising
         /// <summary>
         /// 가챠를 뽑습니다
         /// </summary>
-        /// <param name="level">현재 가챠 레벨</param>
-        /// <param name="count">뽑기 횟수</param>
-        /// <returns>뽑기 결과 리스트</returns>
         List<GachaResult> Pull(int level, int count);
 
         /// <summary>
         /// 결과를 인벤토리에 추가합니다
         /// </summary>
         void AddToInventory(GachaResult result);
+
+        /// <summary>
+        /// 특정 레벨의 확률 정보를 가져옵니다
+        /// </summary>
+        List<GachaProbability> GetProbabilitiesForLevel(int level);
+
+        /// <summary>
+        /// 테이블에 있는 최대 레벨을 반환합니다
+        /// </summary>
+        int GetMaxLevel();
     }
 }

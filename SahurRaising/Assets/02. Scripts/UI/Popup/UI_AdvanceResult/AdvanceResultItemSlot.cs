@@ -1,4 +1,5 @@
 ﻿using SahurRaising.Core;
+using SahurRaising.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,26 +14,24 @@ namespace SahurRaising
         [SerializeField] private TMP_Text _gradeText;
         [SerializeField] private TMP_Text _countText;
 
-        private IConfigService _configService;
+        [Header("잼 아이콘")]
+        [SerializeField] private GameObject[] _gemIcons;
 
-        public void UpdateUI(AdvanceResult result)
+        public void UpdateUI(AdvanceResult result, IConfigService configService, IGachaResultStrategy strategy)
         {
             if (string.IsNullOrEmpty(result.ItemCode))
                 return;
 
-            if (_configService == null)
-                _configService = ServiceLocator.Get<IConfigService>();
-
-            if (_configService == null || _configService.ItemVisualConfig == null)
+            if (configService == null || configService.ItemVisualConfig == null)
             {
-                Debug.LogWarning("[GachaSlot] ItemVisualConfig를 찾을 수 없습니다.");
+                Debug.LogWarning("[AdvanceResultItemSlot] ItemVisualConfig를 찾을 수 없습니다.");
                 return;
             }
 
             // 배경 색깔 설정
             if (_bgImage != null)
             {
-                _bgImage.color = _configService.GetColorForGrade(result.Type, result.GradeKey);
+                _bgImage.color = configService.GetColorForGrade(result.Type, result.GradeKey);
             }
 
             // 아이콘 설정
@@ -44,15 +43,53 @@ namespace SahurRaising
             }
 
             // 등급 텍스트 설정
-            if (_gradeText != null)
-            {
-                _gradeText.text = result.GradeKey;
-            }
+            UpdateGradeText(result.GradeKey, strategy);
 
             // 수량 텍스트 설정
             if (_countText != null)
             {
                 _countText.text = result.Count.ToString();
+            }
+
+            // 잼 아이콘 설정
+            UpdateGemIcons(result.GradeKey, strategy);
+        }
+
+        private void UpdateGradeText(string gradeKey, IGachaResultStrategy strategy)
+        {
+            if (_gradeText == null || string.IsNullOrEmpty(gradeKey))
+                return;
+
+            if (strategy != null)
+            {
+                _gradeText.text = strategy.FormatGradeText(gradeKey);
+            }
+            else
+            {
+                _gradeText.text = gradeKey;
+            }
+        }
+
+        private void UpdateGemIcons(string gradeKey, IGachaResultStrategy strategy)
+        {
+            if (_gemIcons == null || _gemIcons.Length == 0 || string.IsNullOrEmpty(gradeKey))
+                return;
+
+            int gemCount = 0;
+            if (strategy != null)
+            {
+                gemCount = strategy.GetGemCount(gradeKey);
+            }
+
+            if (gemCount > 0)
+                gemCount = 4 - gemCount;
+
+            for (int i = 0; i < _gemIcons.Length; i++)
+            {
+                if (_gemIcons[i] != null)
+                {
+                    _gemIcons[i].SetActive(i < gemCount);
+                }
             }
         }
     }

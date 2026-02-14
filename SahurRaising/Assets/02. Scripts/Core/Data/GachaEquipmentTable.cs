@@ -9,31 +9,65 @@ namespace SahurRaising.Core
         protected override int GetKey(GachaEquipmentRow value) => value.Level;
 
         /// <summary>
+        /// 테이블에 있는 최대 레벨을 반환합니다
+        /// </summary>
+        public int GetMaxLevel()
+        {
+            if (Index == null || Index.Count == 0)
+                return 1;
+
+            int maxLevel = 1;
+            foreach (var key in Index.Keys)
+            {
+                if (key > maxLevel)
+                    maxLevel = key;
+            }
+
+            return maxLevel;
+        }
+
+        /// <summary>
         /// 특정 레벨에 따른 장비 등급별 확률 리스트를 반환합니다. (UI 표시용)
         /// </summary>
         /// <param name="level">가챠 레벨 (1부터 시작)</param>
-        /// <param name="maxLevel">최대 레벨</param>
-        /// <returns>등급별 확률 리스트</returns>
-        public List<GradeProbability> GetProbabilitiesForLevel(int level, int maxLevel)
+        /// <returns>등급별 확률 리스트 (확률이 0보다 큰 항목만)</returns>
+        public List<GachaProbability> GetProbabilitiesForLevel(int level)
         {
+            int maxLevel = GetMaxLevel();
             var clampedLevel = Mathf.Clamp(level, 1, maxLevel);
 
             if (Index.TryGetValue(clampedLevel, out var row))
             {
-                return row.Probabilities ?? new List<GradeProbability>();
+                if (row.Probabilities == null || row.Probabilities.Count == 0)
+                    return new List<GachaProbability>();
+
+                // EquipmentProbability를 GachaProbability로 변환
+                var result = new List<GachaProbability>();
+                foreach (var prob in row.Probabilities)
+                {
+                    if (prob.Probability > 0)
+                    {
+                        result.Add(new GachaProbability
+                        {
+                            GradeKey = prob.Grade.ToString(),
+                            Probability = prob.Probability
+                        });
+                    }
+                }
+                return result;
             }
 
-            return new List<GradeProbability>();
+            return new List<GachaProbability>();
         }
 
         /// <summary>
         /// 확률에 따라 등급을 뽑습니다.
         /// </summary>
         /// <param name="level">가챠 레벨 (1부터 시작)</param>
-        /// <param name="maxLevel">최대 레벨</param>
         /// <returns>뽑힌 등급</returns>
-        public EquipmentGrade DrawGrade(int level, int maxLevel)
+        public EquipmentGrade DrawGrade(int level)
         {
+            int maxLevel = GetMaxLevel();
             var clampedLevel = Mathf.Clamp(level, 1, maxLevel);
 
             if (!Index.TryGetValue(clampedLevel, out var row) || row.Probabilities == null || row.Probabilities.Count == 0)
@@ -61,14 +95,14 @@ namespace SahurRaising.Core
             float accumulated = 0f;
             EquipmentGrade selectedGrade = EquipmentGrade.F;
 
-            foreach (var gradeProb in row.Probabilities)
+            foreach (var prob in row.Probabilities)
             {
-                if (gradeProb.Probability > 0)
+                if (prob.Probability > 0)
                 {
-                    accumulated += gradeProb.Probability;
+                    accumulated += prob.Probability;
                     if (random <= accumulated)
                     {
-                        selectedGrade = gradeProb.Grade;
+                        selectedGrade = prob.Grade;
                         break;
                     }
                 }

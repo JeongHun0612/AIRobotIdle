@@ -452,7 +452,7 @@ public static class DataTableBuilder
         var path = Path.Combine(CsvPath, "AI 로봇 키우기 DB - Gacha_Equipment.csv");
 
         // CSV를 읽어서 레벨별로 그룹화
-        var levelData = new Dictionary<int, List<GradeProbability>>();
+        var levelData = new Dictionary<int, List<EquipmentProbability>>();
 
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
         {
@@ -466,9 +466,9 @@ public static class DataTableBuilder
                     if (prob >= 0)
                     {
                         if (!levelData.ContainsKey(level))
-                            levelData[level] = new List<GradeProbability>();
+                            levelData[level] = new List<EquipmentProbability>();
 
-                        levelData[level].Add(new GradeProbability
+                        levelData[level].Add(new EquipmentProbability
                         {
                             Grade = grade,
                             Probability = prob

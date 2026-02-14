@@ -310,11 +310,11 @@ namespace SahurRaising.Core
     public struct GachaEquipmentRow
     {
         public int Level;
-        public List<GradeProbability> Probabilities;
+        public List<EquipmentProbability> Probabilities;
     }
 
     [Serializable]
-    public struct GradeProbability
+    public struct EquipmentProbability
     {
         public EquipmentGrade Grade;
         public float Probability;
@@ -331,6 +331,13 @@ namespace SahurRaising.Core
     public struct DroneProbability
     {
         public string ID;
+        public float Probability;
+    }
+
+    [Serializable]
+    public struct GachaProbability
+    {
+        public string GradeKey;
         public float Probability;
     }
 

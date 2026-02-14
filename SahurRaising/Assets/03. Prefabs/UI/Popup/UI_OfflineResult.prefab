@@ -641,6 +641,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &2520864111311306027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,6 +1144,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &3693243069149920786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,6 +1298,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &3930590367430670422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,6 +1667,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &6542373242740923515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,7 +1946,7 @@ MonoBehaviour:
   m_text: "12\uC2DC\uAC04 0\uBD84 (\uCD5C\uB300 12\uC2DC\uAC04)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 654614dfd5a9dbf43801cd2b9538e82e, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 8ade2d0435d706d4b967a8c1a453e62f, type: 2}
+  m_sharedMaterial: {fileID: -5595064406802114900, guid: 654614dfd5a9dbf43801cd2b9538e82e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2016,6 +2028,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &7516332048580078737
 GameObject:
   m_ObjectHideFlags: 0
@@ -2595,6 +2610,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   koreanEnglishFont: {fileID: 0}
   cjkFont: {fileID: 0}
+  useCustomMaterial: 0
+  koreanEnglishMaterial: {fileID: 0}
+  cjkMaterial: {fileID: 0}
 --- !u!1 &9159166302006123490
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ namespace SahurRaising.Core
     {
         public GachaType Type => GachaType.Drone;
 
-        private const int HIGH_GRADE_THRESHOLD = 5;
+        private const int HIGH_GRADE_THRESHOLD = 6;
 
         private IDroneService _droneService;
 
@@ -66,16 +66,16 @@ namespace SahurRaising.Core
             if (string.IsNullOrEmpty(gradeKey))
                 return string.Empty;
 
-            // 숫자를 로마 숫자로 변환 (예: "5" → "V")
-            if (int.TryParse(gradeKey, out int gradeNumber))
-            {
-                string romanNumeral = NumberFormatUtil.ToRomanNumeral(gradeNumber);
-                if (!string.IsNullOrEmpty(romanNumeral))
-                {
-                    return romanNumeral;
-                }
-            }
+            var (letters, gradeNumber) = StringUtils.ParseLettersAndNumber(gradeKey);
 
+            // 숫자를 로마 숫자로 변환 (예: "5" → "V")
+            string romanNumeral = NumberFormatUtil.ToRomanNumeral(gradeNumber);
+
+            if (!string.IsNullOrEmpty(romanNumeral))
+            {
+                return romanNumeral + letters;
+            }
+            
             // 변환 실패 시 원본 반환
             return gradeKey;
         }
