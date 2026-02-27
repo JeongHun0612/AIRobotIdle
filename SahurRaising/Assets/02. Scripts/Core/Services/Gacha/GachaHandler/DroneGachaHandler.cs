@@ -1,4 +1,5 @@
-﻿using SahurRaising.Core;
+﻿using Cysharp.Threading.Tasks;
+using SahurRaising.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,11 @@ namespace SahurRaising
             _gachaDroneTable = gachaDroneTable;
             _droneTable = droneTable;
             _droneService = droneService;
+        }
+
+        public UniTask InitializeRemoteConfigAsync(IRemoteConfigService remoteConfigService)
+        {
+            throw new System.NotImplementedException();
         }
 
         public List<GachaResult> Pull(int level, int count)

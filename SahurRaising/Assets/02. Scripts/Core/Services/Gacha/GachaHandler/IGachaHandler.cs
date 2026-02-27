@@ -1,4 +1,5 @@
-﻿using SahurRaising.Core;
+﻿using Cysharp.Threading.Tasks;
+using SahurRaising.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +12,11 @@ namespace SahurRaising
     {
         GachaType Type { get; }
 
+        // RemoteConfig 초기화
+        UniTask InitializeRemoteConfigAsync(IRemoteConfigService remoteConfigService);
+
         /// <summary>
-        /// 가챠를 뽑습니다
+        /// 가챠를 뽑습니다 (내부 로직 처리)
         /// </summary>
         List<GachaResult> Pull(int level, int count);
 

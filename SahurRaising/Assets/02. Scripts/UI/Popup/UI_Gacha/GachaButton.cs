@@ -33,6 +33,7 @@ namespace SahurRaising
 
         private IGachaService _gachaService;
         private ICurrencyService _currencyService;
+        private ICloudCodeService _cloudCodeService;
 
         public GachaType GachaType => _gachaType;
         public int PullCount => _pullCount;
@@ -82,7 +83,12 @@ namespace SahurRaising
                 _currencyService = ServiceLocator.Get<ICurrencyService>();
             }
 
-            return _gachaService != null && _currencyService != null;
+            if (_cloudCodeService == null && ServiceLocator.HasService<ICloudCodeService>())
+            {
+                _cloudCodeService = ServiceLocator.Get<ICloudCodeService>();
+            }
+
+            return _gachaService != null && _currencyService != null && _cloudCodeService != null;
         }
 
         private void UpdateButtonState()
@@ -103,8 +109,42 @@ namespace SahurRaising
             }
         }
 
-        public void OnClick()
+        public async void OnClick()
         {
+            //if (_cloudCodeService == null)
+            //    _cloudCodeService = ServiceLocator.Get<ICloudCodeService>();
+
+            //if (_cloudCodeService == null)
+            //{
+            //    Debug.LogWarning("[GachaButton] CloudCodeService를 찾을 수 없습니다.");
+            //    return;
+            //}
+
+            //// RollDice Cloud Code 함수 호출 테스트
+            //try
+            //{
+            //    Debug.Log("[GachaButton] RollDice Cloud Code 함수 호출 시작...");
+
+            //    var request = new RollDiceRequest();
+            //    var response = await _cloudCodeService.CallFunctionAsync<RollDiceRequest, RollDiceResponse>(
+            //        "RollDice",
+            //        request);
+
+            //    if (response != null)
+            //    {
+            //        Debug.Log($"[GachaButton] RollDice 결과: sides={response.sides}, roll={response.roll}");
+            //    }
+            //    else
+            //    {
+            //        Debug.LogError("[GachaButton] RollDice 응답이 null입니다.");
+            //    }
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    Debug.LogError($"[GachaButton] RollDice 호출 중 오류 발생: {ex.Message}");
+            //}
+
+
             if (_gachaService == null)
                 _gachaService = ServiceLocator.Get<IGachaService>();
 
@@ -119,6 +159,7 @@ namespace SahurRaising
 
             // UI 갱신
             Refresh();
+
         }
     }
 }

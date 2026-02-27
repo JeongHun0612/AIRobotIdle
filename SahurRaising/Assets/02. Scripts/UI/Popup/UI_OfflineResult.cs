@@ -1,8 +1,8 @@
-﻿using BreakInfinity;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using SahurRaising.Core;
 using SahurRaising.UI;
 using SahurRaising.Utils;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,8 +19,10 @@ namespace SahurRaising
         [SerializeField] private Button _claimButton;
         [SerializeField] private Button _claimDoubleButton; // 광고 2배 수령 버튼
 
-        private ICurrencyService _currencyService;
         private OfflineRewardInfo? _offlineRewardInfo;
+
+        private ICurrencyService _currencyService;
+        private IAdvertisementService _advertisementService;
 
         public override async UniTask InitializeAsync()
         {
@@ -64,7 +66,12 @@ namespace SahurRaising
                 _currencyService = ServiceLocator.Get<ICurrencyService>();
             }
 
-            return _currencyService != null;
+            if (_advertisementService == null && ServiceLocator.HasService<IAdvertisementService>())
+            {
+                _advertisementService = ServiceLocator.Get<IAdvertisementService>();
+            }
+
+            return _currencyService != null && _advertisementService != null;
         }
 
         private void UpdateOfflineRewardInfo()
@@ -105,18 +112,32 @@ namespace SahurRaising
             UIManager.Instance.CloseCurrentPopup();
         }
 
-        public void OnClickClaimDouble()
+        public async void OnClickClaimDouble()
         {
-            if (!_offlineRewardInfo.HasValue || _currencyService == null)
+            if (!_offlineRewardInfo.HasValue || _currencyService == null || _advertisementService == null)
                 return;
 
-            // TODO: 광고 기능 구현
+            var rewardAmount = _offlineRewardInfo.Value.RewardAmount;
 
-            // 광고 시청 후 2배 보상 지급
-            var rewardAmount = _offlineRewardInfo.Value.RewardAmount * 2;
+            try
+            {
+                bool completed = await _advertisementService.ShowRewardedAdAsync(AdKey.Rewarded_Default);
+                if (completed)
+                {
+                    rewardAmount *= 2;
+                }
+                Debug.Log($"[UI_OfflineResult] 오프라인 보상 2배 수령: {rewardAmount}");
+            }
+            catch (TimeoutException)
+            {
+                Debug.LogWarning("[UI_OfflineResult] 광고 응답 시간 초과. 기본 보상만 지급합니다.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[UI_OfflineResult] 광고 시청 실패: {ex.Message}");
+            }
+
             _currencyService.Add(CurrencyType.Gold, rewardAmount, "OfflineReward_Double");
-
-            Debug.Log($"[UI_OfflineResult] 오프라인 보상 2배 수령: {rewardAmount}");
 
             // 팝업 닫기
             UIManager.Instance.CloseCurrentPopup();

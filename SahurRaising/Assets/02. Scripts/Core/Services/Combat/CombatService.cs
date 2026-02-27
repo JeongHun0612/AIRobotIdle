@@ -19,7 +19,7 @@ namespace SahurRaising.Core
     public class CombatService : ICombatService
     {
         private const string MonsterTableKey = nameof(MonsterTable);
-        private const string SaveFileName = "combat.json";
+        private const string SaveKey = "combat";
         private const double EliteHpMultiplier = 10d;
         private const double BossHpMultiplier = 20d;
         private const float EliteTimeLimit = 20f;
@@ -38,6 +38,7 @@ namespace SahurRaising.Core
         private readonly IEventBus _eventBus;
         private readonly IStatService _statService;
         private readonly ICurrencyService _currencyService;
+        private readonly IDataService _dataService;
 
         private MonsterTable _monsterTable;
         private CharacterStats _stats;
@@ -69,12 +70,14 @@ namespace SahurRaising.Core
             IResourceService resourceService,
             IEventBus eventBus,
             IStatService statService,
-            ICurrencyService currencyService)
+            ICurrencyService currencyService,
+            IDataService dataService)
         {
             _resourceService = resourceService;
             _eventBus = eventBus;
             _statService = statService;
             _currencyService = currencyService;
+            _dataService = dataService;
         }
 
         #region Initialization
@@ -523,9 +526,8 @@ namespace SahurRaising.Core
                     IsStageRunning = _isStageRunning
                 };
 
-                var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
-                await File.WriteAllTextAsync(path, json);
+                await _dataService.SaveAsync(SaveKey, json);
                 Debug.Log($"[CombatService] 진행도 저장 완료: stage {_stageIndex}, wave {_waveIndex}");
             }
             catch (Exception ex)
@@ -538,15 +540,14 @@ namespace SahurRaising.Core
         {
             try
             {
-                var path = GetSavePath();
-                if (!File.Exists(path))
+                var json = await _dataService.LoadAsync(SaveKey);
+                if (string.IsNullOrEmpty(json))
                 {
                     Debug.Log("[CombatService] 저장 파일이 없어 기본 진행도로 초기화합니다.");
                     await SaveAsync();
                     return;
                 }
 
-                var json = await File.ReadAllTextAsync(path);
                 var data = JsonUtility.FromJson<CombatSaveData>(json);
                 if (data == null)
                     return;
@@ -562,11 +563,6 @@ namespace SahurRaising.Core
                 _waveIndex = 1;
                 _isStageRunning = false;
             }
-        }
-
-        private string GetSavePath()
-        {
-            return Path.Combine(Application.persistentDataPath, SaveFileName);
         }
 
         private void RefreshStats()

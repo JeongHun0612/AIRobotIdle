@@ -14,12 +14,13 @@ namespace SahurRaising.Core
     {
         public event Action OnUpgradeChanged;
 
-        private const string SaveFileName = "upgrades.json";
+        private const string SaveKey = "upgrades";
         private const string UpgradeTableKey = nameof(UpgradeTable);
 
         private readonly IResourceService _resourceService;
         private readonly ICurrencyService _currencyService;
         private readonly IStatService _statService;
+        private readonly IDataService _dataService;
 
         private readonly Dictionary<string, int> _levels = new();
         private UpgradeTable _upgradeTable;
@@ -27,11 +28,13 @@ namespace SahurRaising.Core
         public UpgradeService(
             IResourceService resourceService,
             ICurrencyService currencyService,
-            IStatService statService)
+            IStatService statService,
+            IDataService dataService)
         {
             _resourceService = resourceService;
             _currencyService = currencyService;
             _statService = statService;
+            _dataService = dataService;
         }
 
         public async UniTask InitializeAsync()
@@ -135,10 +138,9 @@ namespace SahurRaising.Core
                     });
                 }
 
-                var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
-                await File.WriteAllTextAsync(path, json);
-                Debug.Log($"[UpgradeService] 저장 완료: {path}");
+                await _dataService.SaveAsync(SaveKey, json);
+                Debug.Log($"[UpgradeService] 저장 완료: {SaveKey}");
             }
             catch (Exception ex)
             {
@@ -152,15 +154,14 @@ namespace SahurRaising.Core
 
             try
             {
-                var path = GetSavePath();
-                if (!File.Exists(path))
+                var json = await _dataService.LoadAsync(SaveKey);
+                if (string.IsNullOrEmpty(json))
                 {
                     Debug.Log("[UpgradeService] 저장 파일이 없어 기본값으로 초기화합니다.");
                     await SaveAsync();
                     return;
                 }
 
-                var json = await File.ReadAllTextAsync(path);
                 var data = JsonUtility.FromJson<UpgradeSaveData>(json);
                 if (data?.Levels == null)
                     return;
@@ -280,11 +281,6 @@ namespace SahurRaising.Core
             _statService.ApplyUpgrades(_levels);
             OnUpgradeChanged?.Invoke();
             Debug.Log($"[UpgradeService] 모든 업그레이드 최대 레벨 설정 완료 ({_upgradeTable.Index.Count}개)");
-        }
-
-        private string GetSavePath()
-        {
-            return Path.Combine(Application.persistentDataPath, SaveFileName);
         }
 
         private readonly struct UpgradeCostBreakdown

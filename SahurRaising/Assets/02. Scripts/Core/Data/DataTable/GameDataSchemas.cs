@@ -97,15 +97,6 @@ namespace SahurRaising.Core
         ShopType5,
     }
 
-    public enum GachaType
-    {
-        Equipment,  // 장비 뽑기 (다이아몬드 사용)
-        Drone,      // 드론 뽑기 (에메랄드 사용)
-
-
-        None = 10000,
-    }
-
     [Serializable]
     public struct MonsterRow
     {
@@ -307,42 +298,6 @@ namespace SahurRaising.Core
     }
 
     [Serializable]
-    public struct GachaEquipmentRow
-    {
-        public int Level;
-        public List<EquipmentProbability> Probabilities;
-    }
-
-    [Serializable]
-    public struct EquipmentProbability
-    {
-        public EquipmentGrade Grade;
-        public float Probability;
-    }
-
-    [Serializable]
-    public struct GachaDroneRow
-    {
-        public int Level;
-        public List<DroneProbability> Probabilities;
-    }
-
-    [Serializable]
-    public struct DroneProbability
-    {
-        public string ID;
-        public float Probability;
-    }
-
-    [Serializable]
-    public struct GachaProbability
-    {
-        public string GradeKey;
-        public float Probability;
-    }
-
-
-    [Serializable]
     public class CurrencySaveData
     {
         public string Gold;
@@ -456,27 +411,6 @@ namespace SahurRaising.Core
         public List<string> UnlockedSkillIDs = new();
         public List<ResearchInfo> ResearchingSkills = new();
         public List<string> NewSkillIDs = new();
-    }
-
-    [Serializable]
-    public struct GachaTypeSaveData
-    {
-        public GachaType Type;
-        public int Count;
-        public int Level;
-
-        public GachaTypeSaveData(GachaType type, int count, int level)
-        {
-            Type = type;
-            Count = count;
-            Level = level;
-        }
-    }
-
-    [Serializable]
-    public class GachaSaveData
-    {
-        public List<GachaTypeSaveData> GachaDataList = new();
     }
 
     [Serializable]

@@ -8,7 +8,7 @@ namespace SahurRaising.Core
     public class EquipmentService : IEquipmentService
     {
         private const string EQUIPMENTTABLE_KEY = "EquipmentTable";
-        private const string SaveFileName = "equipment.json";
+        private const string SaveKey = "equipment";
 
         // 강화 필요 개수 상수 (현재 4개 고정)
         private const int REQUIRED_COUNT_FOR_UPGRADE = 4;
@@ -19,6 +19,7 @@ namespace SahurRaising.Core
 
         private readonly IResourceService _resourceService;
         private readonly IEventBus _eventBus;
+        private readonly IDataService _dataService;
 
         private EquipmentTable _equipmentTable;
         private Dictionary<EquipmentType, List<EquipmentRow>> _equipmentByType;
@@ -26,10 +27,14 @@ namespace SahurRaising.Core
 
         public bool IsInitialized { get; private set; }
 
-        public EquipmentService(IResourceService resourceService, IEventBus eventBus)
+        public EquipmentService(
+            IResourceService resourceService, 
+            IEventBus eventBus,
+            IDataService dataService)
         {
             _resourceService = resourceService;
             _eventBus = eventBus;
+            _dataService = dataService;
         }
 
         public async UniTask InitializeAsync()
@@ -625,10 +630,9 @@ namespace SahurRaising.Core
                 data.SeenCodes.Clear();
                 data.SeenCodes.AddRange(_seenCodes);
 
-                var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
-                await File.WriteAllTextAsync(path, json);
-                Debug.Log($"[EquipmentService] 저장 완료: {path}");
+                await _dataService.SaveAsync(SaveKey, json);
+                Debug.Log($"[EquipmentService] 저장 완료: {SaveKey}");
             }
             catch (System.Exception ex)
             {
@@ -640,15 +644,14 @@ namespace SahurRaising.Core
         {
             try
             {
-                var path = GetSavePath();
-                if (!File.Exists(path))
+                var json = await _dataService.LoadAsync(SaveKey);
+                if (string.IsNullOrEmpty(json))
                 {
                     Debug.Log("[EquipmentService] 저장 파일이 없어 기본값으로 초기화합니다.");
                     await SaveAsync();
                     return;
                 }
 
-                var json = await File.ReadAllTextAsync(path);
                 var data = JsonUtility.FromJson<EquipmentSaveData>(json);
 
                 if (data == null)
@@ -711,11 +714,6 @@ namespace SahurRaising.Core
             {
                 Debug.LogError($"[EquipmentService] 로드 실패: {ex.Message}");
             }
-        }
-
-        private string GetSavePath()
-        {
-            return Path.Combine(Application.persistentDataPath, SaveFileName);
         }
     }
 }

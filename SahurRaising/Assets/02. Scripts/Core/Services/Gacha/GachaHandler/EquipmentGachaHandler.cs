@@ -1,4 +1,5 @@
-﻿using SahurRaising.Core;
+﻿using Cysharp.Threading.Tasks;
+using SahurRaising.Core;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ namespace SahurRaising
         private readonly GachaEquipmentTable _gachaEquipmentTable;
         private readonly EquipmentTable _equipmentTable;
         private readonly GachaLevelConfig _levelConfig;
+
+        private readonly ICloudCodeService _cloudCodeService;
         private readonly IEquipmentService _equipmentService;
 
         public EquipmentGachaHandler(
@@ -23,6 +26,11 @@ namespace SahurRaising
             _equipmentTable = equipmentTable;
             _levelConfig = levelConfig;
             _equipmentService = equipmentService;
+        }
+
+        public UniTask InitializeRemoteConfigAsync(IRemoteConfigService remoteConfigService)
+        {
+            throw new System.NotImplementedException();
         }
 
         public List<GachaResult> Pull(int level, int count)

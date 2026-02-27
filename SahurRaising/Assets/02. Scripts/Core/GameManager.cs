@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using SahurRaising.Core;
 using SahurRaising.UI;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace SahurRaising.Core
 {
@@ -33,6 +34,9 @@ namespace SahurRaising.Core
             try
             {
                 Debug.Log("[GameManager] 게임 초기화 시작...");
+
+                // Unity Services 초기화
+                await InitializeUnityServicesAsync();
 
                 // UIManager.InitializeAsync()는 UI 프리팹을 Instantiate 하면서 각 컴포넌트의 Awake/OnEnable이 실행될 수 있다.
                 // 로컬라이즈 컴포넌트(예: LocalizedTMPFont)는 Awake에서 ILocalizationService를 참조하므로,
@@ -99,6 +103,36 @@ namespace SahurRaising.Core
             }
         }
 
+        /// <summary>
+        /// Unity Services 초기화 (모든 서비스보다 먼저 호출)
+        /// </summary>
+        private async UniTask InitializeUnityServicesAsync()
+        {
+            try
+            {
+                // Unity Services 초기화
+                if (Unity.Services.Core.UnityServices.State != Unity.Services.Core.ServicesInitializationState.Initialized)
+                {
+                    Debug.Log("[GameManager] Unity Services 초기화 중...");
+                    await Unity.Services.Core.UnityServices.InitializeAsync();
+                    Debug.Log("[GameManager] Unity Services 초기화 완료");
+                }
+
+                // 인증
+                if (!Unity.Services.Authentication.AuthenticationService.Instance.IsSignedIn)
+                {
+                    Debug.Log("[GameManager] 익명 로그인 중...");
+                    await Unity.Services.Authentication.AuthenticationService.Instance.SignInAnonymouslyAsync();
+                    Debug.Log($"[GameManager] 익명 로그인 완료. PlayerID: {Unity.Services.Authentication.AuthenticationService.Instance.PlayerId}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[GameManager] Unity Services 초기화 실패: {ex.Message}\n{ex.StackTrace}");
+                throw;
+            }
+        }
+
         private void RegisterBootstrapServices()
         {
             // UI 초기화 중 로컬라이즈 컴포넌트가 안전하게 동작하도록 최소 서비스를 먼저 등록한다.
@@ -141,7 +175,7 @@ namespace SahurRaising.Core
             Debug.Log("[GameManager] 서비스 등록 시작...");
 
             int step = 0;
-            const int totalSteps = 12;
+            const int totalSteps = 16;
             void Report() => progress?.Report((float)step / totalSteps);
 
             // 1. 기본 서비스들 등록
@@ -153,6 +187,32 @@ namespace SahurRaising.Core
             var eventBus = new EventBus();
             eventBus.Initialize();
             ServiceLocator.Register<IEventBus, EventBus>(eventBus);
+            step++; Report();
+
+            var cloudeCodeClient = new CloudCodeClient();
+            cloudeCodeClient.Initialize();
+            ServiceLocator.Register<ICloudCodeService, CloudCodeClient>(cloudeCodeClient);
+            step++; Report();
+
+            var remoteConfigClient = new RemoteConfigClient();
+            ServiceLocator.Register<IRemoteConfigService, RemoteConfigClient>(remoteConfigClient);
+            await remoteConfigClient.InitializeAsync();
+            step++; Report();
+
+            var advertisementService = new AdvertisementService(resourceManager);
+            ServiceLocator.Register<IAdvertisementService, AdvertisementService>(advertisementService);
+            await advertisementService.InitializeAsync();
+            step++; Report();
+
+            // 데이터 저장 서비스 등록 (에디터는 로컬 파일, 빌드는 CloudSave)
+#if UNITY_EDITOR
+            var dataService = new LocalDataService();
+            Debug.Log("[GameManager] LocalFileSaveService 등록 (에디터 모드)");
+#else
+        var dataService = new CloudDataService();
+        Debug.Log("[GameManager] CloudSaveService 등록 (빌드 모드)");
+#endif
+            ServiceLocator.Register<IDataService, IDataService>(dataService);
             step++; Report();
 
             // Config 서비스 등록 (UI에서 공통 사용)
@@ -180,37 +240,37 @@ namespace SahurRaising.Core
             await statService.InitializeAsync();
             step++; Report();
 
-            var currencyService = new CurrencyService(eventBus, statService, resourceManager);
+            var currencyService = new CurrencyService(eventBus, statService, resourceManager, dataService);
             ServiceLocator.Register<ICurrencyService, CurrencyService>(currencyService);
             await currencyService.InitializeAsync();
             step++; Report();
 
-            var upgradeService = new UpgradeService(resourceManager, currencyService, statService);
+            var upgradeService = new UpgradeService(resourceManager, currencyService, statService, dataService);
             ServiceLocator.Register<IUpgradeService, UpgradeService>(upgradeService);
             await upgradeService.InitializeAsync();
             step++; Report();
 
-            var combatService = new CombatService(resourceManager, eventBus, statService, currencyService);
+            var combatService = new CombatService(resourceManager, eventBus, statService, currencyService, dataService);
             ServiceLocator.Register<ICombatService, CombatService>(combatService);
             await combatService.InitializeAsync();
             step++; Report();
 
-            var equipmentService = new EquipmentService(resourceManager, eventBus);
+            var equipmentService = new EquipmentService(resourceManager, eventBus, dataService);
             ServiceLocator.Register<IEquipmentService, EquipmentService>(equipmentService);
             await equipmentService.InitializeAsync();
             step++; Report();
 
-            var droneService = new DroneService(resourceManager);
+            var droneService = new DroneService(resourceManager, dataService);
             ServiceLocator.Register<IDroneService, DroneService>(droneService);
             await droneService.InitializeAsync();
             step++; Report();
 
-            var skillService = new SkillService(resourceManager, currencyService, statService, eventBus);
+            var skillService = new SkillService(resourceManager, currencyService, statService, eventBus, dataService);
             ServiceLocator.Register<ISkillService, SkillService>(skillService);
             await skillService.InitializeAsync();
             step++; Report();
 
-            var gachaService = new GachaService(resourceManager, currencyService, equipmentService, droneService, eventBus);
+            var gachaService = new GachaService(resourceManager, currencyService, equipmentService, droneService, eventBus, dataService);
             ServiceLocator.Register<IGachaService, GachaService>(gachaService);
             await gachaService.InitializeAsync();
             step++; Report();

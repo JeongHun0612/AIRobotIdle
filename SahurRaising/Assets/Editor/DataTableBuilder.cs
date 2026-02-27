@@ -458,7 +458,8 @@ public static class DataTableBuilder
 
         foreach (var row in CsvUtil.Read(path, skipHeader: true))
         {
-            var grade = row.EnumValue<EquipmentGrade>("Level"); // CSV의 "Level" 컬럼은 실제로 등급
+            //var grade = row.EnumValue<EquipmentGrade>("Level"); // CSV의 "Level" 컬럼은 실제로 등급
+            var grade = row.String("Level");
 
             for (int level = 1; level <= 50; level++)  // Max 50 levels safety break
             {

@@ -12,7 +12,7 @@ namespace SahurRaising.Core
     /// </summary>
     public class CurrencyService : ICurrencyService
     {
-        private const string SaveFileName = "currency.json";
+        private const string SaveKey = "currency";
         private const double BaseGoldPerSecond = 5.0; // 밸런스 확정 시 조정
         private const double DefaultOfflineMinutes = 360d; // 테이블 미적용 시 안전 기본값(분)
         private const long MinOfflineSeconds = 300; // 최소 오프라인 보상 지급 시간(초) - 5분
@@ -21,15 +21,21 @@ namespace SahurRaising.Core
         private readonly IEventBus _eventBus;
         private readonly IStatService _statService;
         private readonly IResourceService _resourceService;
+        private readonly IDataService _dataService;
 
         private long _lastSavedUnix;
         private CurrencyTable _currencyTable;
 
-        public CurrencyService(IEventBus eventBus, IStatService statService, IResourceService resourceService)
+        public CurrencyService(
+            IEventBus eventBus, 
+            IStatService statService,
+            IResourceService resourceService,
+            IDataService dataService)
         {
             _eventBus = eventBus;
             _statService = statService;
             _resourceService = resourceService;
+            _dataService = dataService;
         }
 
         public async UniTask InitializeAsync()
@@ -151,11 +157,10 @@ namespace SahurRaising.Core
                     LastSavedUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
 
-                var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
-                await File.WriteAllTextAsync(path, json);
+                await _dataService.SaveAsync(SaveKey, json);
                 _lastSavedUnix = data.LastSavedUnix;
-                Debug.Log($"[CurrencyService] 저장 완료: {path}");
+                Debug.Log($"[CurrencyService] 저장 완료: {SaveKey}");
             }
             catch (Exception ex)
             {
@@ -167,16 +172,22 @@ namespace SahurRaising.Core
         {
             try
             {
-                var path = GetSavePath();
-                if (!File.Exists(path))
+                var json = await _dataService.LoadAsync(SaveKey);
+                if (string.IsNullOrEmpty(json))
                 {
                     Debug.Log("[CurrencyService] 저장 파일이 없어 기본값으로 초기화합니다.");
                     await SaveAsync();
                     return;
                 }
 
-                var json = await File.ReadAllTextAsync(path);
                 var data = JsonUtility.FromJson<CurrencySaveData>(json);
+                if (data == null)
+                {
+                    Debug.LogWarning("[CurrencyService] 저장 데이터가 null입니다. 기본값으로 초기화합니다.");
+                    InitializeDefaults();
+                    await SaveAsync();
+                    return;
+                }
 
                 _balances[CurrencyType.Gold] = ParseBigDouble(data.Gold);
                 _balances[CurrencyType.Emerald] = ParseBigDouble(data.Emerald);
@@ -184,14 +195,6 @@ namespace SahurRaising.Core
                 _balances[CurrencyType.Ticket] = ParseBigDouble(data.Ticket);
                 _balances[CurrencyType.Ruby] = ParseBigDouble(data.Ruby);
                 _lastSavedUnix = data.LastSavedUnix;
-
-                //var offlineRewardInfo = GetOfflineRewardInfo();
-                //if (offlineRewardInfo.HasValue)
-                //{
-                //    var offlineReward = offlineRewardInfo.Value.RewardAmount;
-                //    Add(CurrencyType.Gold, offlineReward, "OfflineReward");
-                //    Debug.Log($"[CurrencyService] 미접속 보상 지급: {offlineReward}");
-                //}
             }
             catch (Exception ex)
             {
@@ -207,11 +210,6 @@ namespace SahurRaising.Core
             _balances[CurrencyType.Diamond] = BigDouble.Zero;
             _balances[CurrencyType.Ticket] = BigDouble.Zero;
             _balances[CurrencyType.Ruby] = BigDouble.Zero;
-        }
-
-        private string GetSavePath()
-        {
-            return Path.Combine(Application.persistentDataPath, SaveFileName);
         }
 
         private BigDouble ParseBigDouble(string raw)

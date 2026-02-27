@@ -102,7 +102,7 @@ namespace SahurRaising.Core
                     accumulated += prob.Probability;
                     if (random <= accumulated)
                     {
-                        selectedGrade = prob.Grade;
+                        selectedGrade = prob.GetGradeEnum();
                         break;
                     }
                 }

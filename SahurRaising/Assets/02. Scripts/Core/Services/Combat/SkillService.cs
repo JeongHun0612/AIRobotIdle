@@ -9,13 +9,14 @@ namespace SahurRaising.Core
 {
     public class SkillService : ISkillService
     {
-        private const string SaveFileName = "skills.json";
+        private const string SaveKey = "skills";
         private const string SkillTableKey = nameof(SkillTable);
 
         private readonly IResourceService _resourceService;
         private readonly ICurrencyService _currencyService;
         private readonly IStatService _statService;
         private readonly IEventBus _eventBus;
+        private readonly IDataService _dataService;
 
         private SkillTable _skillTable;
         private HashSet<string> _unlockedSkillIds = new();
@@ -26,12 +27,14 @@ namespace SahurRaising.Core
             IResourceService resourceService,
             ICurrencyService currencyService,
             IStatService statService,
-            IEventBus eventBus)
+            IEventBus eventBus,
+            IDataService dataService)
         {
             _resourceService = resourceService;
             _currencyService = currencyService;
             _statService = statService;
             _eventBus = eventBus;
+            _dataService = dataService;
         }
 
         public async UniTask InitializeAsync()
@@ -322,10 +325,9 @@ namespace SahurRaising.Core
                 data.ResearchingSkills.AddRange(_researchingSkills);
                 data.NewSkillIDs.AddRange(_newSkillIds);
 
-                var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
-                await File.WriteAllTextAsync(path, json);
-                Debug.Log($"[SkillService] 저장 완료: {path}");
+                await _dataService.SaveAsync(SaveKey, json);
+                Debug.Log($"[SkillService] 저장 완료: {SaveKey}");
             }
             catch (Exception ex)
             {
@@ -339,13 +341,14 @@ namespace SahurRaising.Core
 
             try
             {
-                var path = GetSavePath();
-                if (!File.Exists(path))
+                var json = await _dataService.LoadAsync(SaveKey);
+                if (string.IsNullOrEmpty(json))
                 {
+                    Debug.Log("[SkillService] 저장 파일이 없어 기본값으로 초기화합니다.");
+                    await SaveAsync();
                     return;
                 }
 
-                var json = await File.ReadAllTextAsync(path);
                 var data = JsonUtility.FromJson<SkillSaveData>(json);
 
                 if (data != null)
@@ -376,11 +379,6 @@ namespace SahurRaising.Core
             {
                 Debug.LogError($"[SkillService] 로드 실패: {ex.Message}");
             }
-        }
-
-        private string GetSavePath()
-        {
-            return Path.Combine(Application.persistentDataPath, SaveFileName);
         }
 
         public bool IsNewSkill(string skillId)

@@ -8,7 +8,7 @@ namespace SahurRaising.Core
     public class DroneService : IDroneService
     {
         private const string DRONETABLE_KEY = "DroneTable";
-        private const string SaveFileName = "drone.json";
+        private const string SaveKey = "drone";
 
         // 강화 필요 개수 상수 (현재 4개 고정)
         private const int REQUIRED_COUNT_FOR_UPGRADE = 4;
@@ -23,15 +23,19 @@ namespace SahurRaising.Core
         private readonly HashSet<string> _seenIDs = new();                               // NEW 여부 판단용 (본 적 있는 드론)
 
         private readonly IResourceService _resourceService;
+        private readonly IDataService _dataService;
 
         private DroneTable _droneTable;
         private Dictionary<string, DroneRow> _droneByID;
 
         public bool IsInitialized { get; private set; }
 
-        public DroneService(IResourceService resourceService)
+        public DroneService(
+            IResourceService resourceService,
+            IDataService dataService)
         {
             _resourceService = resourceService;
+            _dataService = dataService;
         }
 
         public async UniTask InitializeAsync()
@@ -471,10 +475,9 @@ namespace SahurRaising.Core
                 data.SeenIDs.Clear();
                 data.SeenIDs.AddRange(_seenIDs);
 
-                var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
-                await File.WriteAllTextAsync(path, json);
-                Debug.Log($"[DroneService] 저장 완료: {path}");
+                await _dataService.SaveAsync(SaveKey, json);
+                Debug.Log($"[DroneService] 저장 완료: {SaveKey}");
             }
             catch (System.Exception ex)
             {
@@ -486,15 +489,14 @@ namespace SahurRaising.Core
         {
             try
             {
-                var path = GetSavePath();
-                if (!File.Exists(path))
+                var json = await _dataService.LoadAsync(SaveKey);
+                if (string.IsNullOrEmpty(json))
                 {
                     Debug.Log("[DroneService] 저장 파일이 없어 기본값으로 초기화합니다.");
                     await SaveAsync();
                     return;
                 }
 
-                var json = await File.ReadAllTextAsync(path);
                 var data = JsonUtility.FromJson<DroneSaveData>(json);
 
                 if (data == null)
@@ -547,11 +549,6 @@ namespace SahurRaising.Core
             {
                 Debug.LogError($"[DroneService] 로드 실패: {ex.Message}");
             }
-        }
-
-        private string GetSavePath()
-        {
-            return Path.Combine(Application.persistentDataPath, SaveFileName);
         }
     }
 }

@@ -9,13 +9,14 @@ namespace SahurRaising.Core
 {
     public class GachaService : IGachaService
     {
-        private const string SaveFileName = "gacha.json";
+        private const string SaveKey = "gacha";
 
         private readonly IResourceService _resourceService;
         private readonly ICurrencyService _currencyService;
         private readonly IEquipmentService _equipmentService;
         private readonly IDroneService _droneService;
         private readonly IEventBus _eventBus;
+        private readonly IDataService _dataService;
 
         private GachaLevelConfig _levelConfig;
 
@@ -36,13 +37,15 @@ namespace SahurRaising.Core
             ICurrencyService currencyService,
             IEquipmentService equipmentService,
             IDroneService droneService,
-            IEventBus eventBus)
+            IEventBus eventBus,
+            IDataService dataService)
         {
             _resourceService = resourceService;
             _currencyService = currencyService;
             _equipmentService = equipmentService;
             _droneService = droneService;
             _eventBus = eventBus;
+            _dataService = dataService;
         }
 
         public async UniTask InitializeAsync()
@@ -267,10 +270,9 @@ namespace SahurRaising.Core
                     }
                 }
 
-                var path = GetSavePath();
                 var json = JsonUtility.ToJson(data);
-                await File.WriteAllTextAsync(path, json);
-                Debug.Log($"[GachaService] 저장 완료: {path}");
+                await _dataService.SaveAsync(SaveKey, json);
+                Debug.Log($"[GachaService] 저장 완료: {SaveKey}");
             }
             catch (Exception ex)
             {
@@ -282,8 +284,8 @@ namespace SahurRaising.Core
         {
             try
             {
-                var path = GetSavePath();
-                if (!File.Exists(path))
+                var json = await _dataService.LoadAsync(SaveKey);
+                if (string.IsNullOrEmpty(json))
                 {
                     Debug.Log("[GachaService] 저장 파일이 없어 기본값으로 초기화합니다.");
                     _gachaData.Clear();
@@ -291,7 +293,6 @@ namespace SahurRaising.Core
                     return;
                 }
 
-                var json = await File.ReadAllTextAsync(path);
                 var data = JsonUtility.FromJson<GachaSaveData>(json);
 
                 if (data != null)
@@ -329,11 +330,6 @@ namespace SahurRaising.Core
                 Debug.LogError($"[GachaService] 로드 실패: {ex.Message}");
                 _gachaData.Clear();
             }
-        }
-
-        private string GetSavePath()
-        {
-            return Path.Combine(Application.persistentDataPath, SaveFileName);
         }
     }
 
