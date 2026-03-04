@@ -33,6 +33,9 @@ namespace SahurRaising.Core
             _resourceService = resourceService;
         }
 
+        // SDK 초기화 응답 타임아웃 (초)
+        private const float SDK_INIT_TIMEOUT_SECONDS = 5f;
+
         public async UniTask InitializeAsync()
         {
             if (_isInitialized)
@@ -49,6 +52,12 @@ namespace SahurRaising.Core
                 return;
             }
 
+#if UNITY_EDITOR
+            // 에디터 환경에서는 LevelPlay SDK가 동작하지 않으므로 초기화를 스킵한다.
+            Debug.Log("[AdvertisementService] 에디터 환경 – LevelPlay 초기화 스킵");
+            _isInitialized = false;
+            return;
+#else
             _initTcs = new UniTaskCompletionSource<bool>();
 
             // 이벤트 리스너 등록 (초기화 전에 등록해야 함)
@@ -63,20 +72,39 @@ namespace SahurRaising.Core
             // SDK 초기화
             LevelPlay.Init(appKey);
 
-            bool initResult = await _initTcs.Task;
+            // 타임아웃을 적용하여 콜백 미수신 시에도 안전하게 진행
+            var (winIndex, initTaskResult, _) = await UniTask.WhenAny(
+                _initTcs.Task,
+                UniTask.Delay(TimeSpan.FromSeconds(SDK_INIT_TIMEOUT_SECONDS))
+                    .ContinueWith(() => false)
+            );
 
             // 이벤트 핸들러 해제
             LevelPlay.OnInitSuccess -= SdkInitializationCompletedEvent;
             LevelPlay.OnInitFailed -= SdkInitializationFailedEvent;
 
+            bool initResult;
+            if (winIndex == 0)
+            {
+                // 정상적으로 콜백 수신
+                initResult = initTaskResult;
+            }
+            else
+            {
+                // 타임아웃 발생
+                Debug.LogWarning($"[AdvertisementService] LevelPlay 초기화 타임아웃 ({SDK_INIT_TIMEOUT_SECONDS}초). 광고 서비스 비활성화 상태로 진행합니다.");
+                initResult = false;
+            }
+
             if (!initResult)
             {
-                Debug.LogError("[AdvertisementService] LevelPlay 초기화 실패");
+                Debug.LogWarning("[AdvertisementService] LevelPlay 초기화 실패 – 광고 없이 진행합니다.");
                 return;
             }
 
             _isInitialized = true;
             Debug.Log("[AdvertisementService] LevelPlay 초기화 완료");
+#endif
         }
 
         private async UniTask LoadAdUnitConfig()
